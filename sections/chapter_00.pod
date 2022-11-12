@@ -1,0 +1,64 @@
+=encoding utf-8
+
+=head0 *Preface
+
+Dogecoin is the Internet's original meme-based cryptocurrency.
+
+That sentence may read like a bunch of nerdy nonsense to you. Don't worry; it
+is! Fortunately, this book will make it clearer. It'll still be a bunch of
+nerdy nonsense, but you'll understand it and be able to have fun, do cool
+things, and show off your new knowledge to friends at partiesN<Talk about other
+things too; we want you invited I<back>.>.
+
+Let's explain that first sentence.
+
+Dogecoin is what we're talking about.
+
+The Internet is a globally-distributed network of computers that lets people
+and machines communicate in words, pictures, video, audio, and all kinds of
+data.
+
+A meme is an idea, usually clever or ironic or sarcastic or joking, that's
+easily spread between people. It often takes the form of an image or video that
+can be shared on the Internet.
+
+Cryptocurrency is a mechanism to record digital transactions over the Internet
+between people who don't necessarily trust each other as individuals but, as a
+group, agree to specific ways to communicate that ideally make the entire
+network of people trustworthy enough to serve as a mechanism of financial
+exchange.
+
+Whew.
+
+The crypto stuff is interesting, and there's a lot to learn if you want, but
+most of it summarizes to this: you don't have to take someone's word that
+they're trustworthy. You should be able to verify it.
+
+If that sounds like a lot of work with a bunch of serious nerds doing serious
+nerd stuff, remember that there's a friendly dog mascot with a bunch of silly
+memes and the whole point is to have fun.
+
+That's what this book is about.
+
+=begin sidebar What do I need?
+
+This book assumes you have access to a computer somewhere (though some of the
+tricks will work on mobile devices such as phones and tablets), have access to
+the Internet, and can download and install and run software.
+
+At the time of this writing, you can visit U<dogecoin.com> for links and
+information about how to download and run the official Dogecoin Core. Don't
+take our word for it though; check online if that's still the official home of
+the official Core. Test that against other sites such as
+U<https://github.com/dogecoin/dogecoin>, the Dogecoin Reddit at
+U<https://reddit.com/r/dogecoin/> and other locations. If something seems off
+to you ask questions.
+
+=end sidebar
+
+=head1 Credits
+
+This work, when finished, will turn out not to have been possible without the
+assistance of many people. You will find credits listed here.
+
+Any remaining errors are the fault of the sometimes-too-clever author.
