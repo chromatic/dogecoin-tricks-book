@@ -1,0 +1,60 @@
+\makeindex
+
+\begin{document}
+\belowdisplayskip=0pt
+
+% suppress section numbering but include A-heads in ToC
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\addtolength{\parskip}{3pt}
+\addtolength{\skip\footins}{10pt}
+\addtolength{\footnotesep}{5pt}
+% \headline={\hrulefill}
+% \footline={\hrulefill}
+
+% this could become the \bookfrontmatter command
+\frontmatter
+\pagestyle{empty}
+\maketitle
+\include{copyright}
+
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\tableofcontents
+\cleardoublepage
+
+% mark preface specially
+\pagestyle{fancy}
+\addcontentsline{toc}{chapter}{Preface}
+\fancyhead[OR]{\nouppercase {\em Preface}}
+\pagenumbering{roman}
+\setcounter{tocdepth}{0}
+\setcounter{secnumdepth}{0}
+\include{chapter_00}
+\thispagestyle{empty}
+
+\mainmatter
+% and now the rest
+\fancyhead[OR]{\nouppercase {\em \leftmark}}
+
+% the content begins here
+\pagenumbering{arabic}
+\include{chapter_01}
+\include{chapter_02}
+\include{chapter_03}
+\include{chapter_04}
+\include{chapter_05}
+\include{chapter_06}
+\include{chapter_07}
+\include{chapter_08}
+\include{chapter_09}
+\include{chapter_10}
+\include{chapter_11}
+\include{chapter_12}
+\cleardoublepage
+
+% When there is nothing to be indexed this can be omitted.
+\addtolength{\columnsep}{35pt}
+\scriptsize
+\printindex
+\end{document}

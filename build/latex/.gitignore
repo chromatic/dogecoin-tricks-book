@@ -8,3 +8,6 @@
 *.sty
 *.tex
 *.toc
+
+!dogecoin-tricks_*.tex
+!dogecoin-tricks_*.sty
