@@ -1,0 +1,95 @@
+=head1 Set Your Node Comment
+
+Z<set_your_node_comment>
+
+If you look at the network peers tab in your core wallet (Help -> Debug ->
+Peers, in the Qt GUI as of 1.14.6), you'll see a list of other nodes you've
+connected to. This list shows things like their IP address (IPv4 or IPv6), the
+amount of data sent and received, and more.
+
+That additional data includes a node version string. By default (it's in the
+source code defined as a value called C<CLIENT_NODE>; I just checked), every
+Dogecoin Core reports itself as C<Shibetoshi/version>. This goes the same
+whether you're running C<dogecoind> as a headless network service or
+C<dogecoin-qt> as a GUI application or some other way of running the Core that
+we haven't invented yet.
+
+=begin notetip Be Cautious
+
+The source code has a comment that says, in effect, "Use the same C<Shibetoshi>
+string for all kinds of invocations so that no one can look at a node and
+realize if it's running with a GUI or not or which operating system et cetera".
+This is a security feature; if there were a bug in the GUI that a malicious
+hacker could exploit remotely and if the default version string revealed
+information about the way a node's owner ran it, the attacker would have an
+easier time getting a list of potential targets.
+
+=end notetip
+
+The Core allows you to I<append> text to this version string to customize your
+node and, potentially, brighten someone's day.
+
+This is a feature called C<uacomment>.
+
+=head2 *Setting C<uacomment>
+
+To customize this feature, you need to edit your configuration file and add an entry:
+
+=begin programlisting
+
+  uacomment=My Cool Node
+
+=end programlisting
+
+Of course, you can and should pick something more interesting than that. As it
+currently stands, you have 256 characters to play with hereN<This is defined as
+C<MAX_SUBVERSION_LENGTH> in the source code. Check the source for the version
+you're running to see if this has changed.>.
+
+Save this file, then launch or restart your node. If you're running the Qt GUI,
+look at the debug information window under "User Agent" (Help -> Debug ->
+Information). The text you see there will be broadcast across the entire
+Dogecoin network whenever your node makes a connection, so this is your chance
+to make a mark and do something meaningful.
+
+=head2 *Setting a I<Secure> UA Comment
+
+Of course, this is your node broadcasting something potentially specific to you,
+so remember that you're broadcasting it to an entire Internet full of people, some
+of whom may not have your best interests at heart.
+
+When you're choosing what to say, keep at least two important points in mind:
+
+=over 4
+
+=item * Be Kind
+
+=item * Be Safe
+
+=back
+
+If you're thinking of setting a comment that might hurt someone's feelings or
+cause drama like "Patrick is a curmudgeon!N<He'll probably agree, so this is the
+worst thing I wanted to put in print.>", think twice. There are human beings on
+the other side of the Internet, and our funny dog money only works if we all
+work together and cooperate.
+
+If you're thinking of setting a comment that might reveal personal or private
+information about you or someone else, like "Proudly hosted at 1 Chome-2
+Dōgenzaka, Shibuya City", think twice, then twice more. Personal information
+can make you or anyone else a target, and a visit in person or electronically
+from someone who doesn't have everyone's best interest at heart goes against
+the spirit of fun and collaboration.
+
+What makes a I<good> comment? If you follow those three rules (the other rule
+is the 256 character limit), then anything goes.
+
+You could use a dopey joke, like "Why does the Swedish Chef love Dogecoin?
+Because it goes bork bork bork!"
+
+You could advertise your Doge-related project, like "Check out IfDogeThenWow!"
+
+You could brag a little about your uptime, like "Proudly serving the network
+since 2013."
+
+The sky is the limit, as long as you're smart about it.
