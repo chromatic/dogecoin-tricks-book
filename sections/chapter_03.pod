@@ -1,0 +1,15 @@
+=encoding utf-8
+
+=head0 Getting Data from a Local Node
+
+When you run your own node, you can do more than just mine blocks and keep the
+network healthy. You get insight into the current, past, and future state of
+the network.
+
+This is powerful; you don't have to rely on someone else to tell you what's
+happening, what might happen, or what has happened. You can get that from your
+node yourself.
+
+Here's how.
+
+L<take_actions_on_new_blocks>
