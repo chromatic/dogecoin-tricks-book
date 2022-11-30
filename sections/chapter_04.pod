@@ -1,0 +1,16 @@
+=encoding utf-8
+
+=head0 Inside the Dogecoin Core
+
+Dogecoin is a lot of things. One of those things is the Dogecoin Core wallet.
+While anyone can write or run their own client, this code is the first client
+among equals.
+
+This is good, in that it's tested, observed, analyzed, and deployed widely.
+It's risky, in that Dogecoin belongs to everyone who participates. Fortunately,
+the code is open and available for anyone to read, study, adapt, modify on
+their own, and suggest changes.
+
+That includes you.
+
+L<follow_core_development>
