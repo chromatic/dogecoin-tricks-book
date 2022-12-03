@@ -194,11 +194,11 @@ start executing this command.
 =head2 *Understand the Risks
 
 As with any use of RPC against a local Core, you should enable authentication
-and authorization and keep unauthorized activity away from your node. This is
-especially true if you have a wallet attached to your node (so try to avoid
-doing that). Anyone who can connect to your node via RPC can get a lot of data
-you might not want to expose and take network actions you might not want to
-permit.
+and authorization (see L<authenticate_rpc_securely>) and keep unauthorized
+activity away from your node. This is especially true if you have a wallet
+attached to your node (so try to avoid doing that). Anyone who can connect to
+your node via RPC can get a lot of data you might not want to expose and take
+network actions you might not want to permit.
 
 Second, be aware that you could write buggy codeN<I sure did, the first couple
 of times I tried this.>. I wrote the example code in such a way that I could
