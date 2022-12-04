@@ -1,6 +1,7 @@
-This is the repository for a book called Dogecoin Tricks. The book will contain
-101 interesting, useful, informative, and/or unique things you can do with
-Dogecoin.
+This is the repository for a book called [Dogecoin
+Tricks](https://ifdogethenwow.com/books/dogecoin-tricks/). The book will
+contain 101 interesting, useful, informative, and/or unique things you can do
+with Dogecoin.
 
 Currently this is a work in progress. Feel free to use issues or pull requests
 to suggest an idea for a trick, contribute something new, or propose a change
