@@ -15,3 +15,5 @@ Here's how.
 L<authenticate_rpc_securely>
 
 L<take_actions_on_new_blocks>
+
+L<add_desktop_notifications>

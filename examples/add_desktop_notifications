@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BLOCK_HEIGHT=$1
+DIFFICULTY_RAW=$(dogecoin-cli getdifficulty)
+DIFFICULTY_FORMATTED=$(numfmt --grouping ${DIFFICULTY_RAW})
+notify-send -i /home/chromatic/dev/dogecoin/src/qt/res/icons/dogecoin.png "Dogecoin Difficulty Update" "Dogecoin difficulty is now ${DIFFICULTY_FORMATTED} at block ${BLOCK_HEIGHT}"
