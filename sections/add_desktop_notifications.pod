@@ -44,8 +44,8 @@ We already know the first part. It's time for some code.
 
 =head3 *Display Latest Block Difficulty Notifications
 
-What does this code need to do? It gets launched when the Core receives a new
-block and it receives as an argument the height of that block.
+What does this code need to do? The Core will launch it every time a new block
+gets mined.  It needs to receive a single argument: the height of that block.
 
 To get the difficulty of the new block, we can use the RPC call
 C<getdifficulty>. This call takes no arguments and returns the current
@@ -73,27 +73,23 @@ That's the concept, at least. What does the code look like?
 
     #!/bin/bash
 
-    BLOCK_HEIGHT=$1
-    DIFFICULTY_RAW=$(dogecoin-cli getdifficulty)
-    DIFFICULTY_FORMATTED=$(numfmt --grouping ${DIFFICULTY_RAW})
+    HEIGHT=$1
+    DIFFICULTY=$(dogecoin-cli getdifficulty)
+    DIFFICULTY_FORMATTED=$(
+        numfmt --grouping ${DIFFICULTY_RAW}
+    )
 
     notify-send \
          -i "$HOME/.icons/dogecoin.png" \
          "Dogecoin Difficulty Update" \
-         "Dogecoin difficulty is now ${DIFFICULTY_FORMATTED} at block ${BLOCK_HEIGHT}"
+         "Dogecoin difficulty is now "
+         "${DIFFICULTY_FORMATTED} at block ${HEIGHT}"
 
 =end programlisting
 
 That's not so bad, but there's a little bit going on behind the scenes.
 
-=begin tip But I Don't Read Bash!
-
-You can write this in whatever programming language you prefer, even
-PerlN<Admit it, you thought it might be in Perl, didn't you?>.
-
-=end tip
-
-The C<BLOCK_HEIGHT> assignment gives a readable name to the one parameter this
+The C<HEIGHT> assignment gives a readable name to the one parameter this
 script gets, obviously the height of the freshly-mined block.
 
 The C<DIFFICULTY_RAW> assignment uses the C<dogecoin-cli> utility to make the
@@ -106,12 +102,19 @@ big number into something formatted more appropriately for display. In my
 current locale, that means adding commas to separate thousands. Big numbers are
 easier to read this way.
 
+=begin tip But I Don't Read Bash!
+
+You can write this in whatever programming language you prefer, even
+PerlN<Admit it, you thought it might be in Perl, didn't you?>.
+
+=end tip
+
 Finally, the call to C<notify-send> takes three arguments. First, the C<-i>
-argument uses a path to an icon. Here, I took the Dogecoin logo from the core
-(F<src/qt/res/icons/dogecoin.png>) and put it in a directory of my own making.
-The second argument is the title of the notification. The third interpolates
-the nicely-formatted block difficulty and the block height into the
-notification body.
+argument uses a path to an icon. In this example, I took the Dogecoin logo from
+the core (F<src/qt/res/icons/dogecoin.png>) and put it in a directory of my own
+making.  The second argument is the title of the notification. The third
+interpolates the nicely-formatted block difficulty and the block height into
+the notification body.
 
 That's it.
 
@@ -143,9 +146,9 @@ You don't have to have a full node running locally, or even a node with a
 wallet. You can have a slim node or a headless node or a wallet-free node, but
 the code as written requires a node running locally.
 
-If you want to connect to a node on another machine, set up authentication
-appropriately (L<authenticate_rpc_securely>) and pass the appropriate
-connection arguments to the C<dogecoin-cli> call.
+To connect to a node on another machine securely, be sure to set up
+authentication appropriately (L<authenticate_rpc_securely>) and provide the
+appropriate connection arguments to the C<dogecoin-cli> call.
 
 If you install third-party code (such as the C<notify-send> port on Windows or
 C<coreutils> on Mac OS X), beware that the code you install is what you intend

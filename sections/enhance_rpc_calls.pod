@@ -46,7 +46,8 @@ address. For example:
 =begin programlisting
 
     {
-      "Dogecoin Book Tips": "DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL"
+      "Dogecoin Book Tips":
+          "DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL"
     }
 
 =end programlisting
@@ -105,9 +106,10 @@ In the example of Bitcoin's C<setlabel> call, you need to:
 =back
 
 If you have a Core running on your local machine, connect to
-C<localhost:22555>. Prefix the URL with your username and password like
-C<http://username:password@localhost:22555/>. Set a C<Content-Type> header of
-C<application/json> and pass a message body of the encoded JSON:
+C<localhost:22555>. Make sure the URL also includes your URL and password, so
+that it looks like C<http://username:password@localhost:22555/>. Set a
+C<Content-Type> header of C<application/json> and pass a message body of the
+encoded JSON:
 
 =begin programlisting
 
@@ -129,19 +131,20 @@ Note how close that looks to the C<dogeutils> command earlier.
 
 What good is this?
 
-In addition to C<setlabel>, Bitcoin provides an RPC call called
-C<getreceivedbylabel>, which returns the amount of coins received by the
-address(es) associated with a label. This does the same thing as
-C<getreceivedbyaddress> except its argument is a label, not an address.
+Besides C<setlabel>, Bitcoin provides an RPC call called C<getreceivedbylabel>,
+which returns the amount of coins received by the address(es) associated with a
+label. This does the same thing as C<getreceivedbyaddress> except its argument
+is a label, not an address.
 
 That's fine; now we've gone through all the pieces necessary to make this work.
 
 C<dogeutils> has a little bit of glue code to understand it should provide both
 C<setlabel> (which doesn't talk to a Core node) and C<getreceivedbylabel>
-(which does). The I<implementation> of C<getreceivedbylabel> is entirely within
-the C<dogeutils> program. Given a label, it looks up the associated address in
-the JSON file, then calls C<getreceivedbyaddress> with the address and returns
-the resulting JSON verbatim.
+(which does). The I<implementation> of the thing that looks like a
+C<getreceivedbylabel> call is entirely within the C<dogeutils> program. Given a
+label, it looks up the associated address in the JSON file, then calls
+C<getreceivedbyaddress> with the address and returns the resulting JSON
+verbatim.
 
 That's it.
 

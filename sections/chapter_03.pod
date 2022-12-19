@@ -6,7 +6,7 @@ When you run your own node, you can do more than just mine blocks and keep the
 network healthy. You get insight into the current, past, and future state of
 the network.
 
-This is powerful; you don't have to rely on someone else to tell you what's
+This is powerful. You do not have to rely on someone else to tell you what's
 happening, what might happen, or what has happened. You can get that from your
 node yourself.
 

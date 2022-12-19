@@ -107,11 +107,11 @@ data, or other suggestions, like "If you send 10 Doge to this address, you'll
 get 24 hours of access" for a news site or something.
 
 Consider also an alternate approach. C<ifdogethenwow.com> has, as of this
-writing, the main domain (just that) and a well-knownN<Okay okay, hear me out
-though!> subdomain of C<blog.ifdogethenwow.com>. Any and every subdomain could have its own
-TXT record with a unique wallet address.
+writing, the main domain and a well-knownN<Okay okay, hear me out though!>
+subdomain of C<blog.ifdogethenwow.com>. Any and every subdomain could have its
+own TXT record with a unique wallet address.
 
 An enterprising shibe could start a site called C<shibetips.whatever> and, for
 a small fee or out of the goodness of their hearts, allow users I<optionally>
-to associate an address with a subdomain. Again, keep in mind the security and
-privacy implications, but think of the possibilities.
+to associate an address with a subdomain. As always, keep in mind the security
+and privacy implications, but think of the possibilities.

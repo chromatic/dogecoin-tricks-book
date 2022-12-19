@@ -21,7 +21,7 @@ the interesting things you have in mind.
 
 =head2 *Configuring C<blocknotify>
 
-Dogecoin inherited a feature from Bitcoin called C<blocknotify>. This is a
+Dogecoin inherited a Bitcoin feature called C<blocknotify>. This is a
 configuration option available from the command line or set in F<dogecoin.conf>
 which allows you to ask the Core to launch an external command whenever the
 Core processes a new block.
@@ -80,17 +80,19 @@ authenticated RPC, so I'll reuse that and gloss over some of the details.
     }
 
     sub analyze_block( $block ) {
+        my $num_tx = $block->{tx}->@*;
+        my $time   = localtime $block->{time};
+
         return {
-            num_tx     => scalar $block->{tx}->@*,
-            time       => scalar localtime $block->{time},
+            num_tx     => $num_tx,
+            time       => $time,
             difficulty => $block->{difficulty},
             size       => $block->{size},
         };
     }
 
     sub get_config( $config_file ) { ... }
-
-    sub create_rpc( $config ) { ... }
+    sub create_rpc( $config )      { ... }
 
 =end programlisting
 
@@ -154,16 +156,15 @@ look like anyhow.
 =head3 *Launching Your Program
 
 How does this get executed? My personal preference is to modify my
-F<dogecoin.conf> file to add this command. I like to write a little shell
-wrapper to set up the environment correctlyN<As you might do for a C<cron>
-command.>:
+F<dogecoin.conf> file to add this command. I wrote a little shell wrapper to
+set up the environment correctlyN<As you might do for a C<cron> command.>:
 
 =begin programlisting
 
     #!/bin/bash
 
-    export CONFIG_FILE=/home/dogecoin-tricks-book/chapter_3/env.json
-    cd /home/dogecoin-tricks-book/chapter_3/
+    cd "${HOME}/dogecoin-tricks-book/"
+    export CONFIG_FILE="./chapter_3/env.json"
 
     perl -Ilib bin/show_block_stats.pl
 
@@ -172,11 +173,14 @@ command.>:
 This file sets the path to my RPC credentials configuration file and makes sure
 Perl knows which paths to search to load my C<RPCAgent> module.
 
-All that's left is to add a single line to F<dogecoin.conf>:
+All that's left is to add a single line to F<dogecoin.conf>N<I've added
+linebreaking for the book's formatting.>:
 
 =begin programlisting
 
-blocknotify=/bin/bash /home/dogecoin-tricks-book/chapter_3/bin/launch_listener.sh "%i" "%s" >> blocks.log
+  blocknotify=/bin/bash \
+    "${BOOK_HOME}/chapter_3/bin/launch_listener.sh" \
+    "%i" "%s" >> blocks.log
 
 =end programlisting
 

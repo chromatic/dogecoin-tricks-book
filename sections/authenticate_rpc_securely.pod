@@ -46,9 +46,8 @@ and to reject invalid passwords?
 
 =head3 *Add Users to Your Config File
 
-Your F<dogecoin.conf> file can contain this information. You have to prepare it
-with some information from a file in the Dogecoin repository called
-F<share/rpcuser/rpcuser.py>N<See
+The answer is in your F<dogecoin.conf> file and a program from the Dogecoin
+Core repository at F<share/rpcuser/rpcuser.py>N<See
 U<https://github.com/dogecoin/dogecoin/blob/master/share/rpcuser/rpcuser.py>,
 for example.>.
 
@@ -57,11 +56,12 @@ it like this:
 
 =begin screen
 
-$ B<python3 share/rpcuser/rpcuser.py lisa>
-String to be appended to bitcoin.conf:
-rpcauth=lisa:b0a414f0d217c5bdec8db24ff340223$...
-Your password:
-...=
+    $ B<python3 share/rpcuser/rpcuser.py lisa>
+
+    String to be appended to bitcoin.conf:
+    rpcauth=lisa:b0a414f0d217c5bdec8db24ff340223$...
+    Your password:
+    ...=
 
 =end screen
 
@@ -73,20 +73,58 @@ the file. Start or restart your node.
 
 Second, take the password and store it somewhere else, securely.
 
-When your node starts, you can now connect to it with your preferred RPC
-mechanism. I like to use the C<curl> binary, because it has nothing to do with
-Dogecoin or any other cryptocurrency, so if I can get it to work, I know I have
-everything configured correctly.
+=begin tip Don't Like the Password?
+
+You could, of course, modify the code to provide your own password, but the
+random value you get here is going to be difficult to guess. Bitcoin has an
+updated version of this code (at least newer than the version in Dogecoin Core
+1.14.6), so if you look in their repository, you might have more options when
+generating passwords.
+
+=end tip
+
+When your node starts, test your authentication by connecting with your
+preferred RPC mechanism. I like to use the C<curl> binary, because it has
+nothing to do with Dogecoin or any other cryptocurrency, so if I can get it to
+work, I know I have everything configured correctly.
 
 =begin screen
 
-$ B<curl --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getdifficulty","params":[]}' \>
-    B<http://lisa:...@127.0.0.1:22555>
-{"result":8101199.900972591,"error":null,"id":"curltext"}
+    $ B<curl --data-binary '{>
+        B<"jsonrpc":"1.0",>
+        B<"id":"curltext",>
+        B<"method":"getdifficulty",>
+        B<"params":[]}' \>
+        B<http://lisa:...@127.0.0.1:22555>
+    {"result":8101199.900972591,
+     "error":null,
+     "id":"curltext"}
 
 =end screen
 
 If you get the authentication wrong, you'll instead receive error output.
+
+=head3 *How Does This Work?
+
+If you run the Python code again, you'll get a different result, both the
+password you use and the string you need to add to your configuration file. The
+code picks some random values for you, with the password it provides and the
+salted value.
+
+Why does this work?
+
+Neither the configuration file nor the Core store or know your password. The
+information you add with the C<rpcauth> line is two things: a random salt and
+the hashed value of the combination of the salt and your password.
+
+To prove that you're C<lisa> or C<milhouse> or C<nelson> or anyone else the
+node knows about, you have to provide your username and your password. When the
+node receives both values, it finds the relevant auth line for your username,
+splits the rest of the line into the salt and hash, then hashes your password
+with the salt and checks the results against the value you added to your
+configuration file.
+
+Then (importantly) it throws away the password because it knows who you are.
 
 =begin tip Salt is Healthy in Moderation
 
@@ -100,38 +138,6 @@ With this salted approach, you still want to keep your configuration file safe,
 but an attacker will have much more difficulty figuring out your password.
 
 =end tip
-
-=head3 *How Does This Work?
-
-If you run the Python code again, you'll get a different result, both the
-password you use and the string you need to add to your configuration file. The
-code picks some random values for you, with the password it provides and the
-salted value.
-
-=begin tip Don't Like the Password?
-
-You could, of course, modify the code to provide your own password, but the
-random value you get here is going to be difficult to guess. Bitcoin has an
-updated version of this code (at least newer than the version in Dogecoin Core
-1.14.6), so if you look in their repository, you might have more options when
-generating passwords.
-
-=end tip
-
-Why does this work?
-
-The configuration file and the Core don't actually know your password. The
-information you add with the C<rpcauth> line is two things: a random salt and
-the hashed value of the combination of the salt and your password.
-
-To prove that you're C<lisa> or C<milhouse> or C<nelson> or anyone else the
-node knows about, you have to provide your username and your password. When the
-node receives both values, it finds the relevant auth line for your username,
-splits the rest of the line into the salt and hash, then hashes your password
-with the salt and checks the results against the value you added to your
-configuration file.
-
-Then (importantly) it throws away the password because it knows who you are.
 
 If your password were directly available in memory or on disk, it'd be
 available to attackers. If the server always used the same salt, then an

@@ -10,16 +10,16 @@ You have to trust that everyone's playing by the same rules. To do that, you
 have to verify that you understand the rules and that someone's not trying to
 sneak something past you.
 
-In the world of Dogecoin and cryptocurrency, this means that:
+In the world of Dogecoin and cryptocurrency, this means that we must:
 
 =over 4
 
-=item * we have to follow rigorous, tested, and well-understood mathematical
-principles and formulas
+=item * follow rigorous, tested, and well-understood mathematical principles
+and formulas
 
-=item * we have to adhere to well-defined rules and parameters for participation
+=item * adhere to well-defined rules and parameters for participation
 
-=item * we have to trust the software we use to implement all of these things correctly
+=item * trust the software we use to implement all of these things correctly
 
 =back
 
@@ -76,9 +76,9 @@ F<images/dogecoin-core-github.png>
 =end figure
 
 However, anyone can I<access> GitHub and create (or I<fork>) their own
-repository to make their own changes. Then, if they choose, then can request
-other people I<pull> those changes into their own repositories (or the main
-repository of C<dogecoin/dogecoin>).
+repository to make their own changes. Then, if they choose, they can request
+other people I<pull> those changes into their own repositories (or even the
+main repository itself, C<dogecoin/dogecoin>).
 
 That forking metaphor is really important.
 
