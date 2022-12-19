@@ -1,10 +1,15 @@
+% start sections on new pages
+\newcommand{\sectionbreak}{\clearpage}
+
 \makeindex
+
+\usepackage{titletoc}
 
 \begin{document}
 \belowdisplayskip=0pt
 
 % suppress section numbering but include A-heads in ToC
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{1}
 \setcounter{secnumdepth}{3}
 
 \addtolength{\parskip}{3pt}
@@ -28,14 +33,26 @@
 \addcontentsline{toc}{chapter}{Preface}
 \fancyhead[OR]{\nouppercase {\em Preface}}
 \pagenumbering{roman}
-\setcounter{tocdepth}{0}
-\setcounter{secnumdepth}{0}
 \include{chapter_00}
 \thispagestyle{empty}
 
 \mainmatter
+
 % and now the rest
 \fancyhead[OR]{\nouppercase {\em \leftmark}}
+\setcounter{secnumdepth}{2}
+
+% set a global counter
+\newcounter{tipsCounter}
+\AddToHook{cmd/section/before}{\stepcounter{tipsCounter}}
+\renewcommand\thesection{\#\arabic{tipsCounter}}
+
+\titleformat{\section}
+{}
+{\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace}
+{8pt}
+{\Large\bfseries}
+[\vspace{2ex}\titlerule\vspace{2ex}]
 
 % the content begins here
 \pagenumbering{arabic}
@@ -52,6 +69,8 @@
 \include{chapter_11}
 \include{chapter_12}
 \cleardoublepage
+
+\renewcommand{\thesection}{\arabic{section}}
 
 % When there is nothing to be indexed this can be omitted.
 \addtolength{\columnsep}{35pt}

@@ -56,7 +56,7 @@ to you ask questions.
 
 =end sidebar
 
-=head1 Credits
+=head1 *Credits
 
 This work, when finished, will turn out not to have been possible without the
 assistance of many people. You will find credits listed here.
