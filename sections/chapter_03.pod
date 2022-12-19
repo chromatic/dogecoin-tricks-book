@@ -16,6 +16,8 @@ L<authenticate_rpc_securely>
 
 L<take_actions_on_new_blocks>
 
+L<add_an_action_launcher>
+
 L<add_desktop_notifications>
 
 L<enhance_rpc_calls>

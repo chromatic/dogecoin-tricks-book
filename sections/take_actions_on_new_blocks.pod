@@ -166,7 +166,7 @@ set up the environment correctlyN<As you might do for a C<cron> command.>:
     cd "${HOME}/dogecoin-tricks-book/"
     export CONFIG_FILE="./chapter_3/env.json"
 
-    perl -Ilib bin/show_block_stats.pl
+    perl -Ilib bin/show_block_stats.pl $*
 
 =end programlisting
 

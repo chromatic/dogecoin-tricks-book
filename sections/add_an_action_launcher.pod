@@ -1,0 +1,116 @@
+=head1 Add an Action Launcher
+
+Z<add_an_action_launcher>
+
+When you start developing things that require changing your F<dogecoin.conf>
+file, you'll inevitably run into situations where you need to restart your Core
+node to test your changes.
+
+The wait for a node to restart can be annoying on a fast local machine, where
+you have to wait several seconds to validate all the blocks you have
+downloaded. On a remote machine in the cloud with a full node, you could wait
+I<minutes> or more between restarts.
+
+We can do better.
+
+One approach is to add features to the Core that let you configure its
+parameters through RPC calls. Another approach is what software developers
+happily refer to as "yet another layer of indirection".
+
+Fortunately, there's one really good opportunity to make your life a lot
+easier.
+
+=head2 *Launch a Launcher for New Block Actions
+
+The tip for L<take_actions_on_new_blocks> showed off a Dogecoin feature to
+launch an arbitrary program for every new block accepted on the network.
+Whether that's one program or a thousand you want to launch, it's all the same
+to the Core; it's just a single configuration like in the F<dogecoin.conf>
+file.
+
+The contents of this file are completely arbitrary. You could do something, but
+you could also do entirely nothing. You could do a dozen things. All the things
+you can do could change.
+
+There's only one you I<can't> change without restarting your Core node: the
+command to invoke.
+
+The previous tip had a configuration like this:
+
+=begin programlisting
+
+  blocknotify=/bin/bash \
+    "${BOOK_HOME}/chapter_3/bin/launch_listener.sh" \
+    "%i" "%s" >> blocks.log
+
+=end programlisting
+
+... but if it changed to something like this:
+
+=begin programlisting
+
+  blocknotify=/bin/bash \
+    "${BOOK_HOME}/chapter_3/bin/launch_loader.sh "%i" "%s"
+
+=end programlisting
+
+... then the file C<launch_loader.sh> might be:
+
+=begin programlisting
+
+    #!/bin/bash
+
+    HEIGHT=$1
+    HASH=$2
+
+    # launch the first block listener
+    cd "${HOME}/dogecoin-tricks-book/"
+    export CONFIG_FILE="./chapter_3/env.json"
+
+    perl -Ilib bin/show_block_stats.pl $HEIGHT $HASH \
+        >> show_block_stats.log
+
+    cd
+
+    # launch the second block listener
+    bash bin/show-desktop-notifications $HEIGHT \
+        >> show_desktop_notifications.log
+
+    # launch the third block listener
+    ruby bin/some_cool_code.rb $HASH \
+        >> some_cool_code.log
+
+    # post something to a webhook
+    curl -X POST ...
+
+=end programlisting
+
+In plain English, all this file has to do is prepare the arguments the Dogecoin
+Core provides (height of the newly-mined block and its hash), do whatever
+environment manipulation is necessary, and launch a bunch of commands.
+
+You can write this launcher in whatever language you like: shell, Python,
+PowerShell, Rust, whatever you like. If you want to launch all of these
+processes independently in parallel, you can. If you want to launch them one
+after another, you can.
+
+Best of all, you can make changes to the loader without restarting your node.
+You can even test this by providing your own arguments to it; it's just a
+program, launched by the Core automatically but a program runnable however you
+want.
+
+=head2 *Understand the Risks
+
+There's only one risk of this technique not already addressed in other
+examples: anyone who can edit this file can make your Core node launch
+programs.
+
+If you put authentication information for Core RPC calls in this launcher,
+they're available to other programs. If you have authentication information for
+other systems or services, such as a database or a cloud machine or a web
+service, they may be available to other programs launched from this launcher
+too.
+
+It's not easy to predict every way someone might find to interfere with your
+system, but keep this file locked down as tightly as you would your core
+configuration yourself.
