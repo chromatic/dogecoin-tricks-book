@@ -1,0 +1,151 @@
+=head1 Securely Back Up Your Wallet
+
+Z<securely_back_up_your_wallet>
+
+Your Dogecoin wallet is a list of private and public keys, labels for the
+associated addresses, and a little bit of metadata. Yet that's the most
+important thing you can keep track of and protect.
+
+While all of the Dogecoin transactions are kept in the public ledger (that's
+the Dogecoin blockchain), your ability to send coins from any of your addresses
+depends on your ability to access the private keys kept in your wallet.
+
+That suggests two things:
+
+=over 4
+
+=item * you need to retain your ability to access those keys
+
+=item * you need to keep other people from getting those keys
+
+=back
+
+In other words, keep your wallet available and safe. Let's start by making a
+backup.
+
+=head2 *Understand the Risks
+
+Why make a backup? Keeping only a single copy of your wallet means that the
+machine containing that wallet has a physical risk of theft, destruction, or
+data exfiltration. Hard drives die, cats knock laptops off of bookshelves, and
+USB keys go through laundry.  Maybe your hard drive will grind to a halt. Maybe
+you'll spill a glass of orange juice on your laptop during a hearty
+breakfastN<Your author has, of course, I<never> done this. It was lunch.>.
+
+Having multiple copies of essential data is a good disaster
+recovery mechanism. Maybe you're being sufficiently cautious during an upgrade
+of the Core version. Maybe you want a copy stored on a USB key in a safe
+deposit box in a bank.
+
+Fortunately with the blockchain, losing your wallet doesn't mean your coins are
+gone, but it may mean you no longer have access to them. Making a backup of
+your wallet gives you the ability to I<restore> your access to your keys, which
+gives you access to the coin.
+
+Creating and securing a backup reduces the risk of losing your single mechanism
+of accessing your coins, but it increases the risk that other people may gain
+access to your backup. If you give a USB key with your wallet to your brother
+in law, the neighbor kid down the street, and your estate planner, then their
+ability to keep your file secure is now your security problem, and your ability
+to get the file when you need it is your access problem.
+
+Similarly, if you upload a backup to a cloud provider, their security is your
+risk and their ability to lock you out of your files is your access problem.
+
+What can you do?
+
+=head3 *Dogecoin GUI Backups
+
+Let's start the easy way.
+
+If you're running the Dogecoin Core GUI with a recent enough version (as of
+this writing, use 1.14.6), use the File -> Backup Wallet menu item to launch a
+window that allows you to select the location and name of a wallet backup file.
+
+If you do this, your system will think for a moment, write out the file, then
+pop up a notification telling you that your backup is complete (see
+L<figure-dogecoin-core-backup-wallet-gui>).
+
+=begin figure Dogecoin Core Backup GUI Notification
+
+Z<figure-dogecoin-core-backup-wallet-gui>
+
+F<images/dogecoin-core-backup-wallet-gui>
+
+=end figure
+
+B<Protect this file.> It's the same as the F<wallet.dat> file in your Dogecoin
+configuration directory.
+
+If you look at the file in a file editor, you may see that it looks like a
+bunch of binary data. This is what it is, but that doesn't make it safe; this
+file uses a well-known format called Berkeley Database (BDB). Bitcoin and
+Dogecoin have used this format for yearsN<They will likely both move to a
+format known as SQLite, which is even easier to work with in some ways.>.
+Anyone who can read this file can read its contents, so we need something more
+secure.
+
+=head3 *Encrypted F<wallet.dat> Backups
+
+Back in the GUI, go to the Settings -> Encrypt Wallet menu. If you haven't used
+this before, it will pop up a dialog that allows you to select a phrase to use
+to encrypt your wallet.
+
+=begin tip Good Encryption Phrases
+
+A good encryption phrase balances memorability with privacy. Just like with
+passwords, short and/or easily-guessable phrases are bad (C<password>, C<1234>,
+C<s3kr1t>). Experts often suggest using memorable quotes then modifying them
+with typos, substitutions, and enhancements.
+
+For example, use a line from a song, add spice, and throw people off. If you're
+a John Rox/Gayla Peevey fan, maybe C<I want a hippopotamus for Christmas> could
+remix with Pokey the Penguin to become C<I want a skeptopotamus for Christmas
+3:-]>, something that's much more difficult for anyone to guess.
+
+=end tip
+
+With this encryption in place, you'll need to enter the passphrase to do
+anything with the wallet, so now you have I<two> things to keep track of: your
+wallet itself and your passphrase. Of course, anyone who gets hold of the one
+has to get hold of the other to do anything with either, so this is the price
+and benefit of additional security.
+
+=head3 *Dogecoin RPC Backups
+
+You can achieve the same effect with the CLI/RPC tools. For example, the
+C<dogecoin-cli> utility supports the C<backupwallet> RPC command. Give it the
+name of a file, and it will back up your wallet to a file of that name within
+the configured backups directory (by default, F<.dogecoin/backups/>)N<This is
+the behavior as of 1.14.6.). See L<figure-dogecoin-cli-backup-wallet>.
+
+=begin figure Dogecoin Core CLI Backups
+
+Z<figure-dogecoin-cli-backup-wallet>
+
+F<images/dogecoin-cli-backup-wallet.png>
+
+=end figure
+
+Because C<dogecoin-cli> is an RPC client, anything you can use to send RPC
+commands to a Core node can send the C<backupwallet> command.
+
+Similarly, the C<encryptwallet> RPC command performs the same function as the
+GUI menus to add a passphrase to a wallet.
+
+=head2 *What Can You Do With This?
+
+Where can you store backups that they're safe? Wherever you can easily access the files
+when you need them but don't worry about other people getting at them.
+
+What reduces your risk that other people can do bad things with your data if
+they do get your backups? Encryption.
+
+How do you secure your passphrase? We're moving risk around here; choose
+something meaningful but not guessable. Make sure it's secure and kept away
+from your backups. Make it possible for someone you trust to help you restore
+it in case of an emergency.
+
+Above all, keep a cool head. Think about what could go wrong, and choose your
+risks appropriately. If you make a plan and test your plan, you'll discover
+flaws and benefits and can revise your plans based on what you discover.
