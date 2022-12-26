@@ -15,3 +15,5 @@ to the Dogecoin you control.
 Here's how to work with your wallet well.
 
 L<securely_back_up_your_wallet>
+
+L<find_all_received_addresses>
