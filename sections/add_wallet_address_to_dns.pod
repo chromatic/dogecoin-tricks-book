@@ -20,6 +20,10 @@ Here's how to make it work.
 
 =head2 *How to Add a TXT Record
 
+X<domain name>
+X<domain name; TXT record>
+X<domain name; DNS>
+
 First, generate a new, unique Dogecoin address. Use the Dogecoin Core,
 C<libdogecoin>, or a non-custodial wallet you trust. Keep the private key safe,
 as always.
@@ -71,6 +75,8 @@ At this point in the book, you should be a little bit wary of the words
 I<anyone> and I<something>, because publishing an address like this means
 anyone can do I<anything> with both the address and the knowledge the address
 is associated with the domain name.
+
+X<< external programs; C<whois> >>
 
 DNS entries often contain contact information for the person managing the
 domain. While many registrars allow domain security and privacy to hide your

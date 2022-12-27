@@ -13,6 +13,8 @@ Linux, Windows, or Mac OS X with interesting data you can get for each block.
 
 =head2 *A Simple Desktop Notification for Block Difficulty
 
+X<mining difficulty>
+
 Like other Bitcoin-related cryptocurrencies, Dogecoin adjusts the difficulty of
 mining a block based on the average time it takes to mine a block. If more
 miners have more power on the network, the difficulty will increase. If fewer
@@ -44,6 +46,9 @@ We already know the first part. It's time for some code.
 
 =head3 *Display Latest Block Difficulty Notifications
 
+X<< C<getdifficulty> >>
+X<< RPC calls; C<getdifficulty> >>
+
 What does this code need to do? The Core will launch it every time a new block
 gets mined.  It needs to receive a single argument: the height of that block.
 
@@ -61,6 +66,8 @@ Z<figure-dogecoin-difficulty-desktop-notification>
 F<images/dogecoin-difficulty-desktop-notification>
 
 =end figure
+
+X<< external programs; C<notify-send> >>
 
 On Linux, the C<notify-send> command program (from C<libnotify>) handles all of
 the details. You can provide it a title for the notification, text for the
@@ -120,6 +127,8 @@ That's it.
 
 This message will pop up on my screen every minute or so and gradually fade
 away after a couple of seconds.
+
+X<< external programs; C<numfmt> >>
 
 =begin tip Linux... on the Desktop? Not for me yet!
 

@@ -18,9 +18,13 @@ The Internet is a globally-distributed network of computers that lets people
 and machines communicate in words, pictures, video, audio, and all kinds of
 data.
 
+X<meme>
+
 A meme is an idea, usually clever or ironic or sarcastic or joking, that's
 easily spread between people. It often takes the form of an image or video that
 can be shared on the Internet.
+
+X<cryptocurrency>
 
 Cryptocurrency is a mechanism to record digital transactions over the Internet
 between people who don't necessarily trust each other as individuals but, as a
@@ -45,6 +49,8 @@ That's what this book is about.
 This book assumes you have access to a computer somewhere (though some of the
 tricks will work on mobile devices such as phones and tablets), have access to
 the Internet, and can download and install and run software.
+
+X<Dogecoin Core; trustworthy links>
 
 At the time of this writing, you can visit U<dogecoin.com> for links and
 information about how to download and run the official Dogecoin Core. Don't

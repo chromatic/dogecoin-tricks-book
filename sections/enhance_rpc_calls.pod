@@ -2,6 +2,8 @@
 
 Z<enhance_rpc_calls>
 
+X<RPC calls>
+
 Because Dogecoin has Bitcoin, Litecoin, and LuckyCoin in its pedigree--and in
 its code--you can often find guides and documentation written for those coins
 that work for Dogecoin.
@@ -23,14 +25,20 @@ Think of a label as a nickname. Any operation you want to do on an address, you
 can do on a label instead. You just need the ability to associate a label with
 an address and you're off to the races.
 
+X<< external programs; C<cpanm> >>
+X<< external programs; C<dogeutils> >>
+X<< Perl libraries; C<Finance::Dogecoin::Utils> >>
+
 What do you need to make this work? Well you I<could> install a toolkit named
 C<Finance::Dogecoin::Utils> from CPANN<Use the command C<cpanm
-Finance::Dogecoin::Utils> if you have Perl installed. Otherwise....> or you
-could do the work yourself.
+Finance::Dogecoin::Utils> if you have Perl installed. Otherwise....>, as it
+provides a command named C<dogeutils>, or you could do the work yourself.
 
 What do you need?
 
 =head3 *Associate Labels with Addresses
+
+X<< RPC calls; C<setlabel> >>
 
 First, you need a way to associate a label with an address. Bitcoin has an RPC
 call named C<setlabel> which does this in the current wallet. It takes two
@@ -72,6 +80,9 @@ could achieve by using the command line:
 
 =head3 *Proxy RPC Calls to a Node
 
+X<< external commands; C<curl> >>
+X<< Python libraries; C<requests> >>
+
 The next thing you need is a way to make calls to a running Core node. For
 this, be sure to set up authentication (see L<authenticate_rpc_securely>). With
 a username and password, you can use any HTTP client or library such as C<curl>
@@ -90,6 +101,8 @@ actual Core node will send that username and password.
 
 With authentication set up, all you need to do is know how to call a method via
 HTTP.
+
+X<< RPC calls; C<setlabel> >>
 
 In the example of Bitcoin's C<setlabel> call, you need to:
 
@@ -128,6 +141,8 @@ encoded JSON:
 Note how close that looks to the C<dogeutils> command earlier.
 
 =head3 *Wrap Calls That Don't Exist
+
+X<< RPC calls; C<getreceivedbylabel> >>
 
 What good is this?
 

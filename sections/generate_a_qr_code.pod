@@ -23,6 +23,8 @@ A Bitcoin Improvement Proposal has the answer.
 
 =head2 *Dogecoin-Aware Wallet Links
 
+X<BIPs; BIP-21>
+
 As defined in BIP-21N<See
 U<https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki>.>, a
 hyperlink starting with C<bitcoin:> and followed by an address tells your
@@ -48,6 +50,8 @@ playing?
 
 =head2 *Dogecoin-Aware Images
 
+X<QR code>
+
 You're probably already familiar with QR codes, the three-dimensional barcode
 looking images that contain arbitrary data and take you to real estate listings
 or menus in restaurants that don't want to hand out grubby menus. Why not make
@@ -66,6 +70,9 @@ link, you shouldn't have to trust a third-party to do it right. Yes, you can
 and should always double-check with your own phone or device that the code
 contains the link you want, but it's important to know how to work these tools
 on your own as well.
+
+X<< Python libraries; C<qrcode> >>
+X<< external programs; C<qr> >>
 
 You can generate QR codes from lots of programming languages and tools. One
 good tool is the Python module C<qrcode>N<See

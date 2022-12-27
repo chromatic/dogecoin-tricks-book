@@ -17,6 +17,8 @@ securely.
 
 =head2 *Understanding Secure Authentication
 
+X<RPC; authentication>
+
 To authenticate to a Core node to send RPC commands, you need to prove your
 identity in two ways:
 
@@ -45,6 +47,9 @@ How does the Core know C<ralph>, C<nelson>, and C<milhouse> are all valid users
 and to reject invalid passwords?
 
 =head3 *Add Users to Your Config File
+
+X<dogecoin.conf>
+X<Dogecoin Core; configuration>
 
 The answer is in your F<dogecoin.conf> file and a program from the Dogecoin
 Core repository at F<share/rpcuser/rpcuser.py>N<See
@@ -82,6 +87,8 @@ updated version of this code (at least newer than the version in Dogecoin Core
 generating passwords.
 
 =end tip
+
+X<< external programs; C<curl> >>
 
 When your node starts, test your authentication by connecting with your
 preferred RPC mechanism. I like to use the C<curl> binary, because it has
@@ -149,6 +156,8 @@ Of course, changing your password (and salt) every now and then is probably a
 good idea.
 
 =head2 *Understand the Risks
+
+X<< Dogecoin Core; configuration; C<disablewallet> >>
 
 You can do a lot of interesting things with RPC commands and a node that has a
 wallet connected, but anyone who can authenticate and send RPC commands to your

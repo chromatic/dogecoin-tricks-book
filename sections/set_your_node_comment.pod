@@ -2,6 +2,9 @@
 
 Z<set_your_node_comment>
 
+X<< Dogecoin Core; C<dogecoind> >>
+X<< Dogecoin Core; C<dogecoin-qt> >>
+
 If you look at the network peers tab in your core wallet (Help -> Debug ->
 Peers, in the Qt GUI as of 1.14.6), you'll see a list of other nodes you've
 connected to. This list shows things like their IP address (IPv4 or IPv6), the
@@ -25,6 +28,8 @@ information about the way a node's owner ran it, the attacker would have an
 easier time getting a list of potential targets.
 
 =end notetip
+
+X<< Dogecoin Core; configuration; C<uacomment> >>
 
 The Core allows you to I<append> text to this version string to customize your
 node and, potentially, brighten someone's day.
@@ -83,6 +88,8 @@ the spirit of fun and collaboration.
 
 What makes a I<good> comment? If you follow those three rules (the other rule
 is the 256 character limit), then anything goes.
+
+X<obscure references; Swedish Chef>
 
 You could use a dopey joke, like "Why does the Swedish Chef love Dogecoin?
 Because it goes bork bork bork!"

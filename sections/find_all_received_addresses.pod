@@ -40,6 +40,8 @@ F<images/dogecoin-core-transactions-list.png>
 
 =head3 *Spreadsheet Transaction Accounting
 
+X<data formats; CSV>
+
 Look again at L<figure-dogecoin-core-transactions-list>. In the bottom right
 corner, the button labeled "Export" can save you a lot of time and effort.
 Click that button and the Core will prompt you to write a comma-separated value
@@ -66,10 +68,14 @@ What could be easier?
 
 =head3 *Command-Line Transaction Evaluation
 
+X<< Dogecoin Core; C<dogecoin-cli> >>
+
 The C<dogecoin-cli> program works really well as a command-line program in a
 series of other command-line programs. If this sounds like something a nerdy
 Unix user would claim, you're right. If you're comfortable using the command
 line, it may be the quickest and easiest way to answer the question.
+
+X<< RPC calls; C<listreceivedbyaddress> >>
 
 The C<listreceivedbyaddress> RPC command tells the Core to give you a list of
 all addresses which have received Dogecoin in any transaction. In effect, it
@@ -89,6 +95,8 @@ Z<figure-dogecoin-listreceivedbyaddress-cli-output>
 F<images/dogecoin-listreceivedbyaddress-cli-output.png>
 
 =end figure
+
+X<< external programs; C<jq> >>
 
 As with the CSV format, just about any programming language you're likely to
 run into these days can work with this JSON output. You don't need to rush off

@@ -2,6 +2,9 @@
 
 Z<securely_back_up_your_wallet>
 
+X<wallet>
+X<Dogecoin Core; wallet>
+
 Your Dogecoin wallet is a list of private and public keys, labels for the
 associated addresses, and a little bit of metadata. Yet that's the most
 important thing you can keep track of and protect.
@@ -74,8 +77,14 @@ F<images/dogecoin-core-backup-wallet-gui>
 
 =end figure
 
+X<< Dogecoin Core; C<wallet.dat> >>
+
 B<Protect this file.> It's the same as the F<wallet.dat> file in your Dogecoin
 configuration directory.
+
+X<data formats; BDB>
+X<data formats; SQLite>
+X<< external programs; C<sqlite> >>
 
 If you look at the file in a file editor, you may see that it looks like a
 bunch of binary data. This is what it is, but that doesn't make it safe; this
@@ -98,6 +107,11 @@ passwords, short and/or easily-guessable phrases are bad (C<password>, C<1234>,
 C<s3kr1t>). Experts often suggest using memorable quotes then modifying them
 with typos, substitutions, and enhancements.
 
+X<obscure references; John Rox>
+X<obscure references; Gayla Peevey>
+X<obscure references; Skeptopotamus>
+X<obscure references; Pokey the Penguin>
+
 For example, use a line from a song, add spice, and throw people off. If you're
 a John Rox/Gayla Peevey fan, maybe C<I want a hippopotamus for Christmas> could
 remix with Pokey the Penguin to become C<I want a skeptopotamus for Christmas
@@ -113,6 +127,8 @@ and benefit of additional security.
 
 =head3 *Dogecoin RPC Backups
 
+X<< RPC commands; C<backupwallet> >>
+
 You can achieve the same effect with the CLI/RPC tools. For example, the
 C<dogecoin-cli> utility supports the C<backupwallet> RPC command. Give it the
 name of a file, and it will back up your wallet to a file of that name within
@@ -127,6 +143,8 @@ F<images/dogecoin-cli-backup-wallet.png>
 
 =end figure
 
+X<< RPC commands; C<encryptwallet> >>
+
 Because C<dogecoin-cli> is an RPC client, anything you can use to send RPC
 commands to a Core node can send the C<backupwallet> command.
 
@@ -135,8 +153,9 @@ GUI menus to add a passphrase to a wallet.
 
 =head2 *What Can You Do With This?
 
-Where can you store backups that they're safe? Wherever you can easily access the files
-when you need them but don't worry about other people getting at them.
+Where can you store backups that they're safe? Wherever you can easily access
+the files when you need them but don't worry about other people getting at
+them.
 
 What reduces your risk that other people can do bad things with your data if
 they do get your backups? Encryption.

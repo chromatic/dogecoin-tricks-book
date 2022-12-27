@@ -2,6 +2,9 @@
 
 Z<add_an_action_launcher>
 
+X<dogecoin.conf>
+X<Dogecoin Core; configuration>
+
 When you start developing things that require changing your F<dogecoin.conf>
 file, you'll inevitably run into situations where you need to restart your Core
 node to test your changes.

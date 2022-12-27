@@ -21,6 +21,8 @@ the interesting things you have in mind.
 
 =head2 *Configuring C<blocknotify>
 
+X<< Dogecoin Core; configuration; C<blocknotify> >>
+
 Dogecoin inherited a Bitcoin feature called C<blocknotify>. This is a
 configuration option available from the command line or set in F<dogecoin.conf>
 which allows you to ask the Core to launch an external command whenever the
@@ -154,6 +156,8 @@ If you have much programming experience, you can probably imagine what they
 look like anyhow.
 
 =head3 *Launching Your Program
+
+X<< external programs; C<cron> >>
 
 How does this get executed? My personal preference is to modify my
 F<dogecoin.conf> file to add this command. I wrote a little shell wrapper to
