@@ -1,0 +1,179 @@
+\usepackage{lettrine}
+
+% force all \cleardoublepage pages to blank
+\usepackage{emptypage}
+
+% These lines will make widows and orphans very rare.
+\clubpenalty=300
+\widowpenalty=300
+
+% This should cause chapter numbers to vanish.
+% You might not always want this...
+\setcounter{secnumdepth}{-1}
+
+% This causes sections, which already don't have numbers due to the
+% above, to not show up in the table of contents. (We don't want
+% \section*{} because that makes the section name not get set in
+% \rightmark.)
+\setcounter{tocdepth}{0}
+
+% This displays three open circles as a section separator.
+% Since ends of sections aren't tagged, only beginnings,
+% and beginnings don't always want to be preceded by this,
+% \onendsection should be inserted manually. You could probably
+% write some TeX to say "if this is the first section in a
+% chapter, don't do this" but with secnumdepth=-1 I have no idea
+% how to do that.
+% \newcommand{\onendsection}{\nopagebreak[4] \begin{center} $\circ\ \circ\ \circ$ \end{center}}
+
+% Keep straight quotes in verbatim sections.
+\usepackage{upquote}
+\usepackage{fancybox}
+\usepackage{fancyvrb}
+
+\DefineVerbatimEnvironment{CodeListing}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\}}
+\DefineVerbatimEnvironment{programlisting}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\}}
+\DefineVerbatimEnvironment{Screen}{Verbatim}{gobble=0,fontfamily=courier,commandchars=\\\{\}}
+
+\newenvironment{epigraph}{\begin{itshape}\par\noindent}{\end{itshape}}
+\newenvironment{blockquote}{%
+\hangindent=0.7cm%
+\setlength{\parindent}{0.7cm}%
+}{}
+
+% creates a mypart command
+\def\mypart#1#2{%
+    \par\newpage\cleardoublepage % Page break
+    \thispagestyle{plain}
+    \vspace*{5cm} % Vertical shift
+    \refstepcounter{part} % Next part
+    {\centering \textbf{\Huge Part \thepart}\par}%
+    \vspace{1cm} % Vertical shift
+    {\centering \textbf{\Huge #1}\par} %
+    \vspace{2cm} % Vertical shift
+    #2 % Some text
+    \vfill\pagebreak % Fill the end of page and page break
+}
+
+% this makes the nice captioned tip box, as first seen in Liftoff
+\usepackage{tikz}
+\usetikzlibrary{shapes,snakes}
+\usepackage{amsmath,amssymb}
+\tikzstyle{mybox} = [draw=black,very thick, rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{title} = [fill=black, text=white]
+
+\newenvironment{tip}[2][]{%
+\begin{center} %
+\begin{tikzpicture} %
+\node[mybox](box){\begin{minipage}{0.90\textwidth}#2\end{minipage}}; %
+\node[title,right=10pt,rounded corners] at (box.north west) {#1}; %
+\end{tikzpicture} %
+\end{center}}{}
+
+% elide extra space after sentence endings
+\frenchspacing
+
+% fancy hyphenation (enables \textnhtt)
+\usepackage{hyphenat}
+
+% allow indexing
+\usepackage{makeidx}
+
+% enable complex tables
+\usepackage{ltxtable}
+\usepackage{titling}
+
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png}
+\usepackage{colortbl}
+\usepackage{makeidx}
+
+% Control title size and spacing
+\usepackage[noindentafter,toctitles]{titlesec}
+\titleformat{\section}[block]
+{\large\bfseries\fontfamily{phv}\selectfont}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\large\bfseries\fontfamily{phv}\selectfont}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+{\normalsize\bfseries\fontfamily{phv}\selectfont}{\thesubsubsection}{1em}{}
+\titlespacing{\section}{0pt}{*1.5}{0pt}
+\titlespacing{\subsection}{0pt}{*1.5}{0pt}
+\titlespacing{\subsubsection}{0pt}{*1.5}{0pt}
+
+% use fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% control float placement
+\usepackage{float}
+
+% allow URL linebreaking
+% improve hyperlinks
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\hypersetup{pagebackref=true}
+% allow hyperlinks to cross lines
+\hypersetup{breaklinks=true}
+% elide borders on links
+\hypersetup{pdfborder=0 0 0}
+\hypersetup{plainpages=true}
+\urlstyle{same}
+
+% link to TOP of table/image from xrefs
+\usepackage[all]{hypcap}
+
+\usepackage{times} % Times and Helvetica fonts
+\usepackage[T1]{fontenc}
+
+% nicer tables
+\usepackage{tabularx}
+
+% enable the use of unicode
+\usepackage[mathletters]{ucs}
+\usepackage[utf8x]{inputenc}
+\renewcommand*\ttdefault{cmtt} % Computer Modern for monospaced
+
+% Allow crossreferences to display full section title
+\usepackage{titleref}
+%\usepackage{showkeys} % turn on for debugging of xrefs
+
+% Times and Helevetica fonts; Unicode
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+% skip paragraph indentation
+\setlength{\parindent}{0in}
+
+% cross reference style
+\newcommand{\ppodxref}[1]{\nameref{#1}, pp. \pageref{#1}}
+\def\chapterautorefname{Chapter}
+
+% set up headers and footers
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[OR]{\nouppercase {\em \rightmark}}
+\fancyhead[EL]{\nouppercase {\em \booktitle}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrulewidth}{\iffloatpage{0pt}{0.4pt}}
+
+\fancypagestyle{title}{%
+\fancyhf{}
+\fancyfoot[C]{\scriptsize{\thechapter}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\fancypagestyle{empty}{
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+% set up title
+\title{\booktitle}
+\posttitle{%
+\par\large{\booksubtitle}
+\end{center}\vskip 0.5em
+}
+\date{}
+\author{\bookauthor}
