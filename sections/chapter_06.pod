@@ -1,0 +1,14 @@
+=encoding utf-8
+
+=head0 Basic (and Advanced) User Stuff
+
+Not everything you do with Dogecoin has to be deeply technical. This should be
+fun, after all. Yes, sometimes it's satisfying to do something difficult or
+complicated or unpopular just to say you've done it, but it's also satisfying
+to I<avoid> problems or complications or little annoyances that get in your
+way.
+
+This chapter covers several ideas to make your use of the Core more pleasant,
+enjoyable, and worry-free.
+
+L<launch_core_silently>
