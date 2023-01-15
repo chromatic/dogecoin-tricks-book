@@ -1,0 +1,131 @@
+=head1 Manage Multiple Configurations
+
+Z<manage_multiple_configurations>
+
+In L<launch_core_silently> you learned how to make configuration changes to
+make your use of the Core more pleasant. There are many, many other potential
+configuration changes. Run this command from the command line to see more:
+
+=begin command
+
+  $ B<dogecoind -help>
+
+=end command
+
+Every option you see there is an option you can use when you launch Dogecoin,
+whether it's the daemon (C<dogecoind>) or the Qt GUI (C<dogecoin-qt>).
+
+X<Dogecoin Core; configuration>
+
+There are lots of ways to manage these options, ranging from "I remember
+everything and type the whole command every time I want to launch the Core" to
+"I have shell aliases" to "I put shortcuts in my program launcher" and they all
+of pros and cons, but there's another way to keep things organized. The
+F<dogecoin.conf> file can contain almost every command-line option you see from
+the command earlier. Because it's written to a file, you don't have to remember
+the contents every time you want to launch the Core.
+
+This can be useful.
+
+=head2 *Manage One Conf File
+
+Let's take the configuration from the "Launch Core Silently" tip, where the
+command line is C<dogecoin-qt -splash=0 -min>. The corresponding lines in
+F<dogecoin.conf> are:
+
+=begin screen
+
+  splash=0
+  min=1
+
+=end screen
+
+If you add these lines to your existing configuration file then launch
+C<dogecoin-qt> with no other arguments, you'll see no splash screen and the
+Core will launch minimized. B<Beware> that if you I<replace> your existing file
+with these two lines, you might have to reconstruct your file, so if you're
+trying this for real, I<add> these lines rather than replacing the whole file.
+
+=head2 *Manage Multiple Conf Files
+
+This is useful enough; now you can launch your Core however you launch it and
+your preferences are saved in a way you can always use them and always review
+them. Suppose you want to launch your Core in multiple different ways, though.
+Perhaps you want to do multiple things simultaneously, such as:
+
+=over 4
+
+=item * Test changes on regtest or testnet
+
+=item * Perform RPC and block actions with a node with no wallet attached
+
+=item * Keep track of your own transactions in your own wallet with a pruned node
+
+=back
+
+One way you could isolate all of these operations is separate machines.
+Another, especially if you're not running one or more Cores all the time, is to
+have multiple, separate configuration files.
+
+Make a copy of your F<dogecoin.conf> in the same directory, with the name
+F<dogecoin-noisy.conf>. That's a silly name, because we're about to do
+something silly. Edit the file and change C<splash=0> to C<splash=1>. Just one
+bit of a change, in every sense. Save the file, then run:
+
+=begin command
+
+  $ B<dogecoin-qt -conf=/path/to/dogecoin-noisy.conf>
+
+=end command
+
+You should see the Core launch, this time I<with> the splash screen. Everything
+else will behave as you have otherwise configured it.
+
+=begin tip Sharing Configurations
+
+Unfortunately, as of Dogecoin 1.14.6, the Core has no feature corresponding to
+Bitcoin's C<includeconf> configuration option. This option allows you to
+include I<another> configuration file from your F<dogecoin.conf>, so if you
+want to have most things the same but only a few different, you have other
+options.
+
+Check subsequent releases for this feature!
+
+=end tip
+
+Now that you have multiple configuration files, you can launch your Core
+pointing at the desired file for what you intend to do I<and> you can modify or
+multiply your configuration files. Let the complexity expand to your
+satisfaction!
+
+=head2 *Understand the Risks
+
+X<< external programs; C<sudo> >>
+X<obscure references; honking goose noises>
+
+One risk of using one or more F<dogecoin.conf> files is that you may forget
+what's in each file. This risk is greater if other people have access to your
+system. Suppose you share a server with your little brother, and he has the
+ability to use the C<sudo> utility to grant himself temporary root access. He
+could modify your configuration file to grant himself RPC access, point your
+blocks directory to something untrustworthy, or install an action that makes
+your Bluetooth speaker play honking goose noises every time a new block gets
+mined (see L<take_actions_on_new_blocks>, but you'll have to figure out the
+Bluetooth and goose noises yourself).
+
+Of course, if you share a server with your little brother and he has C<sudo>
+access, he could also borrow your F<wallet.dat>, so pick your family
+connections well.
+
+Another risk of juggling multiple files is that you forget the context in which
+you intend to do something and use the I<wrong> configuration file. In this
+case, it's worth pairing this tip with one of the other techniques such as
+making different program launchers or shell aliases to run different Cores. For
+example, you could make separate aliases/launchers named C<Testnet Dogecoin
+GUI> or C<testnet-dogecoin-qt> to remind you of what you intend to happen when
+you launch the Core with that specific configuration.
+
+Finally, if you I<do> use multiple configurations to switch between networks
+and full/pruned nodes and wallets, be very careful to manage options such as
+C<datadir> and C<backupdir> (as of 1.14.6). Keeping data separated is essential
+to keeping your data uncorrupted and safe.

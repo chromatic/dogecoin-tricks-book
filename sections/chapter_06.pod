@@ -12,3 +12,5 @@ This chapter covers several ideas to make your use of the Core more pleasant,
 enjoyable, and worry-free.
 
 L<launch_core_silently>
+
+L<manage_multiple_configurations>
