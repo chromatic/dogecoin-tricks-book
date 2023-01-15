@@ -1,0 +1,208 @@
+=head1 Build Core in Docker
+
+Z<build_core_in_docker>
+
+X<Dogecoin Core; building>
+
+One of the benefitsN<And, admittedly, one of the frustrations.> of free and
+open source software like the Dogecoin Core is that anyone can inspect, build,
+modify, and redistribute the code itself, provided they meet a couple of
+conditions. These conditions are following the license and the ability to
+download and compile software.
+
+Anyone can do the former. The barrier to entry for the latter is a little bit
+higher, but thanks to some good tools, it's within the reach of people willing
+to put in a little bit of work installing and configuring software.
+
+=head2 *Docker for Dogecoin
+
+X<external software; Docker>
+
+A program called Docker has two important features that we can take advantage
+of here. First, it lets you run containers, which are stripped-down instances
+of operating systems that are independent, self-contained, and isolated from
+the rest of your system. Second, it lets you run Linux in containers whether
+you're running Windows, Mac OS X, or Linux.
+
+=head3 *Getting Docker in Place
+
+If you're using a package manager that comes with your Linux distribution or
+something like C<homebrew> on Mac OS X, you can probably run C<apt install
+docker> or C<brew install docker> and follow the instructions.
+
+If you can't use a package manager like this, C<docker.com> has instructions.
+At the time of writing, see U<https://docs.docker.com/desktop/> for more
+details. As dozens of tutorials available from your favorite search engine will
+attest, you need to download and install a Docker client and server and may
+need to make a couple of changes to your operating system to allow it to switch
+between running your system as it is and running one or more containers.
+
+Because this is external software you're installing and configuring, be
+cautious that you're downloading from a reputable source. Cross-check against a
+couple of other articles and guides to make sure the recommendation for which
+source and site to use is trustworthyN<For example, Microsoft's most current
+guide also points at Docker Desktop; see
+U<https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce>.>.
+
+When you're done, you should have the ability to run a F<Dockerfile>.
+
+=head3 *Building a Container to Build Dogecoin Core
+
+X<< external programs; C<docker> >>
+
+What's a F<Dockerfile>? It's a series of instructions for the C<docker> program
+that tell it how to build an image from which you can launch one or more
+instances of a container. If you're not tired of the analogy that a text file
+is a blueprint for software, it's like thatN<If you I<are> tired of that
+analogy, feel free to open an issue with this book and suggest an
+improvement.>.
+
+This all means we need a F<Dockerfile> that can:
+
+=over 4
+
+=item * Bundle a Linux distribution
+
+=item * Provide enough Linux tools to get the Dogecoin Core source code
+
+=item * Provide the tools required to build the Dogecoin Core
+
+=back
+
+While that seems straightforward, it's a little bit involved. Fortunately, the
+F<Dockerfile> makes it repeatable and, better yet, easy enough to modify once
+you know what you're doing. Create a file with these contents:
+
+=begin screen
+
+    FROM ubuntu:22.10
+    WORKDIR /build
+
+    # depends systems prereqs
+    RUN apt update \
+     && DEBIAN_FRONTEND=non-interactive \
+        apt install --no-install-recommends -y autoconf automake binutils-gold \
+                       ca-certificates curl build-essential faketime git libtool \
+                       pkg-config python3 bison python3 python3-pip python3-wheel \
+                       python3-setuptools autotools-dev libssl-dev libevent-dev \
+                       bsdmainutils libboost-system-dev libboost-filesystem-dev \
+                       libboost-chrono-dev libboost-program-options-dev \
+                       libboost-test-dev libboost-thread-dev libqt5gui5 \
+                       libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
+                       libprotobuf-dev protobuf-compiler libqrencode-dev \
+                       libdb5.3++-dev libdb5.3++ libdb5.3-dev less
+
+    RUN python3 -m pip install setuptools --upgrade
+
+    RUN git clone https://github.com/dogecoin/dogecoin.git && cd dogecoin
+
+=end screen
+
+This seems like a lot, but it's really only four things. First, build a Docker
+image using the Ubuntu Linux distribution, version released in the year 20B<22>
+and the B<10>th month (October).
+
+X<< external commands; C<apt> >>
+
+Next, use the Linux command C<apt>N<It's a command from a slightly different
+Linux system called Debian, to which Ubuntu owes a huge debt. Credit where it's
+due!> to update the system and install a bunch of packages, including
+everything you need to download, configure, and compile the Dogecoin core.
+
+Third, ask the Python language to update a library it uses to install other
+libraries. This isn't I<strictly> necessary, as you could do it later, but it
+will save you a little bit of time and trouble.
+
+Finally, check out the Dogecoin Core source code.
+
+Save this file in a directory by itself, then build the image. On a Linux or
+Mac OS X system or from a Powershell terminal on WindowsN<Your author hasn't
+actually tried this; feedback welcome.>, the command will be something like:
+
+=begin command
+
+  $ B<docker build -t dogecoin-build-image -f Dockerfile .>
+
+=end command
+
+You should be aware of a few things. First, by putting this file in its own
+directory, the act of building the image will go a lot faster. If you put this
+file in your home directory, Docker will have to look at every file in that
+directory and every file in every directory recursively under that directory
+before it can finish building the image.
+
+Second, every unique line in the F<Dockerfile> gets built once and only once.
+If you change a line, it has to be rebuilt and everything after it does too. By
+arranging the lines this way, it's easy to add to the file and rebuild the
+image hopefully without making your life more difficult.
+
+Once you've built the image, you're ready to run it.
+
+=head2 *Building Dogecoin Core in Docker
+
+Now run the command C<docker run -it dogecoin-build-image:latest>. You should
+recognize C<dogecoin-build-image> as a name you provided when you built this
+image. This is a tag. C<:latest> is a discriminator used to distinguish between
+different I<versions> of the images you've builtN<Yes, this is getting a little
+bit complicated, but follow along; you don't have to do anything special
+here.>.
+
+This command says "Run the image I just built, the image named
+C<dogecoin-build-image>, and let me interact with it from the command line.".
+If all goes well, you'll now be inside an Ubuntu Linux system, in a directory
+named F</build/dogecoin>, and can configure and build the core itself:
+
+=begin command
+
+  $ B<./configure && make && make check>
+
+=end command
+
+That command will run for a while and will eventually complete (if all goes
+well) with Linux binaries available in F<src/> and F<src/qt/>. If all
+I<doesn't> go well, you can report bugs to the Dogecoin GitHub repository.
+
+=head2 *Understand the Risks
+
+Downloading and compiling software from the Internet always carries risks. Even
+though the Dogecoin Core has a strict and stringent development process
+intended to reduce the risk of contamination or security problems, there's no
+guarantee that breaches won't happen.
+
+Of course, you face similar risks anytime you I<run> code downloaded from the
+Internet.
+
+Building the Core in a container provides some degree of isolation from the
+other code and data on your system. This isn't a 100% guarantee of safety;
+there may be bugs or exploits in Docker that let malware escape the sandbox.
+
+=head2 *What Can You Do With This?
+
+With a reusable development environment like this, you can follow along with
+core development (see L<follow_core_development>) and test out proposed
+changes, make changes and see how they affect the code, even try your hand at
+fixing bugs. There's no requirement you do any of this; you could merely spend
+some time, learn a few things, and enjoy yourself playing around.
+
+On the other hand, you may find it satisfying to have the ability to build the
+code you're running yourself, rather than relying on (and trusting, see
+L<verify_core_releases>) other people to build it for you correctly.
+
+Maybe you're running on a platform we don't build binaries for, whether that's
+a specific operating system or machine type. Maybe you have other versions of
+libraries you want to use, or the way we've configured it isn't to your liking.
+You have these options at your fingertips now.
+
+With the F<Dockerfile> provided, you have the ability to launch a new container
+any time you want and try whatever you want and those containers won't
+interfere with each other. When you exit the container, you can save your work
+and restart from there.
+
+This can be very handy; you can launch a new container and immediately check
+out a different GitHub branch or pull request or make your own branch. Or, if
+you find yourself working from the same branch all the time, you could add
+another C<RUN> line to the F<Dockerfile> and build a new image.
+
+Finally, the more you learn about Docker and container management, the more
+options you have. This technique is really helpful for Core developers to test
+builds on multiple operating systems and versions of operating systems.

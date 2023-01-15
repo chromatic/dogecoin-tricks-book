@@ -16,3 +16,5 @@ That includes you.
 L<follow_core_development>
 
 L<verify_core_releases>
+
+L<build_core_in_docker>
