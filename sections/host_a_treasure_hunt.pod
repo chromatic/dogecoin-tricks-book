@@ -45,8 +45,8 @@ than a pirate-themed treasure hunt?
 You probably don't want a bunch of tourists tromping around your jungle and
 back alleys and beaches with shovelsN<Although this can be a good way to get
 the neighbor kids to help re-sod your lawn.>, so you might want to stick with
-something a little more virtual and a little less muddy. How about a scavenger
-hunt? BIP-39 has the secret powers.
+something a little controlled and a lot less muddy. How about a scavenger hunt?
+BIP-39 has the answer.
 
 =head3 *Generate A Mnemonic Phrase
 
@@ -196,6 +196,17 @@ Of course, some phrases are more difficult to manage than others; feel free to
 reload or regenerate the phrase until you feel confident you can produce a good
 scavenger huntN<"Worth"? That'll take some thinking. "Extend"? Awkward but
 doable.>.
+
+=begin tip Be Kind; Help Find
+
+Whether you're sending folks to all of the interesting shops on your islandN<If
+you open a bakery called "Shiver Me Maple Bars", please send the author a
+box.>>, hiding clues in the plaques on exhibits in the museum, or developing a
+full alternate reality game, remember that not everyone is as crypto-savvy as
+you are. Make the rules clear, especially the "how do I redeem my winnings?"
+guidelines.
+
+=end tip
 
 =head2 *Understand the Risks
 
