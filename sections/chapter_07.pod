@@ -1,0 +1,17 @@
+=encoding utf-8
+
+=head0 Basic (and Advanced) Transaction Stuff
+
+X<currency>
+
+Hoarding coins can be fun for a while, but eventually they have to move around.
+That's part of the definition of a I<currency>, after all: something you can
+trade for goods or services. Whether that's buying a cute stuffed animal or
+flag online, getting paid for consulting or writing something
+funny/sad/insightful, or just giving a tip to someone who made you smile,
+transactions are the beating heart of Dogecoin.
+
+This chapter walks through smart, surprising, or merely silly things you can do
+with transactions.
+
+L<host_a_treasure_hunt>
