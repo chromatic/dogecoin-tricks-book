@@ -1,0 +1,204 @@
+=head1 Vote on Goats
+
+Z<vote_on_goats>
+
+
+X<recipes; blackberry lemonade>
+
+Imagine you've done it. You've fulfilled your life-long dream of buying some
+land in the country and only using your laptop while sitting on your back deck,
+sipping lemonade and admiring the view. Then wild blackberry vines grow and
+block your view, and you can either put down your laptop and get out the
+gardening tools or adopt some goats and get back to sipping your drinkN<Recipe
+for blackberry lemonade: pick and wash blackberries. Add to lemonade. Muddle if
+you like.>.
+
+The obvious answer is to adopt the goats. Four of them will do it. Now comes
+the difficult part: what do you name them?
+
+Make a poll!
+
+=head2 *Blockchains and Voting
+
+Blockchain technology has an interesting inherent property that transactions
+cannot be reversed. Once enough of the network has confirmed a transaction, it
+becomes increasingly expensive and troublesome to remove that transaction. In
+the case of Dogecoin, with blocks mined every 60 seconds or so, you can be
+pretty certain that a transaction confirmed ten minutes ago is going to stick.
+
+This property leads some people to suggest the use of blockchain technology for
+voting systems. While administering voting on the level of a town, parish,
+state, province, nation, or corporation is an interesting thought experiment,
+handling all the edge cases for something that matters more than capra hircus
+nomenclature gets complicated and messy.
+
+The allure exists, however. If you're clever and careful, you can use
+blockchain properties to validate properties of transactions to discern between
+valid/allowed votes and invalid/disallowed votes, depending on how you define
+all these terms.
+
+=head3 *Vote on Goats as a Poll
+
+You've lined up a deal with a local herd to adopt four goats, on the condition
+that you take care of them appropriately for their natural lives I<and> you
+immediately name them. You can't decide on one set of names, because you have
+several possibilities:
+
+=over 4
+
+=item * Inky, Pinky, Blinky, and Clyde
+
+=item * Mario, Luigi, Pauline, and Peach
+
+=item * Sonic, Tails, Knuckles, and Amy
+
+=item * Larry, Curly, Moe, and Shemp
+
+=item * Link, Zelda, Epona, and SheikN<No spoilers; before you send angry
+feedback, remember they're hypothetical goats.>
+
+=back
+
+Why not use ninja turtle names? Too many syllables to yell when they wander
+away from the blackberry vines and wander into the roses.
+
+For each set of possibilities, generate or choose a fresh, unused Dogecoin
+address for each set of possibilities. Then publicize your vote. To vote for
+the first set, send I<your amount here> of Koinu to I<selected address>. Go
+through the list. Remember to tell people when voting starts and when voting
+ends.
+
+Wait until voting ends, then pick the winner.
+
+=head3 *Counting Poll Responses
+
+X<< RPC calls; C<getreceivedbyaddress> >>
+
+If you've done your job well, counting responses should be as easy as using the
+C<getreceivedbyaddress> RPC call and adding up either the number of koinu sent
+to each address. The highest value wins!
+
+What if, however, you start to wonder if allowing the wealthiest and most
+generous voter to have the most votes is right? It might not be. What if you
+want to count the I<number> of transactions to each address and use that to
+decide on the winning names?
+
+X<< RPC calls; C<getreceivedbyaddress> >>
+
+Use the C<listtransactions> RPC call to make a list of all transactions to your
+wallet, then use a spreadsheet or code or a friend with a notepad and writing
+implement to tick off the votes.
+
+=begin tip Good Coders Borrow; Great Coders Steal
+
+X<< RPC calls; C<listreceivedbyaddress> >>
+
+Bitcoin's C<listreceivedbyaddress> call has an additional fourth argument used
+to filter transactions to specific addresses, but as of this writing, Dogecoin
+1.14.6 does not have that feature. Check back soon.
+
+=end tip
+
+With data on I<all> of the transactions your wallet has received, you can also
+check the time of the transaction (the C<blocktime> element of the data
+produced by C<listreceivedbyaddress>) and verify that the transaction occurred
+within the voting period you chose. Anything early or late may or may not
+count, depending on your preferences.
+
+X<epoch time>
+
+Remember that Dogecoin records time in epoch time; this represents the number
+of seconds since the birthdate of Unix on January 1, 1970. Use an "epoch time
+converter" built into your favorite programming environment or one of multiple
+web sites to translate these numbers to and from a time system more to your
+liking.
+
+If you're really clever or appropriately lazy, you could write a little program
+to make this RPC call, loop through all transactions, ignore everything outside
+of the start and end epochs, ignore everything to non-vote addresses, and print
+a little summary at the end.
+
+=head3 *Avoid Poll Stuffing
+
+Suppose your author has frustrated a big batch of Zelda fans with the "Sheik"
+comment and a thousand riled-up people stuff your poll with tiny transactions
+for anything but the Zelda option. Are they legitimate votes? That's up to you
+to decide, but wading through all of those transactions to figure it out could
+be a hassle.
+
+Could you run a poll in a way that reduces the possibility of fraud or ballot
+stuffing? Absolutely yes, if you know the people you want to vote in your poll
+beforehand.
+
+Suppose you have 10 friends wildly invested in your blackberry lemonade farm
+lifestyle. Suppose also, for the sake of math, you want to give them each 10
+votes, and they can divide them up among these options with as much precision
+as they desire. 10 people, 10 votes.
+
+X<< RPC calls; C<lockunspent> >>
+
+Have each of your friends provide you with a fresh address. Then mine,
+transfer, generate, or otherwise obtain 101 Dogecoin yourself. In one
+transaction, send 10 Dogecoin each to each of your 10 friendsN<Remember there's
+a very small transaction fee, so use the 1 extra to pay that.>. Tell your
+friends that their votes I<must> come from the 10 Dogecoin they've each
+received, so when they craft their transactions either do so explicitly, use an
+otherwise empty wallet, or use a mechanism such as C<lockunspent> to ensure the
+funds come from the right place.
+
+Then open the poll as normal.
+
+When you go to count votes, use the C<listreceivedbyaddress> approach. Use the
+same C<blocktime> approach to validate the timing of the votes, but also look
+at the I<source> of funds for each transaction. A vote is only valid I<if> the
+received coins spent in that transaction came from the transaction you used to
+seed each friend's wallet. Any other transaction is an invalid vote, and you
+can ignore it.
+
+This approach also has the nice property of vote weighting, which gives voters
+a little more say than the majority-rules approach.
+
+=head2 *Understand the Risks
+
+Some readers may have noticed that some sets of proposed names don't have the
+same number of gender-specific names as others. If that bothers some people,
+they can choose different names for their hypothetical goats, becauseN<Allow
+this author to I<assure> you.> goats B<do not> care about their names and are
+unlikely to respond when called by any name, let alone those you've carefully
+selected.
+
+In that case, adherence to a theme is more meaningful to the goat herder than
+to the animals, so let people enjoy themselves where they can!
+
+If you perform this kind of transaction on the public Dogecoin blockchain, be
+aware that the coins have to come from I<somewhere>. Anyone who can look at the
+blockchain and tie votes to your goats has an increased possibility to
+de-anonymize anyone who participated in the voting, because there's a real
+world activity (voting, potentially in public, at a distinct time) associated
+with multiple public transactions.
+
+Performing these actions on the testnet or a private network can reduce this
+risk.
+
+If you use an existing wallet for these addresses, you'll make your life more
+difficult in counting votes/transactions. Furthermore, you run the risk of
+mingling koinu used in voting with koinu used in other purposes, which could
+also de-anonymize you in part.
+
+=head2 *What Can You Do With This?
+
+You don't have to limit this to voting for hypothetical goat names. You can use
+this technique to select between multiple alternatives. With the technique of
+giving voters Dogecoin to identify them as voters and the ability to split
+those coins between alternatives, voters can apply stronger weight to some
+candidates while expressing lesser but still positive preference for others.
+
+The ability to set up a private Dogecoin network/blockchain is interesting and
+avoids a lot of privacy and financial concerns, though admittedly the entire
+Dogecoin software stack is a lot of extra code and complexity that you wouldn't
+necessarily need in this scenario; it's probably smarter to run a
+voting-specific blockchain if you wanted to use such a system.
+
+With that said, if you want to get something up and going quickly, you could do
+a lot worse. Software that exists that you know how to use well is better than
+alternatives you don't understand or which don't exist.

@@ -15,3 +15,5 @@ This chapter walks through smart, surprising, or merely silly things you can do
 with transactions.
 
 L<host_a_treasure_hunt>
+
+L<vote_on_goats>
