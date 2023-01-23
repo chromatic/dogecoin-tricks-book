@@ -14,6 +14,8 @@ transactions are the beating heart of Dogecoin.
 This chapter walks through smart, surprising, or merely silly things you can do
 with transactions.
 
+L<inspect_a_transaction>
+
 L<host_a_treasure_hunt>
 
 L<vote_on_goats>
