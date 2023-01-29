@@ -19,3 +19,5 @@ L<inspect_a_transaction>
 L<host_a_treasure_hunt>
 
 L<vote_on_goats>
+
+L<protect_unspent_transaction_outputs>

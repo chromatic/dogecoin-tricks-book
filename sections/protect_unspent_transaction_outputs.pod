@@ -1,0 +1,142 @@
+=head1 Protect Unspent Transaction Outputs
+
+Z<protect_unspent_transaction_outputs>
+
+Dogecoins are I<fungible> in the sense that 1 Doge always equals 1 Doge,
+regardless of whether it came from a coinbase five years ago or five seconds
+ago. When you send Doge in a transaction, you or your wallet can look through
+all of your unspent transaction inputs to find enough Doge to satisfy your
+transaction. Any input is as good as any other input.
+
+X<fiat currency; Canadian paper money>
+
+In practice, you might feel differently about one transaction versus another,
+in the same way you might have a soft spot for that USD $1 where your best
+friend drew a mustache on George Washington or that 1989 final printing
+Canadian dollar that you hope is worth a couple of hundred now because of its
+scarcity.
+
+X<Minecraft>
+
+While you can always craft transactions by hand, if you're into that kind of
+thing, letting your wallet software move your Doge around might be like letting
+your pre-teen niece rummage through your cash jar to find just enough money to
+buy the Minecraft gift card her parents told her she could buy if she earned
+enough money to buy it. If you suddenly can't find Queen Elizabeth II on a
+tugboat, you'll regret letting your money out of your sight.
+
+Suppose you're super proud of the first work-for-hire gig you did that landed
+you a cool 200 Dogecoin in a transaction in 2016, and you'd like to do the
+virtual equivalent of framing it and hanging it on your wall. You can do this
+in a couple of ways; let's focus on making that transaction input
+I<unspendable>.
+
+=head2 *Lock (and Unlock) Unspent Transactions
+
+X<< RPC commands; C<lockunspent> >>
+
+The RPC command C<lockunspent> allows you to tell the Core wallet to treat one
+or more outputs in a transaction as unspendable. Whenever you attempt to send
+Dogecoin to an address, the Core will ignore the unspent inputs in the locked
+transaction.
+
+Suppose you're looking at the second transaction in block 4,012,441N<Look this
+up in a block explorer such as C<dogechain.info> to follow along!>. This
+transaction has two outputs. The first has index 0 and sends 140,000 Doge to an
+address starting with C<DLfEFh>. The second has index 1 and sends 281,628.30
+Doge to an address starting with C<AC8Q9Z>. The entire transaction starts with
+C<5c7561>.
+
+If you control the first address and don't want to spend those 140,000 Doge in
+some random transaction, use C<lockunspent> to keep the Core from looking at
+this transaction when it rummages around in your wallet.
+
+=begin screen
+
+  $ B<dogecoin-cli lockunspent false "[{\"txid\": \"5c7561...\", \"vout\": 0}]">
+  true
+
+=end screen
+
+Be very cautious here; this is tricky to get right. The first argument is a
+boolean, true or false value. If you pass C<true>, the command will B<unlock>
+the specified transactions. To lock, use a value of C<false>. Yes, this seems
+backwards.
+
+The second parameter is optional; it's the serialized form of a JSON array of
+objects where they keys are the transaction ids and the indices of the outputs
+in those transactions. Check and double-check your quoting, especially if you
+use `dogecoin-cli` to perform this command from the command line.
+
+X<< RPC commands; C<listlockunspent> >>
+
+After you've sent this command, immediately follow up with C<listlockunspent>
+to see if the transactions you intended to lock are actually locked:
+
+=begin screen
+
+  $ B<dogecoin-cli listlockunspent>
+  [
+    {
+      "txid": "5c7561...",
+      "vout": 0
+    }
+  ]
+
+=end screen
+
+If you've locked multiple transaction outputs, you'll see the entire list here.
+
+To I<unlock> a single transaction output, provide the transaction id and output
+index, but this time change the boolean argument to C<true>.
+
+=begin tip Always List Your Locks
+
+Get in the habit of using C<listlockunspent> after I<every> change you make to
+locked transactions. If you send the command C<lockunspent true> without any
+transaction output identifiers, you will unlock I<all> locked transactions.
+
+Arguably the implementation of this command is misleading, though your author
+admits he had to read the Core source code and think really hard to figure out
+what it was doing.
+
+=end tip
+
+These locks will last until you send an unlock command or your node restarts.
+
+=head2 *Understand the Risks
+
+These locks are effective in small, specific circumstances but they're not
+security. They won't protect you from losing your keys or having someone else
+gain control of your F<wallet.dat> file. Anyone who can send RPC commands to
+your node can list any locked transaction outputs and also unlock those
+outputs.
+
+If you share a wallet between multiple nodes, locking transaction outputs on
+one has no effect on the others. These locks are stored in memory in the Core
+only as long as the Core is running. When it shuts down, the locks vanish.
+
+In other words, if you rely on this mechanism to protect a transaction output
+for whatever reason, I<verify> the locks you want active are in fact present
+I<before> starting any transaction.
+
+=head2 *What Can You Do With This?
+
+This approach offers minor protection, as it's limited to a single node
+implementation and it doesn't survive node restarts. While future versions of
+the Core may make this guarantee stronger, you have a couple of other options
+to protect transaction outputs.
+
+For example, if you use the Action Launcher approach (see
+L<add_an_action_launcher>), you can write a script that, on every new block
+detected, makes an RPC call to lock outputs from a list. If you're clever, you
+could even make this check a PID or log file or flag to keep it from running
+more than once. When your Core restarts and begins processing blocks, it'll
+launch your launcher.
+
+Of course, that doesn't protect against a potential race condition, where you
+might create a new transaction I<before> the script has a chance to run. A
+stronger solution is to isolate the wallet address(es) into a separate wallet
+not visible to the core where you want to lock these... but that's a discussion
+for a separate tip!
+
