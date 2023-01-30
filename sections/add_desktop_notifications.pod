@@ -47,7 +47,7 @@ We already know the first part. It's time for some code.
 =head3 *Display Latest Block Difficulty Notifications
 
 X<< C<getdifficulty> >>
-X<< RPC calls; C<getdifficulty> >>
+X<< RPC commands; C<getdifficulty> >>
 
 What does this code need to do? The Core will launch it every time a new block
 gets mined.  It needs to receive a single argument: the height of that block.

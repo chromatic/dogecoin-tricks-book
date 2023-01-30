@@ -2,7 +2,7 @@
 
 Z<enhance_rpc_calls>
 
-X<RPC calls>
+X<RPC commands>
 
 Because Dogecoin has Bitcoin, Litecoin, and LuckyCoin in its pedigree--and in
 its code--you can often find guides and documentation written for those coins
@@ -38,7 +38,7 @@ What do you need?
 
 =head3 *Associate Labels with Addresses
 
-X<< RPC calls; C<setlabel> >>
+X<< RPC commands; C<setlabel> >>
 
 First, you need a way to associate a label with an address. Bitcoin has an RPC
 call named C<setlabel> which does this in the current wallet. It takes two
@@ -102,7 +102,7 @@ actual Core node will send that username and password.
 With authentication set up, all you need to do is know how to call a method via
 HTTP.
 
-X<< RPC calls; C<setlabel> >>
+X<< RPC commands; C<setlabel> >>
 
 In the example of Bitcoin's C<setlabel> call, you need to:
 
@@ -142,7 +142,7 @@ Note how close that looks to the C<dogeutils> command earlier.
 
 =head3 *Wrap Calls That Don't Exist
 
-X<< RPC calls; C<getreceivedbylabel> >>
+X<< RPC commands; C<getreceivedbylabel> >>
 
 What good is this?
 

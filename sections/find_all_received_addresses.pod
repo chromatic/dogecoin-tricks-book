@@ -75,7 +75,7 @@ series of other command-line programs. If this sounds like something a nerdy
 Unix user would claim, you're right. If you're comfortable using the command
 line, it may be the quickest and easiest way to answer the question.
 
-X<< RPC calls; C<listreceivedbyaddress> >>
+X<< RPC commands; C<listreceivedbyaddress> >>
 
 The C<listreceivedbyaddress> RPC command tells the Core to give you a list of
 all addresses which have received Dogecoin in any transaction. In effect, it

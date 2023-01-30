@@ -72,7 +72,7 @@ Wait until voting ends, then pick the winner.
 
 =head3 *Counting Poll Responses
 
-X<< RPC calls; C<getreceivedbyaddress> >>
+X<< RPC commands; C<getreceivedbyaddress> >>
 
 If you've done your job well, counting responses should be as easy as using the
 C<getreceivedbyaddress> RPC call and adding up either the number of koinu sent
@@ -83,7 +83,7 @@ generous voter to have the most votes is right? It might not be. What if you
 want to count the I<number> of transactions to each address and use that to
 decide on the winning names?
 
-X<< RPC calls; C<getreceivedbyaddress> >>
+X<< RPC commands; C<getreceivedbyaddress> >>
 
 Use the C<listtransactions> RPC call to make a list of all transactions to your
 wallet, then use a spreadsheet or code or a friend with a notepad and writing
@@ -91,7 +91,7 @@ implement to tick off the votes.
 
 =begin tip Good Coders Borrow; Great Coders Steal
 
-X<< RPC calls; C<listreceivedbyaddress> >>
+X<< RPC commands; C<listreceivedbyaddress> >>
 
 Bitcoin's C<listreceivedbyaddress> call has an additional fourth argument used
 to filter transactions to specific addresses, but as of this writing, Dogecoin
@@ -135,7 +135,7 @@ lifestyle. Suppose also, for the sake of math, you want to give them each 10
 votes, and they can divide them up among these options with as much precision
 as they desire. 10 people, 10 votes.
 
-X<< RPC calls; C<lockunspent> >>
+X<< RPC commands; C<lockunspent> >>
 
 Have each of your friends provide you with a fresh address. Then mine,
 transfer, generate, or otherwise obtain 101 Dogecoin yourself. In one
