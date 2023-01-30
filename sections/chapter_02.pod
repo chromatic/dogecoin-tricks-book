@@ -7,3 +7,5 @@ tipping system that can integrate with the wider Internet. This chapter
 explores several ways to do so, both as a publisher and a consumer.
 
 L<add_wallet_address_to_dns>
+
+L<write_a_json_block_explorer>
