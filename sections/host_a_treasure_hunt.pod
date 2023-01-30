@@ -38,7 +38,7 @@ X<obscure references; Big Whoop>
 
 Suppose you're a member of the local Chamber of Commerce on a tropical island
 in the middle of historical pirate countryN<Your author can already tell this
-example is going to get away from him, but the idea was too good not to try.> ,
+example is going to get away from him, but the idea was too good not to try.>,
 and you want to encourage more pirate-related tourism. What could be better
 than a pirate-themed treasure hunt?
 
@@ -201,7 +201,7 @@ doable.>.
 
 Whether you're sending folks to all of the interesting shops on your islandN<If
 you open a bakery called "Shiver Me Maple Bars", please send the author a
-box.>>, hiding clues in the plaques on exhibits in the museum, or developing a
+box.>, hiding clues in the plaques on exhibits in the museum, or developing a
 full alternate reality game, remember that not everyone is as crypto-savvy as
 you are. Make the rules clear, especially the "how do I redeem my winnings?"
 guidelines.

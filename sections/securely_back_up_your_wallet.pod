@@ -133,7 +133,7 @@ You can achieve the same effect with the CLI/RPC tools. For example, the
 C<dogecoin-cli> utility supports the C<backupwallet> RPC command. Give it the
 name of a file, and it will back up your wallet to a file of that name within
 the configured backups directory (by default, F<.dogecoin/backups/>)N<This is
-the behavior as of 1.14.6.). See L<figure-dogecoin-cli-backup-wallet>.
+the behavior as of 1.14.6.>). See L<figure-dogecoin-cli-backup-wallet>.
 
 =begin figure Dogecoin Core CLI Backups
 

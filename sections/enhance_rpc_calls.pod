@@ -31,8 +31,10 @@ X<< Perl libraries; C<Finance::Dogecoin::Utils> >>
 
 What do you need to make this work? Well you I<could> install a toolkit named
 C<Finance::Dogecoin::Utils> from CPANN<Use the command C<cpanm
-Finance::Dogecoin::Utils> if you have Perl installed. Otherwise....>, as it
-provides a command named C<dogeutils>, or you could do the work yourself.
+Finance::Dogecoin::Utils> if you have Perl installed. Otherwise see
+U<https://platform.activestate.com/chromatic/Dogecoin-Utils> for Windows, Mac
+OS X, and Linux installers.>, as it provides a command named C<dogeutils>, or
+you could do the work yourself.
 
 What do you need?
 
