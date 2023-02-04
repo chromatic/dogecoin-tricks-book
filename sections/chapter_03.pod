@@ -14,6 +14,8 @@ Here's how.
 
 L<authenticate_rpc_securely>
 
+L<restrict_node_network_access>
+
 L<take_actions_on_new_blocks>
 
 L<add_an_action_launcher>
