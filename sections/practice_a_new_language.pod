@@ -1,0 +1,118 @@
+=head1 Practice a New Language
+
+Z<practice_a_new_language>
+
+Some people think English is the language of the Internet. Someday they'll
+discover the language of the Internet is becoming memes. Until then, it's up to
+all of us to find ways to communicate with other people in ways they
+understand.
+
+The Dogecoin network communicates in terms of numbers: big numbers, small
+numbers, all bundled together in blocks and transactions and addresses and
+Dogecoin and fractions of Dogecoin. We humans bring meaning to those numbers by
+agreeing on what they mean and presenting them in ways we can understand:
+labels, QR codes, addresses, secret keys, et cetera.
+
+When it comes to the Dogecoin Core itself, we do the same thing. Whether you're
+a goat farmer in western Canada, a small business investor in eastern Africa, a
+polar ice researcher in Antarctica, or a student studying European finance in
+Austria, you balance two important things when you use the Core: what the
+underlying information I<means> and how you I<prefer> to consume that
+information.
+
+In other words, without all this highfalutin' talk, you should be able to read
+use the Core in any written language you preferN<Your author recognizes the
+irony of writing this whole book in English.>. Good news: more and more people
+have that option!
+
+=head2 *Language Setting
+
+X<< Dogecoin Core; C<dogecoin-qt> >>
+X<< configuration options; C<lang> >>
+
+If run the C<dogecoin-qt> program and ask for its help output, you'll see an
+option called C<--lang>:
+
+=begin screen
+
+  $ B<dogecoin-qt --help>
+  ...
+  UI Options:
+
+  -lang=<lang>
+       Set language, for example "de_DE" (default: system locale)
+
+=end screen
+
+If you've configured your computer to use German spoken in Germany as your
+default language, the Core should do the right thing I<if> the developers have
+provided the appropriate translations. You should have to do nothing special
+with Dogecoin for the software to behave normally.
+
+Suppose instead you're about to go on a trip to Portugal and Brazil and want to
+brush up on your Portugese, so you'd like to manage your transactions in one or
+both languages. How do you figure this out?
+
+=head3 *How Language Codes Work
+
+X<obscure references; King George singing>
+
+The example code, C<de_DE>, has two parts. The first is C<de>, which represents
+Deutsch, the German language. For more details, see ISO-639-1N<Wikipedia
+explains this at U<https://en.wikipedia.org/wiki/ISO_639-1>>. The second part
+is C<DE>, which represents the country of Germany, known as Deutschland to its
+inhabitants. For more details, See ISO-3166-1N<Wikipedia also explains this at
+U<https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2>>. The combination of
+language and country code means "German, as spoken in Germany". Similarly,
+C<en_US> refers to "English spoken in the United States of America" and
+C<en_GB> refers to "English as attempted by the residents of that island we
+defeated back in the 18th century"N<"You'll Be Back" not withstanding.>.
+
+This is the ideal behavior, anyhow. If there's no specific UK variant of
+English or Canadian variant of English, it's okay for the translation system to
+fall back to generic English. Similarly, if there's a Portugese in Portugal
+language code C<pt_PT> but no Brazilian Portugese C<pt_BR>, it's okay to fall
+back to Portugese, even though you'll probably embarrass yourself with
+country-specific slang.
+
+How do you know what the Core actually supports? Look at the Core's source
+codeN<See U<https://github.com/dogecoin/dogecoin/tree/master/src/qt/locale>> to
+find a list of all current translation files. Look for your language code and
+any specific country code. If there's a file present, you can use that
+language. Otherwise, you'll have to choose something else.
+
+=head2 *Understand the Risks
+
+The biggest risk you face with this technique is fleeting disappointment. Test
+this with the C<--help> command to C<dogecoin-qt>:
+
+=begin screen
+
+  $ dogecoin-qt --help --lang=af_ZA
+  Gebruikerkoppelvlakopsies:
+
+  ...
+
+  -lang=<lang>
+       Set language, for example "de_DE" (default: system locale)
+
+  -resetguisettings
+       Alle instellings wat in die grafiese gebruikerkoppelvlak gewysig is,
+       terugstel
+
+=end screen
+
+You may find, as in this case, that only some of the text has translations.
+Alternately, you may have no translations for your language and/or country.
+Think of this as an opportunity, however. This could be your chance to
+contribute to the Core and help countless other shibes and potential shibes use
+Dogecoin in their own preferred languages!
+
+The other risk is that you inadvertently set a default language to something
+you don't understand well enough to disableN<Your author does not admit to
+setting the default language on a fleet of French laser printers to Bulgarian
+from the United States on accident once upon a time.>. If this happens to you,
+examine your configuration file for the C<lang> setting and change it to your
+preferred locale setting. Be aware that, as of 1.14.6, using the C<--help>
+command does not process your configuration file but instead will use your
+system's default locale setting.

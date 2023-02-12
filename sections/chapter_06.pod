@@ -14,3 +14,5 @@ enjoyable, and worry-free.
 L<launch_core_silently>
 
 L<manage_multiple_configurations>
+
+L<practice_a_new_language>
