@@ -1,0 +1,114 @@
+=head1 Use a HD Wallet
+
+Z<use_a_hd_wallet>
+
+X<< Dogecoin Core; C<dogecoind> >>
+X<< Dogecoin Core; C<dogecoin-qt> >>
+
+The safety of your wallet is the safety of your Dogecoin. The privacy of your
+addresses is your privacy. If you make transactions securely, keeping your
+wallet safe and creating new addresses for new transactions, you'll have a
+better time (and much less risk) than if you only ever used one address.
+
+Security and convenience aren't always tied together, but Dogecoin Core tries
+to help you out by generating a pool of unused addresses whenever it creates a
+new wallet. You can generate new addresses anytime, of course. The I<way> the
+Core generates address is important; one approach is much more flexible and
+secure than the other.
+
+You should use it.
+
+=head2 *Hierarchical Deterministic Wallets
+
+X<concepts; HD wallets>
+X<concepts; hierarchical deterministic wallet>
+
+In the olden days when Bitcoin was new, the first way a Core generated
+addresses was to generate a list of random addresses. By default, that used to
+be 100 at a time so that you could have new addresses ready without waiting to
+make a bunch more.
+
+X<BIPs; BIP-32>
+
+Then came BIP-32N<See
+U<https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki>.>, which
+proposed a way to use a secret I<seed> value to generate millions of private
+and public keys and addresses both to reduce the risk of running out of
+addresses and to reduce the complexity of managing wallets. Other tips will
+cover more details, but for now it's important to recognize two parts of BIP-32
+which provide its benefits.
+
+First, generating millions of addresses from a single starting point gives this
+scheme its I<hierarchical> scheme. The combination of the starting point and a
+path along the list of all addresses makes it unambiguous what you're going to get.
+
+Second, the mechanism used to derive addresses always gives you the same output
+with the same inputs. That's the I<deterministic> part of the HD wallet. With
+the starting point and derivation path, you can rederive the public and private
+keys and corresponding address.
+
+All of the implications are important, but the most important part right now is
+that a wallet like this can come from a single I<seed phrase>. If you have that
+phrase (memorized, stored securely in multiple places), you have your wallet.
+This is important.
+
+How do you get an HD wallet?
+
+First, check to see if you have one already. Launch Dogecoin QT and look in the
+bottom right corner. You should see a little image that reads "HD", as seen in
+F<dogecoin-core-hd-wallet>. If you don't see this, make sure you're running a
+recent enough version of the Core (at this writing, at least 1.14.6).
+
+=begin figure Dogecoin Core with an HD Wallet
+
+Z<dogecoin-core-hd-wallet>
+
+F<images/dogecoin-core-hd-wallet.png>
+
+=end figure
+
+=head2 *Transferring All Funds to an HD Wallet
+
+The long way to do things is to create an entirely new wallet, ensure it's an
+HD wallet, and transfer all funds from your old addresses to one or more new
+addresses. Sometimes this isn't feasible, and doing this may involve swapping
+wallets, using multiple profiles/computers, and paying transaction fees. See
+another tip elsewhere for more details.
+
+=head2 *Upgrading Your Wallet with C<upgradewallet>
+
+X<< Dogecoin Core; configuration; C<upgradewallet> >>
+
+If you I<are> running a recent version of the Core, you can upgrade your
+wallet. First, I<back up your wallet>. Then close the Core and launch it again
+from the command line, adding the C<upgradewallet> flag.
+
+=begin screen
+
+  $ B<dogecoin-qt -upgradewallet>
+
+=end screen
+
+This command is I<idempotent>. In developer-language, this means "you can use
+it more than once, and it won't do anything bad if you do". Of course, it
+I<will> rewrite your wallet needlessly, so don't go adding it to your
+configuration file, for example. When the command finishes, you can use your
+Core as you always do; it's safe to keep running if you started it with this
+option.
+
+=head2 *Understand the Risks
+
+Before you modify your wallet or create a new wallet, think about what you're
+doing, make and test backups, and plan a recovery plan. Any time you ask the
+Core to make changes to your wallet, there's a tiny risk something could go
+wrong. Know where your backups are going, how long you need to keep them
+around. After you've made the change, check that all of your transactions and
+addresses are behaving as you expected. When you're comfortable that the
+changes are good, consider if you need to remove backups; there's nothing
+scarier than realizing that that USB key you grabbed just to be on the safe
+side fell out of your backpack at the airportN<Your author has never done
+I<this>. It was a cool hat.>.
+
+While it's I<safe> to use the upgrade command multiple times, there's no reason
+to do so if you've already upgraded to an HD wallet, so avoid unnecessary work
+and use the command only once.
