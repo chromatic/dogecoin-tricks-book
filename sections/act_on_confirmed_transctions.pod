@@ -1,0 +1,165 @@
+=head1 Act on Confirmed Transactions
+
+Z<act_on_confirmed_transactions>
+
+The Dogecoin network works on consensus and validation. Truth is what the
+network decides it is. For example, if 99% of nodes believe that a transaction
+fee of 0.01 Doge per kilobyte is acceptable, the 1% of nodes that want miners
+to get a fee of 10 Doge per kilobyte are outvoted. Similarly, history is what
+the network validates. The more descendants any block has, the more weight that
+block has and the more difficult it would be to undo every transaction in every
+block since then.
+
+While it's I<possible> for the network to replay work and redo any specific
+block, it gets more and more difficult, costly, and unlikely with ever
+subsequent block. In practice, this means that the blockchain is immutable
+(it'll never change). If you're receiving payments, the more blocks that come
+after any block containing one of your transactions, the more confident you can
+be that the transaction is permanent.
+
+If you're selling cannoli from a pop-up cart in the park, you may care about
+one confirmation. If you're selling a Banksy painting of a vendor selling
+cannoli from a pop-up cart in the park, you may want a few more confirmations.
+
+Let's tie a few tips together to make this work.
+
+=head2 *Stateful Block Confirmation
+
+=for author
+
+Link to the two (or more) other tips here once written.
+
+=end for
+
+The tips L<take_actions_on_new_blocks> and L<add_an_action_launcher> describe
+how to react when a running node detects a new block. Finding a transaction in
+a block is likewise easy enough, if you have a well-understood or predictable
+address or group of addresses. You also need to be able to detect input
+transactions.
+
+With all of those pieces available, how can you assemble them to do what you
+want? The steps are straightforward:
+
+=over 4
+
+=item * detect confirmed blocks
+
+=item * ... which contain input transactions to your address(es)
+
+=item * ... and wait for I<n> more blocks to be confirmed
+
+=back
+
+There's only one catch; the example code in block action tip is asynchronous
+and, as written, stateless. In other words, it gets launched as a separate
+process for every new block. It doesn't keep anything in memory. To accomplish
+the goal here, the code needs a way to start a countdown timer of some sort.
+
+There are two ways to do this. One, make a persistent process that gets called
+from the block action code. It will have to remember that, if there's an
+incoming transaction in block 582 and you want 8 confirmations before you hand
+over the painting, you need to see block 600 confirmed. The second option is to
+store this data somewhere.
+
+The second option is easier. Let's do something simple; let's write a RubyN<Why
+Ruby? You could use anything. Why not Ruby?> script that takes a block height
+and block hash as input, looks for interesting transactions, and stores data in
+a simple YAMLN<Why YAML? Part of it was designed in your author's living room.
+One of the good parts, of course.> file.
+
+=begin programlisting
+
+    require 'yaml'
+
+    NUM_CONFIRMATIONS = 8
+    FILENAME          = 'transactions.yaml'
+
+    def main(block_height, block_hash)
+        block_height = block_height.to_i
+        transactions = File.exists?(FILENAME) ? YAML.load_file(FILENAME) : {}
+
+        # find transactions in this block
+        inputs = find_input_transactions_for_block block_hash
+
+        # add any transactions found to the tracker
+        if inputs.length > 0
+            transactions[block_height + NUM_CONFIRMATIONS] = inputs
+        end
+
+        # notify any awaited confirmations at this height
+        if transactions.key?(block_height)
+            transactions[block_height].each do |tx|
+                notify tx
+            end
+
+            transactions.delete(block_height)
+        end
+
+        # write out the transaction file for the next run
+        File.open(FILENAME, 'w') do |file|
+            YAML.dump(transactions, file)
+        end
+    end
+
+    def find_input_transactions_for_block(hash)
+        ...
+    end
+
+    def notify(transaction)
+        ...
+    end
+
+    if $PROGRAM_NAME == __FILE__
+        main(*ARGV)
+    end
+
+=end programlisting
+
+The interesting parts of this code are the logic around storing state. Change
+the constants at the start of the file to require more or fewer confirmations.
+8 confirmations will take somewhere around 8 minutes; too long to sell a
+cannolo and not long enough to sell a family of misbehaving goats. The YAML
+file could be in the current directory or elsewhere, or it could be called
+something else.
+
+All this code has to do is kick off some code elsewhere (written elsewhere in
+this book, though not necessarily in Ruby) to find interesting transactions in
+the block. The method called here, C<find_input_transactions_for_block>, should
+return a data structure or object appropriate for the notification. This could
+include the sender and receiver addresses, the transaction amount, any
+transaction label, and the transaction date.
+
+Similarly, the C<notify> method should take this object and perform any
+notification such as described in L<add_desktop_notifications> or anything
+else.
+
+Be sure to do two things in this code. First, add transactions to and remove
+them from the C<transactions> data structure at the appropriate time. Second,
+write out the file when the process finishes, so that the next invocation can
+do what it needs to do.
+
+=head2 *Understand the Risks
+
+The risk here is mostly around defensive coding. If you want to I<rely> on this
+code for telling you when it's safe to release some good or service to someone
+who paid you, be careful to ensure that you don't miss blocks (if the program
+crashes, fails to run, or otherwise misbehaves). Notifications get sent once
+per block, and if you miss processing one, you'll have to catch up
+deliberately.
+
+To make this code more robust, you could store the height of the block you most
+recently processed, and run back through previous blocks if you want to catch
+up.
+
+Second, be sure to save your file or persist your data with the appropriate
+level of caution. Storing a plain-text file on your own hard drive allows
+anyone who understands your data format or who can get at your file to delete,
+edit, or otherwise modify your data. Assuming a computer will always get things
+right and never surprise you is a good way to experience unpleasant surprises.
+
+Finally, make sure that your notification mechanism is robust. The desktop
+notification example will display a message on your screen, but if you look
+away or accidentally click it away or aren't sitting in front of the screen all
+day, you might not notice something happened. There's no substitute for human
+oversight, especially when it comes to dealing with delicious pastry, guerilla
+art, or fuzzy animals. Guard your valuables appropriately.

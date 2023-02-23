@@ -23,3 +23,5 @@ L<vote_on_goats>
 L<protect_unspent_transaction_outputs>
 
 L<manage_big_transactions_gently>
+
+L<act_on_confirmed_transactions>
