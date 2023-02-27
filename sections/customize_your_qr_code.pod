@@ -1,0 +1,91 @@
+=head1 Customize Your QR Code
+
+Z<customize_your_qr_code>
+
+Your pinball arcade is doing great (L<generate_a_qr_code>), but there's
+something missing. Your branding is a little generic. You want a little more
+sizzle, besides the flashing lights, the satisfying thunk of a steel ball on a
+waxed playfield, and that horrible knocking sound whenever someone wins a free
+credit.
+
+How about customizing your QR codes? Put your logo or a meme or something
+otherwise exciting, surprising, or attractive in the middle to make your game
+and payment experience just that little bit more magical!
+
+This is easy enough, building on the previous tip.
+
+=head2 *Write a Little Custom Code
+
+X<< Python libraries; C<qrcode> >>
+X<< Python libraries; C<pillow> >>
+
+With the Python code from C<qrcode> already installed, you need another Python
+library. Pillow lets you manipulate and generate images even more than
+C<qrcode> already does. If you installed C<qrcode> yourself, run a command like
+C<python3 -m pip install "qrcode[pil]"> to install the libraries. Otherwise you
+might find them from your package manager or whatever packaged Python for you.
+
+With everything installed, write this little program:
+
+=begin programlisting
+
+    #!/usr/bin/env python3
+
+    import qrcode
+    from qrcode.image.styledpil import StyledPilImage
+    from qrcode.image.styles.moduledrawers.pil import RoundedModuleDrawer
+    from qrcode.image.styles.colormasks import RadialGradiantColorMask
+    from sys import argv
+
+    address = argv[1]
+    logo = argv[2]
+
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_L)
+    qr.add_data(address)
+
+    img = qr.make_image(
+        image_factory=StyledPilImage,
+        module_drawer=RoundedModuleDrawer(),
+        color_mask=RadialGradiantColorMask(),
+        embeded_image_path=logo,
+    )
+
+    img.save("qr" + address + ".png")
+
+=end programlisting
+
+How does this code work? It does the same thing the C<qrcode> binary does, but
+it uses additional behavior provided by the Pillow library to round the edges
+of the image slightly, add a color gradient to the QR code, and put an logo you
+supply in the middle of the image. The result gets written out with a
+predictable name, suitable for printing, embedded in a website, or whatever you
+prefer.
+
+Run it with arguments something like:
+
+=begin screen
+
+  $ B<python3 custom-qr-code.py DAY5w... images/chromatic-shibe.png>
+
+=end screen
+
+This will generate the QR code shown in L<figure-dogecoin-custom-qr-code>, with
+the QR code for this book's homepage and the fantastic junior developer shibe
+puppet from L<put_your_face_on_your_wallet>.
+
+=begin figure An Eye-Popping, Bedazzling QR Code
+
+Z<figure-dogecoin-custom-qr-code>
+
+F<images/dogecoin-custom-qr-code.png>
+
+=end figure
+
+Easy enough?
+
+=head2 *Understand the Risks
+
+The more complex you make your QR code--especially if you use a large or
+complex additional image--the greater the chance that a QR reader will fail to
+read it appropriately. Test your image as always, not only for looks but for
+behavior.
