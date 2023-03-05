@@ -1,0 +1,48 @@
+=head1 Index All Transactions
+
+Z<index_all_transactions>
+
+Dogecoin Core does a couple of things. One, it acts as a client for the
+network. Two, it acts as an interface to help decode what's on the network.
+Three, it acts as a wallet. All three of those things work together, but they
+don't all work together in the same way you might expect.
+
+X<< RPC commands; C<getrawtransaction> >>
+
+For example, if you use RPC calls like C<getrawtransaction> to inspect
+transactions that involved your wallet, you might not realize that, by default,
+the Core only lets you inspect transactions that involve your wallet. Visit any
+blockchain explorerN<Such as U<https://dogechain.info/>.>, pick any transaction ID,
+then enter it into the Core GUI console and you'll probably get the error message:
+
+=begin screen
+
+  No such mempool or blockchain transaction.
+  Use gettransaction for wallet transactions.
+
+=end screen
+
+This may be fine if you're only interested in your own transactions, but if
+you're writing your own block explorer (L<write_a_json_block_explorer>) or
+otherwise examining the network and blockchain as a whole, you need something
+else.
+
+=head2 *Enable Transaction Indexing
+
+X<< configuration options; C<txindex> >>
+
+The C<txindex> configuration option tells the Core to examine all blocks and
+create an index of all transaction IDs, even if they're not connected to any of
+your wallet addresses. Now any RPC calls that look outside what's reachable
+from your wallet will work. Add this option to your command-line or your
+F<dogecoin.conf> configuration file.
+
+=head2 *Understand the Risks
+
+The Core doesn't do well switching back and forth between indexed and
+non-indexed transactions, so pick one mode or the other and stick with it. Use
+the configuration file to make your choice permanent.
+
+Indexing all transactions will take time and disk space, so if you're running
+Core on a small or slow device, consider the tradeoffs carefully. This works
+better with a full node.

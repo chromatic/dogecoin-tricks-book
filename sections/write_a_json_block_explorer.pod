@@ -87,8 +87,9 @@ There's a flaw or weakness in this code, however. If you make this RPC call
 against an arbitrary transaction that doesn't affect an address in your wallet,
 you'll get an error response saying that this transaction hash isn't in your
 mempool. In that case, you need to do one of two things. First, you could
-restart your node with the C<txindex> configuration option. Second, we could
-rewrite this code to expand the transaction ourselves:
+restart your node with the C<txindex> configuration option
+(L<index_all_transactions>). Second, we could rewrite this code to expand the
+transaction ourselves:
 
 =begin programlisting
 
