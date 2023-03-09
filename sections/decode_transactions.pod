@@ -1,0 +1,74 @@
+=head1 Decode Transactions
+
+Z<decode_transactions>
+
+If you find yourself doing something complicated more than once, think about
+how you can avoid repeating yourself--especially if the complicated steps are
+easy to get wrong. This could be anything from transcribing one set of data
+between systems or copying and pasting information from multiple processes,
+windows, or machines.
+
+If you read the previous tip (L<inspect_a_transaction>) closely, you noticed
+that the Core as of this writing provides no direct way to go from a
+transaction hash to the decoded transaction, or a list of inputs or outputs, or
+the scripts for outputs, or anything else.
+
+You can do the two- or three-step shuffle to get this data, but why do that more
+than once?
+
+=head2 *Chaining RPC Commands
+
+Another tip discusses RPC command stacking (L<enhance_rpc_commands>), where you
+feed the output of one RPC call into that of another. This allows you to act as
+if the Core supported only one call to perform a bunch of behavior, such as
+decoding a transaction into a data structure given only the transaction's hash.
+
+X<< RPC commands; C<getrawtransaction> >>
+X<< RPC commands; C<decoderawtransaction> >>
+
+If you were to do this manually, you'd have to call C<getrawtransaction> with
+the hash, then feed the result of that into a call to C<decoderawtransaction>.
+In the ideal case, this works perfectly.
+
+If either RPC call fails, you need to account for that failure. That code will
+look something like this I<pseudocode>N<Did... did you just invent a weird new
+notation for this? Yep!>:
+
+=begin programlisting
+
+  def decode_tx_from_hash( tx_hash ):
+      tx := RPCcall 'getrawtransaction', tx_hash
+
+      if tx.error != nil:
+        throw tx.error
+
+      decoded_tx = RPCcall 'decoderawtransaction', tx.result
+      if decoded_tx.error != nil:
+        throw tx.error
+
+      return decoded_tx.result
+
+=end programlisting
+
+X<< external programs; C<dogeutils> >>
+
+You can write this in any language you like. Alternately, install the
+C<dogeutils> library and toolkit, which does this for you.
+
+=head2 *Understand the Risks
+
+The risks here are minimal. Adding extra calls through another language will
+add latency to the process, though you can add whatever error checking or
+convenience features you like if you provide your own implementation. This can
+be especially useful if you wrap calls which take optional parameters.
+
+The greater risk is long-term maintenance. If the RPC calls you use change
+between releases, your wrapper will have to adapt to them. If the Core adds a
+call with the same name as yours, your code will continue to work, but you may
+have a divergence between your code and the Core's implementation, and you'll
+have to consider the maintenance costs of doing something different from the
+Core.
+
+Relying on anyone else's wrapper, especially if it performs authentication,
+means giving up some control to someone else's code. Audit it yourself (or have
+someone you trust audit it very carefully for you) before using it.
