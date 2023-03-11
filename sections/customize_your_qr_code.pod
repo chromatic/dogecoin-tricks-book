@@ -23,7 +23,8 @@ With the Python code from C<qrcode> already installed, you need another Python
 library. Pillow lets you manipulate and generate images even more than
 C<qrcode> already does. If you installed C<qrcode> yourself, run a command like
 C<python3 -m pip install "qrcode[pil]"> to install the libraries. Otherwise you
-might find them from your package manager or whatever packaged Python for you.
+might find them from your package manager or whatever packaged Python for
+youN<The Python installer from the previous tip works great for this too!>.
 
 With everything installed, write this little program:
 
