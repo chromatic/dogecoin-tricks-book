@@ -1,0 +1,67 @@
+=head1 Test First, Safely
+
+Z<test_first_safely>
+
+Is there any worse feeling in the world than realizing that your fingers
+slipped and the exact thing you didn't want to do you did in fact do? There are
+only two solutions to this. First, be perfect always. Second, test what you're
+about to do, then if you did it right, do it again exactly as you did it.
+
+That's really abstract. Let's make it concrete: before you do something really
+interesting or risky or new with Dogecoin on the main network, it's smart to try
+that thing on the test network.
+
+=head2 *Main Network? Test Network?
+
+There are, in fact, I<multiple> Dogecoin networksN<Not including all the pale
+imitations that exist only to part innocent people from their hard-earned
+money.>. You're familiar with the main network. That's the one you use by
+default if you don't know there are multiple networks. That's the one we've
+been assuming throughout this book so far. On this main network, every Dogecoin
+has real-world value, thousands of nodes collaborate to share history and
+verify transactions, and lots of miners toil away against each other for the
+chance to earn 10k Dogecoin every minute or so.
+
+On the test network, the money is funny and there are fewer miners and the
+stakes are low. Otherwise it works pretty much the same. That's what makes it
+such a good place to play around.
+
+X<Dogecoin Core; configuration>
+X<< configuration options; testnet >>
+
+The Dogecoin Core has a configuration option C<testnet>. If you launch the Core
+with that option (or put it in your F<dogecoin.conf> file, the Core will
+connect to the test network instead of the main network. You can see this in
+the Qt GUI because the program's title bar include C<[testnet]>. You can also
+see that testnet uses ports 44556 instead of the standard main network port of
+22556.
+
+Finally, you should see that the testnet mode will download blocks into a
+F<testnet3/> subdirectory of your data directory. Because the networks are
+different, they don't use the same blocksN<Hopefully it's clear why; even
+though the code is the same, the networks have diverged from the start, so the
+data is all different.>.
+
+=head2 *What Can You Do With This?
+
+Testnet is a good place to experiment with interesting transactions. Suppose
+you're hand-crafting something interesting with Dogecoin opcodes, or you're
+trying to figure out how time-locked transactions work. Rather than risk your
+actual valuable Dogecoin, load up a testnet wallet and see what happens.
+
+Alternately, if you're working on Core and want to experiment with networking
+or other code that's intrinsically important to the network, running a testnet
+node or two with the new code can give you a lot of insight into what's
+happening and why and whether it's worth making the change to nodes in the main
+network.
+
+=head2 *Understand the Risks
+
+Again, the main network and the test network are I<different> networks.
+Dogecoin mined, sent, received, transacted, and/or traded on one aren't valid
+in the other. If you attempt to send coins from mainnet to testnet, you're
+likely to lose them. I<Do not share a wallet> between mainnet and testnet!
+
+For maximum safety, if you do use testnet, use a different data directory,
+program launcher, and even different computer/virtual machine to increase the
+safety and separation of the code and data and your wallet.
