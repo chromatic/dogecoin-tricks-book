@@ -1,0 +1,25 @@
+=encoding utf-8
+
+=head0 Understanding Cryptography
+
+Wow, that sounds yawn-inducing!
+
+Cryptography is fundamental to cryptocurrency. That's what "crypto" in the name
+meansN<Crypto as in "hidden", not "graveyards", but if you want to be spooky
+and do Dogecoin, that's cool too!>. While you don't have to understand all of
+the deeply mathematical details of elliptic curves, public/private key ciphers,
+and Merkle trees, knowing the basics of I<how> everything works and fits
+together will help you be safer and more secure as well as have more fun
+learning about Dogecoin and cryptocurrency.
+
+You'll need a couple of sharp pencils, some paper, and a hand calculator--or a
+good spreadsheet, if you're comfortable with that. Set aside some space to work
+and keep an open mind.
+
+While this chapter intends to explain the fundamentals of cryptography, it's
+not going to make a rigorous, mathematically-sound attempt. It's going to use
+analogy and example so you'll get a feel for how things fit together. This
+won't provide the same security as things cryptographers do all day every day;
+it's intended to explain and entertain, not secure.
+
+L<make_a_hash_of_fingerprints>
