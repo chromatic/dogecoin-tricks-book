@@ -170,4 +170,3 @@ document--every character or byte--can affect as many of the bits in the output
 as possible, in as unpredictable a way as possible. This algorithm doesn't do
 that, but hopefully it's shown you enough of the theory behind it that you can
 understand why that's important and how a good algorithm might work.
-
