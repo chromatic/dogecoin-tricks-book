@@ -2,7 +2,7 @@
 
 =head0 Running Your Own Node
 
- In this chapter, we'll talk about interesting things you can do when you run
+In this chapter, we'll talk about interesting things you can do when you run
 your own node.
 
 L<set_your_node_comment>
