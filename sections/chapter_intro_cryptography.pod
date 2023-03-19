@@ -25,3 +25,5 @@ it's intended to explain and entertain, not secure.
 L<make_a_hash_of_fingerprints>
 
 L<roll_over_your_odometer>
+
+L<forge_a_chain>

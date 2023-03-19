@@ -1,0 +1,127 @@
+=head1 Forge a Chain
+
+Z<forge_a_chain>
+
+Isn't it interesting how the word "forge" in English can mean either "create
+something successful and strong" or "produce something for purposes of a
+deception"?
+
+Imagine you're trying to keep a group of rambunctious young goats closed up in
+their pen to enjoy the sunshine (and out of the garden, because they will eat
+your baby tomato plants in the blink of an eye). You want a strong fence with a
+gate, and you need a strong chain to keep that gate closed. The thing about a
+chain is that every link connects to another link, and the strength of every
+part of the chain depends on the strength of every link in the chain.
+
+You can see how that metaphor applies to your bank account. If you're not sure
+about the transactions from a month ago adding up correctly, how can you trust
+that the transactions of yesterday and the balance of today make any sense?
+
+Given that this is a chapter of a book about cryptocurrency, you've probably
+already guessed that cryptography has a few ideas on how to answer that
+question.
+
+=head2 *Validate Data
+
+Assume you have a niece or nephew who wants to babysit your goats to earn some
+spending cash. We'll call this kid Kid A, because that's a nice gender-neutral
+name and baby goats are also called kids. You don't have a lot of time to keep
+records, and Kid A is really bad about writing down their time, so you want to
+avoid arguing over when you paid and how much. You need to track this in a way
+that doesn't mean you have to go back into your phone's text messages every
+couple of weeks to reconcile things.
+
+You can fix this. First, agree on the format of an invoice. Kid will report
+their hours in the form:
+
+=begin screen
+
+  Goat Sitting
+  March 5 - 18 2023
+  12 hours
+
+=end screen
+
+You will report in the form:
+
+=begin screen
+
+  Goat Sitting Payment
+  March 5 - 18 2023
+  12 hours
+  1200 Dogecoin
+
+=end screen
+
+That gives you the base data format you can agree on. If you use a
+cryptographic hash (L<make_a_hash_of_fingerprints>) on each set of data, you
+can get a unique fingerprint to prove no one tampered with the payment
+request/report forms. Use SHA-256 hashing, for example, and you'll get hashes
+like C<24a0ae...> and C<84ab55...>. If Kid provides the hash of their invoice
+and you provide the hash of your payment, you have a record you can keep in
+multiple places.
+
+That can help reduce the possibility of accidental or deliberate tampering, but
+validation of invoicing and payment is a different story.
+
+Even better, let Kid keep their own hash of their invoice and you keep your own
+hash of your payment and use them to validate each other. When you receive an
+invoice, calculate your own hash. When Kid receives a payment, let them
+calculate their own hash.  This can work together really well.
+
+=head2 *Validate and Chain Data
+
+What if the validation for one invoice depended on the previous invoice? For
+example, if March 5 - 18 is the first invoice, you know the hash of that. What
+if you add the hash of the previous form as input in the next form? For
+example, the payment for the invoice could change to be:
+
+=begin screen
+
+  Goat Sitting Payment
+  March 5 - 18 2023
+  12 hours
+  1200 Dogecoin
+  Follows: 24a0ae...
+
+=end screen
+
+Now the hash of the payment becomes C<eadfd8...>. Add that to the next invoice:
+
+=begin screen
+
+  Goat Sitting
+  March 19 - April 2 2023
+  20 hours
+  Follows: eadfd8...
+
+=end screen
+
+... and the new hash is C<fd13b3...>. If you keep this going, you can validate
+two things. First, that no one has tampered with any individual invoice or
+payment. Second, that no one has tampered with the history and lineage of the
+invoices or payments.
+
+In this mechanism, validation is easy. If you've both kept your own hashes when
+you've submitted your forms to each other, you can look at the response message
+and check against your own hash. If anything's different, raise a red flag.
+
+=head2 *What's Really Going On
+
+As it turns out, that latter property is essential to all sorts of
+applications, including cryptocurrency and managing the source code for
+computer programs. By publishing the history of changes, or even just the
+hashes for each piece of data, anyone with access to the data can verify that
+every piece of data is in the correct place and everything before and after it
+belongs where it is.
+
+X<concepts; Merkle Tree>
+
+If you dig into computer data structures or cryptography, you may hear this
+referred to as a I<Merkle Tree> or I<Merkle Chain>.
+
+In this payment example, you don't even have to validate the entire chain of
+invoices and payments to figure out if something went wrong; if you've been
+validating as you go, all you have to do is validate the most recent message
+and you can be confident everything else before now is still untampered and
+accurate and pristine.
