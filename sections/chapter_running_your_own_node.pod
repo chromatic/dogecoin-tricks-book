@@ -1,0 +1,17 @@
+=encoding utf-8
+
+=head0 Running Your Own Node
+
+You can do a lot with Dogecoin if you let someone else manage your wallet, but
+taking control of your own coins gives you a lot of power and security. While
+this may initially seem daunting, it can be easier than you think after you
+learn a few things.
+
+In this chapter, we'll talk about interesting things you can do when you run
+your own node.
+
+L<set_your_node_comment>
+
+L<use_a_hd_wallet>
+
+L<command_the_core>

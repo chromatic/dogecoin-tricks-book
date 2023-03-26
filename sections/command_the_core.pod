@@ -1,0 +1,100 @@
+=head1 Command the Core
+
+Z<command_the_core>
+
+X<< Dogecoin Core; C<dogecoin-qt> >>
+
+The first time you launched the Dogecoin CoreN<Maybe that's today, and that's
+great! We all have to start somewhere, sometime!> you saw a friendly dog
+graphic and some text and that's about it. There are menus and options and
+buttons to send or receive transactions.
+
+You may think to yourself "I know there's a lot going on behind the scenes, but
+is this it? A friendly dog image, a couple of buttons, and a lot of math I
+really ought to go back and read in more detail from the earlier chapter?"
+
+Click the Help menu, then the Debug window item, and finally the Console tab.
+You will then see something like L<dogecoin-core-debug-window-console>.
+
+=begin figure The Dogecoin Core Debug Console
+
+Z<dogecoin-core-debug-window-console>
+
+F<images/dogecoin-core-debug-window-console.png>
+
+=end figure
+
+=head2 *What's the Debug Console?
+
+What's going on here? This GUI says it's risky, but here it is, early in this
+book, and you're looking at it, wondering what's going on.
+
+Behind the scenes, the Dogecoin Core does a lot of operations that you might
+expect, including:
+
+=over 4
+
+=item * Managing your wallet
+
+=item * Receiving incoming transactions
+
+=item * Generating keys
+
+=item * Keeping a list of addresses
+
+=item * Organizing transactions into blocks
+
+=back
+
+All of those operations necessary to keep the Dogecoin blockchain running and
+your data easily accessible happen behind the scenes. You're looking at a
+console where you can ask the Core to perform some of those operations and make
+queries on your behalf on your own timing.
+
+X<< RPC commands; C<getblockcount> >>
+
+For example, if you want to know the height of the most recent block your node
+has processed, type C<getblockcount> in the console window. You'll notice the
+input area text will start to suggest commands as you type more and more
+characters. When you finish, press the Enter key and you should see a response
+like:
+
+=begin screen
+
+    18:28:57    getblockcount
+
+    18:28:57    4649991
+
+=end screen
+
+X<RPC commands>
+
+What just happened? You sent something called an RPCN<RPC stands for "Remote
+Procedure Call", which means "ask a running program to do something", in this
+case return a number.> command to the Core and it responded. How did you know
+what to type? How did you know what response you expected?
+
+Type C<help getblockcount> to see the documentation for this specific command.
+Type C<help> to get a list of all commands you can use in this window. When
+you're finished, you can close the window. In the meantime, your node will
+continue running and processing transactions, so if your node is connected to
+the network and i you wait a couple of minutes and type C<getblockcount> again,
+you'll get a higher number.
+
+=head2 *Understand the Risks
+
+Several tips throughout the rest of this book will discuss RPC commands,
+because they're useful in the right circumstances. While a lot of these tips
+assume you'll use the Dogecoin CLI client or an external program to execute the
+commands, you can use the console window to test things out on your own.
+
+With that said, any command you type in here can cause your node to do things.
+If you have a wallet attached to your node and if you have Dogecoin in your
+wallet, some commands you type here could do things with that wallet and those
+coins. I<Never run a command you don't understand> and I<never run a command
+you don't trust>.
+
+Even all the commands in this book you can and should verify. Use the C<help>
+command to see the documentation on what the command does and think about the
+risks. This is especially true if you're reading this book and using a Dogecoin
+Core version other than something in the 1.14.x series or even 1.21.x.
