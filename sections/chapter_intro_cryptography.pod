@@ -27,3 +27,5 @@ L<make_a_hash_of_fingerprints>
 L<roll_over_your_odometer>
 
 L<forge_a_chain>
+
+L<shorten_large_numbers>
