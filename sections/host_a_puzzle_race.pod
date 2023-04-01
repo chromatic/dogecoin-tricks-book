@@ -1,0 +1,152 @@
+=head1 Host a Puzzle Race
+
+Z<host_a_puzzle_race>
+
+Imagine it's January 2003. You're trying to finish graduate school. To relax on
+the weekends, you and your friends get together to make soup, eat soup, and
+play some kind of game. Mario Kart Double Dash won't release for another 10
+months, and none of you speak enough German to play the I<good> European board
+gamesN<Sure, there's Monopoly (Chisinau edition), Rummicluj, and Brussels
+Candyland, but....>. What can you do to pass the time?
+
+How about a math game?
+
+=head2 *What Makes a Game Fun?
+
+A math game? Why would anyone I<play> thisN<At least when they could roll dice
+and pretend to buy a giant concrete building in Moldova instead.>? Why does
+anyone play any game?
+
+=over 4
+
+=item * It offers a challenge to overcome. The end goal isn't guaranteed. You
+could win or lose.
+
+=item * It has fair rules. Everyone can understand the rules and everyone should
+agree on them, otherwise you're not playing the same game.
+
+=item * Everyone has a chance to win. (Okay, if you're playing chess or tennis
+against a world champion, maybe you're doing it for the story you can
+eventually tell, but playing a game you know you'll always lose quickly stops
+being fun.)
+
+=item * It's rewarding. Maybe you get to choose one soup to keep next week and
+one soup to skip. Yay for beer cheese, boo for clam bullion. There's always
+some kind of reward, even if it's only bragging rights for the week.
+
+=back
+
+These aren't the only ingredients for fun, but if none of these ingredients are present,
+you might as well get back to writing your thesis. How does this make a puzzle then?
+
+=head2 *Race to (Some) Target
+
+Remember how a cryptographic hash (L<make_a_hash_of_fingerprints>) is, in
+theory, so difficult to reverse-engineer that you'll spend uncountable amounts
+of time trying to find two inputs that produce the same output? That principle
+holds true, but it holds less true the shorter the output is and more true the
+longer the output is.
+
+In other words, if the output hash had only one bit of data--if the outputs
+were only 0 or 1--then it would be trivial to guess at an input that would
+produce the same output as another input. With a good hash algorithm, you'd
+have a 50% chance of being right with any guess.
+
+If the output hash had I<two> bits of data--if the outputs were 0, 1, 2, and
+3--you'd have a 25% chance of being right with any guess. With three bits of
+data, you have a 12.5% chance of being right with any guess, and so on.
+
+That's true of the length of the output hash. It's true of other properties as
+well. Hold that thought for a moment.
+
+What are the rules of this game? Suppose they are:
+
+=over 4
+
+=item * Agree on a hashing algorithm
+
+=item * Agree on a starting input
+
+=item * Everyone pick a random number to combine with the input
+
+=item * Everyone produce their new hash
+
+=item * See if anyone has won
+
+=back
+
+In other words, everyone starts with the same partial input, combines that with
+their own unique piece of input, and checks the output. If anyone has hit the
+target, they win!
+
+Suppose you and your friends all agree on a hashing algorithm that produces a
+six-digit hexadecimal number (L<shorten_large_numbers>) between 100000 and
+ffffff. There are 15.7 million possible numbers you could get as output. Your
+soup will get cold before anyone guesses the right number, on average.
+
+=head2 *Race to a Pattern
+
+What if you weren't looking for a specific number, but instead a number that
+matched a pattern?
+
+Suppose the first person to find a hash starting with C<1> could win. There are
+sixteen digits in hexadecimal (and, because the range of outputs must be
+greater than 1000000, only the digits 1 through 9 and A through F can be in the
+first position), so if the hash distributes its outputs evenly, it seems like
+everyone has a one in fifteen or 6.67% chance of finding a matching output with
+any single guess. With five friends, you might have a winner in three rounds.
+
+What if that's not difficult enough, because one night everyone brings their
+laptop to soup night? What if you increase the prefix to C<12>? There are
+fifteen possibilities for the first digit and sixteen (C<0> is allowed) for the
+second, so there's a one in fifteen times sixteen (one in 240) chance to get a
+matching output.
+
+=begin tip The Hardware Gap
+
+To make this fair, everyone should use the I<same> computer program, because
+it's hardly fair for one person to have coded their own hash calculation in
+Python and another to re-use one coded in Fortran and another to have a
+computer built solely for the purpose of winning soup night. Hold that thought
+too.
+
+=end tip
+
+The more specific you make the prefix, the lower the chance of any one single
+guess matching the pattern, I<assuming the hash produces outputs distributed
+across the range of allowed values evenly>. If there's a flaw in the hash or
+the algorithm, someone can exploit it. For something like soup night, that
+might not matter too much, if you only invite people you can trust. For
+something like a global cryptocurrency with billions of coins at stake, it's
+important to use an algorithm that's been reviewed by many, many serious and
+careful researchers.
+
+=head2 *What's Really Going On
+
+Dogecoin miners don't get together to eat soup, at least not as a matter of
+network protocol. They I<do> race to solve a puzzle. Everything in this game
+about picking a random number to hash together with a specific value to get an
+output matching a pattern is true, or at least true-ish.
+
+X<concepts; mining>
+X<concepts; Proof of Work>
+X<concepts; nonce>
+
+In Dogecoin (and other proof-of-work cryptocurrencies such as Bitcoin and
+Litecoin), the process of mining has two parts. One, collecting and validating
+pending transactions into a block. Two, calculating the hash of the block as
+the combination of the hashes of the transactions as well as a random value (a
+I<nonce>) such that the hash of the block and the nonce matches a
+pattern--multiple leading C<0> characters.
+
+X<concepts; difficulty>
+
+To make the game a little more fair for everyone, and to make sure that one
+really fast computer can't churn out answer after answer every second, the
+length of the prefix pattern varies. Maybe it's six leading C<0> characters and
+maybe it's twelve if every device on the planet starts to mine Dogecoin. This
+is the I<difficulty> of mining a block.
+
+There's no reason you couldn't mine a block by hand, if you're quick at
+calculating things and extraordinarily lucky at guessing random numbers. It's
+just faster to use a computer when numbers get serious.

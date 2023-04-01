@@ -29,3 +29,5 @@ L<roll_over_your_odometer>
 L<forge_a_chain>
 
 L<shorten_large_numbers>
+
+L<host_a_puzzle_race>
