@@ -1,0 +1,136 @@
+=head1 Bundle and Track Transactions
+
+Z<bundle_and_track_transactions>
+
+While cryptocurrency has only been around for a few years, cryptography has
+been around for longer. People generally remember "Oh yeah, that Roman salad
+guy invented a cipherU<https://en.wikipedia.org/wiki/Caesar_cipher>!", but they
+may not realize that the other important foundation of cryptocurrency comes
+from accounting.
+
+Accounting?
+
+If you think of the Dogecoin blockchain as a transaction ledgerN<The name gives
+it away already, doesn't it?>, then every transaction should satisfy the
+fundamental accounting equationN<See
+U<https://en.wikipedia.org/wiki/Accounting_equation>>, where a credit on one
+side exactly equals a debit on another side.
+
+Explained another way, if you send me 10 Dogecoin, my wallet gets credited by
+10 Dogecoin and yours gets debited 10 Dogecoin. You have to have 10 Dogecoin
+available in your wallet somewhere, otherwise the transaction is invalid. Those
+10 Dogecoin you have available had to come from somewhere else, or the
+transaction is invalid. You can trace them as far back as the point at which
+they entered the Dogecoin network altogether, and the numbers must pencil out
+at every transaction, otherwise your attempt to tip me is invalid and the
+network will reject that.
+
+There's a lot of detail there, and a lot of other tips in this book explore
+part of the details and several of the implementations. You don't have to
+understand this fully to use Dogecoin, but to go deeply into how transactions
+work, you need to know the underlying principles.
+
+Every time anyone or anything validates a transaction, they have to answer two
+questions. First, do these coins exist in the network? Second, have they
+already been spent?
+
+=head2 *Thinking in Transactions
+
+What does it mean that you have 10 Dogecoin available to tip me or anyone else?
+You must have:
+
+=over 4
+
+=item * an address in your wallet, which
+
+=item * has received Dogecoin from other addresses, that
+
+=item * add up to at least 10 Dogecoin, which
+
+=item * haven't been sent to other addresses outside of your wallet, which
+
+=item * would appear in confirmed transactions
+
+=back
+
+If you think about this as gold coins in your backpack in a video game, you're
+not going to buy that cool horse with racing stripes if the vendor wants 100
+coins and you have 0, or 99, or any number in between. Unless you can hand over
+100 gold coins exactly, you're going to walk to the next castle instead of
+riding in style. The gold coins in your backpack are unspent coins. As soon as
+you hand them over, they're spent and you can no longer spend them.
+
+Think about how you acquired all of those gold coins. Maybe your character
+received an inheritance from a distant great-uncle. That's 23 gold coins right
+there. Then your character spent a week in-game mucking the Augean stables for
+another 10 gold coins. You convinced a dragon to leave a town alone and migrate
+to a deserted island and received 7 gold coins as a reward, etc and so on.
+
+Every time you earned a pile of coins from a quest, that's a transaction.
+Someone opened their pouch, counted out some coin, and handed it to you and you
+put it in your backpack.
+
+=head2 *Unspent Transactions
+
+X<concepts; ledger>
+
+The blockchain ledger works kind of like your backpack full of gold, except
+every distinct batch Dogecoin you have received has a little note on it that
+says where it came from. In the video game, this would be like the owner of the
+stables handing you a little pouch of 10 gold coins with "For mucking these
+dirty stables" stamped on it, and then you put the little pouch in your
+backpack.
+
+What happens if you stop at an inn and really want to sample the local pumpkin
+cider, but it costs one gold coin per pint? You open your backpack, rummage
+around for a pouch with at least one gold coin in it, and you break it open.
+Sorry, pouch labeled "Picked seven carrots from the farmer's garden in the
+starting village", you have a powerful thirst.
+
+X<concepts; unspent transactions>
+
+In this analogy, your backpack full of small, labeled pouches are unspent
+transactions. That's what you have to work with if you want to I<spend> your
+Dogecoin. You don't have a backpack full of 100 gold coins; you have a backpack
+full of smaller pouches, and the count of all coins in those pouches adds up to
+100 coins.
+
+=head2 *Every Coin Goes Somewhere
+
+It's obvious how paying for your tasty beverage works if you can find a pouch
+with one gold coin in it. What happens if the smallest pouch you have has two
+coins?
+
+You have a few choices. One, go thirsty. Two, hand over the pouch with two
+coins and drink two pints. Three, break open the pouch and make I<two> new
+pouches. One of them goes to the friendly brewer and the other goes back in
+your backpack. The new pouches each get a label that reflects that you're
+paying for pumpkin cider.
+
+The same would happen if the smallest pouch you had contained 100 coins or 1000
+or however many. You'd make one new pouch for the merchant and one new pouch
+for you. In every case, the label for the new pouches would also includes the
+fact that these two pouches came from the previous pouch which you created for
+a reason, such as payment for picking carrots for a farmer (see
+L<forge_a_chain>).
+
+=head2 *What's Really Going On
+
+It sounds like a lot of bookkeeping to keep a backpack full of pouches of
+coins, so the analogy breaks down there. If you really carried a backpack full
+of gold, besides the obvious weight and robbery risks, you probably wouldn't
+bundle them in pouches, because you don't really care where they came from
+(they're in your backpack now) and you can't really double spend them (once you
+hand the brewer your gold coin, you're getting your cider).
+
+Because we're I<not> dealing with physical items here, just numbers in
+computers, we do need additional ways to control our transactions to provide
+those two guarantees. Hence the ledger concept, the accounting controls, and
+the labels on all transactions.
+
+All of these mechanics give rise to other implications the rest of this book
+explores directly or implicitly. There's one nuance you should be aware of,
+however: it costs time and energy to verify that your transactions are what you
+claim they are and that they're valid. Every Dogecoin transaction you make has
+a tiny fee attached to it to pay the people who verify that you can do what
+you're trying to do. This is very important and will come up again soon.
