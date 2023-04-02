@@ -58,9 +58,41 @@ take our word for it though; check online if that's still the official home of
 the official Core. Test that against other sites such as
 U<https://github.com/dogecoin/dogecoin>, the Dogecoin Reddit at
 U<https://reddit.com/r/dogecoin/> and other locations. If something seems off
-to you ask questions.
+to you, then ask questions. Honest, helpful people will give you good answers
+and help you verify them for yourself.
 
 =end sidebar
+
+=head1 *How to Read This Book
+
+A cryptocurrency with a friendly dog mascot is supposed to be I<fun>, so you
+should read this book in a way that you enjoy. Maybe that's front to back or
+back to front or skipping around. Maybe you read a couple of pages before going
+to sleep to relax you or teach your brain a lesson. The only I<wrong> way to
+read this book is a way that you don't enjoy.
+
+In general, the book starts by assuming you're new to cryptography,
+cryptocurrency, and Dogecoin. Earlier pages introduce concepts that later pages
+build on, but it's totally okay to skip around. Skim the table of contents.
+Look at the names of every chapter and every tip. If something grabs your
+attention, read that first. Repeat.
+
+This book also tries to express links between concepts, ideas, and tips.
+Sometimes something introduced earlier will show up later, and sometimes you'll
+see similar themes repeated throughout the book. That's on purpose. It's just
+as valid to breeze through this book on a lazy summer afternoon as it is to
+skim through it over the period of weeks, months, or years. Feel free to set it
+down and come back to it later; all of the information will be waiting for you,
+and ideally each tip has enough breadcrumbs to point to other places that you
+can remind yourself where you were in your journey at the time.
+
+Put this book on your bedside table. Face it out on from the bookshelf behind
+you when you're on video calls. Carry it when you're walking, riding the train,
+or enjoying a cannolo from a park bench downtown. Lend a copy to your friends
+and donate a copy to your local library. Above all, embrace the fun. Your
+author believes that learning things can be enjoyable and being in control of
+your own coins is liberating and powerful. There's a lot to learn, but it
+doesn't have to be intimidating. It can be fun and playful.
 
 =head1 *Credits
 
