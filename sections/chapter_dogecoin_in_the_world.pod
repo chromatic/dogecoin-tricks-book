@@ -17,3 +17,5 @@ reasons beyond numbers going up in an account somewhere.
 L<calculate_dogecoin_maximum_market_stats>
 
 L<track_blockchain_sizes>
+
+L<calculate_your_dogecoin_footprint>

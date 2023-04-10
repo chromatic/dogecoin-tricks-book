@@ -1,0 +1,140 @@
+=head1 Calculate Your Dogecoin Footprint
+
+Z<calculate_your_dogecoin_footprint>
+
+Running a node isn't free, unless someone else paid for your computer and hard
+drive and continues to pay for your Internet connection, electricity, and
+occasionally brushing the dust off of your computer. Maintaining a node is
+sometimes a thankless task, but it keeps the network healthy.
+
+If you hold Dogecoin, you're asking the network to keep track of your coins. A
+tiny bit of every node's memory and storage space keeps your money tracked
+appropriately. How tiny? How large? It depends on how much you use. You can
+figure this out!
+
+=head2 *Count Your Transactions
+
+Your footprint--the amount of cost you generate on the network--shows up in a
+couple of ways. First, the total number of transactions you've transacted
+affects storage space. Every transaction gets recorded and sticks around for
+posterity, after all. Every full node keeps a copy of every transaction in
+every block, so the more transactions, the more storage every full node needs.
+
+X<< RPC commands; C<getwalletinfo> >>
+
+How many transactions have affected a wallet? The C<txcount> value of the
+C<getwalletinfo> RPC command shows this:
+
+=begin screen
+
+  {
+    "walletversion": 130000,
+    "balance": ...,
+    "unconfirmed_balance": 0.00000000,
+    "immature_balance": 0.00000000,
+    B<"txcount": 133>,
+    "keypoololdest": 1618872149,
+    "keypoolsize": 100,
+    "paytxfee": 0.00000000,
+    "hdmasterkeyid": "..."
+  }
+
+=end screen
+
+=head2 *Count Your Unspent Transactions
+
+X<concepts; UTXOs>
+
+The second way your activity affects the blockchain is the amount of data every
+node has to track. Every node, even if it's not a full node, needs to know
+about every transaction with unspent outputs (UTXOs). This allows nodes to
+validate that any attempt to send Dogecoin to an address gets those Dogecoin
+from a valid input.
+
+X<< RPC commands; C<listunspent> >>
+
+How many UTXOs are in your wallet? The C<listunspent> RPC command returns
+information about every unspent transaction associated with the current wallet.
+In the console or from the command line, you'll get a list of transaction data
+formatted as a JSON list:
+
+=begin screen
+
+  [
+    {
+      "txid": "37640d...",
+      "vout": 0,
+      "address": "DQniBb...",
+      "scriptPubKey": "...",
+      "amount": 5.00000000,
+      "confirmations": 702433,
+      "spendable": true,
+      "solvable": true
+    }
+    ...
+  ]
+
+=end screen
+
+X<< external utilities; C<jq> >>
+
+If you use C<dogecoin-cli> and pipe the output to C<jq> (as seen in
+L<find_all_received_addresses>), you can easily count the number of unspent
+transactions associated with this wallet:
+
+=begin command
+
+  $ B<dogecoin-cli listunspent | jq '.[].amount'>
+  13
+
+=end command
+
+In this example, the current wallet has a handful of unspent transactions.
+Remember, you can use any C<jq> command on this data structure you want. If you
+want to extract the I<amount> from every transaction, use the command C<jq
+'.[].amount> to get a list of the amount of every transaction.
+
+=head2 *Estimate Your Footprint
+
+How much of the unspent transaction output list represents your unspent
+transactions? Use C<gettxoutsetinfo> to find the number of total UTXOs (see
+L<track_blockchain_sizes>), then divide:
+
+=begin command
+
+  $ B<dogecoin-cli gettxoutsetinfo | jq '.txouts'>
+  17657052
+
+=end command
+
+In this case, divide 13 by 17657052 and multiply by 100 to find out that this
+wallet represents 0.000073625% of all UTXOs. Put another way, the next 15
+minutes of mining blocks will generate more UTXOs than this wallet has.
+
+What's your footprint for the total number of transactions? As of this writing,
+a good estimate for the total number of transactions is 95 million. 133 divided
+by 95 million is 0.00014%. Again, this is a wallet with a tiny footprint.
+
+=head2 *Understand the Risks
+
+What's a good footprint? It depends. A wallet with one transaction holding a
+billion Dogecoin takes about as much space on a node as a wallet with one
+transaction holding one Dogecoin. A wallet that's transacted a million times
+but only holds 100 Dogecoin in unspent outputs takes up a lot of space on full
+nodes but may only have a couple of UTXOs, while a wallet with 100,000
+Dogecoin received in two million tiny transactions will take up a double-digit
+percentage of the UTXO set.
+
+If you find yourself in any of these scenarios, should you do anythingN<Besides
+sending a significant portion of that billion Dogecoin to buy a copy of this
+book for everyone you know.>? It depends! If you realize you're taking up a lot
+of storage space, you can consider running a full node. Obviously you're
+getting a lot of value from the Dogecoin network, so you can pay it forward.
+
+If you have a large number of unspent transactions, consider spending those
+coins. Do something nice for yourself. Tip a friend. Consolidate your funds,
+even. In any case, remember that "owning" a bunch of numbers that a network of
+computers over the Internet shuttle back and forth buys you bragging rights
+until you do something productive with them. Hoarding for the sake of hoarding
+costs other people time and resources. Ask yourself what good you could do in
+the world, then do it! That's the spirit of Dogecoin.
