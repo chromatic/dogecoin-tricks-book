@@ -4,9 +4,9 @@ Z<bundle_and_track_transactions>
 
 While cryptocurrency has only been around for a few years, cryptography has
 been around for longer. People generally remember "Oh yeah, that Roman salad
-guy invented a cipherU<https://en.wikipedia.org/wiki/Caesar_cipher>!", but they
-may not realize that the other important foundation of cryptocurrency comes
-from accounting.
+guy invented a cipherN<See U<https://en.wikipedia.org/wiki/Caesar_cipher>>!",
+but they may not realize that the other important foundation of cryptocurrency
+comes from accounting.
 
 Accounting?
 
