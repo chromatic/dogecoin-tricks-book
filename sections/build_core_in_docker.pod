@@ -119,11 +119,11 @@ Save this file in a directory by itself, then build the image. On a Linux or
 Mac OS X system or from a Powershell terminal on WindowsN<Your author hasn't
 actually tried this; feedback welcome.>, the command will be something like:
 
-=begin command
+=begin screen
 
   $ B<docker build -t dogecoin-build-image -f Dockerfile .>
 
-=end command
+=end screen
 
 You should be aware of a few things. First, by putting this file in its own
 directory, the act of building the image will go a lot faster. If you put this
@@ -152,11 +152,11 @@ C<dogecoin-build-image>, and let me interact with it from the command line.".
 If all goes well, you'll now be inside an Ubuntu Linux system, in a directory
 named F</build/dogecoin>, and can configure and build the core itself:
 
-=begin command
+=begin screen
 
   $ B<./configure && make && make check>
 
-=end command
+=end screen
 
 That command will run for a while and will eventually complete (if all goes
 well) with Linux binaries available in F<src/> and F<src/qt/>. If all

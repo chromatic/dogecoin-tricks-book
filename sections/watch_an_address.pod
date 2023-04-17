@@ -52,7 +52,7 @@ scanning. This will save time and wear-and-tear on your hard drive.
 
 =end tip
 
-=head3 *What Happens Next?
+=head2 *What Happens Next?
 
 X<addresses; watchonly>
 

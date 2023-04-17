@@ -18,7 +18,7 @@ than once?
 
 =head2 *Chaining RPC Commands
 
-Another tip discusses RPC command stacking (L<enhance_rpc_commands>), where you
+Another tip discusses RPC command stacking (L<enhance_rpc_calls>), where you
 feed the output of one RPC call into that of another. This allows you to act as
 if the Core supported only one call to perform a bunch of behavior, such as
 decoding a transaction into a data structure given only the transaction's hash.

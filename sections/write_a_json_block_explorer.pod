@@ -94,8 +94,9 @@ transaction ourselves:
 =begin programlisting
 
     get '/rawtx/:txhash' => sub ($c) {
+        my $rpc    = $c->node_rpc;
         my $txhash = $c->param('txhash');
-        my $raw_tx = $c->node_rpc->call_method( gettransaction => $txhash )->{result};
+        my $raw_tx = $rpc->call_method( gettransaction => $txhash )->{result};
         my $txdata = $rpc->call_method( decoderawtransaction => $raw_tx->{hex} )->{result};
 
         $c->render( json => $txdata );

@@ -25,7 +25,7 @@ C<--help> command to show a list of options you can use to change how the Qt
 GUI works. Here we care about two (other output elided for the sake of this
 example):
 
-=begin command
+=begin screen
 
   $ B<dogecoin-qt --help>
   ...
@@ -37,7 +37,7 @@ example):
     -splash
          Show splash screen on startup (default: 1)
 
-=end command
+=end screen
 
 In other words, if you launch the Core with C<--splash=0> and C<-min>, you'll
 see no splash screen and, when the program finishes validating the blockchain

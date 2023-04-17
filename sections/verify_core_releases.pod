@@ -70,14 +70,14 @@ Install GPG from U<https://gnupg.org/>.
 This file contains the public half of a GPG keypair. Patrick has the other
 private half. Download this file, then import it into your local C<gpg> keyring:
 
-=begin command
+=begin screen
 
   $ B<gpg --import ~/Downloads/patricklodder-key.pgp>
   gpg: key 2D3A345B98D0DC1F: public key "Patrick Lodder <...>" imported
   gpg: Total number processed: 1
   gpg:               imported: 1
 
-=end command
+=end screen
 
 When you do this, you give C<gpg> the ability to verify that any file that
 claims Patrick has signed it was actually signed by Patrick. He uses his
@@ -121,7 +121,7 @@ PGP signature will be invalid.
 
 Validate the signature of the file with:
 
-=begin command
+=begin screen
 
   $ B<gpg --verify ~/Downloads/SHA256SUMS.asc>
     gpg: Signature made Wed 20 Jul 2022 12:29:49 PM PDT
@@ -131,7 +131,7 @@ Validate the signature of the file with:
     gpg:          There is no indication that the signature belongs to the owner.
     Primary key fingerprint: DC6E F4A8 BF9F 1B1E 4DE1  EE52 2D3A 345B 98D0 DC1F
 
-=end command
+=end screen
 
 The signature is good; the file is pristine since Patrick generated and signed
 itN<That warning looks a little concerning; we should probably find a way to

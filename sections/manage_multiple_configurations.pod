@@ -6,11 +6,11 @@ In L<launch_core_silently> you learned how to make configuration changes to
 make your use of the Core more pleasant. There are many, many other potential
 configuration changes. Run this command from the command line to see more:
 
-=begin command
+=begin screen
 
   $ B<dogecoind -help>
 
-=end command
+=end screen
 
 Every option you see there is an option you can use when you launch Dogecoin,
 whether it's the daemon (C<dogecoind>) or the Qt GUI (C<dogecoin-qt>).
@@ -72,11 +72,11 @@ F<dogecoin-noisy.conf>. That's a silly name, because we're about to do
 something silly. Edit the file and change C<splash=0> to C<splash=1>. Just one
 bit of a change, in every sense. Save the file, then run:
 
-=begin command
+=begin screen
 
   $ B<dogecoin-qt -conf=/path/to/dogecoin-noisy.conf>
 
-=end command
+=end screen
 
 You should see the Core launch, this time I<with> the splash screen. Everything
 else will behave as you have otherwise configured it.

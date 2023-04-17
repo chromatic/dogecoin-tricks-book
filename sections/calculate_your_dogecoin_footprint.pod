@@ -82,12 +82,12 @@ If you use C<dogecoin-cli> and pipe the output to C<jq> (as seen in
 L<find_all_received_addresses>), you can easily count the number of unspent
 transactions associated with this wallet:
 
-=begin command
+=begin screen
 
   $ B<dogecoin-cli listunspent | jq '.[].amount'>
   13
 
-=end command
+=end screen
 
 In this example, the current wallet has a handful of unspent transactions.
 Remember, you can use any C<jq> command on this data structure you want. If you
@@ -100,12 +100,12 @@ How much of the unspent transaction output list represents your unspent
 transactions? Use C<gettxoutsetinfo> to find the number of total UTXOs (see
 L<track_blockchain_sizes>), then divide:
 
-=begin command
+=begin screen
 
   $ B<dogecoin-cli gettxoutsetinfo | jq '.txouts'>
   17657052
 
-=end command
+=end screen
 
 In this case, divide 13 by 17657052 and multiply by 100 to find out that this
 wallet represents 0.000073625% of all UTXOs. Put another way, the next 15

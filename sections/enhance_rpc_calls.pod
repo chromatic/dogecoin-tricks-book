@@ -74,11 +74,11 @@ your wallet itself.
 With the C<dogeutils> command provided by the Perl code mentioned earlier, you
 could achieve by using the command line:
 
-=begin command
+=begin screen
 
   $ B<dogeutils setlabel DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL 'Dogecoin Book Tips'>
 
-=end command
+=end screen
 
 =head3 *Proxy RPC Calls to a Node
 

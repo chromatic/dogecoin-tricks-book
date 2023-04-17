@@ -79,11 +79,11 @@ the C<rpcbind> configuration option to restrict the Core to listen to only a
 single IPv4 address. Add something like this to your F<dogecoin.conf> file or
 script you use to launch the server:
 
-=begin command
+=begin screen
 
   rpcbind=10.0.0.3
 
-=end command
+=end screen
 
 Assuming you have a private network setup where this is the correct IP address
 of the host running the Core I<and> you want to forbid connections from
@@ -99,12 +99,12 @@ other hosts on that network you don't trust fully, you can use C<rpcallowip> to
 tell the Core to accept only traffic from IP addresses which match the
 configuration. For example, if you trust only one machine:
 
-=begin command
+=begin screen
 
   rpcbind=10.0.0.3
   B<rpcallowip=10.0.0.4>
 
-=end command
+=end screen
 
 You can also use netmasks or CIDR to specify a range of machines. Be cautious
 doing so unless you're certain you control which machines can and cannot
@@ -122,18 +122,18 @@ the C<rpcport> option to ask the Core to listen on a port other than
 912 is less than 1024, so you need C<root> privileges. Don't run your Core as
 root.>.
 
-=begin command
+=begin screen
 
   rpcbind=10.0.0.3
   rpcallowip=10.0.0.4
   B<rpcport=22554>
 
-=end command
+=end screen
 
 Now anyone probing at your network for an open Dogecoin Core RPC port will have
 to do a very small extra amount of work to figure out what's going on.
 
-=head2 Understand the Risks
+=head2 *Understand the Risks
 
 Closing off network access is important and good. By default, if you make no
 configuration changes, your node will have good security, at the expense of
