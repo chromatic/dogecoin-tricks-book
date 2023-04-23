@@ -1,0 +1,116 @@
+=head1 Export Wallet Data
+
+Z<export_wallet_data>
+
+X<wallet>
+X<Dogecoin Core; wallet>
+
+A previous tip explained how to back up your wallet
+(L<securely_back_up_your_wallet>). This approach works great if you want
+toN<... and you do want to!> keep multiple copies in multiple places just in
+case something happens to your main system.
+
+Your secure backup is great for that, but it doesn't give you a view of the
+I<contents> of your wallet: your private keys, HD key derivation paths, labels,
+and addresses. If you need to operate on this set of data as a whole, exporting
+your wallet makes this possible--at the risk of exposing your wallet data in
+plain text.
+
+=head2 *Understand the Risks
+
+What you're about to learn will give you an unencrypted, plain-text
+representation of your wallet. In other words, this file will contain your
+private keys I<and> the Dogecoin addresses derived from those keys. If you have
+a cool 100 million Dogecoin in unspent transactions received by an address, you
+can look at this file, find that address, and see exactly the private key you
+need to use to I<spend> those 100 million Dogecoin.
+
+If you use this command, your private keys will be in a file on your computer
+in plain text, and anyone who can get their hands on that file will also get
+their hands on those keys--the same way that anyone who gets their hands on
+your unencrypted wallet or unencrypted wallet backup has your keys and can
+spend your Dogecoin.
+
+X<< external utilities; C<shred> >>
+
+I<If> you use the knowledge in this tip, use the data in your exported wallet
+carefully, then discard of the file appropriately. Merely deleting it may not
+be enough; on Unix-like systems such as Linux, a BSD, or Mac OS X, you can use
+a binary called C<shred> to mangle the file past the point of hard drive
+recovery before deleting it. On Windows, look for a reputable file shredding
+utility. Even so, never underestimate the lengths to which someone might go to
+get data you want to keep private.
+
+=head2 *Dump Your Wallet
+
+X<< RPC commands; C<dumpwallet> >>
+
+The Core RPC command C<dumpwallet> writes the contents of your wallet in a
+specific format to a file specified as the argument to the command. Using the
+console (L<command_the_core>) or C<dogecoin-cli> or another RPC mechanism, send
+the command C<dumpwallet insecure-wallet-shred-now.txt>, then navigate to the
+file. You can read it from there.
+
+=begin tip Secure Backups with Dogecoin Core 1.14.6
+
+As of version 1.14.6, Dogecoin Core stores all backups and exports to a
+specific backups directory. Unless you've overridden the default location, you
+can find these files in the F<backups> subdirectory of the F<.dogecoin>
+configuration directory.
+
+For previous versions, you can give the full path to the location on disk where
+you want the Core to write your file.
+
+=end tip
+
+=head2 *Inside Your Wallet Dump
+
+When you look at this file, you'll see it's longN<Your author's file is more
+than 450,000 lines long.>. There's a short header giving information about the
+version of the core used to dump it, the timestamp of the dump, and the most
+recent block the Core had seen at the time of the backup.
+
+Then you'll see the private masterkey for HD addresses (see
+L<use_a_hd_wallet>), and finally one line for each of your wallet addresses,
+something like:
+
+=begin screen
+
+  QVcp9S... 1970-01-01T00:00:01Z label=2022%20Consulting # addr=D7ovS7...
+  QAdcVL... 1970-01-01T00:00:01Z label=2023%20Consulting # addr=DBxFnu...
+  QUt9eE... 2023-04-18T01:02:13Z label=                  # addr=D8PNSr...
+  QQgGGm... 2021-04-19T22:42:29Z reserve=1 # addr=DP77YA... hdkeypath=m/0'/0'/7'
+
+=end screen
+
+To interpret this, you need to know that there are multiple fields, each
+separated by spaces, and that there's an optional comment at the end of the
+line (preceded by the C<#> character). The first field is the private key. The
+second field is the timestamp when the private key was added to the wallet. In
+the third field, you may see a C<label=> (though the value may be blank, as it
+is in the third line of this example). You might also alternately see
+C<reserve=1>, which indicates that the Core has generated this address for
+future use, but nothing has used it yet.
+
+Finally, the comment may include the public address associated with the key. In
+the case where the Core has derived the key from an HD seed, you will also see
+that key's derivation path in C<hdkeypath>.
+
+=head2 *What Can You Do With This?
+
+You can do at least three things with this data:
+
+=over 4
+
+=item * Skim it and see what you can learn from reading. There's a lot here!
+This can be a good springboard for doing more research.
+
+=item * Forget you've exported it, give the laptop to your cousin who wants to
+study computer science, and wake up in the middle of the night realizing that
+everyone in University may have been able to grab this file off of an
+unprotected network share.
+
+=item * Process this file for another purpose, then delete it securely. Hold
+that thought.
+
+=back
