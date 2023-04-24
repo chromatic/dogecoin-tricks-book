@@ -25,3 +25,5 @@ L<customize_your_qr_code>
 L<work_without_a_wallet>
 
 L<export_wallet_data>
+
+L<extract_wallet_addresses>

@@ -1,0 +1,110 @@
+=head1 Extract Wallet Addresses
+
+Z<extract_wallet_addresses>
+
+A wallet is good for keeping your keys and addresses and labels together. In
+fact, you can't do much to send or receive Dogecoin without a wallet somewhere.
+A node without a wallet can do a lot for the network, but it doesn't do much
+for you personally, but a node with a wallet has some risks.
+
+A wallet backup, if stored securely, can give you the ability to recover from a
+disaster like a goat chewing through your laptop's power cable and bricking
+your hard drive, but it gives you redundancy and not a lot else. A plain-text
+version of your wallet (L<export_wallet_data>), however, gives you more
+options--if you handle it with caution.
+
+For example, what if you want a list of all recipient addresses your wallet has
+used or is likely to use for the next several thousand transactions?
+
+X<wallet>
+
+=head2 *Extracting Data From Wallet Dumps
+
+The previous tip about dumping your wallet to a text file explained some
+details of the file format. After several lines of header information, each
+private key and address has one line in the file. If you can read this file,
+you can get every address out of it.
+
+This sounds like a job for automation, so pick your favorite programming
+language and get to it!
+
+The I<easy> way to work with this data is to assume you already have a dump
+file somewhere on your system, then read it line by line and extract the data
+you want. In pseudocode, you'll:
+
+=over 4
+
+=item * loop over every line in the file
+
+=item * skip blank, header, and comment lines (headers and comments look the same)
+
+=item * split all other lines on space characters into into data chunks
+
+=item * extract address data from the appropriate data chunk
+
+=back
+
+X<concepts; regular expressions>
+
+In the programming world, a I<regular expression> (or I<regex> for short) is a
+concise description of the shape of data, like "A capital letter followed by
+multiple numerals or letters, up until but not including a space character".
+They're very useful, but if you're not familiar with them, they can be
+intimidating. That's okay. You don't have to understand them to use this tip!
+
+Regex-wielding programmersN<With no apologies for U<https://xkcd.com/208/>.>
+can do this in a couple of lines. Look for a chunk of data starting with
+C<addr=>, then capture everything after that until the next space. In Perl-ish
+regular expression terms, you could write something like C</addr=(\S+)/> and,
+if the match succeeds, take the address from the first (only) capturing group.
+
+Once you have this address, you can write it to a file which you can use for
+other purposes. Hold that thought.
+
+=head2 *Automated Extraction From Wallet Dumps
+
+This approach has two drawbacks. First, you have to write the code yourself.
+Second, you have to manage dumping the wallet, processing the file, then
+remembering to remove the wallet dump securely.
+
+One alternate approach is to automate the process: make the RPC call, loop
+through the plain-text wallet dump, extract the addresses, write them to a
+separate file, then delete the original file. This is a variant of the
+technique used to wrap RPC calls with other behavior (see L<enhance_rpc_calls>).
+
+Fortunately, your author has already written code to do all of this with
+version C<1.20230424.0253> of C<Finance-Dogecoin-Utils>. The C<dogeutils>
+command has an option C<exportaddresses>:
+
+=begin screen
+
+  $ DOGEUTILS_USER=lisa dogeutils exportaddresses > my_address_list
+
+=end screen
+
+As with the previous C<dogeutils> uses, you need your authentication for RPC
+configured correctly. Also be sure to redirect the output of this command to a
+file, as you may get thousands of lines of output--or more. Behind the scenes,
+the code handles making the wallet export for you as well as deleting the
+exported file.
+
+=head2 *Understand the Risks
+
+Wait, you expect to download and run code off of the Internet that has access
+to your node's RPC commands with a wallet loaded into memory?
+
+Read the code, then decide if you want to use it. The source code is available
+for a reason. If you see anything you don't trust, don't run the code. It's not
+difficult to write for someone with moderate programming skills.
+
+Furthermore, you can do a I<lot> more with a wallet dump than export addresses.
+You could back up your private keys (especially if you write them to a file and
+encrypt it). You can find addresses without labels and figure out labels for
+them (and add labels to them). You can look for addresses waiting in reserve or
+addresses already used.
+
+This file doesn't contain a large amount of unique data, but it contains data
+you can't easily access in other ways, so if you have any needs listed here,
+this is your best approach. The contents of this file shouldn't be
+intimidating, but do be mindful that your secrets are most secure when they're
+kept very secret.
