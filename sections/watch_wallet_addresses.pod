@@ -1,0 +1,139 @@
+=head1 Watch Wallet Addresses
+
+Z<watch_wallet_addresses>
+
+While it's most secure to run a core node without a wallet attached
+(L<work_without_a_wallet>), sometimes you absolutely must have a Core node with
+knowledge of the transactions that are important to you--transactions where you
+care about sending or receiving Dogecoin.
+
+There are two risks to running a Core node with a wallet attached. The first
+risk is that anyone who can access your node has a better chance of being able
+to get your private keys, and thus the ability to spend your unspent
+transactions. The second risk is that anyone who can see the addresses you care
+about may be able to track your transactions back to you.
+
+Securing your computer in general helps with both risks. Working without a
+wallet addresses the first risk, but it makes the second risk moot by taking
+away your ability to track interesting transactions.
+
+Fortunately, there's a way to have the latter while reducing the exposure of
+your private keys keys.
+
+=head2 *Watch-Only Addresses
+
+X<concepts; watch-only address>
+
+A I<watch-only address> is an address in your wallet--an address for which the
+Core tracks transactions--without an associated private key. You may have the
+public key or the address only (see L<watch_an_address>), so the Core knows
+that you care about all transactions to or from that address, but without the
+public key, you have no way of spending any funds sent to that address.
+
+This can be handy when you care more about tracking than you do spending. For
+example, if you're running a pinball arcade or letting people pay 5 Dogecoin
+for admission into your goat petting farm, your ability to see when
+transactions arrive as soon as they get confirmed is more important than your
+ability to spend immediately. You can always use a full wallet later when it
+comes time to buy pinball wax or goat food, after all.
+
+What's the difference between watching an address and watching a key? Remember
+the order in which you can derive data! Given a secret key or passphrase, you
+can derive a private key. You cannot go backwards. Given a private key, you can
+derive a public key. You cannot go backwards. Given a public key, you can
+derive an address. You cannot go backwards.
+
+=head2 *Watch-a-Bunch
+
+If you've dumped your wallet and extracted a bunch of addresses
+(L<extract_wallet_addresses>), the rest of the tip might seem easy. Before you
+go further, you should understand something important: for your wallet to know
+that a transaction has affected it, the Core must process the transaction. How
+do you know which transactions to process? You have to examine every block
+containing a relevant transaction. How do you know which blocks are relevant?
+
+Either you already know this, or you need to ask the core to rescan enough of
+the chain to pick up every transaction you care about. Hold that thought.
+
+=begin tip What's the Right Height?
+
+To be extra safe, you can rescan from the genesis block which has a height of
+one. That's guaranteed to give you good answers. To do less work, use a block
+explorer to see the I<earliest> block in which a transaction to a given wallet
+occurred.
+
+Of course, if you've taken these addresses from your own wallet, look at the
+oldest transaction in your full wallet and get the height of its containing
+block. You'll save yourself some computing power and time, because scanning the
+older blocks won't find anything relevant to your interests.
+
+=end tip
+
+X<< RPC commands; C<importpubkey> >>
+
+The C<importpubkey> RPC command adds a public key to a Core wallet in
+watch-only mode. Any addresses derived from these public keys get watched for
+transactions, but you can't spend any unspent transaction inputs until you
+create new transactions with the appropriate private keys.
+
+This command requires one argument and supports three optional arguments. You
+I<must> provide a valid public key. You I<may> provide, in order, a string
+label to attach to the address of this key, a true or false value whether to
+rescan the blockchain after importing the key (defaulting to true, always
+rescan), and (as of Dogecoin 1.14.7), an integer value representing the height
+of the block from which to start scanning. If you provide no height but do
+request a rescan, or if you're using an earlier version of the Core, this
+command will scan the entire blockchain from the genesis block with height 1.
+
+This can take a while.
+
+=head2 *Script Your Watching
+
+Given a list of wallet public keys, you can easily script a series of commands
+to import every address. There are a couple of approaches:
+
+=over 4
+
+=item * Write a program to loop through the keys and make RPC calls directly
+against a Core node
+
+=item * Write a program to loop through the keys and invoke `dogecoin-cli` for
+each key
+
+=item * Write a program to write a list of commands and copy and paste that
+into the Qt Debug Console (L<command_the_core>)
+
+=back
+
+X<< RPC commands; C<importaddress> >>
+
+None of these are difficult; all of these should be straightforward depending
+on your preference. Of course, you can do the same thing with wallet
+I<addresses> too, if you swap the RPC command for C<importaddress>.
+
+=head2 *Understand the Risks
+
+Be mindful of a couple of things. First, any address or key you add to a
+watch-only wallet reveals something to anyone who can get access to your node.
+Sure, you and a few hundred thousand of your closest Doge-friendly friends may
+be watching the developer tipjar or a couple of suspected whale wallets to see
+what's going on, but if you've set up a consulting operation and you don't
+particularly want the general public to see that your hard work has netted you
+a sweet 10k Doge windfall, consider what kind of security you want to have on
+hand to avoid leaking information.
+
+Also remember that rescanning the entire blockchain can take time and
+resources, and has a good chance of preventing you from doing other work with
+your node until the rescan finishes. Take advantage of the optional height
+argument however you import things (if possible).
+
+X<< RPC commands; C<rescan> >>
+
+Alternately, skip rescanning if you're importing a lot of addresses or keys by
+explicitly providing a false parameter to the rescan option. When you've
+finished importing everything, use the C<rescan> command explicitly with the
+lowest block height that will cover everything you've imported. This command is
+special to Dogecoin Core as of 1.14.6, so you can feel a little special knowing
+that you have a feature other similar blockchains either don't have or
+borrowedN<They're welcome to borrow it! Isn't it nice to know that Dogecoin did
+something to make everyone's lives easier?>.
