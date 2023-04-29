@@ -1,0 +1,66 @@
+=head1 Watch Wallet Addresses
+
+Z<watch_wallet_addresses>
+
+While it's most secure to run a core node without a wallet attached
+(L<work_without_a_wallet>), sometimes you absolutely must have a Core node with
+knowledge of the transactions that are important to you--transactions where you
+care about sending or receiving Dogecoin.
+
+There are two risks to running a Core node with a wallet attached. The first
+risk is that anyone who can access your node has a better chance of being able
+to get your private keys, and thus the ability to spend your unspent
+transactions. The second risk is that anyone who can see the addresses you care
+about may be able to track your transactions back to you.
+
+Securing your computer in general helps with both risks. Working without a
+wallet addresses the first risk, but it makes the second risk moot by taking
+away your ability to track interesting transactions.
+
+Fortunately, there's a way to have the latter while reducing the exposure of
+your private keys keys.
+
+=head2 *Watch-Only Addresses
+
+X<concepts; watch-only address>
+
+A I<watch-only address> is an address in your wallet--an address for which the
+Core tracks transactions--without an associated private key. You may have the
+public key or the address only, so the Core knows that you care about all
+transactions to or from that address, but without the public key, you have no
+way of spending any funds sent to that address.
+
+This can be handy when you care more about tracking than you do spending. For
+example, if you're running a pinball arcade or letting people pay 5 Dogecoin
+for admission into your goat petting farm, your ability to see when
+transactions arrive as soon as they get confirmed is more important than your
+ability to spend immediately. You can always use a full wallet later when it
+comes time to buy pinball wax or goat food, after all.
+
+...
+
+=head2 *Watch-a-Bunch
+
+If you've dumped your wallet and extracted a bunch of addresses
+(L<extract_wallet_addresses>), the rest of the tip might seem easy. Before you
+go further, you should understand something important: for your wallet to 
+
+=begin tip What's the Right Height?
+
+To be extra safe, you can rescan from the genesis block which has a height of
+one. That's guaranteed to give you good answers. To do less work, use a block
+explorer to see the I<earliest> block in which a transaction to a given wallet
+occurred.
+
+Of course, if you've taken these addresses from your own wallet, look at the
+oldest transaction in your full wallet and get the height of its containing
+block. You'll save yourself some computing power and time, because scanning the
+older blocks won't find anything relevant to your interests.
+
+=end tip
+
+...
+
+=head2 *Understand the Risks
+
+...
