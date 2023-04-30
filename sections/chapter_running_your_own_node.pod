@@ -10,6 +10,8 @@ learn a few things.
 In this chapter, we'll talk about interesting things you can do when you run
 your own node.
 
+L<run_a_node>
+
 L<set_your_node_comment>
 
 L<use_a_hd_wallet>

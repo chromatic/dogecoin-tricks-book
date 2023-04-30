@@ -1,0 +1,192 @@
+=head1 Run a Node
+
+Z<run_a_node>
+
+X<Dogecoin Core>
+
+One of the subtle but essential truths behind Dogecoin is that Dogecoin is what
+we all agree it is. While developers have some ability to add features, fix
+bugs, and release software for other people to examine, run, modify, and
+redistribute, it's the I<network> that decides what actually happens. By
+design, everyone who runs a node gets a say in which behaviors are valid or
+invalid. For example, the Dogecoin Core 1.14.5 release lowered the default fee
+per transaction from 1 Doge per transaction to 0.01 Doge per kilobyte of
+transaction size.
+
+You can now take advantage of these fee changes because enough nodes have
+adopted the new version that the network supports these lower costs.
+
+The power of the network--what we call I<consensus>--is in the hands of people
+who run nodes. That could be you.
+
+=head2 *What You Need
+
+What do you need to run a node? A computer. Some memory. An Internet
+connection. Persistent storage. The willingness to do some research and keep
+things up to date. Patience. A kind heart.
+
+In specific, you need a relatively modern computer (a decent desktop or laptop
+machine manufactured in the past 10 years will work). As of this writing in
+April 2023, a full node requires over 60 GB of free hard drive space. The size
+of that requirement will grow in the future. 4 GB of RAM will help. Windows,
+Linux, and Mac OS X are all supported.
+
+=begin tip Are you a node-half full person?
+
+X<concepts; full node>
+X<concepts; partial node>
+
+What's the difference between a full node and a partial node? If your node
+stores the entire blockchain history from the first block mined until today,
+you have a full node. Otherwise you have a partial node.
+
+While running a partial node saves disk space and provides some benefit to the
+network, full nodes are essential to verify every transaction and to help other
+full nodes come online. If you can spare the space, running a full node is a
+great contribution.
+
+=end tip
+
+=head2 *Find the Right Software
+
+As of this writing, C<dogecoin.com>N<See U<https://dogecoin.com/>.> and
+C<github.com/dogecoin/dogecoin>N<See U<https://github.com/dogecoin/dogecoin>.>
+are two reputable sources which both announce new Dogecoin Core releases and
+provide download links to Dogecoin Core releases. Depending on when you read
+this, one or both of those URLs may have changed--probably not, but it's
+possible--so do some research to figure out what's reputable.
+
+From a verifiable source, download the distribution that best matches your
+operating system. For example, if you're running Windows on Intel or AMD
+hardware (not ARM), look for a C<win64> bundle. For Mac, look for the C<osx>
+bundle. For Linux, look for the C<linux> bundle that best matches your
+processor bundle. Then verify the download (see L<verify_core_releases>). If
+something looks suspicious or seems off, stop! Do some research. Figure out
+what went weird, then decide if and how you want to try again.
+
+After you unpack the software (Windows has an installer or a zip file, Mac OS X
+has a DMG file, Linux users get tarballs), you'll end up with a couple of
+alternatives. Do you want to run a GUI or a background process?
+
+X<< Dogecoin Core; C<dogecoin-cli> >>
+X<< Dogecoin Core; C<dogecoind> >>
+
+This book assumes you'll run the GUI but have access to the other files: a
+command-line interface called C<dogecoin-cli> and the background process
+C<dogecoind>.
+
+=begin tip Are There More Details?
+
+If these rules seem like they assume too much knowledge you don't have yet, or
+if things look very different in the future, look for a Dogepedia entry called
+"Operate a Dogecoin Node"N<Currently at
+U<https://dogecoin.com/dogepedia/how-tos/operating-a-node/>.>. That guide goes
+into more detail and, because it's a website, can be updated when things change
+more quickly than a printed book can.
+
+=end tip
+
+=head2 *Configure Your Node
+
+When you first start your node, you may see a prompt asking you where to store
+configuration information, logs, and persistent data such as your wallet and
+the blockchain. Take note of this.
+
+=over 4
+
+=item * On Linux, BSD, and other Unix-like systems, the default is F<$HOME/.dogecoin/>
+
+=item * On Windows, the default is F<%APPDATA%\Dogecoin>
+
+=item * On Mac OS, the default is F<$HOME/Library/Application Support/Dogecoin>
+
+=back
+
+You can change these if you like, but you run the risk of confusion. On the
+other hand, if you need the hard drive space elsewhere, changing this directory
+can be useful--so weigh the pros and cons.
+
+After you have your node up and running, you'll have to wait a while to
+download the entire blockchain and store it on your disk. This can be a good
+time to start a new hobby or polish your skills with an existing one, such as
+reading a book, knitting a warm pair of socks, or baking a delicious pear
+galette. The secret to the latter is ginger and brown sugar.
+
+You can also spend some time configuring your node.
+
+For example, in the GUI, click on Settings then Options then Network. Click the
+box for "Allow incoming connections". Without this, your node will only receive
+data, never transmit. That can be useful to you, but it's not useful to the
+network. Be aware that you may have to do some work on your own network setup
+to finish the task, however: your node needs to be reachable from the public
+Internet on port 22556, and your machine needs a reliable IP address from your
+DHCP server.
+
+Sometimes clicking the "Allow UPnP" box in the network tab in the Core GUI will
+fix this. Sometimes it won't. If this seems like Star Trek-style technobabble
+to you, that's fine. Everyone has to learn things sometime. Ask a friend, do
+some research, learn the implications of what this means and then decide if you
+want to continue. It's okay to stop at this point for a while; you can still
+I<use> a node running on your own even if you don't or can't allow incoming
+connections.
+
+Skim some of the other configuration options. They all have their uses, and
+subsequent tips in this book will cover some of the most important. Do be aware
+that you will have to restart your node to take advantage of them, so pick a
+time when that's least disruptive.
+
+Do make note of your configuration and data storage directory however. You'll
+use this a lot throughout the rest of the book.
+
+=head2 *Alternatives
+
+You don't need a desktop computer or laptop. You could run a VM in the cloud.
+Various service providers such as Amazon AWS, Google GCP, Microsoft Azure, and
+Oracle Cloud offer free introductory packages as well as modestly-priced
+services, depending on your definition of "modest". You'll need some degree of
+system administration and automation skills to set up and run a node with these
+services, especially if you're sensitive to price caps and spending limits.
+
+At the risk of referring to something that seems exciting (at the time of
+writing) but hasn't shipped a tangible result yet (at the time of writing), a
+do-it-yourself hardware project under the umbrella of very dot
+engineerN<Seriously, see U<https://very.engineer/>.> is attempting to assemble
+a known-working combination of hardware and software to run a full node with
+small form-factor computers, solar power, and goat-resistant
+networkingN<Possibly other livestock too. Perhaps even birds.>.
+
+If you're good with a soldering iron or flashing bootloaders or comparing spec
+sheets for all-in-one processor boards, check that project for more details.
+
+=head2 *Understand the Risks
+
+Running a node has a few risks.
+
+First, it's a commitment of time and resources. Depending on the speed of your
+hardware and network connection, it could take a few days to download all of
+the blockchain. Depending on how well-connected your node is to other nodes,
+you could send dozens of gigabytes of data over your connection every month.
+Depending on your hardware, you could see a measurable increase in your power
+bill. Before you start running a node, consider what you can commit to now and
+measure carefully the effects; take care of yourself first before the network.
+
+Second, remember that running a network service like a Dogecoin Core node means
+you'll receive traffic from all over the Internet and you'll send traffic all
+over the Internet. While the Internet is full of wonderful, selfless people
+like everyone running Core nodes, it has its share of malicious people (some
+deliberately, some unknowingly), so keep your security practices up to date.
+Invest time and effort into a good firewall, monitor for suspicious activity,
+and don't perform any actions you haven't researched and vetted.
+
+Third, keep your node secure (L<authenticate_rpc_securely>, for example) and
+your wallet safe (L<work_without_a_wallet>, for example). You can do a lot of
+interesting things with a Core node, but many of those interesting things are a
+lot more interesting when only you can do them. Otherwise they're more scary
+than interesting.
+
+Finally, remember to keep your node up to date. Core releases add new features,
+of course, but they also fix bugs, add more configuration options, and improve
+security. One important thread in development philosophy is to give
+users--people who run nodes like you are considering--the ability to shape the
+behavior of Dogecoin and its network. To do this responsibly, you need to
+understand what and how you can contribute your vision of Dogecoin.
