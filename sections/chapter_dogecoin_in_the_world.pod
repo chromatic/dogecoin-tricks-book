@@ -19,3 +19,5 @@ L<calculate_dogecoin_maximum_market_stats>
 L<track_blockchain_sizes>
 
 L<calculate_your_dogecoin_footprint>
+
+L<make_millions_with_dogecoin>

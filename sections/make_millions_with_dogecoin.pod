@@ -1,0 +1,139 @@
+=head1 Make Millions with Dogecoin
+
+Z<make_millions_with_dogecoin>
+
+People do the things they do for many reasons. Sometimes you want to impress
+other people. Sometimes you want to feed yourself and your family and a bunch
+of animals. Sometimes you want to learn something new, or spent a couple of
+hours doing something different. Sometimes you see a problem and your brain
+won't let you leave it unsolved.
+
+Even as much as the Doge community's motto of Do Only Good Everyday is an ideal
+we can all work toward realizing, it's important to acknowledge that other
+ideals and needs motivate people's words and deeds. Furthermore, half of the
+word "cryptocurrency" is "currency". That means money. Ignoring money ignores
+the very real motivations that move people.
+
+It's time to talk about money: specifically, how to make millions with
+Dogecoin.
+
+=head2 *Sell Something Cool
+
+One of the themes of this book is that I<you need no permission to do something
+cool> or fun or amazing or useful. You don't need to run a Core node or any
+sort of software to receive Dogecoin as payment. All you need is an address to
+which you can receive transactions. You can calculate that by hand or export it
+from a node or use any other mechanism you prefer.
+
+You do want to make sure your private keys are safe and secure, of course.
+
+Suppose you keep bees and sell honey every spring and summer weekend at the
+local Farmer's Market. Why not print a QR code on your stand
+(L<generate_a_qr_code>) and experiment with taking payments in a different
+currency? You will face some challenges, such as getting the price right based
+on the current exchange rate, waiting for the payment to settle, and explaining
+why a cartoon dog is wearing a bee costume (L<customize_your_qr_code>). Maybe
+it's worth it to overcome those questions.
+
+Maybe you charge admission for something, like a pinball arcade
+(L<watch_wallet_addresses>), where proof of entry is proof that a specific
+address generated solely for each customer has received a payment. This avoids
+some questions (When has my transaction settled? It's a pre-event purchase! Buy
+your ticket at least a couple of minutes in advance!) and raises others (What
+if the cost of admission fluctuated dramatically between purchase and event?).
+
+To make a million Dogecoin selling things:
+
+=over 4
+
+=item * selling games of pinball at 10 Dogecoin each, sell one hundred thousand
+plays
+
+=item * selling jars of honey at 100 Dogecoin each, sell ten thousand jars
+
+=item * selling concert admission at 250 Dogecoin each, sell four thousand tickets
+
+=back
+
+=head2 *Become an Expert
+
+Perhaps you're less an apiarist than you are a music tutor, editor, or sketch
+artist. Perhaps you have certain programming skills developed over years of
+staring at open source code, trying to figure out what's going on. Your time
+and experience have value, and you should be compensated for that value at a
+rate you consider fair and equitable.
+
+Taking payments from outside of the country can be tricky. Taking payments from
+individuals can be slowly and risky. A quick, permissionless, decentralized
+system for sending payments over the Internet can remove a lot of friction from
+this processN<Do note your local regulations about reporting income, paying
+taxes, and accounting properly. Do good not only for yourself but for your
+neighbors too.>.
+
+Maybe you've set up a face-painting or caricature stand at a school carnival,
+or your kids have a "muddle your own blueberry lemonade" stand on the street
+corner on a hot weekend day, or there's a line under the sign you jokingly hung
+over your back porch reading "5 Minutes of Advice, Line Starts Here" and you
+realize your time is worth something.
+
+To make a million Dogecoin providing value:
+
+=over 4
+
+=item * selling the experience of making blueberry lemonade at 25 Dogecoin
+each, help people mix forty thousand glasses
+
+=item * selling open source consulting at 1000 Dogecoin per hour, consult for
+one thousand hours
+
+=item * painting Cheems on cheeks for 40 Dogecoin each, send forty thousand
+happy dogs into the world
+
+=item * mowing lawns for 35 Dogecoin each, mow twenty eight thousand small
+lawns
+
+=back
+
+=head2 *A Word on Investing
+
+Some of these examples--and countless others--are within your reach right now.
+If you sat and brainstormed for an entire weekend, you could probably find at
+least three or four ideas that could let you start sending and receiving
+Dogecoin with what you already know and have available.
+
+If your goal is to turn your efforts into dollarsN<Or whatever local currency
+you prefer!> in the bank, you need to know two things. First, what's the dollar
+value of your current unspent transactions. Second, what's going to happen in
+the future?
+
+The latter question is easier to answer: no one knows. If the maximum potential
+exchange rate for Dogecoin is about $720
+(L<calculate_dogecoin_maximum_market_stats>), you need to hold 1400 Dogecoin to
+have the value of a million dollars. For I<that> to happen, a single Doge has
+to be worth 9000 times what it's worth right now, as of this writing.
+
+Is that likely to happen? Don't take anyone's word for it. Anyone who promises
+any investment advice (other than "here's one way to calculate possibilities,
+review the math for yourself") is doing something suspicious. Buying anything
+and hoping the value goes up and you can sell it later for a profit always
+involves risk.
+
+Instead, focus on value. What can I<you> do with the knowledge you've gained
+from this book? What special things can you provide the world? Maybe it's
+artisanal honey, career counseling over video chat, dog-walking, a pop-up
+makeover stand in a subway, busking with a hammered dulcimer and harmonica, or
+something else.
+
+A network of people, computers, calculations, or anything is only as good as
+the uses it enables. Everyone who uses Dogecoin to accomplish something useful,
+helpful, entertaining, or just plain I<good> makes the value of the network go
+up. Maybe your favorite pizza bakery doesn't take cryptocurrency now, but maybe
+they'll see the value in a couple of years as people reading these words keep
+inventing new uses.
+
+In the end, it's less useful to worry about what's going to happen in a
+possible (but mathematically implausible) universe than it is to build good
+things, support other people building good things, and enjoy the ride.
+
+In other words, keep doing only good everyday.
+
