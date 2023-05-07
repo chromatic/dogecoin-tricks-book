@@ -97,6 +97,17 @@ doesn't have to be intimidating. It can be fun and playful.
 =head1 *Credits
 
 This work, when finished, will turn out not to have been possible without the
-assistance of many people. You will find credits listed here.
+assistance of many people.
+
+X<people; RNB>
+X<people; meta_rach>
+X<people; mishaboar>
+
+Thank you to RNBN<U<https://twitter.com/RNB333>> and
+RachelN<U<https://twitter.com/meta_rach>> for editorial questions and
+suggestions which led to several of these tips!
+
+Thank you to MishaboarN<U<https://twitter.com/Mishaboar>> for advice,
+perspective, and helping promote a deep empathy for other people.
 
 Any remaining errors are the fault of the sometimes-too-clever author.
