@@ -1,0 +1,139 @@
+=head1 Know Your Limits
+
+Z<know_your_limits>
+
+X<Dogecoin Core>
+
+You've decided to do something a little bit selfless, maybe because you believe
+in giving back, maybe to bring about a decentralized consensus currency, maybe
+to learn something, and/or maybe other reasons. You've decided to run your own
+node (L<run_a_node>). You've thought about the effort and resources you have
+available, and you know you can do it I<if> you can manage the commitment.
+
+Good news! While running a full node with no constraints is the best possible
+way to run a node, the network gets stronger with more nodes even if they're
+not all 100% always full and available. You can choose how you want to
+contribute with a few careful tweaks and configurations.
+
+=head2 *Limit Node Disk Usage
+
+A full Dogecoin Core node--a node that stores the entire blockchain from the
+first block until today--takes up over 60GB of disk space (as of May 2023).
+That number continues to grow, transaction by transaction and block by block.
+If you don't currently have enough disk space to devote to Dogecoin (or where
+it might grow before you can add more storage space), you can ask the Core to
+prune its storage.
+
+X<< configuration options; C<prune> >>
+
+The C<prune> command-line argument (or configuration file option) allows you to
+choose between three values. The default, C<0>, tells the Core to store every
+block, keeping everything, with no limits. The value C<1> tells the core to
+allow you to issue prune commands on your own, giving you control. The third
+value, anything over about C<3000> or soN<Hold on; this will make more sense in
+a moment.> tells the Core to keep only the specified number of MiB of data on
+disk. Old blocks get discarded as new blocks come in.
+
+You can give any value you want, but anything below about 3000 MiB doesn't
+provide much value to the network.
+
+Be cautious choosing this number. If you're starting a node for the first time,
+you'll still have to download the entire blockchain, all of history, before
+your Core can discard everything too old to stay in the limit. Similarly, if
+you I<increase> this limit, your node will have to redownload everything, just
+to get the new blocks and set the new limit.
+
+Should you use this mechanism? It depends on how low you want to set things. If
+you're just running a node for yourself to keep your own wallet up to date, a
+small limit is fine. You won't provide much value to the network, but if your
+node is online only a few minutes every day or week, it's probably fine.
+
+If you're planning to run your node most or all of the time, it's better to err
+on the side of having more storage space and pruning as little as you can get
+away with. 3000 MiB isn't a lot of blocks. 30000 MiB is a lot better.
+
+=head2 *Limit Network Usage
+
+Unless you have a fiber-optic cable as thick as a professional swordfighter's
+forearm running to your computer, you probably have bandwidth limits. Maybe you
+pay an extra penny per packet, or maybe you'll start getting weird popups from
+your ISP for every terabyte you downloadN<Your author has done this. In
+fairness, he was trying to download all of the changes ever published to the
+JavaScript npm repository.>
+
+X<< configuration options; C<maxuploadtarget> >>
+
+The C<maxuploadtarget> configuration optionN<Currently only available from
+F<dogecoin.conf> or the command line, but watch the release notes for 1.14.7!>
+allows you to set a maximum threshold of MiB your node can send to the network
+in every 24 hour period. The default value of C<0> enforces no limit. If you
+can send 100 GB of traffic every month, then you want to send no more than
+about 3000 MiB per day (100 GB * 1000 = 100,000 MiB give or take, divided by 31
+days in the longest months equals 3225.8, give or take).
+
+When you hit your daily limit, your node won't send any more data. It can still
+receive.
+
+Given the choice between limiting disk space or limiting bandwidth, you might
+be better off limiting outgoing traffic. Once you buy hard drive space, its
+yours for the life of the drive, while bandwidth overage charges can keep
+creeping back every month. Furthermore, the more nodes that can serve old
+blocks, the easier it is to bring new nodes (even pruned nodes) up on the
+network.
+
+=head2 *Limit Network Connections
+
+While the I<fastest> possible network would allow every node to connect to
+every other node, that's infeasible. It's more important for every node to be
+at most a couple of nodes away from every other node; this means any
+information can flow through the entire network quickly.  Even if you have a
+good upstream connection, you may want to limit your node's exposure to the
+network.
+
+Depending on your situation, you may want to ease into the network. For
+example, if you have a satellite Internet connection, or your node is in a
+weatherproof box in the middle of a pasture, or you're currently stationed in
+the Galapagos Islands for a six-month research project, you may want to
+preserve bandwidth for other people throughout the day. It's smart to be kind,
+after all.
+
+X<< configuration options; C<maxconnections> >>
+X<< RPC commands; C<setmaxconnections> >>
+
+The C<maxconnections> configuration option and its companion RPC command
+C<setmaxconnections>N<New in 1.14.6!> allow you to limit your Core node to no
+more than the specified number of connections to peers. All nodes have a
+minimum threshold, so you're not dependent on any single node from which to
+I<receive> data. This command limits the number of I<additional> connections
+your node might otherwise make.
+
+Why is this important? Because the network as a whole is trustworthy, even if
+any given individual node isn't. The more nodes from which you get data, the
+easier you can trust the accuracy of that data. The more nodes to which you
+send data, the easier they can trust the accuracy of that data.
+
+Setting this limit is potentially less risky to the network than setting the
+other two limits; you can still send data anytime throughout your connection,
+but you're reducing the number of simultaneous connections via which you can
+send data.
+
+=head2 *Understand the Risks
+
+You're balancing two risks with any of these limits: your exposure, especially
+to cost, versus benefit to the network as a whole.
+
+The best thing you can possibly do is run multiple full nodes, geographically
+and network-ically distributed throughout the world, running the latest
+software and always available to validate, record, and broadcast transactions
+and blocks. Not everyone can do that.
+
+The second best thing you can do is to run a node that's as full as possible
+online and available as much as possible. These tuning options give you the
+ability to configure your availability to meet your needs and capacity.
+
+Keep in mind one other thing: a lot of the network burden is serving I<older>
+blocks. This doesn't necessarily mean blocks from 2013 and 2014; if many of the
+nodes on the network only keep a week's worth of data, and if you only bring up
+your node once every two weeks, you'll put additional load on fuller nodes. The
+I<frequency> with which you sync your node to the current time is important in
+these calculations.
