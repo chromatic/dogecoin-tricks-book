@@ -94,7 +94,7 @@ lawns
 
 =back
 
-=head2 *A Word on Investing
+=head2 *Invest in Usage, not Value
 
 Some of these examples--and countless others--are within your reach right now.
 If you sat and brainstormed for an entire weekend, you could probably find at
@@ -124,6 +124,11 @@ artisanal honey, career counseling over video chat, dog-walking, a pop-up
 makeover stand in a subway, busking with a hammered dulcimer and harmonica, or
 something else.
 
+Think of it this way--if you had a million Dogecoin and no one wanted to do
+anything with Dogecoin like pay their rent, buy a delicious pastry, pre-order a
+book, help a child have heart surgery, or I<do> anything by I<spending>
+Dogecoin, what's the value of your holding?
+
 A network of people, computers, calculations, or anything is only as good as
 the uses it enables. Everyone who uses Dogecoin to accomplish something useful,
 helpful, entertaining, or just plain I<good> makes the value of the network go
@@ -131,9 +136,18 @@ up. Maybe your favorite pizza bakery doesn't take cryptocurrency now, but maybe
 they'll see the value in a couple of years as people reading these words keep
 inventing new uses.
 
+The more people you encourage to I<make transactions>, the more value moves
+through the network and the more demand there is for the network's value. This
+doesn't necessarily mean that the price will go up or stay the same or not go
+down, but it does mean that there's more that you can do with your million
+Dogecoin--and there are more ways you can receive Dogecoin. Holding for the
+sake of holding may help you, but if everyone does that, it helps no one. Help
+yourself and help other people instead. More people spending means more people
+running nodes, running miners, buying and selling. That makes a stronger
+network, more utility, and more reach.
+
 In the end, it's less useful to worry about what's going to happen in a
 possible (but mathematically implausible) universe than it is to build good
 things, support other people building good things, and enjoy the ride.
 
 In other words, keep doing only good everyday.
-
