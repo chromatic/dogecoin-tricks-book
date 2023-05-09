@@ -1,0 +1,100 @@
+=head1 Act on Wallet Transactions
+
+Z<act_on_wallet_transactions>
+
+Several of this books other tips have been leading up to this point. If you run
+a Core node and want to do something on every confirmed block
+(L<take_actions_on_new_blocks>) or transactions
+(L<act_on_confirmed_transactions>), you may find yourself asking "But what
+about transactions to addresses I care about?"
+
+Fortunately, you can get even more specific, especially if you have a list of
+addresses you I<really> care about.
+
+=head2 *Wallet Transaction Action
+
+X<< Dogecoin Core; configuration; C<blocknotify> >>
+X<< Dogecoin Core; configuration; C<walletnotify> >>
+
+The C<walletnotify> configuration option works like C<blocknotify>. Add to your
+F<dogecoin.conf> a line that provides the path to a program to launch. For
+example, if you wrote a shell script called F<walletnotify.sh>, you might add
+the configuration option:
+
+=begin screen
+
+  walletnotify=/home/myuser/bin/walletnotify.sh %s
+
+=end screen
+
+Provide the full path to the file, make sure you can execute it (this means
+C<chmod +x> on Linux and other Unix-like systems), and note that the C<%s>
+option to the configuration tells the Dogecoin Core to provide the transaction
+hash as the only argument to the program when it runs.
+
+As with all of the other launched notifiers, each invocation is independent and
+stateless. This is important to remember: if you care about doing something
+once and only once for each independent transaction, it's up to you do track
+that you've seen the transaction, started to do the thing, and finished doing
+the thing.
+
+X<obscure references; C. Montgomery Burns>
+
+If you're popping up a notification on your desktop or asking your smart
+speaker to play Montgomery Burns saying "Excellent" on every transaction, you
+may not care about duplicates. If you're allowing monthly subscription access
+to your secret website full of delicious cake recipes, accidentally duplicating
+transactions will cost you!
+
+A good design might be:
+
+=over 4
+
+=item * create a transaction notify script
+
+=item * insert a work item to I<process> that transaction in a persistent queue
+(if it doesn't exist)
+
+=item * process the transaction (make the RPC calls to get time, amount, source, et cetera)
+
+=item * mark the transaction as processed
+
+=back
+
+By separating the I<insertion> of the transaction from the I<processing> of the
+transaction, you can ensure that taking whatever action you intend to take
+succeeds or fails all at once in a separate system, independent of however the
+Core launched your notify script.
+
+=head2 *Is This Better Than Confirmed Block Watching?
+
+How is this different from acting on block confirmation? That depends what you
+want to do. The other tip demonstrates how to set a countdown from the time the
+network accepted a block containing a transaction you cared about until a point
+in the future when you consider that transaction fully settled and irrevocable.
+This tip is I<compatible> with that approach, but different in the sense that
+all it does is look at transactions, not blocks.
+
+Sometimes you want both: detect that a transaction occurred I<to> a wallet
+under your purview, figure out the height of the block where you consider that
+transaction complete in the blockchain, then wait for the block at that height
+to be confirmed.
+
+What if the Core could also include the block height in the arguments to the
+notify script? That could be a great feature for Dogecoin Core to support in a
+future release!
+
+=head2 *Understand the Risks
+
+Besides all of the risks listed in the other tips, be aware that reindexing the
+blockchain, whether directly or implicitly, will cause re-notification for all
+of the transactions associated with all of the addresses in your wallet,
+watch-only or fully-keyed. This can be desirable, if you're importing addresses and want
+to take action on them.
+
+This can also be an unpleasant surprise, if you find yourself processing
+transactions over and over again.
+
+Be mindful of what you want to achieve and consider a persistent transaction
+processing mechanism so that you can avoid repeating work, especially if that
+work has side effects.
