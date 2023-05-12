@@ -1,0 +1,123 @@
+=head1 Calculate Block Fill
+
+Z<calculate_block_fill>
+
+X<concepts; block size>
+X<concepts; transaction size>
+
+Dogecoin collects valid transactions into blocks, which miners mine and store
+to the blockchain in perpetuity. By default, each block has a maximum size of
+750 kilobytes (768,000 bytes). The smallest possible transaction takes up 240
+bytes, so there's a maximum size of about 3200 transactions per block. At one
+block per minute, on average, there's a fixed limit on the number of
+transactions per minute, about 3200--about 53 transactions per second.
+
+Those are averages and they depend on multiple assumptions. Larger transactions
+(more inputs, more outputs) take up more space. Transactions aren't evenly
+distributed throughout the day. Some times are busier than others. Even a small
+change in the average can affect the throughput; an average transaction size of
+300 bytes reduces the average transaction count per second to 43, for example.
+
+With additional Dogecoin popularity, the number of transactions per second will
+grow, so it's useful to know current and historical volume so we understand any
+potential scaling limits and developers can address them before they hold back
+the network. Individual users can find them interesting to predict the best
+times to make transactions (when volumes are historically low).
+
+=head2 *How Big is a Block?
+
+Blocks don't have to be full to get mined. They have to be mined. If there
+aren't enough transactions to fill a block, the block gets mined anyhow.
+Similarly, if there are too many transactions to fill a block, the transactions
+not mined into a block stick around until they get mined into a block. If there
+are consistently too many transactions to fill a block--more than 40 or 50 per
+second, by the earlier math--transactions will back up and you'll have to wait
+longer to see yours mined and confirmed.
+
+That's not something to worry about until it happens, but it's useful to be
+able to calculate this to gauge the popularity of the network and to prepare
+for this potential popularity. Fortunately, this data is available for every block.
+
+X<< RPC commands; C<getblock> >>
+
+Use the C<getblock> RPC command to retrieve plenty of information about any
+block. In this case, look at the C<size> field:
+
+=begin screen
+
+  {.
+    "hash": "7cc9d1...",
+    "confirmations": 10204,
+    "strippedsize": 15865,
+    B<"size": 15865>,
+    "weight": 63460,
+    "height": 2906545,
+    "version": 6422787,
+    ...
+  }
+
+=end screen
+
+This block at height 2,906,545 (from September 23, 2019) had a size of 15,865
+bytes. With 47 transactions, that's an average of about 338 bytes per
+transaction. Given a maximum size of 768,000 bytes, this block was a little
+over 2% full. In the past ten minutes of this writing (early May, 2023), the
+past ten blocks had a minimum of 82 transactions and a maximum of 787.
+
+=head2 *How Big are the Last 100 Blocks?
+
+Looking at one block to gauge network traffic is too limited. It's better to
+get a sample over a longer period of time. For example, if you're interested in
+the past couple of hours, you could look at 100 blocks (or 120, for two full
+hours, on average, but 100 is a rounder number).
+
+This is easy to calculate with Bash or any other shell or any programming
+language you prefer. If you know the height of the current, most recent
+blockN<Use C<getblockcount>, for example.>, work backwards. Here's a loop in
+the Bash shell that can translate to other languages:
+
+X<< RPC commands; C<getblockhash> >>
+X<< RPC commands; C<getblock> >>
+
+X<< external programs; C<jq> >>
+
+=begin screen
+
+  for i in $( seq 4713820 -1 4713720); do
+    HEIGHT=$( dogecoin-cli getblockhash $i );
+    SIZE=$( dogecoin-cli getblock $HEIGHT | jq .size );
+    echo "$HEIGHT $SIZE"
+  done
+
+=end screen
+
+There's C<jq> again, doing great work extracting one field from a JSON output.
+The result of running this program is a list of two columns of numbers, one the
+block heights in descending order and the other the size in bytes of each
+block.
+
+=head2 *What Can You Do With This?
+
+If you're processing this data in a language a little more flexible than shell,
+you can use the C<nextblockhash> and C<previousblockhash> fields to skip the
+C<getblockhash> commands in the earlier example.
+
+Calculating the fill percentage of each block is simple math. Calculating the
+fill percentage over time is also simple math. Collecting this data over a
+series of time will take more effort, but could provide more insight.
+
+You can add a lot of other calculations to the block-by-block comparison. While
+the output of C<getblock> doesn't give you the number of transactions directly,
+you can calculate that by looking at the transaction data within the block.
+Similarly, you can look at the time delta between two adjacent blocks and
+calculate how long it took, on average, to process each transaction. This isn't
+a I<real> number, because the block difficulty is a larger component of mining
+time, but it's I<a> number that might be interesting to plot over time.
+
+Remember, the goal of the network isn't primarily to I<fill> each block. It's
+to balance verifying and confirming valid transactions at a reasonable speed,
+without making anyone wait too long for confirmation or pay too much for
+processing. Right now there's plenty of available room for usage to grow, but
+increased popularity means developers and miners and node runners will have to
+plan for new code, consensus, and techniques. Measuring popularity now helps us
+all to plan the whats and whens we will need.
