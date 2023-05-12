@@ -1,0 +1,42 @@
+=head1 Calculate Block Fill
+
+Z<calculate_block_fill>
+
+Dogecoin collects valid transactions into blocks, which miners mine and store
+to the blockchain in perpetuity. Currently, each block has a maximum size of
+one megabyte. The smallest possible transaction takes up 240 bytes, so there's
+a maximum size of about 4300 transactions per block. At one block per minute,
+on average, there's a fixed limit on the number of transactions per minute,
+about 4300--about 71 transactions per second.
+
+Those are averages and they depend on multiple assumptions. Larger transactions
+(more inputs, more outputs) take up more space. Transactions aren't evenly
+distributed throughout the day. Some times are busier than others.
+
+With additional Dogecoin popularity, the number of transactions per second will
+grow, so it's useful to know current and historical volume so we understand any
+potential scaling limits and developers can address them before they hold back
+the network. Individual users can find them interesting to predict the best
+times to make transactions (when volumes are historically low).
+
+=head2 *How Big is a Block?
+
+The C<getblock> RPC command returns a lot of information, including a C<size>
+field:
+
+=head2 *How Big are the Last 100 Blocks?
+
+This is easy to calculate with Bash or any other shell or any programming language you prefer:
+
+=begin screen
+
+  for i in $( seq 4713820 -1 4713720); do
+    HEIGHT=$( dogecoin-cli getblockhash $i );
+    SIZE=$( dogecoin-cli getblock $HEIGHT | jq .size );
+    echo "$HEIGHT $SIZE"
+  done
+
+=end screen
+
+=head2 *Understand the Risks
+
