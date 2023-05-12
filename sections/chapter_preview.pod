@@ -1,0 +1,32 @@
+=encoding utf-8
+
+=head0 *This is a Preview of the Full Book
+
+This is a preview of 101 Dogecoin Tricks. The full book will/does contain 101
+tips and tricks about Dogecoin.
+
+This preview gives you a taste of what that book is about.
+
+If someone gave you this PDF and you're wondering what's happening, please
+visit U<https://ifdogethenwow.com/books/dogecoin-tricks/> to learn more,
+perhaps even preorder your own copy! Share and enjoy!
+
+L<roll_over_your_odometer>
+
+L<run_a_node>
+
+L<set_your_node_comment>
+
+L<add_wallet_address_to_dns>
+
+L<take_actions_on_new_blocks>
+
+L<follow_core_development>
+
+L<generate_a_qr_code>
+
+L<practice_a_new_language>
+
+L<decode_transactions>
+
+L<calculate_dogecoin_maximum_market_stats>
