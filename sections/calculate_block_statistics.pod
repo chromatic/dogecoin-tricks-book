@@ -1,0 +1,289 @@
+=head1 Calculate Block Statistics
+
+Z<calculate_block_statistics>
+
+The previous tip (L<calculate_block_fill>) walked through the mechanics of
+fetching data on blocks to figure out important details the network itself
+can't tell you. There's plenty of data you can mine for information, if you
+have access to that data in meaningful chunks.
+
+Running a few RPC commands here and there from the console
+(L<command_the_core>) or C<dogecoin-cli> or another RPC client works for small
+questions. It gets clunky when you have big questions, like "what's the average
+transaction size in the past thousand blocks" or "what's the largest number of
+transactions in the past two hundred blocks" or even "how full were blocks on
+average on January 3, 2021". For that, you need a computerN<The digital
+computer kind, not the person who used computing machines back in the 1940s
+kind.>.
+
+If you're an experienced programmer, you probably already have an idea how to
+automate this work. If not, have no fear: there are multiple ways to solve this
+problem. This tip shows one approach that you can edit for your own purposes.
+
+=head2 *Designing Block Statistics Output
+
+What's the essential behavior to solve here? Given a starting point and a total
+number of blocks to imagine, we want to aggregate specific details about those
+blocks. Some of those details are sums (total number of blocks, total number of
+transactions, total size). Some of those are minimums and maximums (highest and
+lowest sizes, highest and lowest numbers of transactions per block). Some of
+those are averages (highest and lowest block fill rates, total average block
+fill rate). You can think of more details, but these categories cover most
+data.
+
+What does the program need from the user? Mostly optional data: the height of a
+block from which to start (if not the current block), the number of blocks to
+examine (100 is a good default), any authorization information for RPC
+(L<authenticate_rpc_securely>), and perhaps even the maximum block size (if you
+want to calculate something other than the default of 750 kb).
+
+What should the program produce as output? JSON is usually handy. This could be
+anything, depending on what you want to do with the data, but as an example,
+printing structured data is both readable by humans and consumable by other
+programs, so it's a reasonable default.
+
+=head2 *Block Statistics Code
+
+It's time to look at some code. Here's some Python you can run, if you have the
+right libraries installed and have access to a Core node with authentication
+configured (see L<enhance_rpc_calls> for the pattern used here in a different
+language this time).
+
+=begin screen
+
+    #!/usr/bin/env python3
+
+    from dogecoinrpc.connection import DogecoinConnection
+    from pathlib import Path
+    from sys import maxsize
+    from xdg_base_dirs import xdg_config_home, xdg_config_dirs, xdg_data_home
+
+    import simplejson
+    import click
+
+=end screen
+
+X<< Python libraries; C<python-dogecoin> >>
+X<< Python libraries; C<pathlib> >>
+X<< Python libraries; C<xdg_base_dirs> >>
+X<< Python libraries; C<simplejson> >>
+X<< Python libraries; C<click> >>
+
+This first block of code loads several Python libraries:
+
+=over 4
+
+=item * C<python-dogecoin>, which connects to a Core node to perform RPC
+commands (here referred to by C<dogecoinrpc.connection>)
+
+=item * C<pathlib>, which allows manipulation of file and directory paths
+
+=item * C<xdg_base_dirs>, which helps find platform-specific directory
+locations, used to find the RPC authorization configuration file here
+
+=item * C<simplejson>, which helps manipulate JSON in a slightly more flexible
+way than the builtin C<json> library
+
+=item * C<click>, which processes command-line arguments
+
+=back
+
+The use of C<python-dogecoin> in particular is a little bit awkward here; its
+authorization scheme is different from the scheme expressed in other tips, so
+your author worked around the library's preferred approach slightly. You can
+use whatever mechanism you prefer; it's easy to swap out for something else.
+
+=begin screen
+
+    @click.command()
+    @click.option("--startat",       default=None,
+                                     help="Height of the block to start",
+                                     type=int)
+    @click.option("--numblocks",     default=100,
+                                     help="Number of blocks to analyze",
+                                     type=int)
+    @click.option("--blockmaxbytes", default=768000,
+                                     help="Maximum size of a block in bytes",
+                                     type=int)
+    @click.option("--user",          default=None,
+                                     help="Name of the RPC user",
+                                     type=str)
+    def main(startat, numblocks, blockmaxbytes, user) -> None:
+
+=end screen
+
+Argument handling is easy with C<click>. A few decorators on the C<main()>
+function let you describe the name of flags users can provide, default values,
+types of those values, and even help text. Remember to add these variables to
+C<main()>, or else you'll get confusing error messages.
+
+=begin screen
+
+    config_file = Path(xdg_data_home()) / "dogeutils" / "auth.json"
+    with open(config_file, 'r') as f:
+        config = simplejson.load(f)
+
+    if user is None:
+        print("No user provided; exiting")
+        exit(1)
+    else:
+        client = DogecoinConnection(user, config[user], 'localhost', 22555)
+
+=end screen
+
+This next section of code opens the F<auth.json> file explained in another tip
+and attempts to connect via RPC with the authorization code. There's minimal
+error checking here; that may be fine for your purposes. You can make this code
+more robust by checking that the configuration file exists and that any RPC
+command authorizes correctly.
+
+If you don't run your node on C<localhost>, change the code (or enhance the RPC
+configuration to include a hostname and port, or add those as C<click>
+arguments, or....).
+
+=begin screen
+
+    if startat is None:
+        startat = client.getblockcount()
+
+    # make the percentages obvious
+    blockmaxbytes /= 100
+
+    res = {
+        "startingHeight": startat,
+        "minTxCount": maxsize,
+        "maxTxCount": 0,
+        "totalTxCount": 0,
+        "minBlockSize": maxsize,
+        "maxBlockSize": 0,
+        "minBlockFill": 0,
+        "minFillPercent": maxsize,
+        "maxFillPercent": 0,
+        "totalBlockSize": 0,
+    }
+
+=end screen
+
+This code sets up the data structure that the program will print if it
+succeeds. Setting default values makes the output more sensible, no matter what
+happens. For example, setting the minimum values to C<sys.maxsize> means that
+subsequent code can unilaterally assign minimum values. Keep that in mind.
+Similarly, dividing C<blockmaxbytes> by 100 is effectively the same as
+multiplying anything I<divided> by that value by 100. This approach here saves
+multiple calculations laterN<Maybe this shortcut is too clever for your taste.
+That's fine; make the code as explicit as you prefer.>.
+
+=begin screen
+
+    hash = client.getblockhash(startat)
+
+    for i in range(1, numblocks):
+        block = client.getblock(hash)
+        block_size = block["size"]
+
+        ...
+
+        hash = block["previousblockhash"]
+
+=end screen
+
+Next, the code performs a loop. The code shown elides the body of the loop so
+that the structure of the loop is more obvious.
+
+Python's C<range()> operator here counts from 1 to the number of blocks
+requested on the command line (or 100 by default), inclusive. That's 100 times
+by default. Initializing C<hash> outside of the loop for the first iteration
+means that the loop can assume that value is already set. Reassigning to
+C<hash> at the end of the loop skips an extra RPC command to get the hash of
+the block at the next height. Fortunately, C<previousblockhash> is present in
+the C<block>'s data.
+
+If you've read this code closely, you've noticed that this code walks backward
+from the given block to the destination block. That's deliberate, though you
+could write the code the other direction if you prefer. Be careful that the
+C<nextblockhash> exists however.
+
+What's in the loop?
+
+=begin screen
+
+    res["minBlockSize"] = min(block_size, res["minBlockSize"])
+    res["maxBlockSize"] = max(block_size, res["maxBlockSize"])
+    res["totalBlockSize"] += block_size
+
+    block_tx_count = len(block["tx"])
+
+    res["minTxCount"] = min(block_tx_count, res["minTxCount"])
+    res["maxTxCount"] = max(block_tx_count, res["maxTxCount"])
+    res["totalTxCount"] += block_tx_count
+
+    block_fill_percent = block_size / blockmaxbytes
+
+    res["minFillPercent"] = min(block_fill_percent, res["minFillPercent"])
+    res["maxFillPercent"] = max(block_fill_percent, res["maxFillPercent"])
+
+=end screen
+
+This code runs for every block fetched in the loop. It's basic statistical and
+aggregation math. Look closely at a couple of things.
+
+First, the content of transactions in a block doesn't matter. Python's C<len()>
+operator returns the number of elements in a list, so that provides the count
+of transactions in the block.
+
+Second, the use of C<min()> and C<max()> in assignments is the short way to
+write "if the current value is less than the previously minimum value, use the
+current value as the new minimum value" and so on for the maximum value. That's
+why C<sys.maxsize> earlier was so useful. It's currently safe to assume that
+the number of transactions in a block is going to be less than the value of the
+largest integer Python wants to handleN<Python I<can> handle larger numbers,
+but C<maxsize> is still really big, so everything we'll encounter will be
+lesser.>.
+
+=begin screen
+
+    res["averageSize"] = res["totalBlockSize"] / numblocks
+    res["averageTxCount"] = res["totalTxCount"] / numblocks
+    res["averageFillPercent"] = res["totalBlockSize"] / (numblocks * blockmaxbytes)
+
+    print(simplejson.dumps(res, indent=2))
+
+=end screen
+
+This penultimate code takes place I<after> the final loop iteration has
+concluded. With all of the data from every block aggregated together, we know
+enough to calculate aggregated statistics for everything as a whole. That final
+calculation is the most interesting, because the denominator has to be the
+total number of bytes I<available> in every block. You could count this in
+other ways, of course, but this approach is the most explicit.
+
+The C<print()> command uses C<simplejson> to transform the data structure
+C<res> into text. C<indent=2> makes the library format the JSON in a way that's
+easy for people to read (not all jumbled together into a single line).
+
+=begin screen
+
+    if __name__ == '__main__':
+        main()
+
+=end screen
+
+Finally, this program ends defensively such that you could make it into a
+Python library if you wanted.
+
+=head2 *What Can You Do With This?
+
+This code is a lot more verbose than the previous Bash code, but it's more
+flexible. It's easier to modify to add more calculations, and the output is
+more practical (and includes more data). Given access to a speedy Core node,
+the code runs in linear time with the number of blocks you want to process.
+
+That overhead might be frustrating if you're looking at lots of old blocks, or
+if you're looking at lots and lots of blocks, or if you look at blocks over and
+over again. The complexity of this code, at least from the algorithmic point of
+view, is that you have to issue at least one RPC command for each block you
+want to inspect, which means round trips over a networking call.
+
+Could that be improved? Absolutely--if you can fetch statistics for each block
+once and only once even if you process it more than once. That's another tip
+though.
