@@ -1,0 +1,223 @@
+=head1 Export Block Metadata
+
+Z<export_block_metadata>
+
+Blocks have a lot of data in them beyond transactions. Other tips (such as
+L<calculate_block_statistics>) show what you can do if you look at block data
+itself: calculate how full blocks are, aggregate data about blocks, et cetera.
+Those tips all rely on your ability to connect to a running node and get data
+from that node.
+
+Sometimes that's feasible. If your needs are small or you're querying a small
+amount of data, this can even be fast. Other times, you may not have a node
+available. You may want to analyze historical data. You may want to explore a
+week, month, or year's worth of blocks. You may even be on a long airplane or
+train ride and want to do some hackingN<Your author once started writing
+payment control software for a pinball arcade on an airplane, as it turns
+out.>.
+
+Sometimes things that seem like disadvantages can be solutions in disguise, if
+you let them reframe the problem. In this case, if the problem is "Dogecoin
+Core isn't really designed for bulk aggregate analysis of block metadata", then
+one solution is to export the data to make that analysis easier.
+
+Multiple solutions exist. You've probably used one of them multiple times today
+without realizing it.
+
+=head2 *Storing Normalized Data
+
+X<concepts; relational database>
+
+If you have much experience programming or manipulating data, you may have used
+a system called a I<relational database>. In this system, a concept called a
+I<table> defines a structure for I<rows> of data. Perhaps this is a name, a
+date, and a high score on Lord of the Rings pinball or the Crystal Castles
+arcade game. Every entry in the table is a row that has those three pieces of
+data, interpreted as a name, a date, and a numeric score.
+
+If you want to say "Who has the highest score of all time?" you can ask that
+question. Similarly, you can ask the question "What are all of Unky c's
+scores?" or "What are the highest scores per machine per week?" The normalized
+structure of the data and the underlying mechanics of the storage system make
+these arbitrary, ad hoc queries possible.
+
+Does that sound familiar?
+
+=head2 *SQLite is Ubiquitous
+
+X<< external programs; C<sqlite3> >>
+
+Several good open source relational databases exist: PostgreSQL, MariaDB,
+MySQL, and SQLite come to mind. You may have a favorite. For this example,
+we'll use SQLite, because it's lightweight, requires almost no setup and
+maintenance, runs almost anywhere, and you're probably already using it on your
+phone, tablet, laptop, and other devices without even knowing it.
+
+=begin tip A Crypto Connection
+
+Besides that, Bitcoin appears to be ready to adopt SQLite as the storage format
+for wallet data, which means that Dogecoin will also adopt this feature. Watch
+for updates!
+
+=end tip
+
+If you don't already have a program called C<sqlite3> installed on your
+computer, visit the SQLite homepageN<As of this writing,
+U<https://sqlite.org/>--but always verify!> to see how to download and install
+your own copy. This program is available using operating system-specific
+package managers such as Homebrew, Chocolatey, apt, yum, et cetera.
+
+Once you have SQLite installed, there are two questions to answer. First,
+what's the shape of data (the table schema definition, in relational database
+terms)? Second, how do you get data from a Dogecoin Core node into SQLite?
+First things first.
+
+=head2 *Defining a Block Metadata Schema
+
+What do you want to know about blocks? Height and hash, for sure. Without that
+information, it's difficult to identify a block uniquely on the Dogecoin
+blockchain. As well, keeping the hash and not just the height helps you verify
+that the information you have for a block matches other information you can
+find online. Hold this thought for later.
+
+Previous tips have explored block difficulty, number of transactions, and
+alluded to the time of a block's mining. That's several fields, so it's a good
+place to start. If you want other fields available from blocks, you can always
+modify the code presented here.
+
+To tell SQLite how this table works, we need to give it a name, name each
+column of data (a row is a series of columns), and give some detail about the
+type of data in each column. Although SQLite technically doesn't care about
+data types, it's still a good habit to think about what's what so you can avoid
+surprises later.
+
+Create a file named F<schema.sql>, containing:
+
+=begin screen
+
+    CREATE TABLE blockstats (
+        height     INTEGER NOT NULL,
+        epochtime  INTEGER NOT NULL,
+        hash       CHARACTER(64) NOT NULL,
+        size       INTEGER NOT NULL,
+        txcount    INTEGER NOT NULL,
+        difficulty FLOAT NOT NULL
+    );
+
+    CREATE INDEX blockstats_height_idx    ON blockstats (height);
+    CREATE INDEX blockstats_epochtime_idx ON blockstats (epochtime);
+
+=end screen
+
+X<concepts; epoch>
+
+There are six columns, corresponding to the six metadata fields identified
+earlier. Height, block time (called "epoch" time, because Dogecoin stores them
+as seconds since the Unix epoch of January 1, 1970), size, and count of
+transactions in the block are all integers. The hash of the block is a text
+field consisting of exactly 64 characters. The difficulty is a floating point
+value: it has a decimal point and the precision of that number is important.
+All of these values must be present in every row; none of them can have a null
+(or "not present") value.
+
+This C<CREATE TABLE> statement tells SQLite that a table named C<blockstats>
+should exist and prepares that table to hold zero or more rows of data with
+information that matches the types of data expected.
+
+The two C<CREATE INDEX> statements are optional, but you'll find them useful.
+They tell SQLite to track additional information about the C<height> and
+C<epochtime> columns so that any queries written to explore data in this table
+can use either field to make looking up relevant data faster. For example, if
+you wanted to find the block at height 2,345,679, SQLite can look in the
+C<blockstats_height_idx> index for the location of the relevant row. Without
+that index, SQLite would have to search the entire table to find that
+block--and, on average, it would have to look through half the rows in the
+table to find it.
+
+=begin tip Indexes are Like Spice
+
+No, indexes don't make Guild navigators effective, but they aren't also useful
+on I<every> column. Every index takes up disk space and makes it slower to
+insert data into a table. That doesn't matter for this tip, but it's important
+to remember.
+
+Also keep in mind that a database can use, in general, only one index per query
+per table. So there's little value in adding extra indexes, if everything we're
+likely to look at includes either the block's height or the time of its mining.
+These two indexes will cover (pardon the pun) everything relevant.
+
+=end tip
+
+From the command line, initialize a new database and create that table with the
+command:
+
+=begin screen
+
+  $ B<< sqlite3 blockstats.sqlite < schema.sql >>
+
+=end screen
+
+If all goes well, you will now have a single file called F<blockstats.sqlite>
+ready to store new data!
+
+=head2 *Block Metadata Export Code
+
+=begin screen
+
+    #!/usr/bin/env python3
+
+    from dogecoinrpc.connection import DogecoinConnection
+    from pathlib import Path
+    from xdg_base_dirs import xdg_config_home, xdg_config_dirs, xdg_data_home
+
+    import csv
+    import click
+
+    @click.command()
+    @click.option("--startat", default=1, help="Height of the block to start" ,type=int)
+    @click.option("--numblocks", default=100, help="Number of blocks to export", type=int)
+    @click.option("--user", default=None, help="Name of the RPC user", type=str)
+    @click.option("--outfile", default="blockexport.csv", help="Name of the output file to write", type=str)
+    def main(startat, numblocks, user, outfile) -> None:
+        config_file = Path(xdg_data_home()) / "dogeutils" / "auth.json"
+        with open(config_file, 'r') as f:
+            config = simplejson.load(f)
+
+        if user is None:
+            print("No user provided; exiting")
+            exit(1)
+        else:
+            client = DogecoinConnection(user, config[user], 'localhost', 22555)
+
+        lastblock = startat + numblocks - 1
+
+        hash = client.getblockhash(startat)
+
+        with open(outfile, "w") as f:
+            writer = csv.writer(f)
+            want_values = ["hash", "height", "time", "size", "tx", "difficulty"]
+
+            for i in range(1, lastblock):
+                block = client.getblock(hash)
+                block_values = [
+                    block["height"],
+                    block["time"],
+                    block["hash"],
+                    block["size"],
+                    len(block["tx"]),
+                    block["difficulty"]
+                ]
+                writer.writerow(block_values)
+                hash = block.get("nextblockhash", None)
+
+                if hash is None:
+                    break
+
+
+    if __name__ == '__main__':
+        main()
+
+=end screen
+
+=head2 *What Can You Do With This?
+

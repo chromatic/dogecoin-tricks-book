@@ -25,3 +25,5 @@ L<make_millions_with_dogecoin>
 L<calculate_block_fill>
 
 L<calculate_block_statistics>
+
+L<export_block_metadata>
