@@ -27,3 +27,5 @@ L<calculate_block_fill>
 L<calculate_block_statistics>
 
 L<export_block_metadata>
+
+L<analyze_block_metadata>
