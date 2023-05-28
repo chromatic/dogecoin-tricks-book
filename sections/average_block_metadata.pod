@@ -1,0 +1,237 @@
+=head1 Average Block Metadata
+
+Z<average_block_metadata>
+
+With block metadata in a database (L<export_block_metadata>) you have the
+ability to perform arbitrary queries on the data. You've seen some of this in
+L<analyze_block_metadata>. You can ask even more complex questions and perform
+more powerful manipulations on the data. The more SQL you understand, the more
+options you have.
+
+=head2 *Alias Common Columns
+
+Queries in the previous tip reused the somewhat awkward manipulation of turning
+the C<epochtime> column into a date column. Why not let SQLite do that for you?
+While you I<could> reimport all of the data or create a new table or add a
+column to calculate the date, you could just as easily change the way you
+I<view> the data.
+
+A view in SQL, at least as practiced by SQLite, is kind of like a query you can
+write other queries against. Alternately you might think of it as a way to make
+something that looks like a table but which contains aliases for other data.
+Wouldn't it be nice to write C<SELECT date, txcount...> instead of all that
+other complexity?
+
+Save this file as F<create_dates_view.sql>:
+
+=begin screen
+
+    CREATE VIEW IF NOT EXISTS blockstats_dates
+    AS
+    SELECT
+        height,
+        date(datetime(epochtime, 'unixepoch')) AS date,
+        epochtime,
+        hash,
+        size,
+        txcount,
+        difficulty
+    FROM blockstats;
+
+=end screen
+
+... and run it with C<< sqlite3 < create_dates_view.sql blockstats.sqlite >>,
+or type that code directly into a SQLite prompt.
+
+That code does exactly what it implies. If there's no existing view in the
+database with the name C<blockstats_dates>, create a view. That view should
+have the columns from the C<blockstats> table as well as a new column, C<date>,
+that represents the block's date.
+
+Now to list all of the heights and hashes from blocks mined on your
+goddaughter's birthday, you can write:
+
+=begin screen
+
+  SELECT date, height, hash
+  FROM blockstats_date
+  WHERE date = '2023-04-22';
+
+=end screen
+
+Views like this are generally cheap and, if you keep them to SQL statements
+like this, reasonably easy to manage, so feel free to manipulate the data to
+make subsequent queries easier to write without having to modify the data
+you've already imported.
+
+=head2 *Average Difficulty by Day
+
+With that helpful scaffolding in place, it's easier to answer questions like
+"What's the average mining difficulty every day in April 2023?" If you've
+studied the previous tip, you probably only need the hint that SQLite has a
+function called C<AVG> that will calculate the arithmetic mean of a data set.
+
+
+=begin screen
+
+  sqlite> B<SELECT DATE, AVG(difficulty)>
+  B<FROM blockstats_dates>
+  B<< WHERE date >= '2023-04-01' >>
+  B<< AND   date <  '2023-05-01' >>
+  B<GROUP BY 1>
+  B<ORDER BY 1;>
+  2023-04-01|10246432.0898101
+  2023-04-02|10448319.7542918
+  2023-04-03|9996381.92059544
+  2023-04-04|10325399.6426264
+  2023-04-05|10596347.1752015
+  2023-04-06|10424084.9092164
+  2023-04-07|10825771.5585102
+  2023-04-08|10778853.3159625
+  2023-04-09|11334822.9295326
+  2023-04-10|10716047.2139055
+  2023-04-11|10619734.8399633
+  2023-04-12|10064203.9079213
+  2023-04-13|10254175.2447795
+  2023-04-14|10262071.1208702
+  2023-04-15|11064251.7274149
+  2023-04-16|10968131.3985921
+  2023-04-17|10617461.8932077
+  2023-04-18|10170954.1527323
+  2023-04-19|10205503.8287437
+  2023-04-20|10554817.552975
+  2023-04-21|11036352.148357
+  2023-04-22|11018358.3450682
+  2023-04-23|10658572.8425474
+  2023-04-24|10478176.3345837
+  2023-04-25|10347352.0460158
+  2023-04-26|10333477.0577914
+  2023-04-27|10159316.8870308
+  2023-04-28|9977940.50760047
+  2023-04-29|10400965.385681
+  2023-04-30|10524277.7201581
+
+=end screen
+
+Notice how much easier this query is to read by using the C<blockstats_dates>
+view, especially because the C<WHERE> clause refers to the C<date> column
+twice. It's totally okay to refer to a column in the C<WHERE> clause multiple
+times like thisN<You can also write C<WHERE date BETWEEN '2023-04-01' AND
+'2023-04-30'>, but notice that the range of dates searched includes both the
+low and high values.>.
+
+=head2 *Average Block Fill Rate
+
+What if you want to see the average block fill rate over time? That's also a
+straightforward query:
+
+=begin screen
+
+  sqlite> B<SELECT date, AVG(size/7680.00) AS fill_rate>
+  B<FROM blockstats_dates>
+  B<WHERE date BETWEEN '2023-05-01' AND '2023-05-14'>
+  B<GROUP BY 1>
+  B<ORDER BY 1;>
+  2023-05-01|1.08704812885802
+  2023-05-02|1.23228844227968
+  2023-05-03|1.12467042223046
+  2023-05-04|1.07806550082781
+  2023-05-05|1.16125461115143
+  2023-05-06|1.09360965909091
+  2023-05-07|1.02771558204468
+  2023-05-08|1.1424784402819
+  2023-05-09|1.83941647376543
+  2023-05-10|2.04727018371627
+  2023-05-11|16.0814344697665
+  2023-05-12|14.0762417192917
+  2023-05-13|21.7191201513899
+  2023-05-14|18.8563407512626
+
+=end screen
+
+This query has two interesting features. First, it divides the C<size> column
+by 7680.00. Why the extra zeroes? Mathematically that makes no difference,
+I<except> that including them tells SQLite to keep any fractional component of
+the remainder for display. Without that precision, SQLite might throw away
+informationN<Try it without the extra digits and see what it does for you!>.
+Second, there are 768,000 bytes in 750kb, but we want to display the fill rate
+as a percentage, so we'd have to multiply the results by 100.00 to get
+percentages. Because your author is very cautious about minimizing
+floating-point math where possible, he's consolidated the calculations into a
+single value, so that SQLite will avoid compounding errors in
+mathematically-equivalent but additional calculations.
+
+=head2 *Find the Maximum and Minimum Fill Rate
+
+Average fill rates are interesting, but extraordinary blocks are most
+interesting. If the average block is 5% full but you really want your
+transaction to go through and the last 10 blocks have been 99% full, the
+average is a lot less interesting.
+
+Here's how to calculate the maximum and minimum fill rate by day. First, why
+not make another view (or add to the previous view) to make a C<fill_rate>
+column?
+
+=begin screen
+
+    CREATE VIEW IF NOT EXISTS blockstats_fill_dates
+    AS
+    SELECT
+        height,
+        date(datetime(epochtime, 'unixepoch')) AS date,
+        (size / 7680.00) AS fill_rate,
+        epochtime,
+        hash,
+        size,
+        txcount,
+        difficulty
+    FROM blockstats;
+
+=end screen
+
+Then use the SQL C<MAX()> and C<MIN()> functions to look for the highest and
+lowest values for a column, respectively. These are aggregate functions, so if
+you want to group them by day, you should C<GROUP> the date column:
+
+=begin screen
+
+  sqlite> B<SELECT date, MAX(fill_rate), MIN(fill_rate)>
+  B<FROM blockstats_fill_dates>
+  B<WHERE date BETWEEN '2023-05-01' AND '2023-05-14'>
+  B<GROUP BY 1>
+  B<ORDER BY 1;>
+  2023-05-01|57.7990885416667|0.0705729166666667
+  2023-05-02|29.693359375|0.0798177083333333
+  2023-05-03|72.4002604166667|0.068359375
+  2023-05-04|28.799609375|0.0682291666666667
+  2023-05-05|23.9272135416667|0.0846354166666667
+  2023-05-06|27.1270833333333|0.068359375
+  2023-05-07|19.9759114583333|0.0798177083333333
+  2023-05-08|56.0169270833333|0.083203125
+  2023-05-09|62.9592447916667|0.0923177083333333
+  2023-05-10|46.2252604166667|0.0765625
+  2023-05-11|129.995052083333|0.09296875
+  2023-05-12|97.655078125|0.0725260416666667
+  2023-05-13|97.66328125|0.068359375
+  2023-05-14|97.6610677083333|0.09296875
+
+=end screen
+
+It's interesting to see a block almost 130% full on May 11; this may indicate a
+failure in data extraction, a failure in the calculation, or a failure in
+understanding block size limits. Whatever the cause or causes, it's a good
+reminder to verify things for yourself; always be willing to challenge someone
+else's assertion and check your sources.
+
+=head2 *What Can You Do With This?
+
+You can take this in several directions: start making graphs about the health
+of the network over time, plan your own use to be gentle on the network (or
+maximize your own transaction throughput), perform advocacy for people running
+nodes or using Dogecoin as a currency, and more.
+
+Data analysis skills are useful in many lines of work and areas of research. If
+you already have those skills, applying them here can help developers and node
+runners decide where to focus further attention. If you're looking to develop
+those skills, this is real data available to anyone where you can ask and
+answer all sorts of interesting questions.
