@@ -1,0 +1,143 @@
+=head1 Speed Up Analysis
+
+Z<speed_up_analysis>
+
+Depending on the speed of your computer and everything you have going on, all
+of this data analysis (L<analyze_block_metadata> and L<average_block_metadata>,
+for example) can be somewhere between "pretty fast" and "slow". This is because
+computers, although on average much faster than people, can be slow because
+they don't do things the smart way.
+
+For example, if you know there are currently 4.7 million blocks and you're
+looking for what happened in block 4.69 million, and you know you've exported
+blocks in ascending height order, you don't have to read through the heights of
+4.69 million blocks to find the one you're looking for. You'll start somewhere
+near the end and work your way backwards, quickly narrowing down your search.
+
+A computer isn't that smart. Run a query to look up a specific block's date
+based on its height and SQLite will think for a while, because it's not doing
+the smart thing. Try it and see:
+
+=begin screen
+
+  SELECT height, date FROM blockstats_dates WHERE height = 4,698,765;
+
+=end screen
+
+=head2 *Index Your Data
+
+What's the smart thing for a database to do? That depends on what it knows. If
+it knows nothing about the data, then it's going to have to check every row
+until it finds the desired C<height>.
+
+If you've exported 100 block heights (let's say 1 to 100, for this example) and
+you search for each block height, looking for the block at height 1 means one
+lookup. Looking for the block at height 100 means 100 lookups. If you add up
+all of the lookups and divide by 100, you'll see that the average number of
+lookups is 50--or 100 divided by 2. If you add a thousand blocks, the average
+number of lookups is 500--or 1000 divided by 2.
+
+You can see where this is going.
+
+X<concepts; database index>
+
+To make your database queries faster, you need to tell the database to add an
+I<index> to a column or columns. Essentially this is a way of saying "I'm going
+to ask you for information based on this data, so keep track of that data in a
+way that may let you be smart about your lookups."
+
+=head3 *Index Your Height
+
+For example, if you want to look up block information based on their heights,
+type this into your SQLite prompt:
+
+=begin screen
+
+  CREATE INDEX blockstats_height_idx ON blockstats(height);
+
+=end screen
+
+This tells SQLite to attach an index to the table C<blockstats> on the
+C<height> column, so that any query you write that uses C<height> in the
+C<WHERE> clause has a chance of using the index rather than looking at, on
+average, half of the rows in the tableN<How did your author know how to do
+this? Years of experience. Get a head start by reading about query plan
+explanations at U<https://www.sqlite.org/eqp.html>.>.
+
+=head3 *Index Your Date
+
+What if you're not querying the C<blockstats> table, you're querying one of the
+view from a previous tip? What if you're not looking for height but by date?
+
+Good news:
+
+=begin screen
+
+  CREATE INDEX blockstats_date_day_idx
+  ON blockstats (date(datetime(epochtime, 'unixepoch')));
+
+=end screen
+
+Instead of indexing a column by itself (C<epochtime> here), this adds an index
+on functions performed on the column. This speeds up any query that uses that
+specific application of functions on C<epochtime> in a C<WHERE> clause I<as
+well as> the views defined that turn that function into something that looks
+like a column.
+
+In other words, if you suffered through slow queries reading the previous tips,
+your author apologizes a little bit but deliberately chose these examples to
+make a deeper pointN<If you've skipped around through the book, good for you!
+Read! Skim! Learn! Come back to learn more deeply when you want to! It's all
+good!>.
+
+=head2 *What Can You Do With This?
+
+"Look, Unky c, I wanted to read a book about dog-themed money, and you made me
+install a relational database you said I already had installed on my system,
+and now you're teaching me about computer science. I care about dogs and money
+and we're way outside of that lane!"
+
+Okay, that's a fair reaction.
+
+X<< configuration options; C<txindex> >>
+
+Did you ever wonder why you have a wallet? With watch-only addresses
+(L<watch_an_address> or L<watch_wallet_addresses>), you can keep track of
+transactions even if they don't belong to you--but why do you have to go
+through extra work just to register them with a Dogecoin Core? What's the use
+of C<txindex> (L<index_all_transactions>) anyway?
+
+It's the same principle. With the full blockchain over 60 GB in size when
+stored on disk, it'd be incredibly inefficient to look up anything without an
+index. As written before, the best case scenario is something like scanning 30
+GB of data on average for every question you have about the blockchain. With
+every transaction, things get slower and slower.
+
+There are only three solutions, and two of them are any good right now:
+
+=over 4
+
+=item * wait for computers to get faster
+
+=item * store less data
+
+=item * store data structured for quicker lookups
+
+=back
+
+Wallets hit point two and indexes hit points two and three. When you add an
+address to your wallet and rescan blocks, you're taking wallet-specific
+information out of the entire blockchain and storing it elsewhere for faster
+wallet-specific operations. When you index all transactions, you're taking
+transaction-specific information out of the entire blockchain and storing it in
+a way so that the Core can look things up faster.
+
+After all, everything from blocks to transactions to statistics about blocks is
+just a big batch of data stored on a computer somehow. It's up to us humans to
+attach meaning to it. Sometimes that meaning is us sending it around to other
+people. Other times, it's us telling computers how to structure the data for
+improved meaning.
+
+Now you know some of the principles behind other operations done on your behalf
+or done at your request in Dogecoin Core and other software I<and> you have
+tools to make your own analyses better/faster/smarter.
