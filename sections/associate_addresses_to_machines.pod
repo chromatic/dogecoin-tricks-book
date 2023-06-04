@@ -1,0 +1,170 @@
+=head1 Associate Addresses to Machines
+
+Z<associate_addresses_to_machines>
+
+Suppose you have a small retro arcadeN<Again, this could be a single machine,
+drink dispenser, pachinko machine, anything coin-operated!> in the back of your
+family's ice cream shop. You have a little computer network already installed
+to handle the display screen showing your ice cream flavors and for the
+payment/inventory system you use to sell waffle cones, scoops, sprinkles, etc.
+
+Given that you have multiple machines, if you want to take Dogecoin in exchange
+for credits in your arcade machines, you need some way of identifying that a
+customer has made a payment for a specific machine. There's an easy way to do
+this and a difficult way to do this.
+
+=head2 *An Address Per Machine
+
+The difficult way to do this is to run some kind of node on each machine that
+knows one or more addresses. What makes this tricky?
+
+=over 4
+
+=item * you need node-capable hardware for each machine
+
+=item * you need storage space, electricity, and bandwidth for each machine
+
+=item * you have maintenance costs for each node in each machine
+
+=back
+
+The benefit of this technique is that you've successfully associated an address
+(or multiple addresses) with the machine when you configured them. If you want
+to swap your Ms.Pac-Man console for your buddy's Galaga console, you can swap
+the hardware and everything's good.
+
+If, on the other hand, you have a single node that can monitor the network for
+transactions, you can watch for transactions for I<all> of your machines and
+route requests to individual machines. You need to design and configure a
+little bit more software in this case, but you get more flexibility.
+
+=head2 *Tracking Addresses
+
+If you've configured each machine with some sort of network connection (see
+other tips), you might have machine names mapped to IP addresses from your DHCP
+serverN<If this seems more technical than you want to manage right now, barter
+with an IT-savvy friend to trade a couple of pints of ice cream for DNS
+setup!>. Follow a few steps to get up and running.
+
+=head3 *Generate a Bunch of Addresses
+
+First, you need a bunch of addresses, maybe exported from a trusted node
+(L<export_wallet_addresses>) or generated from a secure HD key. Prepare these
+in a text file you can import into a database.
+
+=head3 *Configure Your Network
+
+Suppose you have five arcade machines. You also have five DNS entries for them:
+
+=over 4
+
+=item * C<pacman.tastytreats.local>
+
+=item * C<centipede.tastytreats.local>
+
+=item * C<crystalcastles.tastytreats.local>
+
+=item * C<indianajones.tastytreats.local>
+
+=item * C<pacman.tastytreats.local>
+
+=back
+
+Assume that each of these machines has I<something> reachable on the network.
+The integration work now is to route some kind of action or event to these
+machines when an associated address receives an appropriate payment. How do you
+associate them?
+
+You I<could> use a JSON file stored in a directory somewhere (see
+L<enhance_rpc_calls> for an example). That's easy for a human to update and
+easy to read. It's less manageable if you want to access it from multiple
+places simultaneously or if you want a nicer interface than JSON in a text
+file.
+
+=head3 *Assign Address to Address
+
+An alternate approach is to create a database, such as with SQLite (see
+L<export_block_metadata> for an example)N<In a larger environment, you might
+prefer MySQL or PostgreSQL to handle multi-user capabilities, but that adds
+management complexity you might not be ready for yet.>. You might create a
+table to map Dogecoin addresses to machine names like:
+
+=begin screen
+
+  CREATE TABLE addresses_to_machines (
+    address CHARACTER(64) NOT NULL,
+    dns_name TEXT NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT false
+  );
+
+  CREATE INDEX addresses_to_machines_address_idx
+    ON addresses_to_machines(address);
+
+=end screen
+
+These statements tell SQLite how to represent mappings between Dogecoin
+addresses and machine hostnames on your network. A series of C<INSERT>
+statements (or a CSV import) could populate this table. You can assign
+addresses to hosts randomly, let your software do it (see other tips), or use
+any alternate approach.
+
+=head3 *Update Addresses
+
+The C<is_active> field allows you to toggle an association on or off. Depending
+on how you route information to each machine, you could burn an address and
+take a machine off the network entirely (someone dripped rocky road on the
+Crystal Castles trackball, so there's no point in adding plays to the machine,
+for example).
+
+Note also that there's nothing that says each machine can have one and only one
+DNS address (give your IT consultant an extra pint to pull this off B<or> to
+discourage them from pulling this off) and there's definitely nothing
+preventing you from associating multiple Dogecoin addresses with a single
+machine. In fact, that might be a good idea.
+
+To add more addresses, all you have to do is import them or add them to this
+table.
+
+=head2 *What Can You Do With This?
+
+With this in place, what can you do? You have enough to focus on the
+interesting parts of the problem now:
+
+=over 4
+
+=item * tracking transactions as they come in
+
+=item * turning incoming transactions into interesting events
+
+=item * handling interesting events on your arcade machines
+
+=back
+
+This abstraction described here is straightforward, but it adds a lot of
+flexibility and power to your system. You can deal without it if you have
+smaller or simpler needs, but you need something like it at some point in your
+system.
+
+=head2 *Understand the Risks
+
+Hardware, network, and physical security is always a risk. If you use a wifi
+network, make sure that you have an isolated network with the appropriate
+password and security settings to keep other people from connecting to your
+network, lest they have an easier time to connect to any of your machines.
+
+If you have a wired network, wifi security is less of an issue, but you may
+have to run a lot of cable and deal with more physical security, lest someone
+plug their own hardware into an open network port.
+
+Hard-coding an association between address and machine makes certain things
+easier (L<customize_your_qr_code>), but it reduces your anonymity. Anyone who
+visits your retro gaming museum and pays for individual plays against
+individual machines knows the Dogecoin addresses under your control and can
+monitor transactions against them and tie your physical location to your arcade
+income.
+
+On the opposite side, if you keep logs of high scores, attendance, and the
+like, you can tie the addresses of your customers to their identities as well.
+While some people may be comfortable with their wallet security and
+pseudonymity, you should limit data retention and make any identification
+opt-in only with informed consent.
