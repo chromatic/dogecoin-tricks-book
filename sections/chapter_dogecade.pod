@@ -27,3 +27,5 @@ hardware and software machines.
 L<associate_addresses_to_machines>
 
 L<practice_safe_wallet_hygiene>
+
+L<rotate_machine_addresses>

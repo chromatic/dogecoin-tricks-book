@@ -120,7 +120,7 @@ Note also that there's nothing that says each machine can have one and only one
 DNS address (give your IT consultant an extra pint to pull this off B<or> to
 discourage them from pulling this off) and there's definitely nothing
 preventing you from associating multiple Dogecoin addresses with a single
-machine. In fact, that might be a good idea.
+machine. In fact, that might be a good idea (L<rotate_machine_addresses>).
 
 To add more addresses, all you have to do is import them or add them to this
 table.
