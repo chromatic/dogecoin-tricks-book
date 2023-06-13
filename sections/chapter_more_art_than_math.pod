@@ -13,3 +13,5 @@ Dogecoin but bring some ancillary, unique perspectives to your work with the
 coin.
 
 L<turn_your_transactions_into_songs>
+
+L<control_your_jukebox>
