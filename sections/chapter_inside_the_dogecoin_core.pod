@@ -22,3 +22,5 @@ L<build_core_in_docker>
 L<put_your_face_on_your_wallet>
 
 L<understand_the_debug_log>
+
+L<open_an_issue>

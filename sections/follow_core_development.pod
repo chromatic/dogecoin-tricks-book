@@ -73,7 +73,7 @@ GitHub does; only those people allowed to make changes in the
 C<dogecoin/dogecoin> repository can change the code that makes up the software
 that you're running.
 
-=begin figure Dogecoin Core Github
+=begin figure Dogecoin Core GitHub
 
 Z<figure-dogecoin-core-github>
 
