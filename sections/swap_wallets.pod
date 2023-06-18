@@ -1,0 +1,86 @@
+=head1 Swap Wallets
+
+Z<swap_wallets>
+
+You've decided, for security purposes, to maintain a wallet of watch-only
+addresses representing addresses you use to send and receive Dogecoin
+(L<watch_wallet_addresses>). If you mostly receive and rarely send, this can be
+a great way to avoid mishaps and keep your hard-earned koinu safe.
+
+Sometimes you do need to spend your coins and send transactions from your
+addresses. Because your watch-only wallet does not contain private keys, you
+can't use it for sending transactions (at least, not transactions that you need
+to validate with private keys).
+
+In the case where you want to use Dogecoin Core to manage your transactions,
+you can run the Core with different wallet files.
+
+=head2 *Launch with Wallet File Locations
+
+Suppose you have two F<wallet.dat> files, one containing private keys and
+addresses and the other containing watch-only addresses. Suppose the hot wallet
+has a filename F<hotwallet.dat> and the other wallet has a filename
+F<watchonlywallet.dat>.
+
+=begin tip Make Multiple Wallet Files
+
+How did you get two different files? Launch the Core. Let it sync. Let it
+create a wallet (if you don't have one already).
+
+Close the program and wait for it to exit. Then move or rename the
+F<wallet.dat> in your Dogecoin Core data directory. Launch the Core again. Now
+you have two wallet files with no connection to each other.
+
+=end tip
+
+X<< configuration options; C<wallet> >>
+
+When you launch the Core, use the configuration option C<wallet> to specify one
+or the other wallet file:
+
+=begin screen
+
+  $ B<dogecoin-qt -wallet=watchonlywallet.dat>
+
+=end screen
+
+When the core launches, you should see the difference between the different
+wallets based on their contents.
+
+If you want to make this easier, use a separate configuration file
+(L<manage_multiple_configurations>) for different wallets.
+
+Be aware that all wallet files, whatever their names, must be in your Dogecoin
+data directory.
+
+=head2 *Understand the Risks
+
+If you launch the core with a new wallet but use the same blockchain data, your
+core will have to rescan blocks since the last launch of the core with that
+wallet. This helps prevent data loss (specifically any transactions that
+affected your wallet), but it will increase startup time. If you need fast
+startup time, launch the core with your other wallet(s) frequently--once a day,
+once a week, however often makes sense for you.
+
+Every computer with a wallet increases your security footprint. Every new
+wallet file containing private keys adds a security risk. Even if you have
+encryption enabled on your wallet as you should, keeping a F<wallet.dat> of any
+kind on a laptop, desktop, USB key, cloud server, or anywhere else gives you
+one more machine or device or location you have to secure.
+
+With that said, running a node that I<doesn't> have access to a wallet storing
+private keys reduces the risk that a bug or an exploit in Dogecoin Core or the
+network or RPC or any other interface can expose wallet information--so running
+a node without a wallet (L<work_without_a_wallet>) or with a watch-only wallet
+can increase your security.
+
+For a I<tiny> amount of minimal security against the laziest possible attacker,
+you could even name your wallet file something entirely I<unlike>
+F<wallet.dat>, just in case anyone accesses your hard drive and searches for
+files matching F<wallet.dat>. This is only a tiny level of protection, but
+there's no requirement that your wallet have a filename of any specific form.
+
+If you I<do> add this additional level of security and obfuscation, you might
+consider I<not> hard-coding wallet names in multiple F<dogecoin.conf>
+configuration files, just to make the files slightly less obvious to any
+attackers.
