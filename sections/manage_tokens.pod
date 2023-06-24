@@ -1,0 +1,52 @@
+=head1 Manage Tokens
+
+Z<manage_tokens>
+
+Take a step back from the details of running a Dogecoin-powered arcade and
+think about what you want to accomplish. Sure, it's a clever hack to have an
+address for every machine and to be able to kick off a play session for every
+I<n> Dogecoin received for the address associated with a machine.
+
+It's worth I<trying> to accomplish that. However, that technical approach has
+some drawbacks, as alluded to in other tips.
+
+X<obscure references; Battle of Yavin>
+
+First, transaction speed is an issue. Waiting, on average, 55 or 60 seconds for
+a transaction to go through is a long time for someone to stand in front of
+your Atari Star Wars machine waiting to fly an X-Wing into the Battle of Yavin.
+If blocks are full, it could take longer or cost your customer more to send
+that transaction. You I<could> work around this by checking the mempool for a
+pending transaction, but that's additional work and the transaction might not
+go through, especially if it turns out to be invalid after all.
+
+Second, you have to deal with the fact that there's an association between a
+person sending a transaction to a machine address and the machine address being
+visible to other people in the same location. If core developer Patrick Lodder
+really wants to play Donkey Kong Jr but worries that the person getting ice
+cream behind him will corner him in the parking lot and demand 1000 Dogecoin
+from Patrick's Big Whale Wallet, you've lost a good customer.
+
+Third, you have to mange the overhead of associating machines with addresses
+and keep that infrastructure running. It's not a lot of overhead I<if> you're
+comfortable managing infrastructure like this, but it's still overhead. You can only
+bribe the nice neighborhood kids with fudge ripple so many times before they
+realize they can build their own arcades.
+
+None of these are dealbreakers. You can work around them all, and they might be
+the right choice. However, you should still consider an alternative.
+
+=head2 *A Token Economy for Your Dogecade
+
+If you hear the word "token" related to cryptography, you might think of a
+scammy influencer shilling a Ponzi scheme and hoping to make a few thousand
+dollars of Ethereum before pulling the rug out from underneath a bunch of
+unsuspecting victims. That's definitely one definition of token.
+
+Here it means something else: a digital asset redeemable in your arcade.
+There's no secondary market. There's no airdrop. There's no pump and dump or
+price or listing on some exchange or website. It's just a token that someone
+can redeem for a few minutes of nostalgic pixelated fun.
+
+=head2 *Understand the Risks
+
