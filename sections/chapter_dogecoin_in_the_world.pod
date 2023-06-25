@@ -33,3 +33,5 @@ L<analyze_block_metadata>
 L<average_block_metadata>
 
 L<speed_up_analysis>
+
+L<estimate_current_conversion_value>
