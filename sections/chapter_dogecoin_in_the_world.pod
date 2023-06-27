@@ -35,3 +35,5 @@ L<average_block_metadata>
 L<speed_up_analysis>
 
 L<estimate_current_conversion_value>
+
+L<set_your_own_price>

@@ -2,6 +2,8 @@
 
 =head0 Manage a Dogecoin Arcade
 
+Z<chapter_dogecade>
+
 As if this book weren't nerdy and technical enough, here's a full, working
 example to tie together everything you've learned: a design and implementation
 for an arcade using Dogecoin--not quarters, dollars, or barter--to play.
