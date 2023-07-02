@@ -20,3 +20,5 @@ L<practice_a_new_language>
 L<watch_an_address>
 
 L<swap_wallets>
+
+L<limit_logs>

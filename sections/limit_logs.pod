@@ -1,0 +1,121 @@
+=head1 Limit Logs
+
+Z<limit_logs>
+
+X<< Dogecoin core; F<debug.log> >>
+
+If you want to know what's going on with your node, you will be monitoring a
+file called F<debug.log> in your Dogecoin directory (see
+L<understand_the_debug_log>). This file gives you information about startup and
+running configuration, transaction and network activity, and warnings and
+errors. Depending on how you've configured your system, this file can grow
+slowly or rapidly.
+
+By default, unless you intervene somehow, this file can grow large without any
+bounds. This is probably not what you want, so you can (and should) limit the
+size of the file, depending on what you need to do and why. While you're more
+likely to run out of disk space due to the blockchain growing in size, any file
+that can grow without limits can strain your resources.
+
+=head2 *Restart Your Node
+
+The easiest and simplest one-time approach is to shut down your node, truncate
+or delete this file, then restart your node. The Dogecoin Core will recreate
+this file when it starts up successfully. If you read this and immediately
+check and see that your log file is taking up 10 GB of spaceN<In July 2023,
+that sounded like a big log file. If you're reading this in July 2033, that may
+not sound so large.>, this intervention can be quick and easy.
+
+There are three downsides. First, you'll lose all information in the existing
+log, unless you save a copy somewhere else. Second, you'll have to restart your
+node. That may take a few minutes. Third, you'll have to do this again unless
+you do something else. Even so, this is a fine approach if you can live with
+the drawbacks.
+
+=head2 *Limit Log File Size
+
+X<< configuration options; C<shrinkdebugfile> >>
+
+For a more permanent solution, use the C<shrinkdebugfile> configuration option
+from the command line or in your F<dogecoin.conf> file. This parameter takes a
+boolean, true or false value. When true, the Dogecoin Core will truncate your
+log file when it starts if the file is larger than 10 MB (10 million bytes). Any time
+you restart your node, the Core will perform this action.
+
+There are three downsides. First, you'll lose all truncated data unless you've
+saved it. Second, you have to restart your node. That may take a few minutes.
+Third, this only works when you have the configuration option enabled. If you
+forget to enable it on the command line or remove it from your configuration
+file, the Core will contentedly append to your existing log file. These may all
+be worth it for the benefit.
+
+=head2 *Rotate Your Logs
+
+X<concepts; log rotation>
+
+The previous two options work well on a desktop machine. On a server, you may
+want a more robust and standard solution, such as using a technique called
+I<log rotation>. With this approach, a separate process monitors log files on a
+schedule and moves them out of the way when they meet specific criteria such as
+age or file size. This rotation generally keeps around the most recent logs and
+gradually archives and deletes older copies.
+
+X<< external programs; C<logrotate> >>
+
+On Linux and Unix-like systems, look for a program called C<logrotate>. This is
+a standard program that provides all of the options described earlier. For
+example, you might write a configuration file like:
+
+=begin screen
+
+  /home/username/.dogecoin/debug.log {
+      rotate 7
+      daily
+      postrotate
+          /usr/bin/killall -HUP dogecoind
+      endscript
+  }
+
+=end screen
+
+This configuration applies to the log file F<debug.log> in the F<.dogecoin>
+directory belonging to user C<username>. It rotates the log file daily, keeping
+the most recent seven entries. After rotating a file each day, it sends a
+message to the Core to restart, so the Core can start writing to a new log
+file. This is a common pattern, but if it doesn't meet your needs, C<logrotate>
+has many, many other options to explore.
+
+If you have C<root> access on your system, add this file to your logrotate
+configuration directory, something like F</etc/logrotate.d/dogecoin>. If you
+lack this access, save this file in one of your own directories (F<.dogecoin/>
+is fine), then enable C<logrotate> in your cron system (perhaps by running
+C<crontab -e>):
+
+=begin screen
+
+  18 * * * * /usr/sbin/logrotate /home/username/.dogecoin/logrotate.conf
+
+=end screen
+
+If these commands seem strange or scary to you, that's okay. You don't have to
+use them until and unless you're comfortable configuring system services as
+yourself or as a root user. There are plenty of tutorials available online to
+explain in much more detail.
+
+=head2 *Understand the Risks
+
+What could go wrong?
+
+Running out of disk space is always a risk, so choosing a strategy to manage
+the size of always-growing files is important. The tradeoff to consider is
+archiving and eventually deleting old data that might contain something you
+really wanted to know. For example, if you fear that an attacker might send
+your node bad data or issue deleterious commands you don't anticipate, having
+logs available (and I<not> on the production system) might help identify the
+danger and react to it more quickly.
+
+A deleted log does you no good.
+
+Then again, neither does an unmonitored log. As with everything else, you have
+to pick and choose what you're going to learn about, what you can pay attention
+to, and the level of risk you can bear in various scenarios and contexts.
