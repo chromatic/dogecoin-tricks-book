@@ -1,0 +1,175 @@
+=head1 Hide Transaction Data in Media
+
+Z<hide_transaction_data_in_media>
+
+Nothing is ever all good or all bad. The public nature of all blockchains is a
+virtue, in that all transactions are verifiable by anyone, but the vice is that
+all transactions are public. Your privacy is only as good as your ability to
+keep your identity compartmentalized from your transactions.
+
+Posting an address on your GitHub page, your Twitter profile, or in your
+website's DNS entries (L<add_wallet_address_to_dns>) reduces your privacy a
+little bit. That tradeoff between privacy and publicity may be worthwhile--no
+one wants to tip the wrong developer, after all--but trading privacy for
+publicity still reduces your privacy.
+
+What if there were a way to add a little more friction to the process, so that
+regular bystanders have to do a lot more work to find your address, but the
+people who really need it can still get it? Presumably you've read the title of
+this tip, so you already know that it's possible.
+
+=head2 *Data Hiding
+
+The Greek word I<steganography> translates to "hidden writing"N<But sadly
+ignores the existence of ancient reptilian herbivores.>. In practice, it means
+storing data secretly in other files in ways that casual observers will not
+easily notice.
+
+Images are common hosts for hidden data, because it's easy to post images on
+the Internet. Furthermore, most images are large (so they can contain a lot of
+data) and already use compression algorithms (so pixel-perfect fidelity is not
+a requirement), I<and> people are used to seeing compression artifacts in
+images the same way people are used to seeing brushstrokes in impasto.
+
+Digital steganography and media files work together because of the way image,
+video, and audio compression work: they rely on the human brain filling in the
+gaps so as to be able to, in the case of compression, remove data while not
+reducing perceived fidelity and, in the case of hidden data, adding data
+without perceptively changing fidelity.
+
+You don't have to understand all of that fully as long as you use good tools.
+
+=head2 *Store Wallet Address or Other Data in an Image
+
+X<obscure references; Yes>
+
+First, start with an image, such as L<figure-steganography-pug>. Ensure that
+the image is big and bold enough that it can contain enough data. If you're
+encoding a wallet address or a passphrase, a normal sized camera phone photo is
+probably big enough. If you're encoding the entirety of Herman Melville's I<War
+and Peace>, you might do better with the song "Close to the Edge".
+
+=begin figure A Goofy Dog Image
+
+Z<figure-steganography-pug>
+
+F<images/steganography-pug.jpg>
+
+=end figure
+
+X<people; Stefan Hetzl>
+X<< external tools; C<steghide> >>
+
+While it's possible to write this code yourself, it's smarter to use code
+someone else has written. For example, Stefan Hetzl's SteghideN<Currently at
+U<https://github.com/StefanoDeVuono/steghide>.> is a good utility.
+
+C<steghide> is a command-line utility you can install on most Linux systems
+with your package manager. Mac OS X and Windows binaries are also available. To
+use C<steghide>, you need a cover file (the unmodified image or media file), a
+file containing your secret data, and an optional passphrase. Suppose you're
+using the image in L<figure-steganography-pug> as your cover file. Create a
+file called F<secret.txt> with a secret inside it: perhaps the address of a
+wallet you want to share with other people semi-secretly.
+
+Run this command, split into multiple lines for book formatting purposes:
+
+=begin screen
+
+  $ B<steghide embed \>
+    B<-cf steganography-pug.jpg \>
+    B<-sf steganography-pug-hidden.jpg \>
+    B<-ef secret.txt>
+  Enter passphrase: 
+  Re-Enter passphrase: 
+  embedding "secret.txt" in "steganography-pug.jpg"... done
+
+=end screen
+
+The C<-cf> option means "cover file", which means "what's the input media
+file".  In that case, it's the unmodified image. The C<-sf> option means the
+stegofile, or the output file which will contain the hidden secret message. The
+C<-ef> option means the "embed file", which is the file containing the secret
+message.
+
+Run this command and C<steghide> will prompt you to enter the same passphrase
+twice. You will need this passphrase to extract the secret file.
+
+The output file looks almost identical to the input file, as shown in
+L<figure-steganography-pug-hidden>. If you examine the file in this book's
+GitHub repositoryN<See U<https://github.com/chromatic/dogecoin-tricks-book>.>,
+you'll see that the files are in fact different. Download the stegofile and run
+C<steghide extract -sf steganography-pug-hidden.jpg> to extract the secret
+file. There is no passphrase; hit Enter.
+
+You'll get a secret message. Open the file F<secret.txt> with any text editor
+for a personal message from the author.
+
+=begin figure A Goofy Dog Image with Hidden Data
+
+Z<figure-steganography-pug-hidden>
+
+F<images/steganography-pug-hidden.jpg>
+
+=end figure
+
+You can store any kind of data here. For Dogecoin purposes, this is a good way
+to store a wallet address. It's an okay way to store a passphrase. It's a bad
+way to rely I<only> on hidden data; the strength of your passphase in the
+steganographic file is essential to extracting data from the file.
+
+
+=head2 *Cute Pets and Off-Chain NFTs
+
+Even though it's no longer 2022 and the buzz in the crypto world is no longer
+about NFTsN<Which is probably good, because they were a problem in search of a
+problem in most cases.>. Throwing additional junk data into transactions that
+most miners, nodes, and users care nothing about and can't use is a good
+example of a negative externality, the equivalent of throwing your litter into
+your neighbor's yard.
+
+If you can find a way to brand and transfer individual instances of media files
+between people I<without> storing anything other than transaction data in the
+blockchain, maybe you can find a better use case for NFTs than the world did so
+far.
+
+X<concepts; minting>
+
+For example, a steganographic NFT minting process (I<minting> here means
+associating an image with the blockchain) could use a third-party website to
+associate an image with a transaction, create a keypair for the specific
+transaction, then create a transaction which requires one half of the pair to
+unlock the transaction and encodes that key into the image using the other half
+of the pair. The site then provides the image and the encoding key to the purchaser.
+
+To transfer the image, the purchaser has to provide the key in the transaction
+to unlock the transaction, which then allows the third-party website to
+recognize the transfer.
+
+B<Warning:> Your author has not tried this and prefers his dog photos
+unencumbered anyhow.
+
+=head2 *Understand the Risks
+
+Anytime you trade data with someone else, especially in public, you run the
+risk of other people getting access to that data and doing whatever they want
+with it, including decoding any supposedly secret or hidden messages. If you're
+relying on the presence of data hidden within an image, a document, an audio
+file, or a video to prove the provenance of that data, anyone with sufficient
+time and knowledge could find a way to I<remove> that data or spoof their own
+data into the file.
+
+If you I<really> need cryptographically secure communication channels, swapping
+photos of cute dogs and cats is a better proof of concept and mechanism of
+amusement than a way to protect yourself against a state actor, a hostile
+corporation, or a neighbor angry that you keep dumping empty soda bottles in
+their yard.
+
+Beware that any I<modification> to the image, such as cropping, color
+correction, a filter to add an old-timey sepia tinge to your dog, or
+recompression if you upload to an image hosting service has the very likely
+potential to destroy hidden data.
+
+This is best used as a one-off data transfer method when you don't have another
+secure channel to use. It's also a good way to make the world look at more cute
+animals.

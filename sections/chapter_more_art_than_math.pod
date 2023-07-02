@@ -15,3 +15,5 @@ coin.
 L<turn_your_transactions_into_songs>
 
 L<control_your_jukebox>
+
+L<hide_transaction_data_in_media>
