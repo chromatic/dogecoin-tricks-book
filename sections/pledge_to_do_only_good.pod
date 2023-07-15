@@ -1,0 +1,152 @@
+=head1 Pledge to Do Only Good
+
+Z<pledge_to_do_only_good>
+
+People do the things they do for many reasons. From outside their own minds, we
+can only judge those reasons by a person's actions (and, sometimes, the words
+they use to describe those actions).
+
+Some philosophers think about ethics and morality in terms of harm and benefit.
+Did your choices and actions help people? Did they hurt people? Other
+philosophers define this in terms of larger benefit.  Did your choices and
+actions help or hurt society at large? Still other philosophers define ethics
+in terms of the far future of humanity. What can you do now to help the
+greatest number of people, living or potentially living in the future?
+
+This is a book about funny and friendly dog-themed cryptocurrency, so some of
+these highfalutin' concepts may seem out of place. On the other hand, this is a book
+about cryptocurrency, so it's important to talk about avoiding scams and traps and
+I<not> doing harm to others.
+
+Many of the other tips in this book include information about how to protect
+yourself and your interests. Remember also that Dogecoin is a community. It's a
+network.  It's a decentralized network based on trust, cooperation, and
+mutually beneficial competing interests. You don't have to trust any one person
+or node or group, and they don't have to trust you. You just have to verify
+that what someone asserts to be true is actually true.
+
+We can go further, however.
+
+=head2 *What is Good (Ethically)
+
+How do you know what is good actually? That's a deep question. Perhaps it's
+easier to ask about how you can tell if something is good.
+
+B<Does it help people?> Is writing a book about cryptocurrency in the putative
+crypto-winter bear market of 2022-2023 good? Will it teach people things? Is it
+accurate? Is it entertaining? Is it worth the money, even if the only thing
+people learn is that goats are ill-mannered creatures (L<vote_on_goats>)?
+
+B<Is it honest?> Are you including the pros and cons and benefits and drawbacks
+as you explain something to other people? If you're simplifying for the purpose
+of explanation, did you tell them that? Do they understand there are other
+important details and do they know where to learn more?
+
+B<Is it verifiable?> Can you prove the truth of your claim? Can other people?
+Can other people prove this easily?
+
+B<Is it sustainable?> Does this thing you're doing work only once? Can other
+people do it? Can they do it by themselves, or at least without you?
+
+B<Do the people benefiting pay the costs?> If you do something that requires
+other people to pick up the tab, who are they? What benefit do they get? Do
+they give informed consent? Do they give informed consent I<to your specific
+use case>?
+
+These are all abstract guidelines, but it's impossible to create an ethical
+code of conduct that covers every possible situation you find yourself in. If
+and when you have trouble answering one of these questions unambiguously yes,
+ask yourself "What would need to be true for me to answer this question
+unambiguously yes?"
+
+=head2 *What is Useful (Practically)
+
+X<references; hate parsley>
+
+Ethical and useful aren't always the same things. It may be ethical to start an
+online donation site where each donated Dogecoin means you'll plant cilantro in
+your backyard to combat climate change and increase carbon capture, but it'd
+take a lot of cilantro to make any difference at all, and cilantro--or I<hate
+parsley>--is disgusting.
+
+What interesting characteristics of I<useful> might apply?
+
+B<Create more value than you capture>. Writing a book is funN<For some
+people.>. Writing a book and having other people I<read> it and learn things
+and do cool things is, hopefully, an example of a value-producing activity.
+
+B<Share knowledge and capabilities>. This is one of the most valuable
+characteristics of free and open source software. A seasoned software developer
+might find a very interesting new feature or effective optimization and keep it
+to themselves, but submitting a pull request to one of the numerous Dogecoin
+projects out there puts this new capability in the hands of other people who
+can benefit from it.
+
+B<Make it easy for other people to do the right thing>. Again, I<right> is
+fraught with trouble defining concretely, but ask yourself if you were trying
+to do something and you weren't an expert, how likely would you be to get the
+outcome you want without running down blind alleys or accidentally making
+costly mistakes?
+
+=head2 *Good In Practice
+
+What would this all look like in a specific context? Let's talk about the
+responsibility of a core maintainer of important Dogecoin software, such as the
+Dogecoin Core.
+
+At the minimum, can we agree that core maintainers should:
+
+=over 4
+
+=item * Review all code changes carefully for correctness, security, and
+maintainability
+
+=item * Review all bug reports, feature requests, and issues to understand
+proposed problems, actual problems, and workable solutions
+
+=item * Disclose any potential or perceived conflicts of interest to other
+maintainers as they might be material
+
+=item * Strenuously avoid discussions of price, investing, and speculation that
+could be seen as attempts to manipulate the market
+
+=back
+
+The last is tricky. It's hopefully ethical to discuss potential market cap
+(L<calculate_dogecoin_maximum_market_stats>) and to acknowledge that Dogecoin
+can be used to make money (L<make_millions_with_dogecoin>), provided that one
+discloses any biases and keeps the discussion focused on verifiable facts and
+figures.
+
+It's hopefully also obvious that it would be unethical to know of potentially
+exploitable security flaws or network limitations and not disclose them to
+other maintainers or, worse, actively exploit them for personal gain.
+
+In other words, a position of trust and responsibility in this context--or any
+context--includes the requirement to deal honestly, avoid hiding information,
+and to prioritize the health of the network and the community over personal
+gain.
+
+Those seem like good guidelines even apart from the context of maintaining
+software or Dogecoin itself.
+
+=head2 *Understand the Risks
+
+Doing the right thing isn't always easy. It's tempting to take a shortcut, and
+it's disheartening to see careless or sloppy or unethical people brag about how
+quickly they were able to get ahead even if you know they stepped on other
+people to get there.
+
+You have your own definition of success and your own rules for living. Your
+author hopes to live his own life in such a way that he can wake up every day,
+look at the world, and see that it's a little better for his participation in
+it. He hopes to go to bed every night, reflect on the day or week or year and
+see that he's treated other people fairly and honestly, with kindness.
+
+That doesn't always happen. People make mistakes. Even with the best
+intentions, things sometimes go wrong. Perhaps the last final test of ethics is
+if you can own up to your mistakes--even unintentional--and do what you can to
+set things right.
+
+Keep on doing only good everyday, and may your every day end with the sleep of
+the just.

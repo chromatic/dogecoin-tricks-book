@@ -150,4 +150,4 @@ In the end, it's less useful to worry about what's going to happen in a
 possible (but mathematically implausible) universe than it is to build good
 things, support other people building good things, and enjoy the ride.
 
-In other words, keep doing only good everyday.
+In other words, keep doing only good everyday (L<pledge_to_do_only_good>).
