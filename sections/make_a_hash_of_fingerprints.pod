@@ -132,7 +132,7 @@ doesn't I<look> random.
 Brute produces 12,469,341. Devlin produces 22,469,392. The quote produces
 44,740,576. That's better; the length doesn't make numbers appreciably smaller
 or larger. Also note what happens if you append A to each of these. Brutea
-makes 22,469,347. Devlina makes 32,469,399. The quote makes 48,64,132.
+makes 22,469,347. Devlina makes 32,469,399. The quote makes 44,740,576.
 
 That's a lot less predictable than before. Now an attacker who wants you to
 download a malicious file that seems like it's exactly the same file your

@@ -33,7 +33,7 @@ your fingers, from one to ten.
 
 Suppose you want to add the two prime numbers seven and five. Count on your
 fingers. Raise seven fingers, then raise five more. When all of your fingers
-are upupN<If you have more or fewer than ten fingers; that's okay. You'll get a
+are upN<If you have more or fewer than ten fingers; that's okay. You'll get a
 different answer, but the same concept applies!>, lower them all again but keep
 counting. The number of fingers you have raised at the end is 7 + 5 mod the
 number of fingers. If you have 10 fingers, 7 + 5 mod 10 is 2. If you have 9
