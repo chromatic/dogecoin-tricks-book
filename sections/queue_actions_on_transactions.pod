@@ -1,0 +1,211 @@
+=head1 Queue Actions on Transactions
+
+Z<queue_actions_on_transactions>
+
+The previous tip (L<act_on_wallet_transactions>) proposed an architecture for
+turning incoming Dogecoin transactions into concrete actions in other systems.
+This is important for building things such as a Dogecoin-powered arcade
+(L<chapter_dogecade>), but it's not limited to making lights flash and sirens
+go off. In fact, almost any payment system can use this approach productively.
+
+Assuming you have a wallet with a few addresses, a Core node, and notifications
+set up for wallet transactions, what happens next? You need some glue between
+"something happened in my wallet" and "do something about it".
+
+=head2 *Inside a Transaction
+
+What is a Wallet Transaction anyhow? By this point, you probably understand
+what a transaction represents and the context in which it's important: your
+wallet contains an address that was used as an output in a transaction
+validated by the network. If the network continues to accept that transaction
+and build on it, you can spend those coins in future transactions provided you
+have access to the private key associated with that address.
+
+I<However>, things aren't quite as easy as they seem. For example, just because
+an address is present in a transaction output doesn't mean that the funds are
+new to that address; you might use a Dogecoin client that pays change back to
+the same addressN<This is generally a bad idea; it's safer and simpler to use a
+new address for each transaction, but I<you can't always control this with all
+clients>. Alternately, you might have an address that's used to share in the
+rewards from a mining pool and receive a coinbase payout that doesn't represent
+a I<customer> transaction.
+
+Finally, depending on your use case, you may want to wait for a certain number
+of blocks mined I<after> yours, just to be sure the transaction won't likely be
+reversed.
+
+X<obscure references; Spacehog>
+
+Then again, all of these circumstances I<may> be meaningful to you. The point
+is that you need some sort of system to understand the context of these
+transactions before you let them trigger an action that's difficult to reverse,
+like queueing Spacehog's "In the Meantime" 99 times on your jukeboxN<It's a
+banger, but anything 99 times in a row is of a muchness.>.
+
+This is heady stuff. Let's talk code.
+
+=head3 *Fetch and Store Transaction
+
+Assume you have a transaction notifier script enabled. It does I<something>
+every time the Core kicks it off. What does it do?
+
+First, fetch and decode the transaction (see L<write_a_json_block_explorer> for
+one example). You'll want input addresses, output addresses, transaction date
+and time, block height, and transaction amount at least--perhaps other fields.
+
+Assuming you have database storing things like wallet addresses
+(L<rotate_machine_addresses>), you can create a table to store basic
+transaction information too:
+
+=begin screen
+
+    CREATE TABLE transaction (
+        transaction_id   TEXT NOT NULL PRIMARY KEY,
+        block_id         TEXT NOT NULL,
+        transaction_time TIMESTAMP WITHOUT TIME ZONE NOT NULL
+    );
+
+    CREATE TABLE transaction_input (
+        transaction_id TEXT  REFERENCES transaction(transaction_id),
+        from_wallet    TEXT  NOT NULL,
+        value          FLOAT NOT NULL
+    );
+
+    CREATE TABLE transaction_output (
+        transaction_id TEXT  REFERENCES transaction(transaction_id),
+        to_wallet      TEXT  NOT NULL,
+        value          FLOAT NOT NULL
+    );
+
+    CREATE INDEX transaction_output_to_wallet_idx ON transaction_output (to_wallet);
+
+=end screen
+
+You can get fancier than this; this is a basic example. For every transaction
+you get notified about, grab and decode its contents, then populate these
+tables.
+
+Why store this information persistently? You don't have to, but it's useful for
+debugging purposes I<and> if your node has any interrupted communication, you
+want to know how to pick up where you left off. If a customer sends you an
+email or walks up to your service kiosk in person and says "Where's my
+lemonade? Are you still muddling the blueberries? I sent your Dogecoin 10
+minutes ago!" you should be able to examine your list of received transactions
+and verify what happened.
+
+=head3 *Analyze Transaction
+
+Once you've stored a transaction and it's on disk (not just in memory), you can
+process it according to your rules. If you're waiting for 6 or 10 or 100
+further blocks mined before you do anything, you can set some sort of
+notification watcher to move to the next step only at that block height if the
+transaction is still valid.
+
+Otherwise, you can check the other conditions: is this a coinbase transaction?
+Did you send yourself change? Is the transaction amount above the threshold you
+consider meaningful?
+
+If you're I<really> disciplined, you could have multiple mechanisms at play.
+For example, if you give every new customer a unique address for unique
+contexts, you could have simultaneously multiple addresses awaiting coins to:
+
+=over 4
+
+=item * Unlock the member's area of your website
+
+=item * Download a whitepaper about Dogecoin transaction handling
+
+=item * Buy tokens to play LOTR pinball in your ice cream shop/arcade
+
+=item * Pay for a pint of ice cream in your arcade/ice cream shop
+
+=back
+
+This suggests that, once you've decided a transaction is both valid and
+meaningful for your purposes, you can prepare to take some action in response.
+
+=head3 *Queue Potential Action
+
+Your author prefers an architecture of registering event handlers invoked by
+queued transactions, but that's not the only way to design this system. On the
+other hand, a lot of people know Python, JavaScript, and PHP these days, so the
+HTTP-style event-based architecture is a good fit, even if people don't call it
+that.
+
+One easy way to do this is to add another table where you can register an event
+handler with an address:
+
+=begin screen
+
+    CREATE TABLE action_type (
+        action_type_id SERIAL PRIMARY KEY,
+        name           TEXT NOT NULL,
+        display_name   TEXT NOT NULL
+    );
+
+    CREATE TYPE action_status AS ENUM (
+        'pending',
+        'active',
+        'expired'
+    );
+
+    CREATE TABLE action (
+        action_id         SERIAL PRIMARY KEY,
+        created_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        expires_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        action_type_id    INTEGER REFERENCES action_type(action_type_id),
+        status            action_status NOT NULL,
+        to_wallet         TEXT  NOT NULL,
+        contact_email     TEXT  NOT NULL DEFAULT '',
+        action_args       JSONB NOT NULL
+    );
+
+    CREATE INDEX action_to_wallet_idx ON action (to_wallet);
+
+    INSERT INTO action_type (name, display_name)
+    VALUES
+        ('Activate', 'internal action'),
+        ('BoredSnape', 'mint a Bored Snape NFT image URL'),
+        ('DogeBookAccess', 'grant access to a book'),
+        ('PostToDiscord', 'activate a Discord webhook'),
+        ('PostToSlack', 'activate a Slack webhook'),
+        ('QueueSong', 'queue a song in the jukebox'),
+        ('InsertCoin', 'insert coin into an arcade machine'),
+
+=end screen
+
+There's a lot going on here, but it's not complicated if you take it a step at
+a time. For every action the system--every concrete thing you want to I<do>
+when you receive a meaningful transaction--insert a record into the
+C<action_type> table. For every action you want to take for every meaningful
+wallet address you have, insert a record into the C<action> table.
+
+Every action type implies code somewhere else in the system that knows how to
+do something. Yes, in some ways, this seems like a lot of abstraction. In other
+ways, this approach creates a meaningful interface between "a transaction
+happened", "the transaction is meaningful", "the transaction triggers one or
+more actions", and "make the action happen". Modify to your liking.
+
+In practice, this system works well when you treat these actions as invoking
+webhooks (link to tip).
+
+=head2 *Understand the Risks
+
+Any time you connect a system to the Internet, you incur the cost of
+maintaining and protecting that system and the risk of an adversary
+compromising your system or data. Building network services from Dogecoin
+transactions includes those risks.
+
+Furthermore, if you're listening for events from a Dogecoin Core or equivalent
+as part of a payment processing system, you inherit some risks from the
+software and network itself: the network may split, transactions may take a
+while to process, your node may have a security vulnerability and need to
+restart, you may run out of disk space, your network may go offline for a
+while.
+
+You can recover from all of these, and a good architecture can help you
+recover, but you don't have anyone you can call up on the phoneN<Let's pretend
+it's the 20th century and you want to use a telephone for voice purposes.> and
+ask for help. You're on your own.
+
+That's kind of fun and sobering at the same time.

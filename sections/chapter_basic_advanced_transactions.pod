@@ -36,4 +36,6 @@ L<test_first_safely>
 
 L<act_on_wallet_transactions>
 
+L<queue_actions_on_transactions>
+
 L<timelock_a_vault>
