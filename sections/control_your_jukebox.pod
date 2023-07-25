@@ -48,7 +48,7 @@ Start by picking your playlist. Each song on the list needs a unique number.
 We'll start with zero and count up.
 
 Generate an address for each song on the playlist. Store this association
-somewhere (see L<associate_addresses_with_machines>). If you're storing this in
+somewhere (see L<associate_addresses_to_machines>). If you're storing this in
 a database, you'll end up with something like:
 
 =begin screen

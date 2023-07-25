@@ -26,7 +26,7 @@ an address is present in a transaction output doesn't mean that the funds are
 new to that address; you might use a Dogecoin client that pays change back to
 the same addressN<This is generally a bad idea; it's safer and simpler to use a
 new address for each transaction, but I<you can't always control this with all
-clients>. Alternately, you might have an address that's used to share in the
+clients>.>. Alternately, you might have an address that's used to share in the
 rewards from a mining pool and receive a coinbase payout that doesn't represent
 a I<customer> transaction.
 
