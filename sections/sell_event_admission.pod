@@ -1,0 +1,101 @@
+=head1 Sell Event Admission
+
+Z<sell_event_admission>
+
+The properties of the blockchain (the ledger is public, transactions are
+immutable, data is distributed) and the properties of wallet hygiene (your
+private keys are private, you don't re-use addresses, you can prove your
+transactions are yours) can combine in interesting ways.
+
+Not all of them have to have immediate gratification. Some of them can take
+place over a span of time.
+
+X<references; Over the Rhine>
+
+Suppose you have friends who put on a barn-raising concert during the holiday
+season in a little farmhouse just outside of Cincinnati, Ohio. They have a band.
+and a bunch of good songs, and you all want people far and wide to bring a
+little joy to the darkest nights of the year. They've asked you to sell tickets
+to the event. They have a flexible pricing model where people pay what they
+want, and you don't want to tie anyone's identity to the amount they paid.
+
+How do you let people into the barn, knowing they've purchased tickets, without
+setting up an entire payment verification and validation infrastructure?
+Oh--and you don't really want to mail out paper tickets either, for all of the
+reasons that paper tickets are awkward and weirdN<On the other hand, you can't
+autograph a smart phone the way you can a ticket.>.
+
+Some of the same infrastructure you use to manage your arcade/ice cream parlor
+can work here.
+
+=head2 *Share a Semi-Secret
+
+Sure, the Dogecoin ledger and all its transactions are public, but with some
+care you don't have to reveal your own identity or the identity of anyone you
+transact with. Yet for event admission to work, you need some way to prove that
+you made a transaction.
+
+One solution is to exchange some kind of secret, or at least semi-secret.
+
+For example, you can start with the same kind of system you use to fund tokens
+in your arcade (L<manage_tokens>). Someone comes to the concert's website, hits
+the "buy tickets" button, and gets a QR code. On the backend, you generate a
+new, unique receiving address (similar to L<rotate_machine_addresses>) and set
+up an event listener for transactions to that address (link to tip).
+
+You have a fork in the road here. You I<could> ask people to enter an email
+address to which you'll send proof of payment. This is a standard practice for
+events, but it reduces privacy dramatically in exchange for expedience
+(customer support may be easier). Alternately, you could generate an admission
+QR code or secret passphrase I<on the spot> before payment.
+
+This might feel backwards. Why give someone a ticket before they've paid? It's
+not backwards though; the ticket doesn't grant someone admission. It's your
+I<validation> of the ticket at admission time that grants admission the ticket
+doesn't grant someone admission.
+
+Think of it this way: you're not going to re-use the address you generated for
+the purchaser (for hopefully obvious reasons). It's just an entry in your
+database that hangs around until it's outlived its usefulness (after the event
+or when you delete unused records).
+
+If, when you give this unique address to a customer, you also generate their
+unique admission code, you can store them together in the database. Then your
+event listener can wait for the appropriate transaction to that address and
+mark the admission code as valid.
+
+At the night of the event, at the door of the barn, all your system has to do
+is ask "is this code valid". If the code doesn't exist at all, it's obviously
+not valid.  If the code exists but the address hasn't received any funds, the
+code is not valid. You can even detect that latter case and say "Your
+transaction didn't go through; please try again." and wait somewhere between 55
+and 65 seconds.
+
+Keep in mind as well that the person showing you the code on their phone (or a
+folded up piece of paper) doesn't have to be the person who made the
+transaction. They may have finished babysitting goats for their uncle and
+requested payment to the concert address--and that's okay.
+
+=head2 *Understand the Risks
+
+No one gets into the barn without some kind of ticket, or at least the band
+giving a thumbs up. The minimum bar of admission is some printed out QR code or
+an image on a smart phone or something else. Anything physical can be lost,
+destroyed, damaged, or stolen. Yet the network survives. This is a benefit of a
+distributed ledger.
+
+What if you lose your ticket? Can you still prove that you made that
+transaction? If you can--if you've retained the appropriate private key--then
+that level of proof might suffice.
+
+Alternately, if you know the unique, used-only-once, unguessable address you
+sent the funds to, you can prove that you made the transaction. At least, you
+can mostly prove it; someone else could be monitoring your transactions or may
+have a copy of your wallet. The same goes for paper tickets, however, or a QR
+code you received in your email.
+
+The biggest risk of this scenario is tying someone's identity to a specific
+transaction. A concert with hundreds of attendees, each using their wallets
+safely and securely, may be less of a risk--but if you have that one friend who
+is a little too cavalier with their coins, consider gently explaining that
+address re-use is as bad as slow music played loud is good.
