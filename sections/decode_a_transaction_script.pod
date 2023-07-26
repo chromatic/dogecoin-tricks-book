@@ -1,0 +1,124 @@
+=head1 Decode a Transaction Script
+
+Z<decode_a_transaction_script>
+
+If you're doing anything more complex with Dogecoin transactions than letting
+your wallet send funds, you need to be doubly careful that your transaction
+does exactly no more and no less than what you intend it to do. Consider this:
+the central activity of a Dogecoin transaction is to ask nodes and miners to
+verify that a piece of data from your transaction provided to a little bit of
+code encoded in the input transaction produces a true value I<when executed>.
+
+This powerful and dangerous idea gives the blockchain a lot of power, but it
+also means that you're asking multiple other computers to run a little computer
+program on your behalf.
+
+Programs often have bugs, and if you're creating transactions with any kind of
+logic in them, you should double- and triple-check that they do what you think
+they should, lest you lock up funds so they're unspendable or allow anyone else
+to spend them.
+
+This is even more true if you use third-party software to help you craft that
+transaction.
+
+=head2 *Parts of a Script
+
+Remember that a script has two parts. First, the script itself comes from the
+input transaction. This is kind of like a lock on the funds for which you need
+the key to spend. The second part is the data the spending transaction
+provides. In other tips (L<host_a_treasure_hunt>), this could be a password or
+phrase or other puzzle.
+
+In the timelocking tip (L<timelock_a_vault>), the script was more complex. To
+unlock the transaction, the time or block height had to be after a specified
+threshold I<and> the spending transaction had to come from someone with the
+right private key.
+
+X<BIPs; BIP-16>
+
+For a complex script like this, BIP-16N<See
+U<https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki>.> defined a
+way for Bitcoin (and other crypotocurrencies which adopted this scheme) to
+treat the script as an address which can receive transactions. This scheme is
+P2SH or Pay to Script Hash.
+
+=head3 *P2SH in Action
+
+X<people; Patrick Lodder>
+
+The previous tip about timelocking was inspired by an actual transaction used
+for Dogecoin developer tips. Core maintainer Patrick Lodder created a P2SH
+address from a timelocked transaction and published the address and the script
+for other people to verifyN<See
+U<https://www.reddit.com/user/patricklodder/comments/v9lvlb/accounting_for_dogecoin_core_development_tips/>.>.
+
+The raw script is
+C<03d07541b17576a91480744340ca2290b666ac6d4fc98dc1bbc64e48c888ac> and the P2SH
+address is C<9rbpxxkjB9uZbcZzZCPibnoiotGkPoGFEJ>.
+
+=head3 *Verifying by Decoding
+
+Patrick used custom software to create the transaction and the P2SH address,
+but gave people everything they need to verify that what he wrote is accurate.
+It's also easy to guess that I<he> verified the script himself through
+alternate means, figuring that, if multiple decoding methods all give the same
+results, he could trust them.
+
+X<< RPC commands; C<decodescript> >>
+
+Open the Dogecoin Core debug console or use C<dogecoin-cli> and use the
+C<decodescript> RPC command with the raw script (C<03d075...>) as the single
+argument. You should get the result:
+
+=begin screen
+
+  {
+    "asm": "4290000 OP_CHECKLOCKTIMEVERIFY \
+           OP_DROP \
+           OP_DUP OP_HASH160 80744340ca2290b666ac6d4fc98dc1bbc64e48c8 \
+           OP_EQUALVERIFY OP_CHECKSIG",
+    "type": "nonstandard",
+    "p2sh": "9rbpxxkjB9uZbcZzZCPibnoiotGkPoGFEJ"
+  }
+
+=end screen
+
+These three fields tell you a lot: this is a "nonstandard" script, which means
+(more or less) the address is not the hash of a public key. The C<p2sh> field
+reveals that what Patrick claimed is correct; to send funds which can be
+unlocked by fulfilling this script, use the provided address. Finally, the
+C<asm> field decodes the script itself into something more or less human
+friendly: the opcodes and data used to construct the script.
+
+After block height 4,290,000, the locktime will release. The script will then
+remove the true value (returned from the previous opcode), then duplicate the
+next item on the stack (the key provided by the spending transaction), hash the
+duplicate, verify that the hash matches the hash provided in the script, and
+finally verify that the key provided by the spending transaction matches the
+expected key and script signature (link to tip; maybe rephrase).
+
+All that is left is for Patrick to verify that the HASH160 of the key he
+intends to use matches the provided value.
+
+X<< RPC commands; C<getrawtransaction> >>
+
+You don't have to use this on transactions you've written yourself; any output
+of C<getrawtransaction> will work. Just be aware that, at the time of this
+writing, most transactions are very simple payments to the hashes of public
+keys.
+
+=head2 *Understand the Risks
+
+What's the risk here? If you're not careful, bugs could ruin your day. Writing
+your own transactions always carries risk--not only that you'll make a mistake,
+but you'll inadvertently use a feature or a mechanism that the network won't
+understand the same way you do.
+
+Use C<decodescript> liberally, but don't consider it the be-all and end-all of
+your research. If you're using a different transaction mechanism you've seen
+elsewhere, compare the output you get to the script published. Then compare the
+variables--the data in the script--to the data you intend to use. This is especially true
+if you use a third-party tool to create the transaction.
+
+If you're determined to do something new and invent your own script, try it
+multiple times on the testnet first (L<test_first_safely>).
