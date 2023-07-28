@@ -123,7 +123,7 @@ steganographic file is essential to extracting data from the file.
 
 Even though it's no longer 2022 and the buzz in the crypto world is no longer
 about NFTsN<Which is probably good, because they were a problem in search of a
-problem in most cases.>. Throwing additional junk data into transactions that
+problem in most cases.>, throwing additional junk data into transactions that
 most miners, nodes, and users care nothing about and can't use is a good
 example of a negative externality, the equivalent of throwing your litter into
 your neighbor's yard.

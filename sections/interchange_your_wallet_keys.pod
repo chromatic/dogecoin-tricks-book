@@ -32,7 +32,7 @@ doesn't always explain why it works.
 Here's how.
 
 Start with your private key. For the sake of argument, let's say the
-hexidecimal representation is C<0x123abc456def>. That's not a valid private
+hexadecimal representation is C<0x123abc456def>. That's not a valid private
 key, but it's clearly a valid hex number and it's both long enough to
 demonstrate the principle and short enough to keep in your head.
 
@@ -51,7 +51,7 @@ C<0x1e123abc456def18d796>.
 
 =begin tip Hash Numbers, Not Text
 
-Remember that a hexidecimal number represents a value. Check to see that your
+Remember that a hexadecimal number represents a value. Check to see that your
 hashing algorithm properly executes on the I<bytes> of the number itself, not
 the text value. The easiest way to check this is to swap the capitalization of
 any alphabetical characters in your hex string. C<0xABC123> should hash to the

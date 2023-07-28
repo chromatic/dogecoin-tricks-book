@@ -82,7 +82,7 @@ could achieve by using the command line:
 
 =head3 *Proxy RPC Calls to a Node
 
-X<< external commands; C<curl> >>
+X<< external programs; C<curl> >>
 X<< Python libraries; C<requests> >>
 
 The next thing you need is a way to make calls to a running Core node. For

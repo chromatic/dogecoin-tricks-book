@@ -102,7 +102,7 @@ This seems like a lot, but it's really only four things. First, build a Docker
 image using the Ubuntu Linux distribution, version released in the year 20B<22>
 and the B<10>th month (October).
 
-X<< external commands; C<apt> >>
+X<< external programs; C<apt> >>
 
 Next, use the Linux command C<apt>N<It's a command from a slightly different
 Linux system called Debian, to which Ubuntu owes a huge debt. Credit where it's

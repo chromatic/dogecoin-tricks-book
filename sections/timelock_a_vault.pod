@@ -92,7 +92,7 @@ script again.
 
 Now you can do two things. First, use the C<WIF> value to import into a
 Dogecoin wallet. This will work with the Core or any other wallet that supports
-the Wallet Interchange Format (link to tip).
+the Wallet Interchange Format (see L<interchange_your_wallet_keys>).
 
 Second, send the funds you want to lock in the vault to the provided address.
 B<Beware> that if you lose the WIF, you'll lose the private key, and even after
