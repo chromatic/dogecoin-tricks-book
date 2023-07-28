@@ -1,0 +1,110 @@
+=head1 Remember Updated Nodes
+
+Z<remember_updated_nodes>
+
+Any node that participates in the Dogecoin network has to adhere to a few
+rules, mostly around behaving well, following network consensus, and
+transmitting good data: basically I<behaving well>. Good nodes also help keep
+the network robust, by transmitting necessary data (block history, pending
+transactions) and enforcing network guidelines (block size, difficulty, fees,
+et cetera).
+
+There's no requirement your node has to be a Dogecoin Core node, but if you're
+running a node, you're better off running the latest stable software--and
+you're better off if more and more nodes on the network are doing the same, or
+at least running software with similar rules.
+
+How do you know? How do you do this?
+
+=head2 *Peer Into Your Peers
+
+X<< RPC commands; C<getpeerinfo> >>
+
+Fortunately, your core node tracks a lot of data about the peer nodes it's
+connected to, and this is available to you via the C<getpeerinfo> RPC command.
+
+=begin screen
+
+  [{
+    "id": 64,
+    "addr": "65.xxx.xx.xxx:22556",
+    "addrlocal": "73.xxx.xxx.xx:34946",
+    "version": 70015,
+    "subver": "/Shibetoshi:1.14.6/",
+    "startingheight": 4817965,
+    ...
+  }, ...]
+
+=end screen
+
+There's a lot more information available, but even with only this much shown,
+you can do interesting things. The C<id> is a unique identifier for the peer.
+C<addr> shows the IP address of the peer, whether IPv4 or IPv6. C<addrlocal>
+shows how the peer connects to your node. C<version> shows the version of the
+protocol in use, and you want to see C<70015> for lots of reasonsN<Reading the
+source code will help, so if that's not something you want to do right now,
+remember to ask someone you trust about it in the future.>. C<subver> shows the
+Core version in use as well as any user comment the peer added
+(L<set_your_node_comment>). Finally, C<startingheight> shows the oldest block
+height the peer has available.
+
+What makes a node good? That's up to you to figure out, but one place to start
+is "running the latest software" and "has a lot of blocks available".
+
+=head2 *Filter Good Peers
+
+X<< external programs; C<jq> >>
+
+Let's start with the easy question. Which peers you're currently connected to
+are running the latest Core version? At the time of this writing, 1.14.6 has
+been out for a while, so most peers should have updated by now. The
+C<getpeerinfo> command's output is a big blob of JSON with a list of objects,
+so a little bit of C<jq> work will do. Assuming you've stored the output of
+C<getpeerinfo> into a file named F<peers>, you might write:
+
+=begin screen
+
+  $ B<< jq '.[] | select(.subver | contains("1.14.6")) | .addr ' < peers >>
+
+=end screen
+
+This will give you a list of all of the IP addresses of all of the connected
+peers using the latest stable version of the Core. If you prefer to find nodes
+with more blocks, you can filter on C<startingheight> instead:
+
+=begin screen
+
+  $ B<< jq '.[] | select(.startingheight < 123456) | .addr ' < peers >>
+
+=end screen
+
+Of course, there may be a lot fewer peers with older blocks than run the newer
+version; storing the entire blockchain takes up some space after all.
+
+=head2 *What Can You Do With This?
+
+There aren't many risks from using this code. Depending on how many nodes you
+connect to (link to tip), you probably only see a subset of the network. If you
+use this tip to populate a series of nodes you want to try to connect to (link
+to tip), remember that I<you> are as much a part of the network as anyone else
+who runs a node. While it may be safer to connect to updated nodes, it's better
+for the network for you to connect to nodes without all of the blocks,
+especially if you're running a full node yourself.
+
+There's no reason you have to use Core version, blocks available, or any other
+stats as the basis for what you consider "good" or memorable. Any other data
+you have available on peers is fair game.
+
+Also remember that peers come and go. You may want to run this tip once an hour
+and collect good peers over the course of a day or a week. Good nodes that are
+often online are worth connecting to again--but that's only an I<enhancement>
+to your own node. Let the protocol and the network make connections and add
+enhancements and suggestions only when it makes your life (and the network)
+measurably better.
+
+Finally, remember that you're not the only one who can see this data. Your node
+broadcasts this information to the network, and your information is available.
+Respect the privacy of your fellow node operators, and think very carefully if
+you publish any potentially identifying information in a public place. Even an
+IP address could give up the privacy of a fellow shibe. That's why they're
+redacted in this tip's examples.
