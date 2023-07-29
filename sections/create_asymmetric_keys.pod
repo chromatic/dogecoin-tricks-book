@@ -1,0 +1,100 @@
+=head1 Create Asymmetric Keys
+
+Z<create_asymmetric_keys>
+
+Hang around the cryptocurrency world long enough, and you'll hear people talk
+about public and private keys. Keys are cryptographic concepts; in reality
+they're pairs of large numbers that give you a certain degree of security. A
+key pair lets you use your private key to encrypt a message such that anyone
+with your public key can decrypt it. Similarly, anyone can encrypt a message to
+you with your public key and only you with your private key can decrypt it.
+
+Every encryption operation is a one-way operation which requires one of the two
+keys and requires the other key to undo.
+
+What magic is this?
+
+Grab a calculator or a computer and find out.
+
+=head2 *RSA Encryption
+
+In an asymmetric encryption algorithm, you have two keys. The keys are
+different; that's what makes the algorithm asymmetric. Otherwise the key used
+to encrypt the message is the same key used to decrypt the message, so there's
+no security other than keeping the single key secret. We can do better!
+
+A common asymmetric encryption algorithm is RSA. It's complicated, but easy to
+explain if you can follow along with a calculator or computer.
+
+RSA requires two prime numbers and modulus math (L<roll_over_your_odometer>).
+It uses these prime numbers to figure out the modulus number: the product of
+the two primes. For example, if you chose prime numbers of 5 and 17, your
+modulus would be 85.
+
+This modulus is used as half of both the public and private keys. The other
+halves of the keys require a little bit more math to figure out, but let's talk
+through it first.
+
+What would make asymmetric encryption effective? The encryption has to be a
+one-way mathematical operation. Given an encrypted message, you should not be
+able to decrypt it without the private keyN<You could guess or spend trillions
+of dollars with supercomputers to guess, but even that would take a long
+time.>.
+
+Assume that you want to send a secret message to someone, and that message is a
+numberN<It doesn't I<have> to be a number in practice, but you can represent
+any message such as an email, an image, or a video as a number, so we'll
+continue to call it a number.>. You want to use your private key, I<d>, to
+encrypt the number. You want someone else to use your public key, I<e> to
+decrypt the number. Is there a mathematical operation that can represent this
+activity without revealing the secret message or your private key?
+
+It turns out that there is.
+
+=head3 *Powers of N
+
+Think through this for a second. If you use the exponentiation operator, you
+can do this: 10 to the power of 2 is 100, while 100 to the power of 1/2 is 100.
+Similarly, 2 to the power of 3 is 8, while 8 to the power of 1/3 is 2. This
+rule generalizes: I<n> to the power of I<y> equals I<m>, while I<m> to the
+power of I<1/y> equals I<n>. If you have to work that out on paper or with a
+calculator for a while, that's fine. This math isn't always obvious until you
+try a few examples.
+
+Of course, if public and private keys were always obvious like this, it would
+be easy to turn a public key of 333 into C<1/333> and reverse the encryption.
+That's where modulus math comes in.
+
+=head3 *Modulus of Powers of N
+
+If you look at the example of a clock or odometer from the modulus tip, you
+realize that using a modulus operation hides information. It throws away
+information, yes, but it hides the information it throws away. If the highest
+Donkey Kong level number tracked is 4, you can't tell if someone is on their
+first playthrough of level 4 or their 100th, unless you've watched their entire
+game.
+
+X<people; Leonhard Euler>
+X<people; Pierre de Fermat>
+
+Throwing away data seems like it'd be at odds with encryption, at least if you
+want to get the right message out of the results, but the mathemeticians Fermat
+and Euler have a solution.
+
+Relatively prime numbers are numbers that have no common factors. For example, 
+
+=head3 *Limitations and Complications
+
+For the math to work, the message to encode--the starting number, in this
+case--has to be less than the modulus, otherwise the math goes all weird. In
+practice, the modulus is a really large number I<and> any message larger than
+that number gets chunked into pieces and encrypted separately.
+
+
+While Dogecoin doesn't exactly do cryptography this way, it does cryptography
+similar to RSA, using a different algorithm called ECDSA. Once you understand
+the basics of asymmetric keys, you will know enough to know the shape of how
+Dogecoin and other cryptocurrency keys work.
+
+=head2 *What Can You Do With This?
+
