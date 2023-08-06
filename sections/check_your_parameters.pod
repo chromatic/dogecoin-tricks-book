@@ -57,7 +57,7 @@ multiple nodes for different coins all listened on the I<same> port, the
 network would get clogged and congested and confused--so the convention of a
 different port for each coin is effective.
 
-=head2 *Consensus Parameters
+=head2 *Chain Parameters
 
 Using different network ports is a way to avoid collisions between the networks
 of different coins. What keeps a Dogecoin I<address> from colliding with a
@@ -79,11 +79,24 @@ deterministic wallet derivation (see BIP-44, as used in
 L<host_a_treasure_hunt>) works, how addresses are encoded, and how to validate
 all of this information.
 
-In short, there are a few consensus parameters that define how all of the world
-should interpret blockchain data, such that it's easy to distinguish between a
-Bitcoin value, a Litecoin value, a Dogecoin value, and any of the other myriad
-cryptocurrencies built around the Bitcoin design. In the Dogecoin source code,
-these parameters look like:
+BIPs are often Bitcoin-specific, even though many of them are useful for other
+coins. The design and code gets adopted where it makes sense. However, it's
+unlikely to expect that a Bitcoin proposal will go as far as to explain how
+another coin should work I<even if> a few different parameters would make
+different things behave differently.
+
+That's where SLIPs come in. The company SatoshiLabs, inventor of the Trezor
+hardware wallet, hosts a repository for SLIPs--SatoshiLabs Improvement
+Proposals. These represent and often correspond to BIPs, but allow for
+multi-coin configuration. For example, SLIP-44N<See
+U<https://github.com/satoshilabs/slips/blob/master/slip-0044.md>.> contains
+chain parameters for multiple coins.
+
+There are a few parameters that define how all of the world should interpret
+blockchain data, such that it's easy to distinguish between a Bitcoin value, a
+Litecoin value, a Dogecoin value, and any of the other myriad cryptocurrencies
+built around the Bitcoin design. In the Dogecoin source code, these parameters
+look like:
 
 =begin screen
 

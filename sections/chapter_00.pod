@@ -102,6 +102,7 @@ assistance of many people.
 X<people; RNB>
 X<people; meta_rach>
 X<people; mishaboar>
+X<people; Patrick Lodder>
 
 Thank you to RNBN<U<https://twitter.com/RNB333>> and
 RachelN<U<https://twitter.com/meta_rach>> for editorial questions and
@@ -109,5 +110,8 @@ suggestions which led to several of these tips!
 
 Thank you to MishaboarN<U<https://twitter.com/Mishaboar>> for advice,
 perspective, and helping promote a deep empathy for other people.
+
+Thank you to Patrick Lodder<U<https://github.com/patricklodder/>> for technical
+advice and always-trenchant corrections.
 
 Any remaining errors are the fault of the sometimes-too-clever author.
