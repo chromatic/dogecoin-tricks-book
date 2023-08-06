@@ -1,0 +1,130 @@
+=head1 Check Your Parameters
+
+Z<check_your_parameters>
+
+Back in the olden, more innocent times of 2013N<As of this writing, it's August
+2023, so gather around everyone, an old man is talking!>, there was Bitcoin and
+then a lot of things happened. A coin named Litecoin began by forking
+BitcoinN<In programming terms, this means someone made a copy of the original
+source code, made some changes, released the changes, and development continued
+on the modified version.>. Then LuckyCoin forked Litecoin. Then Dogecoin forked
+LuckyCoin.
+
+All of these coins can trace their lineage back to the original Bitcoin source
+code.
+
+By now you probably know what makes Dogecoin different: it's a joke that
+somehow grew out of hand, it has a feature called merged mining that shares
+hash power with Litecoin, it has a very fast block time at least 10x that of
+Bitcoin, and it has a culture of fun and generosity and building things.
+
+If you're feeling reductive, however, and look at cryptocurrency as a bunch of
+numbers that computers and nerdy people swap around, then you might ask "What
+I<really> makes any of these cryptocurrencies different?" That's a really good
+question.
+
+=head2 *Network Parameters
+
+If you have the hardware for it (see L<run_a_node>), you could run a Bitcoin
+node, a Litecoin node, and a Dogecoin node all on the same computer. While the
+messages they send back and forth across the network are all I<similar>, each
+coin has a set of network parameters that prevent them from overlapping.
+
+For example, Bitcoin has a network port of 8333, Litecoin 9333, and Dogecoin
+22556. When your node tries to connect to other nodes, it will use the port
+appropriate for that specific coin. If you try to connect to a Dogecoin node on
+port 9333, you won't get good results.
+
+X<references; Baker Street>
+
+=begin tip What's a Network Port?
+
+Think of a port sort of like a series of mailboxes in an apartment building,
+where every apartment has a number. If you want to send a letter to someone in
+apartment 221b, you'd better address it correctly and hope that the postal
+worker delivers it appropriately. Otherwise you'll be disappointed because your
+case remains unsolved.
+
+Port numbers are often a matter of convention that grows into habit over time.
+The longer a software or service has been in wide use, the more likely it is to
+have a dedicated and well-respected port number, like 443 for https.
+
+=end tip
+
+Nothing says you I<must> make your Dogecoin node listen on port 22556, but if
+you don't, other people will have trouble connecting to you. Similarly, if
+multiple nodes for different coins all listened on the I<same> port, the
+network would get clogged and congested and confused--so the convention of a
+different port for each coin is effective.
+
+=head2 *Consensus Parameters
+
+Using different network ports is a way to avoid collisions between the networks
+of different coins. What keeps a Dogecoin I<address> from colliding with a
+Bitcoin or Litecoin address?
+
+Part of the answer is "they all start from different places", but that's not a
+satisfying answer. All of these coins use the same ECDSA cryptographic
+mechanism (link to tip) and the underlying cryptography to make secret private
+keys corresponding to public keys which get hashed to make addresses. How is a
+Dogecoin address immediately recognizable as a Dogecoin address?
+
+X<BIPs; BIP-044>
+X<SLIPs; SLIP-044>
+
+Bitcoin's source code has a file called F<src/chainparams.cpp> that defines a
+few constant values used to produce and validate addresses. You can find the
+same file in Litecoin and Dogecoin. The values in this field govern how
+deterministic wallet derivation (see BIP-44, as used in
+L<host_a_treasure_hunt>) works, how addresses are encoded, and how to validate
+all of this information.
+
+In short, there are a few consensus parameters that define how all of the world
+should interpret blockchain data, such that it's easy to distinguish between a
+Bitcoin value, a Litecoin value, a Dogecoin value, and any of the other myriad
+cryptocurrencies built around the Bitcoin design. In the Dogecoin source code,
+these parameters look like:
+
+=begin screen
+
+  base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,B<30>);
+  base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,B<22>);
+  base58Prefixes[SECRET_KEY]     = std::vector<unsigned char>(1,B<158>);
+  base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_ofB<(0x02)(0xfa)(0xca)(0xfd)>...
+  base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_ofB<(0x02)(0xfa)(0xc3)(0x98)>...
+
+=end screen
+
+The emboldened values are the interesting parts to notice; they're hexadecimal
+values corresponding to single text characters used as prefixes for addresses
+and keys. The first value, 30, will produce the character C<D> when the address
+goes through the Base-58 conversionN<See the Bitcoin wiki's list of address
+prefixes at U<https://en.bitcoin.it/wiki/List_of_address_prefixes>.>--the
+addresses that start with a C<A> and are used for multisig and other advanced
+features.. Dogecoin uses this mechanism to encode p2pkh addresses--the
+addresses you're used to dealing with. The second value, 22, will produce
+either C<A> or C<9> when the address goes through Base-58 encoding. Dogecoin
+uses as a prefix to identify p2sh addresses (see L<put_funds_in_escrow>).
+
+The third value, 158, is used as the prefix for WIF-encoded private keys (see
+L<interchange_your_wallet_keys>).
+
+Finally, the last two values help encode extended public and private keys.
+Rather than single bytes, they are two, four-byte values. These values are used
+to manage derivation paths for HD wallets.
+
+=head2 *What Can You Do with This?
+
+You don't have to know or even fully understand all of this information to work
+with Dogecoin effectively. However, once you start to see how all of the pieces
+fit together, you can also see how competing (or friendly cooperating)
+cryptocurrencies need to keep separate things separate. Even though Bitcoin and
+Litecoin and Dogecoin use different mechanisms for miners to prove their work,
+they all use the same fundamental cryptographic structures. Similarly, they all
+use similar I<implementation> with regard to network communication, blocks,
+transactions, script, and so on.
+
+Furthermore, now you know more about the I<mechanism> by which an address
+verifier can tell at a glance whether a long string of numbers or Base-58
+digits is meaningful to the Dogecoin network or not--or at least, whether that
+string is definitely I<not> meaningful for a given network.

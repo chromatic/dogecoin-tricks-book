@@ -37,3 +37,5 @@ L<speed_up_analysis>
 L<estimate_current_conversion_value>
 
 L<set_your_own_price>
+
+L<check_your_parameters>
