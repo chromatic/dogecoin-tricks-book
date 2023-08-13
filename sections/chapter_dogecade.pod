@@ -35,3 +35,5 @@ L<rotate_machine_addresses>
 L<manage_tokens>
 
 L<sell_event_admission>
+
+L<derive_more_addresses>

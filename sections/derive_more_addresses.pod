@@ -1,0 +1,192 @@
+=head1 Derive More Addresses
+
+Z<derive_more_addresses>
+
+Whether you use a batch of Dogecoin addresses for your machine
+(L<associate_addresses_to_machines>) or generate new addresses for each new
+customer (L<manage_tokens>), or otherwise receive Dogecoin in transactions, you
+need a steady supply of new addresses. This implies a steady supply of new
+public/private key pairs.
+
+Wallet derivation (see L<use_a_hd_wallet>) simplifies this problem by
+describing a hierarchy of keys. Given a single key to start with, you can
+generate an infinite number of related (derived) keys as often as you need
+them. To spend transactions sent to those addresses, you need the starting key
+and some information about derivation but you don't have to track all of the
+public/private key pairs along the way.
+
+Improve your security and increase your convenience by reducing bookkeeping?
+Yes!
+
+=head2 *Derived Keys
+
+X<BIPs; BIP-32>
+X<BIPs; BIP-44>
+
+Key derivation follows BIP-32 and BIP-44 standards. The most important piece to
+understand is BIP-44's notion of derivation paths. These are descriptions of
+I<how> to generate additional key pairs from an existing master key. A Dogecoin
+derivation path looks like C<m/44'/3'/0'/0/0>. The first three path components
+are always the same for BIP-44 paths; they indicate a derivation path (C<m>),
+the purpose of the path (C<44'>), and the Dogecoin network (C<3'>). The
+following path components are up to you.
+
+The fourth component represents a unique account number. If you have multiple
+arcade locations, you could use different numbers for each location (or machine
+or whatever). The fifth component is either C<0> or C<1> and indicates whether
+you intend for the derived address to receive external payments. You probably
+want to use C<0> to indicate this. Finally, the final component is an index
+number that increases with each new address you derive.
+
+When a conforming wallet sees a key and a derivation path, it can follow that
+path to examine the blockchain to see which addresses have ever received a
+transaction. Even if there's currently no unspent inputs associated with that
+address, if the derived address has ever received funds, the wallet can
+determine this--and know to use the I<next> unused index value when it wants to
+derive further addresses.
+
+You don't I<need> a wallet to derive further addresses, though--only software
+that understands this derivation scheme.
+
+=begin tip Derivation Compatibility
+
+The documentation around BIP-44 warns that not all wallets use compatible
+derivation schemes, so test your derived addresses before you rely on them.
+
+=end tip
+
+=head2 *Deriving Keys in Practice
+
+In practice, you need only a couple of pieces of data to derive a near-infinite
+number of new addresses:
+
+=over 4
+
+=item * The master key
+
+=item * The integer representing the appropriate account
+
+=item * The index value from which to start counting
+
+=back
+
+Both account number and index number start from C<0>, so if you want
+simplicity, start with a path of C<m'/44'/3'/0'/0/0> and increment the index
+value.
+
+If you're associating addresses with some sort of transaction marker (such an
+arcade machine, a customer invoice, or a customer account), you'll probably
+want to store the derived address with the index value in a persistent store
+(for example, in a database) so that you can take the appropriate action when
+you see a confirmed transaction to that address.
+
+What might code look like?
+
+=head2 *Example Derivation Code
+
+X<< external software; C<libdogecoin> >>
+
+The C<libdogecoin> library provides useful functions to derive new addresses
+from hardened master private keys, at least in versions 0.1.3 and laterN<At
+least, 0.1.3 will, if it includes your author's code implementing this
+feature.>.
+
+X<< Perl libraries; C<Finance::Libdogecoin> >>
+
+While you can write C or C++ code to link against the library directly, you
+might have a better time using a language binding, such as Perl's
+C<Finance::Libdogecoin> (again, at least version 0.1.3). The code can look like
+this:
+
+=begin screen
+
+  use 5.038;
+
+  use Finance::Libdogecoin 'get_derived_hd_address_by_path';
+
+  sub derive_address ($key, $index) {
+      my $path = "m/44'/3'/0'/0/$index";
+      my $address = get_derived_hd_address_by_path( $key, $path, 0 );
+
+      return { address => $address, path => $path };
+  }
+
+=end screen
+
+Given the master key and the new index to use, this code calls C<libdogecoin>
+to derive a new address and returns the address and the derivation path used to
+generate it. B<Be aware> that it's up to you to manage the security and secrecy
+of the private key appropriately.
+
+In a web context, you might want to build a model object more like this:
+
+=begin screen
+
+  use Object::Pad;
+
+  class Deriver {
+      use Crypt::Lite;
+      use Finance::Libdogecoin 'get_derived_hd_address_by_path';
+
+      has $key;
+
+      ADJUSTPARAMS( $params ) {
+          $key = Crypt::Lite->new->decrypt($params->{master_key}, $params->{secret});
+      }
+
+      method derive_address ($index) {
+          my $path = "m/44'/3'/0'/0/$index";
+          my $address = get_derived_hd_address_by_path( $key, $path, 0 );
+
+          return { address => $address, path => $path };
+      }
+  }
+
+=end screen
+
+X<< Perl libraries; C<Crypt::Lite> >>
+
+This code uses C<Crypt::Lite> to decrypt the master key. This allows you to
+store the master key in a file on disk, encrypted with a secret. When you
+create this object, you can pass the master key and a secret value so that the
+object will decrypt the master key and store it in this object's C<$key>
+attribute.
+
+All subsequent calls to the C<derive_address> method will use the master key
+without you having to pass anything. When you start this program, you should
+interactively enter the secret (or otherwise inject it into the program) so
+that decryption works correctly I<and> no one can get to the secret without
+your permission.
+
+For a further enhancement, you could store the current C<index> value in the
+object itself, such that every call to a method would increment that value and
+give you a new address.
+
+X<people; Raph Levien>
+X<obsure references; Advogato>
+
+None of these examples require the use of Perl, of course. The same techniques
+work in any language which provides C<libdogecoin> bindings; even C
+itselfN<Though writing web applications in C is even more of a flex now than it
+was for even a programmer as smart as Raph Levien in 1999.>.
+
+=head2 *Understand the Risks
+
+The biggest risk with the C<libdogecoin> approach is that, currently, the code
+that derives new addresses needs access to the master key. You can keep that
+encrypted as much as possible, but at some point it's unencrypted in memory.
+Because this is the master key used to derive child keys, anyone with this key
+could themselves drive new keypairs (both public and private) as well as the
+related addresses.
+
+Granted, someone with access to your machine could inspect your memory, but a
+safer approach would be if you could derive new keys and addresses from a
+I<public> key only. In that case, any exposure of that key would compromise the
+I<privacy> of your public keys and addresses but not the security of your
+private keys.
+
+In the end, it's up to you to decide how to balance security, privacy, and
+convenience. Filling a pool of fresh addresses will take some ongoing
+maintenance, but it lessens exposure of your keys. Generating new addresses on
+demand is more convenient and needs less maintenance, but it raises the risk of
+master key exposure.
