@@ -35,3 +35,5 @@ L<host_a_puzzle_race>
 L<interchange_your_wallet_keys>
 
 L<create_asymmetric_keys>
+
+L<embrace_entropy>
