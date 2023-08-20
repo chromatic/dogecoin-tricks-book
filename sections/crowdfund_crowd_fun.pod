@@ -1,0 +1,170 @@
+=head1 Crowdfund Crowd Fun
+
+Z<crowdfund_crowd_fun>
+
+X<people; Copeland James>
+
+While the default assumption of a transaction-based action dispatch system (see
+L<queue_actions_on_transactions>) is one transaction, one event (play an arcade
+game, buy a muffin, listen to Copeland James's "Darling We've Got Time"N<See
+U<https://www.youtube.com/watch?v=CMgVXyRJ_Lo>.>), nothing forces you into that
+model.
+
+You might need a different model, if you're holding a naming contest
+(L<vote_on_goats>), subscribing to a private service for a period of time, or
+even running a fundraiser for something awesome. In fact, crowdfunding is a
+great example; something cool will happen only when transaction amounts sent to
+an address or addresses meet or exceed a specific threshold!
+
+While re-using a wallet address can be risky (more on that later), there are
+some advantages. Be mindful of the pros and cons.
+
+=head2 *Threshold-Based Action Dispatch
+
+Suppose you use the transaction/action dispatch pattern from the transaction
+action queuing system. When a transaction occurs, your Core node notices it and
+performs a notification action. Your notification system records the
+transaction information and dispatches to a custom action. That action can be
+anything.
+
+For example, an C<action_type> of C<Crowdfund> could keep a running total of
+all transaction amounts. For each new deposit, it could calculate the amount
+remaining and do several things:
+
+=over 4
+
+=item * Update a status page, showing number of funders, amount funded, et ceteral
+
+=item * Reveal new rewards for reaching stretch goals
+
+=item * Unlock something cool upon reaching every threshold
+
+=back
+
+=head3 *Coding a Crowdfunding Action
+
+What does this code look like in practice? The action dispatcher needs to
+provide some information to every invocation, starting with the transaction
+information (including the amount, receiving address, date, and possibly number
+of blocks of confirmation). The action also needs to be able to associate each
+receiving address with a unique campaignN<Why a unique campaign? Suppose you
+have multiple campaigns, each with different goals. You might not, but it's
+worth thinking about this flexibility.>.
+
+At a high level, you might write something like this with Perl or any other
+language:
+
+=begin screen
+
+  use Modern::Perl;
+  use Object::Pad;
+
+  class Crowdfund {
+      has $projects;
+
+      method action( $transaction, $current_height ) {
+          my $address = $transaction->receiving_address;
+          my $project = $self->find_project( $address );
+
+          $project->add_tx( $transaction, $current_height );
+      }
+
+      method find_project( $address ) {
+          return $projects->find_project_by_address( $address );
+      }
+  }
+
+  class Project {
+      has $confirmation_threshold;
+      has $funding_threshold;
+      has $current_amount;
+      has $funder_count;
+
+      method add_tx( $transaction, $curent_height ) {
+          my $tx_height = $transaction->height;
+
+          # tx is too young to be confirmed
+          return if $tx_height + $confirmation_threshold
+                  > $current_height;
+
+          $current_amount += $transaction->amount;
+          $funder_count++;
+
+          $self->fund
+             if $current_amount >= $funding_threshold;
+
+          $self->update_funding_status;
+          $self->check_stretch_goals;
+      }
+  }
+
+=end screen
+
+This is a sketch of how a couple of objects would look in this system. The
+example doesn't deal with data persistence, but a decent programmer should be
+able to manage that without too much trouble.
+
+The C<Crowdfund> action gets invoked by the transaction action dispatcher. Its
+important method C<action> uses data from the C<$transaction> object to look up
+project information, delegating that approach to some C<$projects> object
+reachable from a C<Crowdfund> instance. Assuming a project exists, the
+C<Project> class handles other, more interesting behavior.
+
+What does C<Project> need to do? It has several interesting data points,
+including the number of confirmations required before it considers a
+transaction confirmed, the amount of funding required to unlock the project at
+all, the current amount of funding, and the number of funders.
+
+=begin tip Find the Bug!
+
+There may be at least one subtle bug in C<Project>'s C<add_tx> method. Can you
+find it? Hint: is there a one-to-one relationship between a transaction and a
+funder?
+
+=end tip
+
+Within the C<add_tx> method, this code checks the transaction age against the
+project's specific threshold, adds the transaction amount, increments the
+number of funders, and then decides what to do next.
+
+What happens when the project exceeds its first funding threshold? The C<fund>
+method, left as an exercise for readers, should idempotentlyN<This is a fancy
+programmer word that means "Do it only once. If you try to do it again, don't
+do anything again."> do something cool. The C<update_funding_status> method,
+left as an exercise for readers, can send emails and/or update web pages (or
+data sources backing web pages) or anything else. Finally, the
+C<check_stretch_goals> method can be part of C<fund> (maybe it should be), but
+treating it separately identifies that there may be unique behavior modeled by
+C<Project> that isn't quite funding but isn't not funding.
+
+Again, there's nothing special about this code. It's almost boring how
+straightforward it is, and that's a deliberate goal: if you think about the
+I<mechanics> of associating a Dogecoin transaction with a project in a sensible
+way, you don't have to think much about the I<mechanics> of payment. All you
+have to know is when funds come in at a confirmation level you're comfortable
+with.
+
+Even I<that> is configurable here.
+
+=head2 *Understand the Risks
+
+You can run this one of a couple of ways. If you generate a new address for
+each potential funder, you need some way of associating a project with an
+address. That's not difficult!
+
+Of course, you also I<probably> want to know who's funding your project,
+especially if they get specific rewards at specific thresholds. In that case,
+one of your largest security risks is exposing your funder list and potentially
+their addresses and transaction histories. One thing you I<can> do to I<reduce>
+exposure is to remove any association between an email address or other contact
+information and a transaction address when you confirm the transaction. This
+limits the audit trail of your system and requires you to generate a new
+address for any subsequent transactions, but that provides some safety.
+
+Think of it this way: an address that hasn't received anything I<yet> doesn't
+expose any previous transaction history of the funder, because there's nothing
+to see yet. Of course, a partially funded transaction could expose the funder's
+transaction history.
+
+Either way, consider the security of your system and the privacy of your
+funders as well as your own.
