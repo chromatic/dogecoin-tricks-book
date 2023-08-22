@@ -19,3 +19,5 @@ L<control_your_jukebox>
 L<hide_transaction_data_in_media>
 
 L<pledge_to_do_only_good>
+
+L<hide_addresses_in_stories>
