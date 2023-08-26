@@ -1,0 +1,133 @@
+=head1 Understand Core Programs
+
+Z<understand_core_programs>
+
+X<< Dogecoin Core; C<dogecoind> >>
+X<< Dogecoin Core; C<dogecoin-qt> >>
+
+When you download a release version of the Dogecoin Core software, it will
+unpack on your computer with several files in the F<bin/> directory. Any
+explanation of how to run a node (see L<run_a_node>, for example) should guide
+you to one of two files. What are they, why would you use them, and why are
+they there?
+
+This is worth your time to understand; there may be more going on here that you
+can use.
+
+=head2 *Common Binaries
+
+You're likely to use one of two binary files all the time, either C<dogecoind>
+or C<dogecoin-qt>. Why one over the other? That depends what you want to do.
+
+Note: not all downloads contain all of these programs. If you downloaded a
+Dogecoin Core compiled for a Raspberry Pi, for example, you may not have
+C<dogecoin-qt> available, depending on the version. This generally happens
+because the libraries needed to run the GUI aren't available for that
+particular platform.
+
+=head3 *If You Want to Manage a Wallet
+
+You don't I<need> to run a node to manage a wallet, and your wallet doesn't
+need to be connected to a running node to work. However, running a node with a
+wallet connected (and carefully secured) can give you a lot of insight into
+your transactions and transaction history without you having to write your own
+software or manage the data yourself.
+
+The C<dogecoin-qt> binary is the official Dogecoin Core GUI node. It supports
+wallet features, though you don't have to run it with a wallet enabled, and
+lets you manage wallet addresses, track sent and received transactions, and
+perform all other node activities. Almost everything you can do with a node is
+available through the GUI (and sometimes the F<dogecoin.conf> configuration
+file).
+
+If you're comfortable running desktop software, this is a good choice.
+
+The C<dogecoind> binary is the non-GUI version of the core. It supports wallet
+operations as well, but the primary interface to any Core behavior is through
+the command line, via RPC calls (see L<command_the_core>), et cetera. If you're
+running a node I<not> connected to a wallet, this may be a better choice.
+
+If you're running a node on a remote server, perhaps something in the cloud,
+this may be your only choice.
+
+Both C<dogecoind> and C<dogecoin-qt> are long-running, server-style processes.
+Depending how you have them configured, they may take several minutes to start
+up and give you the ability to explore your wallet and the network. This is
+because they need to connect to other nodes, validate data they have, download
+new blocks since they last ran, and perform other housekeeping exercises.
+
+=head2 *If You Want to Get Node and Network Data
+
+X<< Dogecoin Core; C<dogecoin-cli> >>
+
+If you're running a node and want to get information out of it--especially
+without using the GUI--the C<dogecoin-cli> binary is useful. It can connect to
+a running node (either C<dogecoind> or C<dogecoin-qt>) and issue commands. That
+node can be running on the same machine or on a remote machine, whether on the
+same network or available from the Internet.
+
+By itself, the program won't do much beyond respond to C<--help> commands.  To
+get real data from a node, you I<must> configure both the node and your network
+securely so that C<dogecoin-cli> can make RPC connections (see
+L<authenticate_rpc_securely>).
+
+There's no GUI for this program. It's useful from the command line. If you're
+more comfortable with a programming language, you may find it more useful to
+make RPC calls from your programming language directly, instead of invoking
+C<dogecoin-cli>, but you can do either one.
+
+=head2 *If You Want to Work with Transactions
+
+X<< Dogecoin Core; C<dogecoin-tx> >>
+
+While you can create and sign transactions with C<dogecoin-cli> and
+C<dogecoin-qt>, they both require a running node. To manipulate transactions
+I<without> having to connect to a node, use the C<dogecoin-tx> binary. While
+you I<do> have to connect to the network somehow to broadcast and receive
+transactions and blocks, you can work with a wallet and transactions offline
+and only connect to the network when you've made all of the changes necessary.
+
+In other words, if you decide that you need the security of keeping your wallet
+information on an offline device, you have the option of running C<dogecoin-tx>
+on a machine not connected to the Internet or any network, then copying the
+transaction you want to make to a different machine with no access to your
+wallet and using that second machine to send your transaction to the network.
+
+=head2 *If You Want to Debug Something Weird
+
+X<< Dogecoin Core; C<test_dogecoin> >>
+
+Finally, the C<test_dogecoin> binary runs a series of tests that the Core
+developers use to increase their confidence that the software works as
+expected. All tests must pass before a release (tests must also pass before the
+Core developers accept a change to the code I<before> a release as well), but
+the variety of computers and hardware and software and configurations mean that
+there's a chance you might experience a bug the developers didn't anticipate
+before the release.
+
+If you find something behaving very much not as you expected, running this
+program may provide you and developers with useful debugging information.
+However, be aware that any bug you find represents a bug the developers neither
+found nor intended, so back up your wallet (or, perhaps, move your wallet file
+I<off> of your computer) before running this program.
+
+When you have the useful information, open an issue (see L<open_an_issue>) and
+see what you can do to help ensure no one else encounters the same problem.
+
+=head2 *What Can You Do With This?
+
+Most Core users will probably use C<dogecoin-qt> and be happy with it, and
+that's perfectly fine! You can get a lot done with that program, and you always
+have the option of modifying your configuration or changing options to suit
+your needs.
+
+When you want or need to do other things--a lot of them documented in this
+book--then having other options available is important and useful. Even though
+your first experience with the Core might be running a node with a wallet
+attached, you have plenty of options. Those options let you change your
+experience based on your desire for security privacy and security, any advanced
+uses you have, or even the time and effort and resources you can spend
+maintaining a running node.
+
+All of these options are valid, and they may change over time for you. That's
+why multiple programs exist.
