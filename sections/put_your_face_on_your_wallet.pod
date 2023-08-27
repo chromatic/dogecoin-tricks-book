@@ -189,10 +189,10 @@ assumed image files are safe.
 
 Using an image you created, modified, edited, validated with your own software
 on a machine you trust is one thing. You're still using code that hasn't been
-officially vetted by the Core developers, but the provenance of that image is
-less worrisome. If, instead, someone tells you "Download this file, then run
-your core wallet with this command-line option to use this image!" never do
-what they say. Fun customizations entirely under your control are one thing.
+vetted by the Core developers, but the provenance of that image is less
+worrisome. If, instead, someone tells you "Download this file, then run your
+core wallet with this command-line option to use this image!" never do what
+they say. Fun customizations entirely under your control are one thing.
 Letting someone else put arbitrary code or data on your computer is something
 else, and you can and should safely ignore those suggestions.
 

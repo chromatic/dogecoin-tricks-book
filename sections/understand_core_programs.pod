@@ -33,12 +33,11 @@ wallet connected (and carefully secured) can give you a lot of insight into
 your transactions and transaction history without you having to write your own
 software or manage the data yourself.
 
-The C<dogecoin-qt> binary is the official Dogecoin Core GUI node. It supports
-wallet features, though you don't have to run it with a wallet enabled, and
-lets you manage wallet addresses, track sent and received transactions, and
-perform all other node activities. Almost everything you can do with a node is
-available through the GUI (and sometimes the F<dogecoin.conf> configuration
-file).
+The C<dogecoin-qt> binary is the Dogecoin Core GUI node. It supports wallet
+features, though you don't have to run it with a wallet enabled, and lets you
+manage wallet addresses, track sent and received transactions, and perform all
+other node activities. Almost everything you can do with a node is available
+through the GUI (and sometimes the F<dogecoin.conf> configuration file).
 
 If you're comfortable running desktop software, this is a good choice.
 

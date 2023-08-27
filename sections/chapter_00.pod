@@ -53,13 +53,12 @@ the Internet, and can download and install and run software.
 X<Dogecoin Core; trustworthy links>
 
 At the time of this writing, you can visit U<dogecoin.com> for links and
-information about how to download and run the official Dogecoin Core. Don't
-take our word for it though; check online if that's still the official home of
-the official Core. Test that against other sites such as
-U<https://github.com/dogecoin/dogecoin>, the Dogecoin Reddit at
-U<https://reddit.com/r/dogecoin/> and other locations. If something seems off
-to you, then ask questions. Honest, helpful people will give you good answers
-and help you verify them for yourself.
+information about how to download and run the Dogecoin Core. Don't take our
+word for it though; check online if that's still the home of the Core. Test
+that against other sites such as U<https://github.com/dogecoin/dogecoin>, the
+Dogecoin Reddit at U<https://reddit.com/r/dogecoin/> and other locations.  If
+something seems off to you, then ask questions. Honest, helpful people will
+give you good answers and help you verify them for yourself.
 
 =end sidebar
 

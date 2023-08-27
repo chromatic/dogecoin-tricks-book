@@ -17,7 +17,7 @@ In that case, who better to ask for the improvement than you?
 
 X<GitHub>
 
-As of this writing, official Dogecoin Core development happens on GitHub
+As of this writing, Dogecoin Core development happens on GitHub
 (L<follow_core_development>). If you run into a developer in person, follow
 them on Twitter, swap messages on Reddit, or change your node's comment
 (L<set_your_node_comment>) to read "Hey devs, when are you porting Core to the

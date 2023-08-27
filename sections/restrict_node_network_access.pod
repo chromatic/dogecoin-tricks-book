@@ -25,11 +25,11 @@ is pretty good security.
 
 X<< external applications; C<netstat> >>
 
-Of course this only applies if you're running the official Dogecoin Core
-software; anything else you should inspect the code yourself (or ask someone
-you trust to do so) and verify the results. For example, on a Linux machine you
-could run the C<netstat> utility to list all of the programs listening for
-network connections:
+Of course this only applies if you're running the Dogecoin Core software;
+anything else you should inspect the code yourself (or ask someone you trust to
+do so) and verify the results. For example, on a Linux machine you could run
+the C<netstat> utility to list all of the programs listening for network
+connections:
 
 =begin screen
 
