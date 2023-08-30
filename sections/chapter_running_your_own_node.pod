@@ -22,3 +22,5 @@ L<use_a_hd_wallet>
 L<command_the_core>
 
 L<know_your_limits>
+
+L<ban_bad_actors>
