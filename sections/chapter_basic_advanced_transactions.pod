@@ -20,6 +20,8 @@ L<inspect_a_transaction>
 
 L<decode_transactions>
 
+L<identify_input_transactions>
+
 L<host_a_treasure_hunt>
 
 L<vote_on_goats>
