@@ -1,0 +1,179 @@
+=head1 Create Crossword Rewards
+
+Z<create_crossword_rewards>
+
+If you like to start or end your day with a little bit of
+cruciverbalismN<Crossword puzzles!>, there's a way to combine your interest in
+puzzles with the blockchain.
+
+=head2 *What's in a Crossword Puzzle?
+
+What's in a crossword puzzle? You need a few things:
+
+=over 4
+
+=item * a list of words and clues
+
+=item * a grid
+
+=item * a way to fit words into a grid
+
+=back
+
+X<people; Saul Pwanson>
+
+Fortunately, the Internet provides. You can find multiple good wordlists
+online. One such resource is Saul Pwanson's wordlistN<See
+U<https://xd.saul.pw/data/>.>. The F<xd-clues.zip> file in particular is a nice
+source of words and clues, going back decades.
+
+X<< external programs; C<genxword> >>
+X<people; David Whitlock>
+X<people; Bryan Helmig>
+
+Another good project is C<genxword> by David Whitlock and Bryan HelmigN<See
+U<https://github.com/riverrun/genxword>.>. Given a list of words, this program
+can produce a PDF, SVG, or PNG file with a crossword puzzle, including a list
+of clues and the word bank used in the puzzle.
+
+It's easy to tie these things together.
+
+=head2 *Generate a Crossword Puzzle
+
+Given the wordlist and C<genxword>, you can generate a crossword puzzle. First,
+grab a random sample of around 100 words and clues. Of course, this is
+complicated by the fact that the wordlist is a tab-separated text file, with
+the first two columns the source (New York Times, Wall Street Journal, etc) and
+the year of use.
+
+X<< external programs; C<shuf> >>
+
+First things first, get 100 random lines from the file with the Unix C<shuf>
+utility:
+
+=begin screen
+
+  $ B<< shuf -n 100 clues.tsv > daily-clues.txt >>
+
+=end screen
+
+Now translate the tab-separated file into a list of words and clues by removing
+the first two columns and using a space to separate the words from the
+cluesN<This is the format the puzzle generator prefers.>:
+
+=begin screen
+
+  $ B<< cut daily-clues.txt -f 3,4 --output-delimiter ' ' > daily_word_list.txt >>
+
+=end screen
+
+Finally, run C<genxword> on the word list to generate a letter-sized PDF file:
+
+=begin screen
+
+  $ B<genxword daily_word_list.txt -o daily_puzzle l>
+
+=end screen
+
+See the C<genxword> documentation for more options. With this command, you'll
+get two files, F<daily_puzzle_gridl.pdf> and F<daily_puzzle_keyl.pdf>. If you
+want a textual list of clues and words, use the C<n> option to produce PNG
+files instead or in addition.
+
+Now you have something you can share with other people. What happens next? Add
+a reward!
+
+=head2 *Rewards on the Blockchain
+
+Assume you've put 100 Dogecoin aside as a reward for the puzzle. Hold the
+question of how to fund that prize for a second. First, think about how someone
+will claim that reward. Obviously they need to start by solving the puzzle.
+Then you have at least two options.
+
+=head3 *Solution as Private Key Input
+
+If you use some or all of the solution as the input for a private key, they can
+add the private key to their wallet and claim the reward by transferring the
+funds to an address under their control.
+
+If you use this approach, make sure the rules for extracting the key input from
+the solution is clear and unambiguous. For example, you could use the rule
+"Join all across words together with spaces, then join all down words together
+with spaces, all lowercase". Or you could use the rule "Take the first letter
+of all across words, then the first letter of all down words, all uppercase".
+Whatever approach you take, make it unambiguous and easy to verify.
+
+Then document the approach you yourself used to generate the private key and
+address from the seed phrase. Is it a wallet generator? Is it C<libdogecoin>?
+Is it something else?
+
+One of the last things you want to do when putting together a puzzle is to
+mediate a dispute between multiple people who all claim to deserve the reward
+but can't agree on the solution.
+
+=head3 *Solution as Transaction Unlock Script
+
+An alternate solution--untethered from keys and addresses--is to use something
+derived from the puzzle solution as the unlock script for a transaction. As
+with the private key mnemonic in the previous example, the goal is to make
+something that's unguessable without solving the puzzle.
+
+Your rules can be similar: "Join all across words together with spaces, then
+hash this to generate a value which is the unlock script". For this to work,
+you need to create a P2SH transaction (see L<decode_a_transaction_script>). Use
+SHA-256 to hash the solution, then use SHA-256 on it again. The result is the
+unlock script, which will look something like this:
+
+=begin screen
+
+  OP_HASH256
+  ... (your hashed value)
+  OP_EQUAL
+
+=end screen
+
+To unlock this transaction, the solver needs to provide the solution to the
+puzzle (hashed once). Yes, you read that right: you've hashed the solution
+three times, once to turn a crossword solution into something you can use to
+unlock a transaction, and then twice more to lock the transaction.
+
+There is one downside to this approach: if someone solves the puzzle, anyone
+can look at the pending transaction in the mempool and submit a similar
+transaction and then it's a race to see which pending transaction gets mined
+into a block first. There's no mitigation for this on the network itself, so
+you might have to put rules around it, such as "submit your answer to an
+arbitrator first in the case of front-running" or "don't let jerks ruin the fun
+for everyone", but both of these are difficult to enforce and may reduce user
+privacy.
+
+Either approach you use--private key or unlock script--you'll need to fund the
+prize by transferring funds to the appropriate address. Once the transaction
+has settled, publish your puzzle to the appropriate people and let them have at
+it!
+
+=head2 *Understand the Risks
+
+If there's money involved, there's always the risk of someone cheating, or at
+least bending the rules. If you use a public wordlist with a known set of words
+and clues, it's possible for someone to write a program to solve any arbitrary
+puzzle by mapping clues to words. Mitigating this risk might mean making your
+own clues, adding words from a private list, or otherwise making it more
+difficult to go from a solved puzzle to the solution to unlock the reward
+transaction.
+
+Similarly, if you're using random numbers to generate the puzzle, it's possible
+for someone to reverse-engineer the random number generator and predict the
+clues used. Every time you see the word "random number generator", do your
+diligence to ensure that the numbers are random and have enough entropy (see
+L<embrace_entropy>) to guard against prediction attacks.
+
+If you're publishing puzzles publicly, remember that the clues and answers are
+often language- and culture-specific. Referring to a television advertisement
+for chocolate milk in the 1980s featuring Pancho PanteraN<See
+U<https://www.youtube.com/watch?v=4oMQSGRnNiY>.> might leave out a broad swath
+of your potential audience. Furthermore, if you reliably publish your puzzles
+at 10 am local time, people who are awake and not at work right them might have
+an advantage solving puzzles over people who have to wait several hours to have
+time free to ponder your clues.
+
+Most of these risks summarize to "help everyone compete fairly".
