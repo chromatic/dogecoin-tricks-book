@@ -23,3 +23,5 @@ L<pledge_to_do_only_good>
 L<hide_addresses_in_stories>
 
 L<create_crossword_rewards>
+
+L<make_keys_from_answers>

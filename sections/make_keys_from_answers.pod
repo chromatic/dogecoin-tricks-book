@@ -1,0 +1,153 @@
+=head1 Make Keys from Answers
+
+Z<make_keys_from_answers>
+
+Suppose you've gone to all the work of making a year's worth of weekly
+crosswords (see L<create_crossword_rewards>) and you want to publish them and
+let your community meet the challenge for the chance at rewards: Dogecoin
+transactions they can claim as their own.
+
+How do you I<actually> do that in practice?
+
+=head2 *A Puzzle Solution to Key Pipeline
+
+Suppose you have a simple puzzle with four words in it, two across and two
+down. Starting with the Across words, reading in increasing numeric order, then
+moving to the Down words, also reading in increasing numeric orderN<Yes, this
+explanation seems tedious, but if you're hosting a competition, the clearer the
+rules, the fewer arguments you'll have to mediate.>, the word list is:
+
+=over 4
+
+=item * ARGYLE
+
+=item * TEATIME
+
+=item * BOWTIE
+
+=item * SQUAMOUS
+
+=back
+
+That's the puzzle solution. Now you as the puzzle maintainer (and everyone who
+solves the puzzle) has to turn that data into the key to unlock the puzzle's
+rewards. You're already halfway there, though: you have a list of data that's
+ideally unique and hard to guess. Now you need to turn that into a key.
+
+=head2 *Data to Keys
+
+X<BIPs; BIP-39>
+
+Normally this approach is a bad idea because the security of a key is
+essential, but where you I<do> want to share a key, this approach works. Think
+about BIP-39 for a moment (see L<hide_addresses_in_stories>). That proposal described
+a mechanism to turn a list of words into entropy used to generate a private key.
+
+The same approach works here: not necessarily as using the words directly as
+entropy but using the words to I<create> entropy, or at least sufficient
+entropy that people are unlikely to guess the private key without solving the
+puzzle.
+
+Remember also that this process must be I<repeatable> such that anyone who's
+solved the puzzle should be able to generate the same private key and have a
+chance to redeem the reward.
+
+=begin tip Puzzle Transactions: For Advanced Users Only
+
+While the puzzle transaction approach is good and may seem more in line with
+the goals of the blockchain, there's no simple way to create an unlocking
+transaction without creating at least part of the transaction manually. If your
+audience is highly technical and capable of creating and signing their own
+transactions, and knows to test rigorously on testnet (see
+L<test_first_safely>), this approach may work. For general users, the risk of
+leading them to tricky and potentially coin-losing mistakes is high.
+
+=end tip
+
+One reliable way of generating a private key is to turn the wordlist into a
+hashed value, then use that as the source of data for a new key. This is, more
+or less, what BIP-39 does, though that standard has some advantages that this
+approach doesn't use. In particular, BIP-39 word lists reduce ambiguity and the
+rest of the standard provides some convenient security features which multiple
+clients and multiple cryptocurrencies have adopted.
+
+Suppose you were to write a little PerlN<You can use any language you trust and
+your users are likely to use. In this case, I've used this library multiple
+times before and contributed code to it, so I trust it.> utility to do this:
+
+=begin screen
+
+    use Modern::Perl '2022';
+    use Bitcoin::Crypto::Key::Private;
+    use Digest::SHA 'sha256';
+
+    my $bytes = sha256( $input );
+    my $key   = Bitcoin::Crypto::Key::Private->from_bytes( $bytes );
+    $key->set_network( 'dogecoin' );
+
+    say $key->to_wif;
+
+=end screen
+
+X<< Perl libraries; C<Modern::Perl> >>
+X<< Perl libraries; C<Bitcoin::Crypto::Key::Private> >>
+X<< Perl libraries; C<Digest::SHA> >>
+
+Given the Perl libraries C<Modern::Perl>N<Enable convenient features.>,
+C<Bitcoin::Crypto::Key::Private>N<Manage keys for cryptocurrency networks.>,
+and C<Digest::SHA>N<Use cryptographic hashes.>, this program takes a single
+argument, hashes it, and turns the hash into a private key. Then it prints the
+private key's WIF (see L<interchange_your_wallet_keys>).
+
+Run this with a single argument, in this case a quoted stringN<If you don't
+quote the string, the shell will treat each word as a separate argument.> of
+the four words in the puzzle solution:
+
+=begin screen
+
+  $ B<perl wif_from_text.pl "ARGYLE TEATIME BOWTIE SQUAMOUS">
+  QPBcDcDxMnXcuts7c3VcXPU35BQxRn9iAoUSRETXDM1igu9MEDkW
+
+=end screen
+
+... and there's a WIF you or anyone can import into any wallet.
+
+=head2 *What Can You Do With This?
+
+As written, the puzzle's reward is available to anyone who can solve the
+puzzle, generate the private key, and create a transaction to move the unspent
+funds to an address of their preference. As soon as you publish the puzzle and
+the key generation rules, the race is on.
+
+To give everyone a better chance of competing, you I<could> fund the reward
+with a timelocked transaction (L<timelock_a_vault>), so that the race is
+between transactions, not people. Anyone who has the solution could import the
+private key and attempt to spend the funds, but the timelock will mean that no
+transaction can move the funds until the time expires. At that point, if one or
+ten or a hundred competing transactions all are in the mempool, whichever
+transaction gets mined into a block first will win.
+
+Think of it as a kind of random drawing for all winners.
+
+Regardless of I<which> technique you use to provide rewards on the blockchain,
+having funds sent to a puzzle address or to an address for which people allows
+you and/or anyone else to increase the puzzle's reward. Publish the address and
+anyone else can send funds there as well.
+
+If your users aren't likely to have Perl, Ruby, Python, PHP, Go, Rust, Node, or
+whatever language you coded your solution, you might consider creating a little
+web app where they can paste their words. Or you could go all the way and
+create a full-fledged web app that allows them to solve the puzzle online and
+generate a WIF for them.
+
+Of course, remember that this technique for generating keys is not secure
+because the I<problem> you're trying to solve here is not primarily a security
+problem.  You I<want> other people to get access to the key and its funds.
+Never use this technique for your own private funds you want to keep secure;
+it's better to stick with a hardware wallet, a BIP-39 generator using
+sufficient entropy, or another technique not intended to be guessed or shared.
+
+If you do use this technique, make sure you test it thoroughly. Also take care
+to tell your users that they should never rely on a key generated from software
+they can't inspect running on computers they don't control and trust for their
+own funds.

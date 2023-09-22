@@ -105,7 +105,7 @@ Whatever approach you take, make it unambiguous and easy to verify.
 
 Then document the approach you yourself used to generate the private key and
 address from the seed phrase. Is it a wallet generator? Is it C<libdogecoin>?
-Is it something else?
+Is it something else? (Perhaps L<make_keys_from_answers>?)
 
 One of the last things you want to do when putting together a puzzle is to
 mediate a dispute between multiple people who all claim to deserve the reward
