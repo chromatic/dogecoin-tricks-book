@@ -1,0 +1,252 @@
+=head1 Measure Block Velocity
+
+Z<measure_block_velocity>
+
+If you ran a poll of everyone with an interest in cryptocurrency "why is a long
+number representing funny Dog money worth anything?", you'd get some
+combination of three answers:
+
+=over 4
+
+=item * "It's not. Is it?"
+
+=item * "The price will go up in the future as more people want it in the future"
+
+=item * "It's worth something because you can do things with it"
+
+=back
+
+If this polling is true and accurate, then you can divide the respondents into
+a couple of categories: those who see a cryptocurrency as primarily an
+investment and those who see it as primarily an instrument of utility. This
+divergence in philosophy mirrors a similar debate in the investing world, where
+technical analysis measures patterns of price movement over time (in other
+words, predicting buyer and seller sentiment based on past price movements) and
+fundamental analysis measures the underlying value of a business, commodity, or
+service (in other words, trying to figure out what something is worth based on
+what it does).
+
+This is complicated stuff, full of jargon and lots of debates and many charts
+and theories. If you want to oversimplify, however, you can say that the
+fundamental point of fundamental analysis of Dogecoin revolves around the
+questions "what can I do with it" and "what can anyone do with it". To
+illustrate by analogy: if you issued your own dollars but no one else had any,
+they'd be worth only what you could talk someone else into giving you for them.
+That's probably not much. However, if you had 1 of 100 CoolBux and everyone in
+your friend group was swapping CoolBux for pies or babysitting or pictures of
+cute dogs, then CoolBux is worth something because you can do so much with it.
+
+Of course, even if 100 people each hold one CoolBux but never actually trade
+them, then their apparent value will go down because no one is actually using
+them.
+
+=begin tip Why the Economics Lesson?
+
+This is nerdy stuff for a book about technology and Dog-themed money, but it's
+a risk to ignore economic fundamentals. You can and should be skeptical of any
+simple explanation of human activity, but if this subject interests you, read
+about the Capitol Hill Babysitting Co-OpN<See
+U<https://en.wikipedia.org/wiki/Capitol_Hill_Babysitting_Co-op>.>, which is one
+actual, studied example of a local currency as well as a Bitcoin-themed
+criticism of a common CHBC analysisN<See
+U<https://nakamotoinstitute.org/mempool/babysitting-bitcoin-skeptics/>.>. Then
+read about "wage rigidity".
+
+=end tip
+
+If the model that usage influences value is correct, then one way to value
+cryptocurrency is measuring how much of it gets used regularly. Fortunately, we
+can do exactly that.
+
+=head2 *Velocity and Velocity
+
+The economic measurement of how much money circulates how often is called
+"velocity". If I earn $1 CAD selling maple-flavored dried apple chips and buy
+$1 CAD worth of gasoline for a chainsaw and the chainsaw seller buys $1 CAD
+worth of poutine all in the same week, that's $3 CAD worth of velocity from the
+same Canadian dollar coin trading hands. That's kind of cool to watch a loonie
+spread through the economy. That's $3 CAD worth of value created from $1 CAD!
+
+Similarly, if there were only 1000 Dogecoin in circulation, but all of them
+circulated between different people in every block, that's 1000 worth of
+Dogecoin value expressed in every block: every minute or so. That's a lot of
+value created from a small amount of Dogecoin!
+
+How do you actually measure that?
+
+=head3 *Counting the Dogecoin Circulating in a Block
+
+At any specific block, some Dogecoin change hands, even if that's only the
+coinbase reward reaching one or more miners. How many coins circulate in a
+block? Calculate this by loading a block, looping through each transaction, and
+summing the outputs.
+
+X<< RPC commands; C<getblock> >>
+X<< RPC commands; C<getrawtransaction> >>
+X<< RPC commands; C<decoderawtransaction> >>
+
+In pseudocode (see L<decode_transactions>):
+
+=begin screen
+
+  def count_dogecoin_in_block(blockhash):
+    block := RPCcall 'getblock', blockhash
+
+    total := 0
+
+    for tx in block.tx:
+        raw_tx = RPCcall 'getrawtransaction', tx.hex
+        tx_body = RPCcall 'decoderawtransaction', raw_tx.result
+        total += sum(tx_body.vout.value)
+
+    return total
+
+=end screen
+
+For block 4,906,660, the result is about 380,000 Dogecoin circulated.
+
+=head3 *Counting All the Dogecoin in Circulation at a Block
+
+There are two ways to count the number of Dogecoin in circulation at any given
+block. First, count all of the Dogecoin awarded as mining rewards for the
+coinbase transaction in every block (see L<calculate_block_fill> and
+L<analyze_block_metadata> for help). Alternately, you could estimate using the
+block reward schedule.
+
+Find that schedule in F<doc/FAQ.md> in the Dogecoin Core source code
+repository. For the first 99,999 blocks, the maximum mining reward was 1
+million Dogecoin. From block 100,000 until 144,999 the maximum mining reward
+was 5 million Dogecoin. From block 145,000 until block 199,999 the reward was
+fixed at 250,000 Dogecoin. For the next several groups of 100,000 blocks, the
+reward halved at every threshold, until the reward stabilized at the current
+level of 10,000 Dogecoin per block since block 600,000.
+
+The first couple of threshold had I<random> rewards, where the reward itself
+was anywhere from 0 to the threshold. In other words, the reward for block 13
+could have been 0 Dogecoin or 1 million Dogecoin or anything in betweenN<In
+fact, it was 909,605 Dogecoin.>.
+
+Given this information, it's possible to write an algorithm that estimates the
+maximum block reward at any point. For example, here's an algorithm in Perl
+including a test caseN<The algorithm in a lazy, recursive, functional language
+is more interesting but it might obscure the logic behind cleverness. On the
+other hand, Haskell's QuickCheck is designed for exhaustive testing in
+situations like this!>:
+
+=begin screen
+
+    #!/usr/bin/env perl
+
+    use Modern::Perl '2023';
+    use Test2::V0;
+
+    test_rewards();
+    done_testing;
+
+    sub total_rewards($height) {
+        return $height * 1_000_000 if $height < 100_000;
+
+        return ($height - 99_999) * 500_000 + total_rewards( 99_999 )
+            if $height < 145_000;
+
+        return ($height - 144_999) * 250_000 + total_rewards( 144_999 )
+            if $height < 200_000;
+
+        return ($height - 199_999) * 125_000 + total_rewards( 199_999 )
+            if $height < 300_000;
+
+        return ($height - 299_999) * 67_500 + total_rewards( 299_999 )
+            if $height < 400_000;
+
+        return ($height - 399_999) * 31_250 + total_rewards( 399_999 )
+            if $height < 500_000;
+
+        return ($height - 499_999) * 15_625 + total_rewards( 499_999 )
+            if $height < 600_000;
+
+        return ($height - 599_999) * 10_000 + total_rewards( 599_999 );
+    }
+
+
+    sub test_rewards {
+        is total_rewards( 1 ), 1_000_000;
+        is total_rewards( 2 ), 2_000_000;
+        is total_rewards( 99_999 ), (1_000_000 * 99_999);
+
+        is total_rewards(100_000), total_rewards(99_999) + 500_000;
+        is total_rewards(145_000), total_rewards(99_999) + (500_000 * 45_000) + 250_000;
+
+        is total_rewards(200_000), total_rewards(199_999) + 125_000;
+        is total_rewards(299_999), total_rewards(199_999) + 125_000 * 100_000;
+
+        is total_rewards(300_000), total_rewards(299_999) + 67_500;
+        is total_rewards(399_999), total_rewards(299_999) + 67_500 * 100_000;
+
+        is total_rewards(400_000), total_rewards(399_999) + 31_250;
+        is total_rewards(499_999), total_rewards(399_999) + 31_250 * 100_000;
+
+        is total_rewards(500_000), total_rewards(499_999) + 15_625;
+        is total_rewards(599_999), total_rewards(499_999) + 15_625 * 100_000;
+
+        is total_rewards(600_000), total_rewards(599_999) + 10_000;
+        is total_rewards(699_999), total_rewards(599_999) + 10_000 * 100_000;
+    }
+
+=end screen
+
+Even if you don't read PerlN<Hey, it has sigils. It's not for everyone!> the
+logic should be largely straightforward. The only new idea you might encounter
+if you haven't programmed a lot before is the idea of I<recursion>, where the
+calculation uses previous calculations of smaller values to winnow down the
+requested result to a single, final number. This is probably what you'd do if
+you were calculating this number by hand, however: calculate blocks of blocks,
+sum the rewards for each of those, then add the results together.
+
+Given a block of 4,906,660 (freshly mined during the writing of this tip), the
+maximum number of Dogecoin in circulation is 203,253,110,000--or 203 billion.
+
+=head3 *Velocity Per Block
+
+Divide one number by the other. With 380,000 Dogecoin transacted in block
+4,906,660 out of a possible maximum of 203 billion, the velocity of this block
+is 0.000187%.
+
+Is that good? That depends. Is that bad? That depends. It's a number. Some
+blocks will be much higher (especially older blocks). Other blocks will be
+lower.
+
+=head2 *What Can You Do With This?
+
+Economists don't measure velocity at a single, isolated point in time. They
+measure it over a period, perhaps a week or a month or a year. Economists
+probably I<do> measure with rounder numbers than 0.000187%, but remember that
+the final calculation used an I<estimate> of the maximum total Dogecoin in
+circulation as well as rounded numbers for the number of Dogecoin in the
+transaction.
+
+To make this number more broadly useful, calculate how many coins moved in a
+day or week or month and compare that to the total number of coins in
+circulation. You can also compare the velocity of Dogecoin--with its
+ever-increasing coin supply--to that of a coin with a fixed maximum number of
+coins. (This is, of course, most interesting for coins that have already
+reached the maximum number circulating.)
+
+Remember as well that the blockchain uses a public ledger where all transaction
+outputs must be completely spent at every transaction. If you broke a $100 bill
+to pay for $1.50 worth of chewing gum at a convenience store, the blockchain
+would measure that as $100 moving around. These numbers don't work the same way
+way that non-blockchain currency numbers work. Again, that's neither good nor
+bad--just different and differently interesting.
+
+Are there things you can do to increase or decrease velocity without adding
+value? Of course! Locking coins in a wallet decreases velocity. Losing coins
+sent to an address by forgetting your key decreases velocity. Moving coins
+around increases velocity. Moving coins between wallet addresses increases
+apparent velocity without necessarily increasing utility. We bring our own
+meaning to the numbers. They're just numbers.
+
+There's no hard and fast rule to measure how useful a coin or a currency is
+other than, as an individual, how useful it is to you. Yet there are ways to
+calculate interesting values if you take the time to do so. With a public
+ledger and a little bit of math and programming, you have a wide range of
+information available. Do with it something useful!
