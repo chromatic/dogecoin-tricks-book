@@ -93,10 +93,63 @@ author believes that learning things can be enjoyable and being in control of
 your own coins is liberating and powerful. There's a lot to learn, but it
 doesn't have to be intimidating. It can be fun and playful.
 
+With that said, take note of a couple of things.
+
+=head2 *Cryptocurrency Isn't Only Dogecoin
+
+Although this book I<focuses> on Dogecoin, the basic concepts and a lot of the
+ideas apply to multiple cryptocurrencies, especially Litecoin and Bitcoin. Many
+of the examples will work with small or minor modifications. If you prefer one
+of those other coins over Dogecoin, that's totally okay! You can still learn a
+lot and have the appropriate amount of fun. We all share some common ground,
+including code, so we can all learn from each other.
+
+=head2 *Programmable Money Brings Risks
+
+Even if the only thing we used cryptocurrency for were to track scores in a
+massive, multiplayer online game of some kind, there would still be risks. The
+fact that it's I<money> means those risks are more serious. Scammers, thieves,
+grifters, and other bad actors are, unfortunately, a part of the landscape.
+Where possible, this book attempts to identify risks to you, the people you
+care about, and the other people in the community. It's up to you to keep
+yourself and other people safe, but it's only possible to ameliorate risks you
+know about. Read the risk sections carefully and think about other things that
+could go wrong.
+
+If you're not sure, ask. After you ask, verify. After all, this is a book about
+ways to prove things. Knowledge is power.
+
+=head2 *A Little Programming Can Be Fun
+
+There's code in this book, and if you're familiar with programming in a
+language such as Python, Ruby, JavaScript, Perl, or something else, you're in a
+position to get the most out of it. If you've never done this before, that's
+okay too! The code is there to help you understand and take advantage of
+things, but you don't have to be a programmer to use programmable money
+effectively.
+
+With that said, you will get the most out of this book if you're comfortable
+installing and configuring software, especially working with text files and the
+command line. If you have a trusted friend to help you, you can learn a lot and
+take control of your system in ways you previously didn't understand.
+
+Basically if you're comfortable working a spreadsheet, you can build up your
+skills!
+
+=head2 *You Can Grow with This Book
+
+Sure, you picked up this book because it has cute dogs on the cover and you're
+not yet ready to build a pinball museum where people pay for credits with
+cryptocurrency. That's okay! If you read one tip today and another every week
+after that, you'll get through this book in two years. That's not a bad
+investment of lazy Sunday afternoons--and at that point, you may be full of
+other ideas no one has thought of before as well as new skills to bring them to
+life.
+
 =head1 *Credits
 
-This work, when finished, will turn out not to have been possible without the
-assistance of many people.
+This work, as expected, has turned out to have required the assistance of many
+people.
 
 X<people; RNB>
 X<people; meta_rach>
