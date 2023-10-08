@@ -1,0 +1,143 @@
+=head1 Generate Transaction Receipts
+
+Z<generate_transaction_receipts>
+
+Dogecoin is money, and money implies a lot of things. One of those things is
+I<accounting>. At some point, you're going to need to take your transactions to
+your tax preparer, your accountant, or the spreadsheet you use to track your
+finances.
+
+Sending and receiving money is all well and good, but besides letting your
+wallet keep track of your transactions, eventually you'll want to figure out
+where your Dogecoin came from, where it went, and why and when--not just how
+much you have left.
+
+Fortunately, getting this data out of the Dogecoin Core in a format you want
+can be straightforward, with a little RPC help.
+
+=head2 *List Transactions
+
+X<< RPC commands; C<listtransactions> >>
+
+The C<listtransactions> RPC command for the Dogecoin Core allows you to get
+transactions from your wallet. It provides an entire swath of data for each
+transaction, including whether you sent or received money, the timestamp of the
+transaction, the amount of the transaction, transaction fees, the number of
+confirmations of the transaction's block, and any label associated with the
+address.
+
+By default, C<listtransaction> shows only the 10 most recent transactions, but
+you can provide a second argument to it to show, for example, up to 93. The
+first argument, while optional, should always be C<"*">, for historical
+reasons.
+
+=begin screen
+
+  $ B<dogecoin-cli listtransactions "*" 93>
+  [
+    { ... }
+  ]
+
+=end screen
+
+If you run this command against your wallet, you'll get a list of up to 93
+transactions, with lots of data. You might not want to send all of this to your
+receipt printer or accountant. You might want to filter this data more, perhaps
+by looking only at transactions where you've I<received> Dogecoin.
+
+=head3 *Filter Transactions
+
+X<< external programs; C<jq> >>
+
+The C<jq> program is a command-line JSON processor. It allows you to manipulate
+JSON data, such as the output of most C<dogecoin-cli>/RPC commands. If you pipe
+the output of the previous command into C<jq>, you can see a nicely-formatted
+(and probably colorized) view of the data, but there's a lot more power lurking
+here:
+
+=begin screen
+
+  $ B<dogecoin-cli listtransactions "*" 93 | jq .>
+  [
+    { ... }
+  ]
+
+=end screen
+
+C<jq> also allows you to filter the data based on the value of a specific
+field. For this example, looking at transactions where you've received
+payments, you want the C<.category> field to be C<receive>. To do this, use a
+C<jq> command that looks at every element of the JSON array (C<.[]>), pipes the
+results to a filter (C<|>), and then selects only those array elements where
+the value of the C<.category> field equals the text C<receive>. It's more work
+to describe the result than to write that command:
+
+=begin screen
+
+  $ B<dogecoin-cli listtransactions "*" 93 |>
+    B<jq '.[] | select(.category == "receive")'>
+  [
+    { ... }
+  ]
+
+=end screen
+
+=head3 *Format Specific Transaction Data
+
+That's better, but it's still a lot of extraneous data to give to your tax
+preparerN<Does your tax preparer ask you every year "Did you make any crypto
+transactions this year?" Your author has had this experience more than once.>.
+What fields of the results do you really want to provide? Definitely amount and
+transaction time, but probably also the label associated with the address,
+assuming you're diligent about tracking things like "consulting invoice #1234
+for Cool Client" or "Steve should finally pay back that $20 I loaned him in
+2014".
+
+C<jq> lets you select specific fields from the JSON data. Add another filter
+and describe what looks like another JSON object:
+
+=begin screen
+
+  $ B<dogecoin-cli listtransactions "*" 93 |>
+    B<jq -c '.[] | select(.category == "receive") |>
+    B<    {timestamp: .timestamp, label: .label, amount: .amount}'>
+  [
+    { timestamp: ..., label: ..., amount: ... }
+  ]
+
+=end screen
+
+Note now the use of the C<-c> option to C<jq>, which produces compact
+output--one object per line. This is easier to read for humans, now that
+there's a lot less data on each line. Of course, the Unix epoch-style timestamp
+might be a little too Unix-nerdy for your accountantN<If not, you have found a
+very nerdy accountant, and that's cool!>, so it might be better to convert that
+value to a human-readable format with C<jq>'s C<strftime> function:
+
+=begin screen
+
+  $ B<dogecoin-cli listtransactions "*" 93 |>
+    B<jq -c '.[] | select(.category == "receive") |>
+    B<    {timestamp: (.timestamp | strftime("%Y-%m-%d %H:%M:%S")),>
+    B<     label: .label, amount: .amount}'>
+  [
+    { timestamp: "2023-04-13 09:08 UTC", label: ..., amount: ... }
+  ]
+
+=end screen
+
+That's one more filter in C<jq>, only for the C<.timestamp> field. The String
+Format Time function lets you describe how you want the timestamp to look. Here
+it focuses on the Year (capital Y means all four digits), the month, and the
+day followed by Hour, Minutes, and Seconds.
+
+=head2 *What Can You Do With This?
+
+You don't have to use C<jq> to process the output of C<listtransactions>. You
+can use anything you want. Yet the power of command line tools, including
+C<dogecoin-cli>, C<jq>, and others, is that you can combine them to do things
+that might otherwise take a lot of work. All of the other RPC commands in this
+book--and supported by the Dogecoin Core now and in the future--are amenable to
+similar types of manipulation and processing. If you exercise your skills
+working with these tools in these ways, you can find yourself solving problems
+almost as fast as you can think of them.

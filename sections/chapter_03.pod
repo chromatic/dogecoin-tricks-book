@@ -23,3 +23,5 @@ L<add_an_action_launcher>
 L<add_desktop_notifications>
 
 L<enhance_rpc_calls>
+
+L<generate_transaction_receipts>
