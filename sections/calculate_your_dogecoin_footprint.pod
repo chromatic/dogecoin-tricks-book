@@ -76,7 +76,7 @@ formatted as a JSON list:
 
 =end screen
 
-X<< external utilities; C<jq> >>
+X<< external programs; C<jq> >>
 
 If you use C<dogecoin-cli> and pipe the output to C<jq> (as seen in
 L<find_all_received_addresses>), you can easily count the number of unspent

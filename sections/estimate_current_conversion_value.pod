@@ -49,8 +49,8 @@ U<https://developers.coinranking.com/api/documentation/coins#get-coin-price>.>
 and get list of reference currencies listN<See
 U<https://developers.coinranking.com/api/documentation/reference_currencies>.>.
 
-X<< external utilities; C<curl> >>
-X<< external utilities; C<jq> >>
+X<< external programs; C<curl> >>
+X<< external programs; C<jq> >>
 
 The most important call is get coin price. You need a coin's UUID, which you
 can retrieve from get list of coins. From the command line, with the tools

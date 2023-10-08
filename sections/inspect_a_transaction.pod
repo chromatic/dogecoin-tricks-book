@@ -115,7 +115,7 @@ Enough theory; how about looking at a real transaction? If you have the Core run
 and if you have a wallet that's received inputs, you can use a handful of RPC
 commands to look at a transaction.
 
-X<< external utilities; C<jq> >>
+X<< external programs; C<jq> >>
 X<< RPC commands; C<listreceivedbyaddress> >>
 X<< RPC commands; C<getrawtransaction> >>
 X<< RPC commands; C<decoderawtransaction> >>

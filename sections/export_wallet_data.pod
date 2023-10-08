@@ -31,7 +31,7 @@ their hands on those keys--the same way that anyone who gets their hands on
 your unencrypted wallet or unencrypted wallet backup has your keys and can
 spend your Dogecoin.
 
-X<< external utilities; C<shred> >>
+X<< external programs; C<shred> >>
 
 I<If> you use the knowledge in this tip, use the data in your exported wallet
 carefully, then discard of the file appropriately. Merely deleting it may not

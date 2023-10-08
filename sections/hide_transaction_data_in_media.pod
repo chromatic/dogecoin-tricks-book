@@ -58,7 +58,7 @@ F<images/steganography-pug.jpg>
 =end figure
 
 X<people; Stefan Hetzl>
-X<< external tools; C<steghide> >>
+X<< external programs; C<steghide> >>
 
 While it's possible to write this code yourself, it's smarter to use code
 someone else has written. For example, Stefan Hetzl's SteghideN<Currently at

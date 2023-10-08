@@ -23,7 +23,7 @@ only take requests from processes running on your own machine, assuming that
 there are no bugs or exploits in effect in your machine's networking code. This
 is pretty good security.
 
-X<< external applications; C<netstat> >>
+X<< external programs; C<netstat> >>
 
 Of course this only applies if you're running the Dogecoin Core software;
 anything else you should inspect the code yourself (or ask someone you trust to
@@ -140,7 +140,7 @@ configuration changes, your node will have good security, at the expense of
 usability. Consider well how much access you need and whether there are other
 ways to make this information available.
 
-X<< external applications; C<telnet> >>
+X<< external programs; C<telnet> >>
 
 If you do make changes to restrict network access, test and verify them
 thoroughly, not just by examining listening ports but by testing access to your
