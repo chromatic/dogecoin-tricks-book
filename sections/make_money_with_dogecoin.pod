@@ -1,6 +1,6 @@
-=head1 Make Millions with Dogecoin
+=head1 Make Money with Dogecoin
 
-Z<make_millions_with_dogecoin>
+Z<make_money_with_dogecoin>
 
 People do the things they do for many reasons. Sometimes you want to impress
 other people. Sometimes you want to feed yourself and your family and a bunch

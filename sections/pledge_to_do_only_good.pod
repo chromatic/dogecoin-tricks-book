@@ -114,7 +114,7 @@ could be seen as attempts to manipulate the market
 
 The last is tricky. It's hopefully ethical to discuss potential market cap
 (L<calculate_dogecoin_maximum_market_stats>) and to acknowledge that Dogecoin
-can be used to make money (L<make_millions_with_dogecoin>), provided that one
+can be used to make money (L<make_money_with_dogecoin>), provided that one
 discloses any biases and keeps the discussion focused on verifiable facts and
 figures.
 
