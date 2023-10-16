@@ -37,3 +37,5 @@ L<interchange_your_wallet_keys>
 L<create_asymmetric_keys>
 
 L<embrace_entropy>
+
+L<identify_a_scam>
