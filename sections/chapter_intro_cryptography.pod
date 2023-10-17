@@ -39,3 +39,5 @@ L<create_asymmetric_keys>
 L<embrace_entropy>
 
 L<identify_a_scam>
+
+L<roll_the_dice>

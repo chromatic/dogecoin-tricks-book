@@ -1,0 +1,195 @@
+=head1 Roll the Dice
+
+Z<roll_the_dice>
+
+Randomness is essential to cryptography, and randomness is essential to the
+world around us. Think about flipping a coin, spinning a game wheel, or rolling
+dice. Over time, you should get a roughly even distribution of results (half
+heads or tails, 10% of the time on each of ten pie slice-shaped wedges in the
+wheel, or one-sixth of the time on each of six sides of a die)--assuming the
+randomness is truly random and there are no external factors in play, such as a
+weighted die.
+
+Randomness when generating passphrases and private keys helps you have your own
+individual secrets (so no one else can spend your coins), and randomness when
+mining blocks helps keep the network secure, so no one individual or team can
+control all mining (see L<host_a_puzzle_race>).
+
+How does this randomness play out in practice? How can you tell the difference
+between fake randomness (pseudorandomness) and real randomness? It's all about
+entropy (see L<embrace_entropy>)--and it's easy to see how this works in
+practice with the right example.
+
+=head2 *One Page RPGs
+
+Z<people; Oliver Darkshire>
+
+A game designer named Oliver Darkshire has a hobby of creating one page
+RPGsN<See U<https://www.patreon.com/deathbybadger> and
+U<https://twitter.com/deathbybadger>.>, where you need a single six-sided die,
+some pennies or other counters, and a few minutes to play a game. These
+five-minute workday breaks each tell a fun little story and are a treat to
+play. While the rules are simple enough to explain in a paragraph, the story
+that emerges through the gameplay is slightly different each time.
+
+That sounds like randomness, doesn't it? It's not just the randomness of the
+die you roll, but the choices you make. If everyone made the same choices and
+the rules produced the same results every time, it wouldn't be a game. It would
+be Candyland, and where's the fun in that?
+
+=head2 *One Screen RPGs
+
+Suppose you don't have a die handy, but you do have a laptop with Ruby
+installed. You could write a little program to roll a series of dice for you to
+play one of Oliver's RPGs. It might look like this:
+
+X<< Ruby libraries; C<games_dice> >>
+X<< Ruby libraries; C<tty-prompt> >>
+X<< Ruby libraries; C<gem> >>
+X<< Ruby libraries; C<bundler> >>
+
+=begin screen
+
+  require 'games_dice'
+  require 'tty-prompt'
+
+  def main(random_seed = '0x01')
+      srand(random_seed.to_i(16))
+
+      items = %w(1 2 3 4 5 6 quit))
+
+      while true do
+          prompt = TTY::Prompt.new
+          input = prompt.select('Choose number of d6 to roll', items, per_page: 7)
+          break if input == 'quit'
+
+          input.to_i.times do
+              dice = GamesDice.create '1d6'
+              puts dice.roll
+          end
+      end
+  end
+
+  if $PROGRAM_NAME == __FILE__
+      main(*ARGV)
+  end
+
+=end screen
+
+Install the C<games_dice> and C<tty-prompt> libraries with C<gem install> or
+C<bundler> and run the program. You'll see a text-based menu asking how many
+six-sided dice to roll:
+
+=begin screen
+
+  Choose number of d6 to roll (Press ↑/↓/←/→ arrow to move and Enter to select)
+  > 1
+    2
+    3
+    4
+    5
+    6
+    quit
+
+=end screen
+
+Select the C<quit> option to exit the program. Otherwise, use the arrow keys to
+select the number of dice to roll and use them as the rolls for your game.
+
+If you quit the program and start over, you'll notice something interesting:
+the output is the same every time. Choose 6. On the author's machine, he sees
+rolls of 6, 4, 5, 1, 2, and 4. Start the program again and choose two rolls of
+3. Your author gets results of 6, 4, 5 and 1, 2, 4. Those are the same rolls in
+the same order.
+
+This seems not ideal, but it's an inherent property of the program as written:
+
+=begin screen
+
+  def main(random_seed = '0x01')
+      srand(random_seed.to_i(16))
+
+=end screen
+
+By default, Ruby doesn't use a truly random number generator. It uses a
+pseudo-random number generator that, when provided a starting number, produces
+a series of outputs that seem random and unpredictable. Yet if you know the
+starting point, you can always get the same results. That's what C<srand> does;
+it fixes a starting point for Ruby. If you don't provide one, the program will
+always use the same value.
+
+Removing the C<srand> line will produce different results each time you run the
+program--but even that isn't truly random. It's just a different starting point
+that produces a different series of outputs. For a game, this is probably fine,
+but for cryptography, it's not.
+
+Fortunately, we have a better source of entropy available.
+
+=head2 *Numbers Used Once
+
+When miners mine blocks, they have to solve puzzles, and the answer to any
+block's puzzle is a I<nonce>, a shortening of the phrase "number used once". A
+good nonce should be unique, as obviously as possible random, and nothing
+someone could predict trivially by looking at a block beforehand. The entire
+goal is that computers will have to test a lot of difference nonces before they
+find one that will solve the puzzle.
+
+Given all of that, could a nonce be used as a source of entropy? It's a number,
+it's unpredictable, and it's something no one can predict until it appears in a
+mined block. You could write a little launcher for the dice game like:
+
+=begin screen
+
+  #!/bin/bash
+
+  hash=$(dogecoin-cli getbestblockhash)
+  block=$(dogecoin-cli getblock $hash)
+  nonce=$(echo $block | jq -r .nonce)
+
+  if [ "$nonce" -eq "0" ]; then
+      nonce=$(echo $block | jq -r .auxpow.parentblock)
+  fi
+
+  bundler exec ruby ruby_dice.rb $nonce
+
+=end screen
+
+Don't worry if you haven't read ahead yet (see L<command_the_core>, to start);
+you don't have to understand the details of how this works to understand the
+concept.
+
+=begin tip Merged Mining
+
+If you've read ahead and played with the code yourself, you might notice that
+C<nonce> is often 0. This isn't a bug; it's a feature of something called
+merged mining, where miners can mine multiple blockchains such as Litecoin and
+Dogecoin together and use proof of mining for one chain to prove work for
+another. In that case, the random value used for the dice roller is the hash of
+the parent block--still a good random seed.
+
+=end tip
+
+=head2 *What Can You Do With This?
+
+Rolling dice takes only a couple of lines of code, even without the nice Ruby
+libraries included here. If you're looking for an interesting weekend project,
+try turning one of the one page RPGs into a full-fledged game, using the
+skeleton program already provided--though if you do, don't hard-code the random
+seed; call C<srand()> only if someone has provided a non-default value.
+
+Admittedly, using a blockchain value mined every 60 seconds or so is a lot of
+work to get a random number for something as frivolous as a dice rolling
+program. In practice, Ruby's (or Perl's or Python's or Node's or...) built-in
+pseudo-random number generator is sufficiently random that you'll have a fun
+game.
+
+Even so, it's important to recognize the limitations of pseudo-randomness.
+Where's the fun in a game where you're trying to get rid of a Mastodon but the
+outcome is always predetermined? It's not a game; it's a story. Similarly, the
+fun of generating a passphrase but realizing that someone else has already
+guessed it because you used a system with predictable fake randomness is
+infuriating and disheartening, not fun.
+
+By looking for places where true randomness is essential--and where it's
+not--you can identify where you need to be cautious about what produces that
+randomness.
