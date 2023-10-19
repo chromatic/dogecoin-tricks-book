@@ -1,0 +1,126 @@
+=head1 Program Real Buttons
+
+Z<program_real_buttons>
+
+Before business starts booming in your little arcade, you have to fill in a
+couple of gaps. You've figured out whether you want to use dedicated addresses
+per machine, a token payment system, or an à la carte system. You know you
+don't want people to put dollar bills, quarters, or other minted coins into
+your machines--too much to manage, too unhygenic, too easy to get ice cream all
+over them.
+
+What you need is a way to turn a Dogecoin payment into a game credit. You need
+some way to turn a blockchain transaction into a button push, a switch flip, or
+a relay click.
+
+Fortunately, you have a few options.
+
+=head2 *Programmable Relays
+
+Think about what happens when you put a quarter in a pinball machine. You put
+the coin in a slot, the coin rolls down a little ramp, and, if the coin is
+valid, it hits a switch (connecting two wires and closing a circuit) and falls
+down into a hopper, releasing the switch and disconnecting the wires and
+opening the circuit. The important part of this entire process--the one that
+matters here--is that the coin toggles a switch.
+
+When your cabinet registers the switch being toggled, it adds credits to the
+machine, which allows you to press the one or two-player button and start the
+game. Your cabinet doesn't really care that a quarter toggled the switch. It
+only cares about the circuit closing and then opening. You could achieve the
+same thing by replacing the coin mechanism entirely, jumping the circuit with a
+little piece of wireN<Don't actually do this; you're liable to zap yourself.>,
+or installing your own button.
+
+To simplify things, let's make a few assumptions: you're okay adding new
+hardware to your existing cabinets, you don't mind using wifi to control
+I<something>, you don't mind doing a little bit of programming and
+configuration and hardware manipulation, and you don't mind spending a little
+bit of money. You can change any of those assumptions, but the basic concept
+will stay the same: you need some way to translate I<something> that happens on
+a computer to a signal to your arcade machine.
+
+The easiest way to do this is to use a programmable relay. A programmable relay
+is essentially a switch hooked up to a small computer. A switch, of course, is
+a device that connects two wires. It can be on (the wires are connected) or off
+(the wires are disconnected). If you can hook this relay up to the appropriate
+circuit inside your cabinet, you now can use it to toggle the switch I<as if
+you'd inserted a quarter>.
+
+=head3 *Finding a Good Programmable Relay
+
+For the purpose of this exercise, we'll assume that you have access to a
+programmable relay board such as an ESP8266 4-relay boardN<You can find this
+from many reputable electronics suppliers for less than $5 USD.>. The ESP8266
+part of this board is a tiny 32-bit chip that provides wifi and has a little
+bit of programming capacity and the relay part is four little programmable
+switches (you can buy a 1-, 2-, or 8-relay board as well, but hold that
+thought).
+
+=head3 *Improving a Programmable Relay
+
+Because this chip and board is programmable, there's good and reliable open
+source firmware which opens up a lot of options for you. The Tasmota firmware
+worked well in your author's experimentsN<See
+U<https://tasmota.github.io/docs/Getting-Started/> to begin.>. If you use this
+approach, you'll have to flash the new firmware onto the chip, which requires
+you to use something like a USB-to-serial adapter and a careful hand to connect
+the correct pins to the correct wires on the board. Read the directions
+carefully.
+
+When you flash the board, you'll get an option to connect to the board over
+wifi to configure it to connect to a different wifi network (provide your
+credentials) and program the relays to do what you want. There are other
+configuration options, including setting the hours during which the relays are
+active, but that's for you to configure and play with.
+
+=head3 *Programming the Relay
+
+This is where things get more interesting. Think back to your cabinet's coin
+mechanism. The coin insertion switch closes for a fixed period of time, then
+opens again. That sequence of events--circuit on, then off--is what you want to
+emulate.  That means your programmable relay needs to be able to receive an
+event from the network, close the switch, wait for a fixed period of time, then
+open the switch again.
+
+...
+
+=head3 *Testing the Program
+
+...
+
+=head2 *What Can You Do With This?
+
+You can do a lot with this. You can use it to turn on a light, to open a door,
+to drop cat food into a bowl, or anything you can imagine a switch would
+control. In terms of your arcade, you can add credits to a machine, sure, but
+you can also turn I<off> the machine entirely, turn on a siren, or do anything
+else.
+
+With a multi-relay board, you can control multiple machines from a single
+board. You'll have to run wires between them somehow, which may mean drilling
+into your cabinets from the bottom or adding another wire to a harness
+elsewhere.
+
+Keep in mind a few limitations, however. First, using a wifi-enabled board
+means you have a wifi network available. Anyone who can get access to that
+network has the potential to get access to your system and can control your
+machines. That may not be a security problem for you, but if you also keep your
+Dogecoin payment system and wallet on the same network, then attackers have
+I<two> interesting systems to exploit.
+
+Second, you're limited by the number of relays on the board as well as any
+other physical limitations of your entire system. If all of the cabinets
+connected to a single board have the same type of switches (all five volt
+relays, for example), then you have a simpler time connecting them all
+together. If they differ--as they likely do--then you have to be careful about
+how you wire things together.
+
+Finally, the board itself needs power. The example board mentioned earlier has
+a lot of power options including wall warts, USB power, and direct-circuit
+connections, but that's for you to figure out, lest you fry the board or have
+to spend a lot of time thinking about how to get electricity from the wall to
+it.
+
+On the other hand, the thought of tapping a friendly Doge icon on your phone
+and seeing an arcade machine light up, inviting you to play, is pretty cool.
