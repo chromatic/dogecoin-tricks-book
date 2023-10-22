@@ -187,7 +187,7 @@ happened", "the transaction is meaningful", "the transaction triggers one or
 more actions", and "make the action happen". Modify to your liking.
 
 In practice, this system works well when you treat these actions as invoking
-webhooks (link to tip).
+webhooks (see L<post_to_discord>, for example).
 
 =head2 *Understand the Risks
 
