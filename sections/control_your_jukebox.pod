@@ -71,10 +71,10 @@ address, a writing credit, and a performing creditN<Trent wrote it, but the Man
 in Black owned it!>
 
 Populate this table, and then you can do two things. First, set up your
-Dogecoin webhooks (link to this tip) so that all transactions to the associated
-addresses invoke some code we're about to walk through. Second, publish the
-list of song data and addresses so your friends online can start queueing up
-songs in your jukebox!
+Dogecoin webhooks (see L<post_to_discord> for one example) so that all
+transactions to the associated addresses invoke some code we're about to walk
+through. Second, publish the list of song data and addresses so your friends
+online can start queueing up songs in your jukebox!
 
 =begin tip Make a Nice UI
 

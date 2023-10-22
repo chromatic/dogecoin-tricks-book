@@ -1,0 +1,108 @@
+=head1 Post to Discord
+
+Z<post_to_discord>
+
+If you turn your head and look at Dogecoin blocks and transactions from a
+slightly different angle, you can think of them as a bunch of data published to
+the Internet on a regular basis. In one sense, they're payment events with a
+bunch of data attached to them: $X Doge moves from address $A to address $B, in
+a mathematically verifiable way.
+
+Any time you see an event published to the Internet with a bunch of data
+attached, you can ask yourself "What can I do with this?" In the case of
+Dogecoin blocks and transactions, the answer is "a lot". While other tips in
+the book talk about controlling physical devices (all of L<chapter_dogecade>
+and L<control_your_jukebox>), you can do other things as well, such as sending
+yourself a notification on your phone or publishing a message to a chat room.
+
+Let's start with Discord.
+
+=head2 *Inside a Webhook
+
+Many online services provide a feature called a I<webhook>, which is a way to
+send specifically-formatted data to a URL to perform some action on your
+behalf. Discord is one such service. If you have access to configure a server
+or a channel within a server, you can sign up for a webhook which allows a
+program to send a message to a specific channel.
+
+In other words, a webhook is an entry point into a service which uses
+pre-authorized credentials to perform an action on your behalf.
+
+=head2 *Inside a Discord Webhook
+
+Discord is a chat service which allows you to create servers and channels for
+friends, communities, and more. It has a couple of good Dogecoin and
+Dogecoin-related servers, such as the Dogecoin Discord serverN<See
+U<https://discord.gg/dogecoin>.>. Equally as important, it supports webhooks
+without much configuration I<and> it has a good introduction to webhooksN<See
+U<https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks>>
+to help you create and configure your own.
+
+For this to work, you need your own Discord account and access to a server or
+channel. You can follow along with this tip with a different type of service
+for which you have similar access, though the details will be different.
+
+After you've worked through the creation process and have a Discord webhook,
+you'll have a URL which looks something like
+C<< https://discord.com/api/webhooks/<number>/<string> >>. Keep that safe and
+secret; it's your key to sending messages to the webhook you configured. Anyone
+who has that URL can send messages to your Discord server/channel.
+
+=head2 *Activating Your Webhook
+
+Every webhook is a little bit different. A Discord or Slack or other messaging
+webhook will have a different format than a webhook for a deployment or testing
+service. While Discord lets you format messages with plenty of complexity and
+formatting, the simplest way to send a message is to use an HTTP POST request
+with a JSON body, with two keys: C<content> and C<username>:
+
+=begin screen
+
+  $ B<curl -X POST -H "Content-Type: application/json" \>
+    B<-d '{"content": "Much wow!", "username": "dogecoin"}' \>
+    B<< https://discord.com/api/webhooks/<number>/<string> >>
+
+=end screen
+
+Fill in your URL appropriately, and you should see a message appear in the
+appropriate channel in your server.
+
+=head2 *Putting it All Together
+
+Now that you've configured and tested a webhook, you can do something
+interesting with it: maybe send a message each time you receive a transaction,
+share details about every new block that comes in, or something else. For
+example, here's code to send a message to your secret channel every time your
+Core receives a wallet transaction (see L<act_on_wallet_transactions>):
+
+=begin screen
+
+  #!/bin/bash
+
+  txid="$1"
+  tx_json=$(dogecoin-cli gettransaction "$txid")
+  tx_amount=$(jq -r .amount <<< "$tx_json")
+  content="Much wow, just received a transaction of $tx_amount Doge!"
+
+  curl -X POST -H "Content-Type: application/json" \
+    -d '{"content": "$content", "username": "Doge TX Notifier Bot"}' \
+    https://discord.com/api/webhooks/<number>/<string>
+
+=end screen
+
+You can make this a I<lot> more robust, per the other tips, but this is a good
+start at tying everything together.
+
+=head2 *Understand the Risks
+
+As mentioned earlier, your webhook URL is a secret. If you write it down on a
+piece of paper and accidentally leave that paper in a public place, someone
+could use that to post on your behalf, to nefarious purposes. This gets worse
+if you or someone else has I<another> webhook or automated process which acts
+on the first webhook.
+
+You can use two common mitigation strategies to reduce your risk. First, use a
+secure configuration system such as a vault or secret manager to store the
+webhook URL. Second, consider rotating the webhook on a regular basis. Even the
+exercise of thinking through how to rotate the webhook will help you to
+understand the implications, in case you have to do it in an emergency.
