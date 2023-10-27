@@ -2,34 +2,37 @@
 
 Z<make_a_hash_of_fingerprints>
 
-Every concept in the cryptographic world exists for at least one reason. Most
-of those reasons are, at their core, "don't trust anyone" and "verify
-everything". For example, suppose you want to download this book from
-C<ifdogethenwow.com>. How do you know the PDF you're downloading is the real
-PDF and not a counterfeit someone maliciously pointed you at instead?
+Every concept in the cryptographic world exists for at least one reason, and
+most of those reasons are, at their core, "don't trust anyone" and "verify
+everything".
 
-What if there were a relatively quick and easy way you could have your computer
-scan the I<contents> of the PDF and give you a code you could compare with the
-code your author provided? If I published that code (and the way to calculate
+For example, suppose you want to download this book from C<ifdogethenwow.com>.
+How do you know the PDF you're downloading is the real PDF and not a
+counterfeit someone maliciously pointed you at instead?
+
+What if there were a quick and easy way you could have your computer scan the
+I<contents> of the PDF and give you a code you could compare with the code your
+author provided? If your author published that code (and the way to calculate
 it) on GitHub, Twitter, Reddit, and any other place and all of those codes
 matched I<and> you calculated that code yourself, how much more confident would
-you feel that the PDF you downloaded matched exactly the one I'd produced?
-
-B<Warning:> The explanation you're about to read omits a lot of important
-details in favor of simplicity. The goal is to allow you to calculate things by
-hand so you understand I<how> the approach works, not to teach you all of the
-details that make it secure. Do not use this for anything where security is
-important.
+you feel that the PDF you downloaded matched exactly the one your author
+produced?
 
 =head2 *Cryptographic Hashes
 
 X<concepts; cryptographic hashes>
 X<concepts; one-way hashes>
 
-That's the idea behind cryptographic hashes, also known as one-way hashes.
-Given a well-understood way to look at every piece of data in a file (whether
-it's a text file, a song, a program, an image, whatever), can you produce an
-unpredictable number that would be difficult to forge?
+That's the idea behind cryptographic hashes. Given a well-understood way to
+look at every piece of data in a file (whether it's a text file, a song, a
+program, an image, whatever), can you produce an unpredictable number that
+would be difficult to forge?
+
+B<Warning:> The explanation you're about to read omits a lot of important
+details in favor of simplicity. The goal is to allow you to calculate things by
+hand so you understand I<how> the approach works, not to teach you all of the
+details that make it secure. Do not use this for any purpose where actual
+security matters.
 
 =head3 *Simple Hash Math
 
@@ -37,37 +40,33 @@ Let's try this by example. Grab a piece of paper and write out the alphabet, A
 to Z. Beside each letter, write a number. A is 1, B is 2, all the way to Z is
 26. This gives you a way to turn letters to numbers.
 
-Now write your first name. We'll pretend your name is Devlin Telshire. Space it
-out.
-
+Pretend your name is Devlin Telshire. Now write your first name. Space it out.
 Beneath each letter, write the number corresponding to each letter. D is 4, E
 is 5, all the way to E is 5 again.
 
-Now add up all the numbers. You should get 66 for "Devlin".
-
-This isn't bad, but it could be better. If you pick a different name, can you
-get the same value? I'm writing this on the Ides of March, so it's a nice
-coincidence that the name Brute also adds up to 66. So that's not ideal.
+Now add up all the numbers. You should get 66. That's not bad. That's a
+fingerprint of "Devlin", but it's not a good fingerprint. If you pick a
+different name, how easy is is to get the same value? The day of the first
+writing of this tip happened to be the Ides of March, so it's a nice
+coincidence that the name Brute also adds up to 66. That collision isn't good.
 
 =head3 *Reducing Collisions
 
 If this book PDF only contained the word "Devlin", someone could substitute the
-word "Bruce" and the resulting check would be the same. This is not ideal; we
-want the resulting code to be much much more difficult to guess or perturb. We
-need bigger numbers, and we want them to vary much more when things change.
+word "Bruce" and the resulting check would be the same. To avoid forgeries, we
+want the resulting code to be much much more difficult to guess or perturb.
+That means we need bigger numbers, and we want them to vary much more when
+things change.
 
 If you look closely, you'll notice that Devlin will produce 66 and Brute will
 produce 66 but so will Evlind and Vlinde and Ruteb and Uterb. Even though these
-aren't common names, they're the same thing to the calculation. We need
-something better.
-
-How about instead of adding numbers together, we multiply the number by its
-position in the text?
+aren't common names, they're produce the same results. How about instead of
+adding numbers together, we multiply the number by its position in the text?
 
 D has a value of 4 and is the first letter, so multiply 4 by 1 to get 4. E has
 a value of 5 and is the second letter, so multiply 5 by 2 to get 10, and so on.
 You should get a value of 257 for Devlin. You should get 206 for Brute. Even
-better, you'll get 215 for Evlind and 150 for Ruteb.
+better, you'll get 215 for Evlind and 150 for Ruteb. That's more like it.
 
 =head3 *Handling Larger Data
 
@@ -85,24 +84,25 @@ X<concepts; entropy>
 X<concepts; algorithm>
 
 Think for a moment about what makes a random number truly random. It's
-unpredictable.  You can't tell how it was calculated. If there's an
+unpredictable. You can't tell how it was calculated. If there's an
 I<algorithm>N<This is a fancy computer science word meaning "Repeatable
 mathematical process". Think of it like a recipe for doing math, but unlike a
 cookie recipe you shouldn't skip steps, for example to leave out the raisins.>
 or a formula you could use to generate it, it's not obvious, no matter how hard
 you work, how to force an output you want. The field of information theory uses
 a term called I<entropy> to refer to the apparent available randomness of a
-system.
+system (see L<embrace_entropy> for more details).
 
-When we're dealing with small numbers like 49,000 there isn't much entropy
-availableN<In this case, 16 bits. Convert 49,000 to binary and count the
-digits.> What if the number were 10 times larger? 100? 1000?
+Small numbers like 49,000 don't have much entropy availableN<Convert 49,000 to
+binary and count the digits. In this case, you need 16 bits to represent the
+number.>. What if the number were 10 times larger? 100? 1000?
 
-One way to make adding the letter "A" less useful is to start with a much
-larger number. What happens if, rather than starting from zero, every time you
-calculate this hash you start with the number 12,345,678? In that case, Devlin
-hashes to 12,345,935 and Brute to 12,345,884. For the Douglas Adams quote, the
-value is 12,394,893. This works better for larger data than smaller data.
+One way to make adding the letter "A" less useful to forgers is to start with a
+much larger number. What happens if, rather than starting from zero, every time
+you calculate this hash you start with the number 12,345,678? In that case,
+Devlin hashes to 12,345,935 and Brute to 12,345,884. For the Douglas Adams
+quote, the value is 12,394,893. This works better for larger data than smaller
+data.
 
 Is there a way to ensure we always have a fixed amount of entropy, regardless
 of the size of input data?
@@ -111,32 +111,37 @@ of the size of input data?
 
 X<concepts; modulus>
 
-These numbers have about 24 bits in them. That's not a lot in the grand scheme
-of things, but it gives us an opportunity. We know that every number is going
-to be larger than 12,345,678. We know that a small data set will be close to
-that number, while a large data set will hash to much larger than that number.
+These numbers in the range of 12 million have about 24 bits in them. That's not
+a lot in the grand scheme of things, but it gives us an opportunity. We know
+that every number is going to be larger than 12,345,678. We know that a small
+data set will be close to that number, while a large data set will hash to a
+value much larger than that number.
 
 What if we said that, at every calculation, the result ought to be larger than
-10,000,000 but less than 49,876,543?  In other words, while adding the position
-times the alphabet value, we always add 10,000,000 and always subtract
-49,876,543 repeatedly until we get a value below that value?
+10,000,000 but less than 49,876,543 (see L<roll_over_your_odometer>)? In other
+words, while adding the value of a letter's position times its alphabet value,
+you must always add 10,000,000 and always subtract 49,876,543 repeatedly until
+you get a value within the expected range?
 
 =begin tip Be Very Careful
 
 Why 49,876,543? This is I<not> a cryptographically smart choice; it makes your
 math easier. Notice that, while it could be a perfectly valid random number, it
-doesn't I<look> random.
+doesn't I<look> random. A good cryptographer will pick a number that they can
+prove distributes the results evenly across the range. This is not, to the
+author's knowledge, such a number.
 
 =end tip
 
 Brute produces 12,469,341. Devlin produces 22,469,392. The quote produces
 44,740,576. That's better; the length doesn't make numbers appreciably smaller
-or larger. Also note what happens if you append A to each of these. Brutea
-makes 22,469,347. Devlina makes 32,469,399. The quote makes 44,740,576.
+or larger.
 
-That's a lot less predictable than before. Now an attacker who wants you to
-download a malicious file that seems like it's exactly the same file your
-author provided has to do more work to fool you.
+Also note what happens if you append A to each of these. Brutea makes
+22,469,347. Devlina makes 32,469,399. The quote makes 44,740,576. That's a lot
+less predictable than before. Now an attacker who wants you to download a
+malicious file that seems like it's exactly the same file your author provided
+has to do more work to fool you.
 
 =head2 *What's Really Going On
 
@@ -159,9 +164,10 @@ I<actually> secure.
 
 What would make this algorithm better? More bits of entropy; 4 - 24 bits as
 shown here are easier for you to calculate, but easier for you to calculate by
-hand is easier for a computer to calculate. In general, the larger the numbers,
-the more work a computer has to do to try all of the possibilities that could
-make a collision. This is an important fact to remember throughout the book.
+hand is much, much easier for a computer to calculate. In general, the larger
+the numbers, the more work a computer has to do to try all of the possibilities
+that could make a collision. This is an important fact to remember throughout
+the book.
 
 While this hashing algorithm might work okay for a very simple data structure
 used in a programming language, a really good cryptographically secure hashing

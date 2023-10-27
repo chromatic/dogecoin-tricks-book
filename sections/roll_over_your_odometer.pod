@@ -9,7 +9,7 @@ Every 10,000 points you gain a new ship. What's the high score?
 
 At that point, the score resets to zero, although apparently you can buy a
 special add-on which increases this limit to 9,999,990N<The things you learn
-researching cryptography for a book about funny dog money. Search for
+researching cryptography for a book about funny dog money! Search for
 "Asteroids High Score Kit".>. This mod still has an upper limit, at which point
 the score resets to zero and starts over. The previous sentence has a pun, and
 you're about to understand why.
@@ -18,11 +18,10 @@ This feature turns out to be really important in cryptography.
 
 =head2 *Romulus, Remus, Modulus, and Remainder
 
-If it helps, you can think of the high score counter as an odometer in a
-vehicle or the hands on a clock. There's an upper limit (12 or 24 hours on a
-clock, hundreds of thousands of miles or kilometers in an automobile, a hundred
-thousand or a hundred million points in Asteroids). Once you exceed the limit,
-you start over.
+Think of the high score counter as an odometer in a vehicle or the hands on a
+clock. There's an upper limit (12 or 24 hours on a clock, hundreds of thousands
+of miles or kilometers in an automobile, a hundred thousand or a hundred
+million points in Asteroids). Once you exceed the limit, you start over.
 
 X<concepts; modulus>
 X<concepts; remainder>
@@ -31,7 +30,7 @@ This is an expression of a mathematical concept called a I<modulus>. You may
 have heard of it as a I<remainder>. You can even demonstrate it by counting on
 your fingers, from one to ten.
 
-Suppose you want to add the two prime numbers seven and five. Count on your
+Suppose you want to add the two prime numbers five and seven. Count on your
 fingers. Raise seven fingers, then raise five more. When all of your fingers
 are upN<If you have more or fewer than ten fingers; that's okay. You'll get a
 different answer, but the same concept applies!>, lower them all again but keep
@@ -51,11 +50,11 @@ what kind of changes to inputs produce what kind of outputs.
 In both cases, dealing with really large numbers but constraining the results
 to a narrow range helps.
 
-That's what modulus does. It comes in very handy, and you'll see it in all
-sorts of cryptographic applications. It happens in non-cryptographic
-applications too, including days of the week, minutes in the hour, degrees of a
-circle, months of the year, names of notes in the 12-tone Western scale, and
-the Roman nundinae, or 8-day market/work week.
+That's what modulus does. You'll see it in all sorts of cryptographic
+applications. It happens in non-cryptographic applications too, including days
+of the week, minutes in the hour, degrees of a circle, months of the year,
+names of notes in the 12-tone Western scale, and the Roman nundinae, or 8-day
+market/work week.
 
 For our purposes, it has one other essential property. Given arbitrary inputs
 and a modulus, you actually I<lose> information. Multiply 2 by 7 mod 10 and you
