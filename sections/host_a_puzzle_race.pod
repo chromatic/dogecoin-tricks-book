@@ -3,9 +3,9 @@
 Z<host_a_puzzle_race>
 
 Imagine it's January 2003. You're trying to finish graduate school. To relax on
-the weekends, you and your friends get together to make soup, eat soup, and
-play some kind of game. Mario Kart Double Dash won't release for another 10
-months, and none of you speak enough German to play the I<good> European board
+the weekends, you and your friends get together to make and eat soup and play
+some kind of game. Mario Kart Double Dash won't release for another 10 months,
+and none of you speak enough German to play the I<good> European board
 gamesN<Sure, there's Monopoly (Chisinau edition), Rummicluj, and Brussels
 Candyland, but....>. What can you do to pass the time?
 
@@ -19,11 +19,11 @@ anyone play any game?
 
 =over 4
 
-=item * It offers a challenge to overcome. The end goal isn't guaranteed. You
-could win or lose.
+=item * It offers a challenge to overcome. The end isn't preordained. You could
+win or lose.
 
-=item * It has fair rules. Everyone can understand the rules and everyone should
-agree on them, otherwise you're not playing the same game.
+=item * It has fair rules. Everyone understands the rules and everyone agrees
+on them, so you're all playing the same game.
 
 =item * Everyone has a chance to win. (Okay, if you're playing chess or tennis
 against a world champion, maybe you're doing it for the story you can
@@ -36,25 +36,26 @@ some kind of reward, even if it's only bragging rights for the week.
 
 =back
 
-These aren't the only ingredients for fun, but if none of these ingredients are present,
-you might as well get back to writing your thesis. How does this make a puzzle then?
+These aren't the only ingredients for fun, but if none of these ingredients are
+present, you might as well get back to writing your thesis. How does this make
+a puzzle then?
 
 =head2 *Race to (Some) Target
 
-Remember how a cryptographic hash (L<make_a_hash_of_fingerprints>) is, in
-theory, so difficult to reverse-engineer that you'll spend uncountable amounts
-of time trying to find two inputs that produce the same output? That principle
-holds true, but it holds less true the shorter the output is and more true the
-longer the output is.
+A cryptographic hash (L<make_a_hash_of_fingerprints>) is, in theory, so
+difficult to reverse-engineer that you'll spend uncountable amounts of time
+trying to find two inputs that produce the same output. That principle holds
+true, but it holds more true the longer the output is and less true the shorter
+the output is.
 
-In other words, if the output hash had only one bit of data--if the outputs
-were only 0 or 1--then it would be trivial to guess at an input that would
-produce the same output as another input. With a good hash algorithm, you'd
-have a 50% chance of being right with any guess.
+If the output hash had only one bit of data--if the outputs were only 0 or
+1--then it would be trivial to guess at an input that would produce the same
+output as another input. With a good hash algorithm, you'd have a 50% chance of
+being right with any one guess.
 
 If the output hash had I<two> bits of data--if the outputs were 0, 1, 2, and
-3--you'd have a 25% chance of being right with any guess. With three bits of
-data, you have a 12.5% chance of being right with any guess, and so on.
+3--you'd have a 25% chance of being right with any one guess. With three bits
+of data, you have a 12.5% chance of being right with any one guess, and so on.
 
 That's true of the length of the output hash. It's true of other properties as
 well. Hold that thought for a moment.
@@ -73,16 +74,18 @@ What are the rules of this game? Suppose they are:
 
 =item * See if anyone has won
 
+=item * Repeat from picking random numbers
+
 =back
 
-In other words, everyone starts with the same partial input, combines that with
-their own unique piece of input, and checks the output. If anyone has hit the
-target, they win!
+Everyone starts with the same partial input, combines that with their own
+unique piece of input, and checks the output. If anyone has hit the target,
+they win! If not, pick a new unique input and check again!
 
 Suppose you and your friends all agree on a hashing algorithm that produces a
-six-digit hexadecimal number (L<shorten_large_numbers>) between 100000 and
-ffffff. There are 15.7 million possible numbers you could get as output. Your
-soup will get cold before anyone guesses the right number, on average.
+six-digit hexadecimal number (L<shorten_large_numbers>) between C<0x100000> and
+C<0xffffff>. This range gives you 15.7 million possible numbers. Your soup will
+get cold before anyone guesses the right number, on average.
 
 =head2 *Race to a Pattern
 
@@ -92,23 +95,23 @@ matched a pattern?
 Suppose the first person to find a hash starting with C<1> could win. There are
 sixteen digits in hexadecimal (and, because the range of outputs must be
 greater than 1000000, only the digits 1 through 9 and A through F can be in the
-first position), so if the hash distributes its outputs evenly, it seems like
-everyone has a one in fifteen or 6.67% chance of finding a matching output with
-any single guess. With five friends, you might have a winner in three rounds.
+first position), so if the hash distributes its outputs evenly, everyone has a
+one in fifteen or 6.67% chance of finding a matching output with any single
+guess. With five friends, you might have a winner in three rounds.
 
 What if that's not difficult enough, because one night everyone brings their
-laptop to soup night? What if you increase the prefix to C<12>? There are
-fifteen possibilities for the first digit and sixteen (C<0> is allowed) for the
-second, so there's a one in fifteen times sixteen (one in 240) chance to get a
-matching output.
+laptop to soup night and calculates and checks their inputs a billion times
+faster? What if you increase the prefix to C<12>? There are fifteen
+possibilities for the first digit and sixteen (C<0> is allowed) for the second,
+so there's a one in fifteen times sixteen (one in 240) chance to get a matching
+output.
 
 =begin tip The Hardware Gap
 
 To make this fair, everyone should use the I<same> computer program, because
 it's hardly fair for one person to have coded their own hash calculation in
 Python and another to re-use one coded in Fortran and another to have a
-computer built solely for the purpose of winning soup night. Hold that thought
-too.
+computer built solely for the purpose of winning soup night. Hold that thought.
 
 =end tip
 
@@ -116,10 +119,9 @@ The more specific you make the prefix, the lower the chance of any one single
 guess matching the pattern, I<assuming the hash produces outputs distributed
 across the range of allowed values evenly>. If there's a flaw in the hash or
 the algorithm, someone can exploit it. For something like soup night, that
-might not matter too much, if you only invite people you can trust. For
-something like a global cryptocurrency with billions of coins at stake, it's
-important to use an algorithm that's been reviewed by many, many serious and
-careful researchers.
+might not matter if you invite only people you trust. For a global
+cryptocurrency with billions of coins at stake, it's important to use an
+algorithm that's been reviewed by many, many serious and careful researchers.
 
 =head2 *What's Really Going On
 
@@ -132,21 +134,23 @@ X<concepts; mining>
 X<concepts; Proof of Work>
 X<concepts; nonce>
 
-In Dogecoin (and other proof-of-work cryptocurrencies such as Bitcoin and
-Litecoin), the process of mining has two parts. One, collecting and validating
-pending transactions into a block. Two, calculating the hash of the block as
-the combination of the hashes of the transactions as well as a random value (a
+In Dogecoin, Bitcoin, Litecoin, and other proof-of-work cryptocurrencies, the
+process of mining has two parts. Part one collects and validates pending
+transactions into a block. Part two calculates the hash of the block as the
+combination of the hashes of the transactions as well as a random value (a
 I<nonce>) such that the hash of the block and the nonce matches a
-pattern--multiple leading C<0> characters.
+pattern--multiple leading C<0> charactersN<Technically the hash must be less
+than a specific target value, but if it's helpful to think of it this way
+instead, it's still mostly true.>.
 
 X<concepts; difficulty>
 
-To make the game a little more fair for everyone, and to make sure that one
-really fast computer can't churn out answer after answer every second, the
-length of the prefix pattern varies. Maybe it's six leading C<0> characters and
-maybe it's twelve if every device on the planet starts to mine Dogecoin. This
-is the I<difficulty> of mining a block.
+To make the game more fair for everyone, and to make sure that one really fast
+computer can't churn out answer after answer every second, the length of the
+prefix pattern varies. Maybe it's six leading C<0> characters and maybe it's
+twelve if every device on the planet starts to mine Dogecoin. This is the
+I<difficulty> of mining a block.
 
-There's no reason you couldn't mine a block by hand, if you're quick at
+There's no reason you can't mine a block by hand, if you're quick at
 calculating things and extraordinarily lucky at guessing random numbers. It's
 just faster to use a computer when numbers get serious.

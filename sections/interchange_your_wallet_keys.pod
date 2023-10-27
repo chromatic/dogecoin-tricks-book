@@ -2,15 +2,17 @@
 
 Z<interchange_your_wallet_keys>
 
-All of the tips so far in this chapter have alluded to the fact that
-cryptography works best with large numbers, but have used smaller numbers to
-make it easier for you to count on your fingers, with a pad of paper, or in a
-spreadsheet. Big numbers are more difficult to manage without a computer--and
-big numbers are easier to get wrong.
+Every tip in this chapter so far has alluded to the fact that cryptography
+works best with large numbers, but have used smaller numbers to make it easier
+for you to count on your fingers, with a pad of paper, or in a spreadsheet. Big
+numbers are more difficult to manage without a computer--and big numbers are
+easier to get wrong.
+
+X<< external software; C<libdogecoin> >>
 
 Getting a big number wrong could be catastrophic. If you want to send your
-friend halfway across the world ten thousand Dogecoin to help them rebuild the
-roofs of their orphanage after a hurricane, you want to get their address
+friend ten thousand Dogecoin to help them rebuild the roofs of their orphanage
+after a hurricane halfway around the world, you want to get their address
 right. If you're generating keys with an external process or tool such as
 C<libdogecoin>, importing a private key or wallet backup, or doing something
 else to transfer your key or keys, wallet, you want to get the details exactly
@@ -18,8 +20,8 @@ right.
 
 Typing in or writing down or reading the long stream of numbers and letters
 that represents your private key is risky unless you double- and triple-check
-things. Or you could use an alternate representation of private keys designed
-to resist errors.
+things. Alternately, you can use a different representation of your private
+key, designed to resist errors.
 
 =head2 *The Wallet Interchange Format
 
@@ -31,20 +33,20 @@ doesn't always explain why it works.
 
 Here's how.
 
-Start with your private key. For the sake of argument, let's say the
-hexadecimal representation is C<0x123abc456def>. That's not a valid private
-key, but it's clearly a valid hex number and it's both long enough to
-demonstrate the principle and short enough to keep in your head.
+Start with your private key. Suppose its hexadecimal representation is
+C<0x123abc456def>. That's not a valid private key, but it's clearly a valid hex
+number and it's both long enough to demonstrate the principle and simple enough
+to keep in your head.
 
-First, prepend the Dogecoin mainnet prefix of C<1E>. This is a value hard-coded
+First, prepend the Dogecoin mainnet prefix of C<1e>. This is a value hard-coded
 in Dogecoin source code, with variants for testnet and other networks. This
 gives C<0x1e123abc456def>.
 
-Now calculate the double-SHA256 hash (remember SHA-256 from
-L<make_a_hash_of_fingerprints>) of that value. Leave off C<0x>, because that's
-a prefix that indicates this is a hexadecimal number. Convert the hex into a
-number, then run it through SHA-256 twice. You'll get a large number back, but
-you only need the first eight digits (that's four bytes): C<18d796>.
+Now calculate the double-SHA256 hash (see L<make_a_hash_of_fingerprints>) of
+that value. Leave off C<0x>, because that's a prefix that indicates this is a
+hexadecimal number. Convert the hex into a number, then run it through SHA-256
+twice. You'll get a large number back, but you only need the first eight digits
+(four bytes): C<18d796>.
 
 Append those eight digits to the end of the number with the prefix, giving
 C<0x1e123abc456def18d796>.
@@ -61,15 +63,15 @@ text value, not the number.
 =end tip
 
 Finally, convert that new number (the original number with your network prefix
-and the checksum) to a Base-58 number (L<shorten_large_numbers>). You should
-get C<2gzKxzVzWxctr9>.
+and the checksum) to a Base-58 number (see L<shorten_large_numbers>). You
+should get C<2gzKxzVzWxctr9>.
 
-The result is the WIF-encoded version of your private key. Good wallet software
-can import from this format--and, importantly, tell you if the checksum is
-wrong. The checksum property also allows you to perform a decoding operation to
-verify all of the steps.
+This is the WIF-encoded version of your private key. Good wallet software can
+import from this format--and, importantly, tell you if the checksum is wrong.
+The checksum property also allows you to perform a decoding operation to verify
+all of the steps.
 
-To validate the code, perform the reverse operation. Take off the four-byte
+To validate the code, perform the reverse operation. Remove the four-byte
 checksum. Double-hash the remaining number. Compare the first four bytes of the
 resulting hash to the checksum. If everything matches, take off the network
 prefix and validate I<that> against the expected network prefix. If everything
@@ -78,10 +80,15 @@ that key and see if it passes the network validity test (essentially "does this
 long number match the Dogecoin version of the elliptic curve equation?").
 
 Nothing in any step here hides data or transforms it in an irreversible
-fashion.  Given a private key in any step of this process, you can look at it
-and get that private key with minimal work--just pencil and paper.
+fashion. Given a private key in any step of this process, you can look at it
+and get that private key with pencil and paper (okay, maybe it's tricky to
+validate the double-SHA checksum by hand).
 
 =head2 *Understand the Risks
+
+While not all wallets or Dogecoin clients support this approach, you
+could use the same technique to encode Dogecoin addresses. This shortens the
+addresses and adds checksums to verify their integrity.
 
 Using WIF makes it easier to represent a private key, because it's less likely
 for you to get things wrong (it's shorter but not in an ambiguous way and it
@@ -92,14 +99,10 @@ treat that artifact with all of the security you can bring to bear. Maybe you
 split the file into multiple pieces on multiple systems or write down the key
 in parts on multiple pieces of paper stored in separate locked safes.
 
-Alternately, you could do away with keys altogether and use an HD wallet with a
-passphrase (L<use_a_hd_wallet>).
+Alternately, you can do away with keys altogether and use an HD wallet with a
+passphrase (see L<use_a_hd_wallet>).
 
-While not all wallets or Dogecoin clients support this approach, you
-could use the same technique to encode Dogecoin addresses. This shortens the
-addresses and adds checksums to verify their integrity.
-
-Finally, be aware that any I<decoding> activity you do should be on trusted
-systems with software you trust and control. If someone advertises an online
-WIF checksum validator, assume they're trying to steal your private keys and
-stay away.
+Finally, be aware that you should only I<decode> or I<import> your keys on
+trusted systems with software you understand, validate, and control. If someone
+advertises an online WIF checksum validator, assume they're trying to steal
+your private keys. Stay away.
