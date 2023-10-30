@@ -1,0 +1,131 @@
+=head1 Tip a Geocache
+
+Z<tip_a_geocache>
+
+Back in the day, to get where you wanted to go, you either had to have someone
+give you directions (people did this over the phone, and phones had cords
+connected to the wall) or plan out your route with a paper map. This feels like
+ages ago. Sure, a few hundred GPS satellites launched by the end of 1978, but
+you had to be really into satellites and coordinates to use them.
+
+Then hand-held receivers appeared and became popular. Then phones became
+smaller and smarter and more capable, and now there's a chance you're reading
+about Dogecoin on a device that can know exactly where in the world you are.
+Now you can get directions from almost anywhere in a populated area to almost
+anywhere else in a populated area (and many unpopulated areas too) with a few
+taps on a phone.
+
+New technology adoption happens that way. Things start slow, with gradual
+adoption of something that seems weird or scary or complicated, and then things
+go faster when cool and fun and useful applications arrive. That happened with
+GPS and it could happen with Dogecoin as well.
+
+=head2 *What is Geocaching?
+
+One of the theses behind this book is "people learn by playing". Geocaching is
+a kind of collective scavenger hunt where people hide containers ("caches") and
+then post clues and coordinates to help others find them. Caches can be in busy
+urban areas (like a park) or in the middle of nowhere (like a forest). They can
+be small (an empty pill bottle or film canister) or large (a multi-liter
+bucket).
+
+Visit U<https://www.geocaching.com/play> to learn more about geocaching,
+including a free app for your phone to track clues and log your progress.
+
+Larger caches often contain a log book, where people can sign their names to
+record that they deciphered the clues. Many of these larger caches also include
+small trinkets, that people can take and replace--sort of a take one, leave one
+approach. These trinkets can be stickers, tiny plastic toys, or even
+low-denomination coins from far-off countries. This suggests an opportunity.
+
+=head2 *What is a Paper Wallet?
+
+Most of this book assumes you're going to keep your Dogecoin in some kind of
+electronic wallet, such as the Dogecoin Core or a hardware wallet. Many tips
+also repeat the fact that a wallet is just one way to keep track of private
+keys and addresses. If you know the addresses that hold your Dogecoin I<and>
+you have a way to represent those keys, you can access your funds even if your
+private keys aren't accessible through any hardware or software wallet.
+
+If you lose your keys I<everywhere> you lose your Dogecoin.
+
+X<concepts; paper wallet>
+
+A paper wallet is a piece of paper with some kind of data on it such as a
+Dogecoin address, private key, and QR code representing that key; it's a way to
+share that private key and address with someone else so they can claim the
+unspent funds for that address. It can be an effective way to give someone
+their first Dogecoin--such as tucking a piece of paper into a birthday card for
+your niece on her thirteenth birthday and proving you're the coolest
+aunt/uncle/relative ever.
+
+To print a paper wallet with the Dogecoin Core, launch the GUI, then go to the
+File menu and select Print Paper Wallets. This will pop up a window showing
+what you're about to print: a single page image with a happy Dogecoin logo, a
+QR code, a line where you can write the number of Doge you sent to the address,
+and the private key/address.
+
+When you print this page, you'll receive a prompt to send Dogecoin to the
+address to I<fund> the wallet. To give your niece a cool 1000 Birthday
+Dogecoin, you'll need to transfer that amount to the address shown on the paper
+wallet. Follow the prompts.
+
+B<Note:> your Core will not store the private key of this wallet. The Core
+generates a new private key and immediately discards it after you print the
+wallet. Any funds you send there will need the private key, so if you lose the
+paper, you lose the funds. If someone gets the paper but loses it or doesn't
+know what it is or destroys it, the funds are gone too. For anyone to redeem
+the funds, they must add the private key to a wallet that can access the funds
+immediately.
+
+=head2 *Put a Paper Wallet in a Cache
+
+How do you tie these two ideas together? Print a paper wallet and fund it with
+a nominal amount of coins. Most trinkets you find in caches are worth less than
+a dollar, so (at current prices of about $0.07 USD per Dogecoin), 5 or 10
+Dogecoin is a nice start.
+
+Write out some basic instructions (like "Scan the QR code to claim your
+Dogecoin!" and "Take and scan this paper immediately!" or even "Hey, look at
+this cool website/FAQ/book for more information!") and put the paper in a
+sealed plastic baggie to protect it from the elements.
+
+Now you have two choices. Either make your own cache or find an existing cache
+and leave the paper as a trinket for someone else to find. The nice part about
+making a new cache is the fun of making a puzzle (see L<host_a_treasure_hunt>
+for a variant idea you could mash up with this), but the nice part about
+randomly leaving a paper wallet as a trinket here and there is that the point
+I<isn't> for people to find cryptocurrency, it's for people to I<stumble across
+Dogecoin serendipitously>, discover its value, and find their own utility in
+the coin and community.
+
+=head2 *Understand the Risks
+
+Depending on the geocache, the location, and the weather, water or dirt or mold
+or curious critters could get ruin the paper wallet. Hopefully someone finds
+the cache first, but there's always the risk that the coins could be lost
+forever.
+
+Depending on how often and where you leave these tips, you could inadvertently
+reveal your personal information (name, approximate location, regular travel
+routes, et cetera) and that of anyone who redeems one of your wallets. If
+someone recognizes what the paper wallet represents, leaves it in place, and
+signs their moniker to the log, they can return later and see other log entries
+and narrow down who might have taken the wallet. If they scanned the paper,
+they have the keys to the wallet and can do anything with the transactions.
+
+Even if they didn't scan the paper, they can now tie a list of names to a
+wallet address and monitor all transactions to and from that address.
+
+It's up to the person who takes the wallet I<paper> to practice good
+transaction security, immediately transferring the funds to a new and secure
+wallet address. As with any paper wallet you weren't immediately and directly
+handed by someone you'd trust with your wallet address, treat the wallet as
+potentially hostile.
+
+Finally, some people might see the chance to add a few more Dogecoin to their
+holdings as a personal challenge and try to find all the wallets you leave.
+That might go against your purpose in randomly tipping strangers who might have
+never encountered Dogecoin before. Think about what you want to
+achieve--hopefully brightening someone's day and inviting them to try something
+new, enjoyable, and liberating--and if your actions are likely to achieve that.
