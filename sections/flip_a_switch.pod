@@ -1,0 +1,170 @@
+=head1 Flip a Switch
+
+Z<flip_a_switch>
+
+You've installed your arcade hardware, you've set up machines with addresses,
+you've set up your tokens, and you've programmed some relay boards (link to
+tip) that can close temporarily and then open again. In theory, you have a
+payment system that can turn a Dogecoin purchase into a game of Asteroids.
+
+What's left? Obviously getting people in the doors to play games, but also the
+final I<technical> connection: turning a payment into the Dogecoin Arcade
+equivalent of someone inserting a quarter.
+
+=head2 *Event-Based Switch Flipping
+
+Whether you use the approach of one Dogecoin address per machine (each
+transaction sent to the address adds credits) or one address per customer (each
+Dogecoin transaction adds credits, and the customer spends them on each
+machine), the last step is to turn some event into a switch flip. That means
+sending a signal to each relay board.
+
+Assume you have the boards installed appropriately for your system (link to
+tip).
+
+=head3 *Connect Your Relays to the Network
+
+The programmable relay boards used as examples in this chapter have network
+connections. You can use wifi (no need to run wires, but you have to secure the
+wifi network) or Ethernet (you have to run wires, but the network is more
+secure). Either way, you need some mechanism to send and receive data to and
+from the boards over the network.
+
+If you do use wifi, create a private network with a strong password. You don't
+want someone sniffing around your network and hogging your Ghostbusters pinball
+machine without paying for things. If you do use Ethernet, make sure you don't
+leave a cable hanging out somewhere or an open port on a switch or hub
+available. You don't want someone plugging in a laptop and hogging your Lord of
+the Rings pinball machine without paying for things.
+
+=head3 *Associate Relay Addresss with Machines
+
+With each board on the network, you can refer to them by IP address or
+hostname. The good news about hostname is that you can change the IP address
+(let the network manage their addresses) and you don't have to remember the
+details of the machines. The bad news is that this configuration is a little
+bit more work--either set up a DNS server or keep the hostnames in a file
+somewhere.
+
+Either way, you have to know which relay goes to which machine. Furthermore, if
+you use one board to manage multiple machines, you have to know which relay of
+each board goes to each machine. While you may still have a single relay per
+machine, you'll allow yourself a little bit of future-proofing by associating
+the board, the relay on the board, and the machine together.
+
+In SQL, you might have a table like:
+
+=begin screen
+
+  CREATE TABLE addresses_to_relays (
+    machine CHARACTER(64) NOT NULL,
+    dns_name TEXT NOT NULL,
+    relay INTEGER NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT false
+  );
+
+=end screen
+
+In this data model, C<relay> refers to a specific relay on each board and
+C<machine> gives you a human-readable way to refer to a specific machine. The
+most important change here is that a machine can be associated with multiple
+relaysN<For the SQL-adventurous, you can create a unique index on the first
+three columns as you prefer.>.
+
+=head3 *Send a Signal to the Relay Board
+
+Now to the final part: to simulate a button press, you send a signal over the
+network to the relay board. If you've programmed the board appropriately, it
+knows to close the relay for a short period of time and open it again
+(simulating a quarter triggering the coin mech). You'll have to send an HTTP
+message to the appropriate board (you know its DNS name) I<containing> the
+appropriate relay number and then the magic happens.
+
+X<< external programs; C<curl> >>
+
+You can use C<curl> to send the message. It will look something like this:
+
+=begin screen
+
+  curl http://lotr-pinball-board.local/cm?cmnd=Power1%20On
+
+=end screen
+
+... where C<lotr-pinball.local> is the DNS name of the relay board and C<1> is
+the number of the relay connected to the pinball machine's Player 1 coin mech.
+
+Make sure you have your board installed, your relay connected, your network
+configured, and your machine powered on. If everything is ready to go, you'll
+hear a Balrog roar.
+
+=head3 *Automate the Process
+
+Of course you don't want to type C<curl> commands every time someone pays for a
+play. You'll need to set up the appropriate webhook. The good news is that the
+POST command I<is> that webhook. In fact, you can use the same script to send
+the same message to different relays in one of two ways:
+
+=over 4
+
+=item * look up the machine name, board DNS name, and relay number on each
+execution (hide everything behind a single webhook and double-dispatch)
+
+=item * generate and register webhooks on each change of the
+C<addresses_to_relays> table (single dispatch)
+
+=back
+
+You can generate a list of webhook URLs with SQL something like:
+
+=begin screen
+
+  SELECT
+      'http://'
+      || dns_name
+      || '/cm?cmnd=Power'
+      || relay
+      || '%20On
+    FROM addresses_to_relays
+    WHERE is_active;
+
+=end screen
+
+Register these webhooks appropriately and the entire system should work, start
+to finish.
+
+=head3 *Alternate Approaches
+
+This approach uses HTTP C<GET> requests over HTTP. You're probably not exposing
+any secret or sensitive information over the network, but if you prefer to use
+HTTPS everywhere, you can configure this on certain relay boards.
+
+You may prefer not to use HTTP overall. The example relay boards used in this
+chapter also support MQTT, which requires a little more configuration but gives
+you a lot less administration in the proper circumstances. Play around and see
+what you can discover!
+
+=head2 *Understand the Risks
+
+Every component and connection you add to the system is a potential point of
+attack and failure. If your network goes down, a lot of people will sit around
+waiting for a chance to save the city. If your relay board makes a popping
+sound and the magic smoke escapes, you'll have to replace it. If your DNS
+system resets and IP addresses switch around, you'll hear Spy Hunter rev up
+when someone wants to play Turtles in Time.
+
+Regular diagnostics and checks are important. Fortunately, you can automate
+things like health checks and, given the C<is_active> column in the example SQL
+tables, take a machine/board/relay combination out of the system. To make the
+entire system more robust, you can use this as a status to disable the ability
+of users to add credits to a machine (though you can't prevent someone from
+sending a Dogecoin transaction to an address).
+
+Also remember that every bit of configuration you add to the system adds
+flexibility at the cost of some management overhead. Avoiding webhook
+double-dispatch simplifies the system but makes it more difficult to unregister
+a webhook when you need to maintain a machine or connection.
+
+Depending on how seriously you take this business, having extra, easily
+swappable, hardware on hand can save you a lot of time and trouble. You don't
+want to be reprogramming your relay board while customers are lining up and
+tapping their feet.
