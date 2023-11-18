@@ -2,72 +2,71 @@
 
 Z<shorten_large_numbers>
 
-Without getting into the deep details of cryptography so far, we've talked
-about some complicated things. Hopefully the concepts are straightforward,
-because the details are going to get deeper.
+So far, this chapter has discussed some complicated concepts without getting to
+deep into the details of cryptography. It's time to go deeper, and in
+cryptographic terms that usually means handling large numbers.
 
-When making cryptographic hashes of data (L<make_a_hash_of_fingerprints>), even
-our simple example had to use fairly large numbers to get any sort of security
-at all--and the security of the example is still very low. A cryptographically
-secure hashing algorithm, SHA-256, has 256 bits of security. If you were to
-write out a number the standard way, you'd have to write 78 digits. That's big.
+How large are large numbers? When making cryptographic hashes of data
+(L<make_a_hash_of_fingerprints>), even the simple examples has to use large
+numbers to get any sort of security at all--and the security of the example is
+still very low. One cryptographically secure hashing algorithm, SHA-256, has
+256 bits of security--256 individual units that can be either 0 or 1. If you
+were to write out a 256-bit number in base 10, you'd have to write 78 digits.
+That's big.
 
 If you had to write out these numbers by hand on a regular basis, you'd get
 tired. Worse, the larger the number, the more chances you might transpose two
-digits or get something wrong or leave something out.
-
-Is there a way to make this easier?
+digits or get something wrong or leave something out. To make cryptography
+useful, we have to make it easier to work with large numbers.
 
 =head2 *Tens without Ten
 
-There's a secret hiding behind the idea of modulus math
+One solution hides behind the idea of modulus math
 (L<roll_over_your_odometer>). Think what would happen if everyone had nine
 fingers. You can count all the way up to nine, but to represent the idea of ten
 you'd have a representation something like "one full set of numbers and one
 more", or 11 base 9N<Base I<n> means you're using I<n> fingers. It's 9 in this
-example, but it could be 10 or 16 or 58.>. Seriously; if you have ten fingers,
-tape your pinky and ring finger together on your left and try it. Then count to
-twenty, represented as 22 base 9.
+example, but it could be 10 or 16 or 58.>. If you have ten fingers, tape your
+pinky and ring finger together on your left hand and try counting to twenty.
+You'll have to represent this as 22 base 9.
 
 If this still seems weird, think of it this way. Take the tens position (the
 first 2 in 22) and multiply it by nine. That gives eighteen. Now add the ones
-position (the second 2 in 22), and you get twenty.
+position (the second 2 in 22), and you get twenty. 20 base 9 plus 2 base 9 is 2
+* 9 with 2 as the remainder.
 
-Similarly if you counted on your fingers and toes (and have ten of each), you
-could count to twenty and represent that as 10 base 20. If that makes sense,
-you can probably see the trick already.
+If you counted on your fingers and toes (and have ten of each), you could count
+to twenty and represent that as 10 base 20. If that makes sense, you can
+probably see the trick already.
 
 =head2 *Counting to Ten with the Alphabet
 
 Counting to twenty in base 20 is weird though. What do you use to represent
-eleven? 11 in base 20 is the value twenty-one, so we need another digit.
-
-That's where the alphabet comes in.
+eleven? 11 in base 20 is the value twenty-one, so we need another digit or
+character or perhaps even a letter.
 
 X<concepts; hexadecimal>
 
-If you're around computers and computer programmers long enough, you'll hear
-some nerdy talk about something called I<hexadecimal> notation. That means 16.
-Hexadecimal notation is a way of representing numbers in base 16, so the value
-of 10 base 16 is sixteen and the value of 20 base 16 is thirty-two and the
-value of 64 base 16 is one hundred.
+Hang around techies for long enough and you'll hear some nerdy talk about
+something called I<hexadecimal> notation. That means 16. Hexadecimal notation
+is a way of representing numbers in base 16, so the value of 10 base 16 is
+sixteen and the value of 20 base 16 is thirty-two and the value of 64 base 16
+is one hundred.
 
 Already at that point--one hundred--the hexadecimal notation is one digit
 shorter than standard base 10 notation. A SHA-256 value which would normally
-take 78 digits to represent in base 10 only takes 64 digits in hex..
+take 78 digits to represent in base 10 needs only 64 digits in hex.
 
-What does eleven look like though? In base 16, that's C<A>. Twelve is C<B>.
-Thirteen, fourteen, and fifteen are C<C>, C<D>, and C<E>, and you already know
-what sixteen is. Seventeen is C<11>. Twenty-six is C<1A> (read it as one times
-sixteen plus ten).
+What does eleven look like? In base 16, that's C<A>. Twelve is C<B>. Thirteen,
+fourteen, and fifteen are C<C>, C<D>, and C<E>, and you already know what
+sixteen is. Seventeen is C<11>. Twenty-six is C<1A> (read it as one times
+sixteen plus ten). Beyond that, use a hexadecimal calculator; don't worry about doing
+this in your head.
 
-That's easy enough (but use a hexadecimal calculator; don't worry about doing
-this in your head). With 26 letters in the boring, non-accented Roman alphabet,
-you can represent values up to base 36 with the digits 0 through 9 and the
-letters A through Z.
-
+With 26 letters in the boring, non-accented Roman alphabet, you can represent
+values up to base 36 with the digits 0 through 9 and the letters A through Z.
 Base 36 would make the large cryptographic hashes we're dealing with much, much
-shorter. We can do better though.
+shorter--but we can do better.
 
 =head2 *Fifty-Eight is Larger than Thirty-Six
 
@@ -77,26 +76,30 @@ thirty-eight with C<b>, and so on.
 The only problem with this approach is that an upper-case letter C<O>N<O for
 Oscar.> can look a lot like the digit zero C<O>, and a lower-case letter
 C<l>N<L for Lima.> can look a lot like the digit one C<1> or the upper-case
-letter C<I>N<I for Indigo.>. This can be a really big problem for really large
-numbers, especially if people are going to write them down I<or> if there's a
-chance that malicious actors will try to fool other people to get control of
-their data or scam away their hard-earned Dogecoin.
+letter C<I>N<I for Indigo.>. This can be a problem for really large numbers,
+especially if people are going to write them down I<or> if there's a chance
+that malicious actors will try to fool other people to get control of their
+data or scam away their hard-earned Dogecoin.
 
-This is why Bitcoin, Dogecoin, and other cryptocurrencies use a format called
+Litecoin, Bitcoin, Dogecoin, and other cryptocurrencies use a format called
 Base-58. The allowed characters are the digits 0 through 9, the upper-case
 letters A through Z, and the lower-case letters a through z I<except> for C<0>,
-C<O>, C<I>, and C<l>.
+C<O>, C<I>, and C<l>. A Dogecoin address or key is pretty long even in this
+format, but it's a I<lot> shorter than if you had to write it out in base 10.
 
 =head2 *What's Really Going On
 
-You don't have to be able to perform the conversion in your head as long as you
-understand why this exists and, at a basic level, how the math works. A
-Dogecoin address or key is pretty long even in this format, but it's a I<lot>
-shorter than if you had to write it out in base 10.
-
-Furthermore, the idea of attacks (or typos or transcription errors) against
-addresses or keys represented in Base-58 has led to the development of
+Base-58 achieves two goals. First, it shortens large numbers by using a larger
+set of digits in the representation. Second, it avoids characters that could be
+ambiguous. Furthermore, the idea of attacks (or typos or transcription errors)
+against addresses or keys represented in Base-58 has led to the development of
 something called Base58CheckN<See
 U<https://en.bitcoin.it/wiki/Base58Check_encoding>.>, which is Base-58 with a
 couple of extra digits that provide a checksum of the data. This helps identify
 any errors and can, in some cases, help recover from errors.
+
+While it's may be useful to remember specific values in base 16 if you're a
+programmer, you usually don't have to worry about converting between bases. Use
+a calculator if you need to (or rely on trusted software to do it for you). You
+don't have to be able to perform the conversion in your head as long as you
+understand why this exists and, at a basic level, how the math works.

@@ -5,8 +5,7 @@ Z<identify_a_scam>
 Some of the most useful features of a cryptocurrency such as Dogecoin,
 including the opportunity for anonymity, lack of a single centralized
 authority, an immutable transaction ledger, and programmable money have their
-risks. This should not surprise you; the same is true of cash, credit cards,
-and other payment instruments.
+risks. The same is true of cash, credit cards, and other payment instruments.
 
 Yet for all of the promise that a decentralized cryptocurrency means that you
 don't need anyone's permission to make a transaction, there's also no person to
@@ -20,33 +19,32 @@ do that.
 
 =head2 *What Makes a Scam?
 
-Every scam shares one common element: someone is asking you to give up control
-of your funds. They'll promise one thing or another, but every time someone
-wants to get their hands on your money, currency, coins, whatever--they'll
-eventually need you to hand it over. This can take many forms, all of them
-promising you something in the future in exchange for something now!
+Every scam shares one common element: someone asks you to give up control of
+your funds. They promise one thing or another, but every time someone wants to
+get their hands on your money, currency, coins, whatever--they eventually need
+you to hand it over. This can take many forms, all of them promising you
+something amazing in the future in exchange for something valuable now!
 
 =head3 *Buy Low, Sell High
 
 A "fear of missing out" scam, or FOMO, puts pressure on you to buy something
-now because the price will rise in the future and you won't get the opportunity
+now because the price will rise in the future and you will lose your chance at
 for great returns. You'll kick yourself in the future, when everyone else is
 driving a Lamborghini and sipping muddled blueberry lemonade by their
 dollar-sign shaped infinity pools. "Have fun being poor", people say, as they
 put more pressure on you to think about the regret you will eventually have for
 I<not> giving them your money.
 
-It's natural to think about all of the amazing
-things you can do if everything goes right. It's easy to get caught up in the
-excitement. That's why lottery tickets sell, of course--even though your odds
-of winning are always very, very low, the idea of winning big is so exciting
-that a couple of dollars seems like a small price to pay. As well, people I<do>
-win: just not very many.
+It's natural to think about all of the amazing things you can do if everything
+goes right. It's easy to get caught up in the excitement. That's why lottery
+tickets sell. Even though your odds of winning are always very, very low, the
+idea of winning big is so exciting that a couple of dollars seems like a small
+price to pay. As well, people I<do> win: just not very many.
 
 B<How do you resist this?> Demand answers to questions such as "why will the
 price go up" and "what is the evidence that the price will go up" and "who
 benefits if the price goes up". If the answers all hand-wave away your
-concerns, continue to be skeptical. "Demand will increase" is not an answer,
+concerns, increase your skepticism. "Demand will increase" is not an answer,
 unless there's some reason I<why> demand will increase, and "people will see
 the price continue to go up" is I<not> a reason why demand will increase--it's
 evidence that the scam will continue.
@@ -54,17 +52,18 @@ evidence that the scam will continue.
 =head3 *Give Me Your Money, I'll Give You More Money
 
 Another scam locks up your money under someone else's control with the promise
-of incredibly high returns. "You'll earn 60% returns in a year!" they'll say,
-which sounds amazing, but should set off every scam detector in a twelve-block
-radius. If you can earn 60% returns in a year, why would you need to ask anyone
-else for money? Why would you need to control someone else's money to earn
-those returns? (Even a credit card at a terrible rate will only charge you 30%
-APY or so, so your effective return before taxes will still be extraordinary.)
+of incredibly high returns. "You'll earn 60% returns in a year!" they say.
+This sounds amazing, even as which every scam detector in a twelve-block radius
+goes off. If you can earn 60% returns in a year, why would you need to ask
+anyone else for money? Why would you need to control someone else's money to
+earn those returns? (Even a credit card at a punishing rate will only charge
+you 30% APY or so, so your effective return before taxes will still be
+extraordinary.)
 
-You can often see this scam in terms of "staking" coins, where you promise not
-to sell and give up custody in exchange for payment down the line. What they
-aren't telling you is that they're going to sell or lend your coins, and
-they're going to pay you with the proceeds they get from other people.
+You can often see this scam in terms of "staking" coins, where you promise to
+give up custody and not sell in exchange for payment down the line. What they
+aren't telling you is that I<they> will sell or lend your coins, and they're
+going to pay you with the proceeds they get from other people.
 
 B<How do you resist this?> Demand answers to questions such as "where do the
 profits come from". If you stake 100 Dogecoin on January 1 and someone promises
@@ -77,14 +76,14 @@ profits).
 
 Yet another scam trades on the history, goodwill, and name recognition of one
 thing while promoting an alternative that isn't the same thing at all. In fact,
-the alternative isn't the same thing so much, that it's entirely under the
+the alternative isn't the same thing so much that it's entirely under the
 control of someone or someones who stand to profit from the confusion.
 
-Imagine, for example, that Pupper Soda were a new soft drink brand, and it had a
-passionate, growing following of people who appreciated its bold, fresh taste,
-low-calorie presence, and need for very little sugar. More and more
+Imagine, for example, that Pupper Soda were a new soft drink brand, and it had
+a passionate, growing following of people who appreciated its bold, fresh
+taste, low-calorie presence, and need for very little sugar. More and more
 restaurants, taco stands, and vending machines offered Pupper Soda, and its
-creators were reaping the financial rewards.
+creators reaped the financial rewards.
 
 Someone approaches you on the street as you're enjoying a refreshing beverage
 and said "I bet you wish you'd invested in Pupper Soda." You nod, wary. "Well,
@@ -100,9 +99,10 @@ name, and is filling up the cans with tap water from the hose on his
 garageN<Admittedly, this analogy is getting away from the author.>.
 
 You're going to get a Fear of Missing Out pitch shortly, and you're going to
-hear "Have fun being poor" and you're going to get a lot of hand-waving
-explanations about why Pupper Soda is going to be huge. Your conversational
-assailant is in the Pump phase of Pump and Dump, and you're the target.
+hear "Have fun being poor" and, unless you walk away quickly, you'll get a lot
+of hand-waving explanations about why Pupper Soda is going to be huge. Your
+conversational assailant is in the Pump phase of Pump and Dump, and you're the
+target.
 
 B<How do you resist this?> Demand answers to questions such as "why do you need
 additional investors" and "who owns what you're selling" and "why this specific
@@ -110,28 +110,29 @@ knockoff, instead of any of a thousand others". If you're interested in getting
 deep into technical details, ask "What implementation makes this different from
 the original", because it's easy to shave the serial numbers off of someone
 else's work and slap a fresh coat of paint on it and pass it off as something
-original. Finally, ask "Who controls it" and I<verify> the answers.
+originalN<See, for example, every AI trained on copyrighted data without
+permission.>. Finally, ask "Who controls it" and I<verify> the answers.
 
 In the cryptocurrency world, if someone has made a new coin (or, even easier, a
-new token) and spent more time making a logo and website than making a
-technology that differentiates at the protocol or consensus level, you're
+new token) and spent more time making a logo and website than making something
+different in terms of protocol, consensus, or implementation, you're probably
 probably looking at the kind of scam where they'll sell you their supply and
-then disappear.
+then disappear. They get your money and you get a bag full of nothing.
 
 =head3 *Not Your Wallet, Not Your Coins
 
 Another scam or scam-adjacent risk is when someone requires you to hand over
-control to your wallet, your keys, and/or your coins. This could be anything
-from holding funds in a tipbot on Discord or another social media platform,
-holding funds in an exchange, or letting someone else see your private keys for
-any purpose other than backupsN<If you've distributed fragments of your private
-keys to your brother, your attorney, and your childhood friend in case anything
-happens to you--and you do the same for them--that's a different story, though
-one with its own risks.>.
+control to your wallet, keys, and/or coins. This could be anything from holding
+funds in a tipbot on Discord or another social media platform, holding funds in
+an exchange, or letting someone else see your private keys for any purpose
+other than backupsN<If you've distributed fragments of your private keys to
+your brother, your attorney, and your childhood friend in case anything happens
+to you--and you do the same for them--that's a different story, though one with
+its own risks.>.
 
-Anyone who holds your keys can do whatever they want and the network, the
+Anyone who holds your keys can do whatever they want. The network, the
 protocol, and the network consensus protocol cannot distinguish between what
-you intended and what the math allows. The network will not protect you; the
+you intended and what the math allows. B<The network will not protect you.> The
 network does not distinguish between what you consider a "right" or "wrong" use
 of your keys. Either the transaction validates or it doesn't.
 
@@ -144,12 +145,12 @@ them.
 =head2 *What Can You Do With This?
 
 This isn't an exhaustive list of all possible scams. There are many more, with
-new ones developed all the time. It's worth repeating: all scams depend on you
+variants appearing all the time. It's worth repeating: all scams depend on you
 giving up control somewhere, somehow to someone else.
 
 You work hard for what you have (see L<make_money_with_dogecoin>), and it's
 important to protect your interests. Check and double-check what you intend to
-do, and remember: you can only trust the people and things you can verify.
-Anyone operating with clear intentions should make it easy for you to verify
-what they say. Anyone who hides their intentions between "trust me" or "what
-are you afraid of, success" is waving a red flag.
+do. Finally, remember that you can only trust the people and things you can
+verify. Anyone operating with clear intentions should make it easy for you to
+verify what they say. Anyone who hides their intentions between "trust me" or
+"what are you afraid of, success" is waving a red flag.

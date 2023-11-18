@@ -2,32 +2,33 @@
 
 Z<embrace_entropy>
 
-The key to good a secret is to limit the ability of anyone to guess it. When
-you're dealing with the secret keys that keep your cryptocurrency under your
-control--and only your control--the better your secrets, the safer you are.
-Think of it this way: if Dogecoin only allowed four-digit passwords and those
-passwords had to use only the digits 0 - 9, there are only 10,000 possible passwords.
+To keep a secret safe, you must limit the ability of anyone to access it,
+including guessing it. When you're dealing with the secret keys that keep your
+cryptocurrency under your control--and only your control--the better your
+secrets, the safer you are. Think of it this way: if Dogecoin only allowed
+four-digit passwords and those passwords had to use only the digits 0 - 9,
+there would be only 10,000 possible passwords.
 
 Even a novice hacker could try all 10,000 possible passwords in a short
 timeN<Definitely less than weeks. Minutes, probably.>
 
-The good thing about established cryptocurrencies such as Dogecoin is that they
-use much larger numbers. In theory, there are more possible numbers than there
-are atoms in the universe. Guessing any one specific number randomly will take
-a novice hacker quite a whileN<That means I<never>, at least as we understand
-computers now.>.
+Established cryptocurrencies such as Dogecoin use much larger numbers. In
+theory, there are more possible numbers than there are atoms in the universe.
+Guessing any one specific number randomly will take a novice hacker quite a
+whileN<That means I<never>, at least as we understand computers now.>.
+
+X<< external software; C<bx> >>
 
 Yet just because your secret can be a large number doesn't mean it's a secure
 number, especially depending on how you generated it. For example, in August
 2023, researchers discovered a flawN<See
 U<https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-39910>.> in secret
-generation in a tool called the C<bx>, the Libbitcoin explorer. While that tool
-could generate appropriate secret passphrases for Bitcoin, Litecoin, Dogecoin,
-et cetera, it had a flaw that it generated far fewer possibilities than
-necessary--few enough that a clever hacker could reveal multiple secrets in
-hours.
+generation in the Libbitcoin explorer C<bx>. While that tool could generate
+appropriate secret passphrases for Bitcoin, Litecoin, Dogecoin, et cetera, it
+had a flaw that it generated far fewer possibilities than necessary--few enough
+that a clever hacker could reveal multiple secrets in hours.
 
-The problem is a lack of entropy.
+The problem was a lack of entropy.
 
 =head2 *What is Entropy?
 
@@ -35,15 +36,16 @@ X<< references; Muse's album I<The Second Law> >>
 
 Entropy is the measure of randomness in a systemN<In addition to the
 inspiration for some of Matt Bellamy's best songs.>. The more random a system,
-cryptographers believe, the less predictable and more difficult it is to guess.
+cryptographers believe, the less predictable and more difficult it is to guess
+any item in that system.
 
 It's important to distinguish between perceived entropy and actual entropy. In
-a truly random system, cryptographically secure, you might find a Dogecoin
-private key that has the string "12345" or "CAk3" in it. That's not a bad
-thing; that's your brain pulling patterns out of apparent chaos. There are
-probably countless examples of these strings in public and private keys and
-countless other examples where your brain might say "Hey, that looks familiar!"
-That doesn't mean there's not enough entropy.
+a truly random and cryptographically secure system, you might find a Dogecoin
+private key containing the string "12345" or "CAk3". That's not a bad thing;
+that's your brain pulling patterns out of apparent chaos. There are probably
+countless examples of these strings in public and private keys and countless
+other examples where your brain might say "Hey, that looks familiar!" That
+doesn't mean there's not enough entropy.
 
 Why is entropy useful though?
 
@@ -60,9 +62,9 @@ inputs to your private keys. If someone knew you started with a single-digit
 input, how long would it take someone to generate all of the potential keys you
 might have used? Not any longer than it took you to generate those hashes.
 
-That's why entropy is so essential: true random input with enough of a range of
-possible values that the number of things an attacker would have to search to
-find anything useful is so large that it's effectively impossible.
+That's why entropy is so essential: you want true random input with enough of a
+range of possible values that the number of things an attacker would have to
+search to find anything useful is so large that it's effectively impossible.
 
 Computers can't generate I<truly> random numbers. They have to use an algorithm
 with plenty of input to generate something that's sufficiently random it can be
@@ -83,14 +85,15 @@ gone around the range of the modulus.
 
 =head2 *What Can You Do With This?
 
-This is a lot of heady math concepts. What does it mean for friendly/funny dog
-money? It means everything, at least when it comes to your security. If you
-didn't understand entropy and its value, reading through the security advisory
-linked earlier would be difficult. Similarly, if you didn't understand that a
-hashing algorithm can only do so much with what it has, you might be tempted to
-use "sw0rdfish" as your passwordN<Please, never do this!> and call it a day.
+What do these heady math concepts mean for friendly/funny dog money? They mean
+everything, at least when it comes to your security. If you didn't understand
+entropy and its value, reading through the security advisory linked earlier
+would be difficult. Similarly, if you didn't understand that a hashing
+algorithm can only do so much with what it has, you might be tempted to use
+"sw0rdfish" as your passwordN<Please, never do this!> and call it a day.
 
 Even if you don't delve deeply into understanding cryptography and math, now
 you know that a 256-bit private key needs at least 256 bits of entropy to
-protect your secrets, and you can do more research on the tools and techniques
-available to you.
+protect your secrets. Use that knowledge as you explore tools and techniques
+available to you. Reliable and trustworthy software will go out of its way to
+explain the proper handling of entropy.
