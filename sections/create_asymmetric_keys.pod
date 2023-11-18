@@ -3,11 +3,12 @@
 Z<create_asymmetric_keys>
 
 Hang around the cryptocurrency world long enough, and you'll hear people talk
-about public and private keys. Keys are cryptographic concepts; in reality
-they're pairs of large numbers that give you a certain degree of security. A
-key pair lets you use your private key to encrypt a message such that anyone
-with your public key can decrypt it. Similarly, anyone can encrypt a message to
-you with your public key and only you with your private key can decrypt it.
+about public and private keys. Keys are cryptographic concepts used as
+metaphors (locks protect secrets, and locks have keys); in reality they're
+pairs of large numbers that increase your security. A key pair lets you use
+your private key to encrypt a message such that anyone with your public key can
+decrypt it. Similarly, anyone can encrypt a message to you with your public key
+and only you with your private key can decrypt it.
 
 Every encryption operation is a one-way operation which requires one of the two
 keys and requires the other key to undo.
@@ -19,20 +20,9 @@ Grab a calculator or a computer and find out.
 =head2 *RSA Encryption
 
 An asymmetric encryption algorithm requires two keys. The keys are different;
-that's what makes the algorithm asymmetric. Otherwise the key used to encrypt
-the message is the same key used to decrypt the message, so there's no security
+that's what makes the algorithm asymmetric. A symmetric approach uses the same
+key to encrypt a message and to decrypt the message, so there's no security
 other than keeping the single key secret. We can do better!
-
-A common asymmetric encryption algorithm is RSA. It's complicated, but easy to
-explain if you follow along.
-
-RSA requires two prime numbers and modulus math (L<roll_over_your_odometer>).
-It uses these prime numbers to figure out the modulus number: the product of
-the two primes. For example, if you chose prime numbers of 5 and 17, your
-modulus would be 85.
-
-This modulus is used as half of both the public and private keys. The other
-halves of the keys require a little bit more math to figure out.
 
 What would make asymmetric encryption effective? The encryption has to be a
 one-way mathematical operation. Given an encrypted message, you should not be
@@ -48,58 +38,72 @@ encrypt the number. You want someone else to use your public key, I<e> to
 decrypt the number. Is there a mathematical operation that can represent this
 activity without revealing the secret message or your private key?
 
-It turns out that there is.
+One common asymmetric encryption algorithm is RSA. It's complicated, but one of
+the simpler versions. Fortunately, it's possible to understand the basics with
+little more than a calculator, a spreadsheet, or a sharp pencil and piece of
+graph paper.
 
-=head3 *Powers of N
+RSA requires two prime numbers and modulus math (L<roll_over_your_odometer>).
+It uses these prime numbers to figure out the modulus number: the product of
+the two primes. For example, if you choose prime numbers of 5 and 17, your
+modulus is 85.
 
-Think through this for a second. If you use the exponentiation operator, you
-can do this: 10 to the power of 2 is 100, while 100 to the power of 1/2 is 100.
-Similarly, 2 to the power of 3 is 8, while 8 to the power of 1/3 is 2. This
-rule generalizes: I<n> to the power of I<y> equals I<m>, while I<m> to the
-power of I<1/y> equals I<n>. If you have to work that out on paper or with a
-calculator for a while, that's fine. This math isn't always obvious until you
-try a few examples.
+This modulus is used as half of both the public and private keys. The other
+halves of the keys require a little bit more math to figure out: exponents and
+reciprocals.
 
-Of course, if public and private keys were always obvious like this, it would
-be easy to turn a public key of 333 into C<1/333> and reverse the encryption.
-That's where modulus math comes in.
+=head3 *House of N, Powers of N
+
+Think about exponents for a second. 10 to the power of 2 is 100, while 100 to
+the power of 1/2 is 100. Similarly, 2 to the power of 3 is 8, while 8 to the
+power of 1/3 is 2. This rule generalizes: I<n> to the power of I<y> equals
+I<m>, while I<m> to the power of I<1/y> equals I<n>. Work that out on paper or
+with a calculator to get a feel for it.
+
+RSA uses this property as part of its encryption. Of course, if public and
+private keys were always obvious like this, it would be easy to turn a public
+key of 333 into C<1/333> and reverse the encryption. That's where modulus math
+comes in.
 
 =head3 *Modulus of Powers of N
 
-If you look at the example of a clock or odometer from the modulus tip, you
-realize that using a modulus operation hides information. It throws away
-information, yes, but it hides the information it throws away. If the highest
-Donkey Kong level number tracked is 4, you can't tell if someone is on their
-first playthrough of level 4 or their 100th, unless you've watched their entire
-game.
+Think about how a clock or odometer works, especially how it throws away
+information. It throws away information, yes, but more importantly it I<hides>
+the information it throws away. If the highest Donkey Kong level number tracked
+is 4, you can't tell if someone is on their first playthrough of level 4 or
+their 100th, unless you've watched their entire game.
 
 X<people; Leonhard Euler>
 X<people; Pierre de Fermat>
 
 Throwing away data seems like it'd be at odds with encryption, at least if you
 want to get the right message out of the results, but the mathematicians Fermat
-and Euler have a solution.
+and Euler found a solution.
 
 X<references; Fermat's Little Theorem>
 
 Fermat's Little Theorem says that if you have two numbers, I<n> and I<p>, where
 I<p> is prime and I<n> is not a factor of I<p>, then you can raise I<p> to the
-power of I<n> minus 1 and take the modulus of I<n>. The result will be 1. Try
-it with I<n> of 3 and I<p> of 5. 5 to the power of 2 is 25, and 25 mod 3 is 1.
-Try it with 4 and 7. 7 to the power of 3 is 343, and 343 mod 4 is 1. Try it
-with larger numbers too if you like.
+power of I<n> minus 1 and take the modulus of I<n>. The result will be 1.
 
-Next, you need to understand I<relatively prime> numbers. These are numbers
-that have no common factors, such as 2 and 3, 3 and 5, or 8 and 11. It's easy
-if the larger number is prime, of course.  Euler's Theorem generalized Fermat's
-Theorem to say that, given two numbers, I<x> and I<n>, where I<n> is relatively
-prime to I<x> and I<n> is prime, then I<x> to the power of I<n> minus equals 1
-mod I<n>, just like in Fermat's Little Theorem.
+Here's where you might need to get out your pencil. Try this formula with I<n>
+of 3 and I<p> of 5. 5 to the power of 2 is 25, and 25 mod 3 is 1. Try it with 4
+and 7.  7 to the power of 3 is 343, and 343 mod 4 is 1. Try it with larger
+numbers too if you like.
+
+Euler liked this theorem and brought in a concept called I<relatively prime>
+numbers. These are numbers that have no common factors, such as 2 and 3, 3 and
+5, or 8 and 11. It's easy if the larger number is prime, of course. Euler's
+Theorem generalizes Fermat's Theorem to say that, given two numbers, I<x> and
+I<n>, where I<n> is relatively prime to I<x> and I<n> is prime, then I<x> to
+the power of I<n> minus equals 1 mod I<n>, just like in Fermat's Little
+Theorem.
 
 X<people; Wallace Shawn>
 
-Don't worry; there's no Vizzini voice about to say "Wait until I get started!"
-This is almost over. Try this yourself with a few interesting numbers.
+Try it until it makes sense! Don't worry; there's no Vizzini voice about to say
+"Wait until I get started!" This is almost over. Try this yourself with a few
+interesting numbers.
 
 =head3 *Putting It All Together
 
@@ -109,13 +113,13 @@ The public key is the modulus number, I<N>, and the public exponent, I<e> (for
 I<encrypt>). The private key is the private exponent I<d> (for I<decrypt>). The
 message is I<M>.
 
-To encrypt the message, you raise the message to the power of the public
-exponent and take the modulus of the result: raise I<M> to the power of I<e>
-and modulus by I<N>. Call the result I<C> for I<Crypted> message. To decrypt,
-raise the encrypted message to the power of the private exponent and take the
-modulus of the result: raise I<C> to the power of I<d> and modulus by I<N>.
+To encrypt the message, raise the message to the power of the public exponent
+and take the modulus of the result: raise I<M> to the power of I<e> and modulus
+by I<N>. Call the result I<C> for I<Crypted> message. To decrypt, raise the
+encrypted message to the power of the private exponent and take the modulus of
+the result: raise I<C> to the power of I<d> and modulus by I<N>.
 
-If you've chosen I<d> and I<e> and I<N> appropriately, you should see the
+If you've chosen I<d> and I<e> and I<N> appropriately, you will see the
 original message.
 
 Where do the exponents and modulus come from? Start with a pair of prime
@@ -140,11 +144,12 @@ with I<d> gets C<41> and decrypting that with I<e> produces C<11>.
 =head3 *Limitations and Complications
 
 For the math to work, the message to encode--the starting number, in this
-case--has to be less than the modulus, otherwise the math goes all weird. In
-practice, the modulus is a really large number I<and> any message larger than
-that number gets chunked into pieces and encrypted separately. For the purpose
-of this explanation, you don't have to worry about that--but in practice, the
-assumptions made here need some careful handling.
+case--has to be less than the modulus, otherwise the math gets weird and you'll
+scratch your head at the results. In practice, the modulus is a really large
+number I<and> any message larger than that number gets chunked into pieces and
+encrypted separately. For the purpose of this explanation, you don't have to
+worry about that--but in practice, the assumptions made here need some careful
+handling.
 
 That's why it's important to leave the I<implementation> of cryptography up to
 people who deeply understand the math and have thought through the important
@@ -166,7 +171,9 @@ Furthermore, understanding the limitations of RSA helps explain why ECDSA and
 other approaches are much better. As computers continue to get faster, or at
 least as computing power continues to get cheaper, older algorithms start to
 become less secure because computations that were expensive 20 or 30 years ago
-are now feasible on commodity hardware.
+are now feasible on commodity hardware. 64 bits of security in 1978 are but a
+tickle to a modern phone in 2023.
 
 Remember: the security of your Dogecoin depends on the security of your keys,
-both from the algorithmic point of view and your own personal security.
+both in terms of the strength of the cryptographic algorithm used as well as
+how well you keep your secrets secret.
