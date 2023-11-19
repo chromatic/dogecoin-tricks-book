@@ -4,14 +4,15 @@ Z<command_the_core>
 
 X<< Dogecoin Core; C<dogecoin-qt> >>
 
-The first time you launched the Dogecoin CoreN<Maybe that's today, and that's
-great! We all have to start somewhere, sometime!> you saw a friendly dog
-graphic and some text and that's about it. There are menus and options and
-buttons to send or receive transactions.
+The first time you launched the Dogecoin CoreN<Maybe that's today. If so,
+congratulations!>, you saw a friendly dog graphic and some text and that's
+about it. There are menus and options and buttons to send or receive
+transactions.
 
 You may think to yourself "I know there's a lot going on behind the scenes, but
 is this it? A friendly dog image, a couple of buttons, and a lot of math I
-really ought to go back and read in more detail from the earlier chapter?"
+really ought to go back and read in more detail (see
+L<intro_cryptography>)?"
 
 Click the Help menu, then the Debug window item, and finally the Console tab.
 You will then see something like L<dogecoin-core-debug-window-console>.
@@ -47,9 +48,9 @@ expect, including:
 =back
 
 All of those operations necessary to keep the Dogecoin blockchain running and
-your data easily accessible happen behind the scenes. You're looking at a
-console where you can ask the Core to perform some of those operations and make
-queries on your behalf on your own timing.
+your data easily accessible. You're looking at a console where you can ask the
+Core to perform some of those operations and make queries on your behalf as you
+need them.
 
 X<< RPC commands; C<getblockcount> >>
 
@@ -70,23 +71,23 @@ like:
 X<RPC commands>
 
 What just happened? You sent something called an RPCN<RPC stands for "Remote
-Procedure Call", which means "ask a running program to do something", in this
-case return a number.> command to the Core and it responded. How did you know
-what to type? How did you know what response you expected?
+Procedure Call", which means "ask a running program to do something". In this
+case, it returns a number.> command to the Core and it responded. How did you
+know what to type? How did you know what response you expected?
 
 Type C<help getblockcount> to see the documentation for this specific command.
 Type C<help> to get a list of all commands you can use in this window. When
-you're finished, you can close the window. In the meantime, your node will
-continue running and processing transactions, so if your node is connected to
-the network and i you wait a couple of minutes and type C<getblockcount> again,
+you're finished, close the window. In the meantime, your node will continue
+running and processing transactions, so if your node is connected to the
+network and you wait a couple of minutes and type C<getblockcount> again,
 you'll get a higher number.
 
 =head2 *Understand the Risks
 
-Several tips throughout the rest of this book will discuss RPC commands,
-because they're useful in the right circumstances. While a lot of these tips
-assume you'll use the Dogecoin CLI client or an external program to execute the
-commands, you can use the console window to test things out on your own.
+Several tips throughout the rest of this book discuss RPC commands because
+they're useful in the right circumstances. While a lot of these tips assume
+you'll use the Dogecoin CLI client or an external program to execute the
+commands, you can use the console window too.
 
 With that said, any command you type in here can cause your node to do things.
 If you have a wallet attached to your node and if you have Dogecoin in your

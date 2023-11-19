@@ -3,11 +3,11 @@
 Z<ban_bad_actors>
 
 Even in the world of funny, dog-themed currency, not everyone is always 100%
-trustworthy. Some people run scams sometimes. Others try to cause others grief.
-Sometimes a bug or misconfiguration even makes otherwise trustworthy people
-temporarily untrustworthy.
+trustworthy. Some people run scams (L<identify_a_scam>). Others try to cause
+others grief. Sometimes a bug or misconfiguration even makes otherwise
+trustworthy people temporarily untrustworthy.
 
-You deserve safety and peace of mind, and if you're running your own node, that
+You deserve safety and peace of mind. If you're running your own node, that
 means you deserve the ability to control the other node connections you allow
 into your node. In practice, this means two things: either explicitly allowing
 certain connections or forbidding others.
@@ -15,7 +15,7 @@ certain connections or forbidding others.
 =head2 *How Dogecoin Core Manages Network Connections
 
 Your Core node connects to other nodes to send and receive network, block, and
-transaction information. Nodes can be in one of four categories:
+transaction information. External nodes fall into one of four categories:
 
 =over 4
 
@@ -33,12 +33,12 @@ temporarily or permanently
 =back
 
 Most of the time, most nodes on the network are unconnected, undiscovered, or
-connected to yours as normal. The longer your node has run, the more likely
-it's connected at least once to any other node in the network. Of course, this
+connected as normal. The longer your node has run, the more likely it's
+connected at least once to any other node in the network. Of course, this
 depends on your settings and their settings; if you're in Iceland, running a
 node from geothermal power underground, you're more likely to connect to peers
 in northern Europe than you are nodes in southern Argentina or Antarctica, if
-only because the network distance between these nodes is longer.
+only because the network distance between these nodes is larger.
 
 That leaves two other node categories, each of which require some degree of
 manual intervention. You have that power.
@@ -63,17 +63,17 @@ configuration file:
 =end screen
 
 You can also use the C<-whitelist> command-line argument when you launch your
-node, but the configuration file changes may be more durable.
+node, but configuration file changes are more durable.
 
 This configuration option means that your node will always relay any
 transactions from these nodes and will never ban these nodes automatically.
 
 =head3 *Forbid Specific Connections
 
-Dogecoin Core itself monitors node behavior and, when it sees something
-suspicious, may automatically block connections from another node for a period
-of time. This suspicious behavior may be sending malformed blocks, sending or
-requesting too much information, repeatedly connecting or disconnecting, and
+Dogecoin Core itself monitors node behavior. When it sees something suspicious
+from another node, it may automatically block connections from that node for a
+period of time. Suspicious behavior includes sending malformed blocks, sending
+or requesting too much information, repeatedly connecting or disconnecting, and
 moreN<For more details, look at the file F<src/net_processing.cpp> in the
 Dogecoin Core>.
 
@@ -82,10 +82,10 @@ X<< RPC commands; C<setban> >>
 You can use the same mechanism to ban a node or an entire network with the
 C<setban> RPC command. This command requires two mandatory arguments and
 supports two optional arguments. The first argument is a single IPv4/IPv6
-address or an IPv4/IPv6 netblock. The second argument is either C<add> to add a
-ban or C<remove> to remove a ban for the address/network. An optional third
-parameter lets you specify the number of seconds until the ban expires, unless
-you provide the optional fourth parameter of C<true>, in which case the third
+address or netblock. The second argument is either C<add> to add a ban or
+C<remove> to remove a ban for the address/network. An optional third parameter
+lets you specify the number of seconds until the ban expires, unless you
+provide the optional fourth parameter of C<true>, in which case the third
 argument is the number of epoch seconds at which the ban expires.
 
 The default ban duration is 86,400 seconds (one day, give or take any daylight
@@ -103,7 +103,7 @@ F<banlist.dat>. The former contains information about known peers and the
 latter contains information about banned node addresses and networks, along
 with their expiration information. These files are normal and helpful, but the
 Core can run without themN<This doesn't mean you should delete them; just that
-they will get regenerated as needed.>.
+the Core regenerates them as needed.>.
 
 Whenever you make an explicit change to the banlist with C<setban> (either
 adding or removing a ban), the Core will I<immediately> write a new version of
@@ -118,8 +118,7 @@ hazardous. For example, imagine someone discovers a bug in Dogecoin version
 1.11.111.1111N<This version does not currently and will probably never exist.
 Any cryptographic news service that claims this bug exists hasn't read this
 footnote.> where nodes at this version occasionally send messages 10,000 times
-instead of one. This could have the effect of denying service to their peer
-nodes.
+instead of one. This could have the effect of denying service to peer nodes.
 
 Although the Core I<should> detect this situation and consider these nodes
 misbehaving and ban them temporarily on your behalf, imagine for the sake of
@@ -171,9 +170,9 @@ agree collectively on what's true, what's false, and what's harmful.
 
 A node that continually broadcasts incorrect data can harm the network just as
 a node that continually broadcasts malformed or unhelpful data. By not relaying
-data your node can't verify or trust, you protect other parts of the network,
-just as they should be protecting you. This doesn't mean you should
-aggressively block any node that doesn't look 100% okay. The features and
-behavior of the network can and will change over time, after all. Yet the
-advice to trust but verify applies just as well here--and nodes you can't
-verify are nodes you can't trust.
+untrusted or unverified data, you protect other parts of the network, just as
+other nodes should be protecting you. This doesn't mean you should aggressively
+block any node that doesn't look 100% okay. The features and behavior of the
+network can and will change over time, after all. Yet the advice to trust but
+verify applies just as well here. Nodes you can't verify are nodes you can't
+trust.
