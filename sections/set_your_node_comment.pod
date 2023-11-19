@@ -5,17 +5,17 @@ Z<set_your_node_comment>
 X<< Dogecoin Core; C<dogecoind> >>
 X<< Dogecoin Core; C<dogecoin-qt> >>
 
-If you look at the network peers tab in your core wallet (Help -> Debug ->
-Peers, in the Qt GUI as of 1.14.6), you'll see a list of other nodes you've
-connected to. This list shows things like their IP address (IPv4 or IPv6), the
-amount of data sent and received, and more.
+Look at the network peers tab in your core wallet (Help -> Debug -> Peers, in
+the Qt GUI as of 1.14.6). You'll see a list of other nodes you've connected to,
+along with like their IP addresses (IPv4 or IPv6), the amount of data sent and
+received, and more.
 
-That additional data includes a node version string. By default (it's in the
-source code defined as a value called C<CLIENT_NODE>; I just checked), every
-Dogecoin Core reports itself as C<Shibetoshi/version>. This goes the same
-whether you're running C<dogecoind> as a headless network service or
-C<dogecoin-qt> as a GUI application or some other way of running the Core that
-we haven't invented yet.
+That additional data includes a node version string. By defaultN<In the
+Dogecoin Core source code, look for a value called C<CLIENT_NODE>.>, every
+Dogecoin Core reports itself as C<Shibetoshi/version>. This applies whether
+you're running C<dogecoind> as a headless network service or C<dogecoin-qt> as
+a GUI application or some other way of running the Core that we haven't
+invented yet.
 
 =begin notetip Be Cautious
 
@@ -25,20 +25,20 @@ realize if it's running with a GUI or not or which operating system et cetera".
 This is a security feature; if there were a bug in the GUI that a malicious
 hacker could exploit remotely and if the default version string revealed
 information about the way a node's owner ran it, the attacker would have an
-easier time getting a list of potential targets.
+easier time getting a list of potential targets. Remember this principle!
 
 =end notetip
 
 X<< Dogecoin Core; configuration; C<uacomment> >>
 
 The Core allows you to I<append> text to this version string to customize your
-node and, potentially, brighten someone's day.
-
-This is a feature called C<uacomment>.
+node, amuse yourself, and, potentially, brighten someone's day through a
+feature called C<uacomment>.
 
 =head2 *Setting C<uacomment>
 
-To customize this feature, you need to edit your configuration file and add an entry:
+To customize this feature, you need to edit your F<dogecoin.conf> configuration
+file and add an entry:
 
 =begin programlisting
 
@@ -53,9 +53,9 @@ you're running to see if this has changed.>.
 
 Save this file, then launch or restart your node. If you're running the Qt GUI,
 look at the debug information window under "User Agent" (Help -> Debug ->
-Information). The text you see there will be broadcast across the entire
-Dogecoin network whenever your node makes a connection, so this is your chance
-to make a mark and do something meaningful.
+Information). The text you see there will be broadcast to other nodes whenever
+they connect to your node, so this is your chance to make a mark and do
+something meaningful.
 
 =head2 *Setting a I<Secure> UA Comment
 
@@ -81,13 +81,13 @@ work together and cooperate.
 
 If you're thinking of setting a comment that might reveal personal or private
 information about you or someone else, like "Proudly hosted at 1 Chome-2
-Dōgenzaka, Shibuya City", think twice, then twice more. Personal information
-can make you or anyone else a target, and a visit in person or electronically
-from someone who doesn't have everyone's best interest at heart goes against
-the spirit of fun and collaboration.
+Dōgenzaka, Shibuya City", think twice, then three and four times. Personal
+information can make you or anyone else a target. A visit in person or
+electronically from someone who doesn't have everyone's best interest at heart
+goes against the spirit of fun and collaboration.
 
-What makes a I<good> comment? If you follow those three rules (the other rule
-is the 256 character limit), then anything goes.
+What makes a I<good> comment? If you follow those three rules, then anything
+goes.
 
 X<obscure references; Swedish Chef>
 

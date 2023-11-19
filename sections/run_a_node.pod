@@ -4,17 +4,18 @@ Z<run_a_node>
 
 X<Dogecoin Core>
 
-One of the subtle but essential truths behind Dogecoin is that Dogecoin is what
-we all agree it is. While developers have some ability to add features, fix
-bugs, and release software for other people to examine, run, modify, and
-redistribute, it's the I<network> that decides what actually happens. By
-design, everyone who runs a node gets a say in which behaviors are valid or
-invalid. For example, the Dogecoin Core 1.14.5 release lowered the default fee
-per transaction from 1 Doge per transaction to 0.01 Doge per kilobyte of
-transaction size.
+A subtle but essential truths of Dogecoin is that Dogecoin is what we all agree
+it is. While developers have some ability to add features, fix bugs, and
+release software for other people to examine, run, modify, and redistribute,
+it's the I<network>--the collective behavior of everyone who participates--that
+decides what actually happens. By design, everyone who runs a node gets a say
+in which behaviors are valid or invalid.
 
-You can now take advantage of these fee changes because enough nodes have
-adopted the new version that the network supports these lower costs.
+For example, the Dogecoin Core 1.14.5 release lowered the default fee per
+transaction from 1 Doge per transaction to 0.01 Doge per kilobyte of
+transaction size. You can now take advantage of these fee changes because
+enough nodes have adopted the new version that the network supports these lower
+costs.
 
 The power of the network--what we call I<consensus>--is in the hands of people
 who run nodes. That could be you.
@@ -29,7 +30,8 @@ In specific, you need a relatively modern computer (a decent desktop or laptop
 machine manufactured in the past 10 years will work). As of this writing in
 April 2023, a full node requires over 60 GB of free hard drive space. The size
 of that requirement will grow in the future. 4 GB of RAM will help. Windows,
-Linux, and Mac OS X are all supported.
+Linux, and Mac OS X are all supported. Other operating systems or architecture
+combinations may require more work on your part.
 
 =begin tip Are you a node-half full person?
 
@@ -41,9 +43,10 @@ stores the entire blockchain history from the first block mined until today,
 you have a full node. Otherwise you have a partial node.
 
 While running a partial node saves disk space and provides some benefit to the
-network, full nodes are essential to verify every transaction and to help other
-full nodes come online. If you can spare the space, running a full node is a
-great contribution.
+network by validating and transmitting transactions, full nodes are essential
+to verify the validity of I<every> transaction and to help other full nodes
+come online. If you can spare the space, running a full node is a great
+contribution.
 
 =end tip
 
@@ -73,7 +76,7 @@ X<< Dogecoin Core; C<dogecoind> >>
 
 This book assumes you'll run the GUI but have access to the other files: a
 command-line interface called C<dogecoin-cli> and the background process
-C<dogecoind>.
+C<dogecoind> (see L<understand_core_programs>).
 
 =begin tip Are There More Details?
 
@@ -102,9 +105,9 @@ the blockchain. Take note of this.
 
 =back
 
-You can change these if you like, but you run the risk of confusion. On the
-other hand, if you need the hard drive space elsewhere, changing this directory
-can be useful--so weigh the pros and cons.
+You can change these if you like, but you run the risk of confusion.  If,
+however, you need the hard drive space elsewhere, changing this directory can
+be useful. The choice is yours.
 
 After you have your node up and running, you'll have to wait a while to
 download the entire blockchain and store it on your disk. This can be a good
@@ -124,16 +127,15 @@ DHCP server.
 
 Sometimes clicking the "Allow UPnP" box in the network tab in the Core GUI will
 fix this. Sometimes it won't. If this seems like Star Trek-style technobabble
-to you, that's fine. Everyone has to learn things sometime. Ask a friend, do
-some research, learn the implications of what this means and then decide if you
-want to continue. It's okay to stop at this point for a while; you can still
+to you, that's fine. It's okay to stop at this point for a while; you can still
 I<use> a node running on your own even if you don't or can't allow incoming
-connections.
+connections. Ask a friend, do some research, learn the implications of what
+this means, and then decide if you want to continue.
 
-Skim some of the other configuration options. They all have their uses, and
-subsequent tips in this book will cover some of the most important. Do be aware
-that you will have to restart your node to take advantage of them, so pick a
-time when that's least disruptive.
+Skim some of the other configuration options. They all have their uses. Other
+tips in this book will cover some of the most important. Do be aware that you
+will have to restart your node to take advantage of them, so pick a time when
+that's least disruptive.
 
 Do make note of your configuration and data storage directory however. You'll
 use this a lot throughout the rest of the book.
@@ -160,7 +162,7 @@ sheets for all-in-one processor boards, check that project for more details.
 
 =head2 *Understand the Risks
 
-Running a node has a few risks.
+Running a node has a few risks and costs.
 
 First, it's a commitment of time and resources. Depending on the speed of your
 hardware and network connection, it could take a few days to download all of
@@ -168,7 +170,8 @@ the blockchain. Depending on how well-connected your node is to other nodes,
 you could send dozens of gigabytes of data over your connection every month.
 Depending on your hardware, you could see a measurable increase in your power
 bill. Before you start running a node, consider what you can commit to now and
-measure carefully the effects; take care of yourself first before the network.
+measure carefully the effects (see L<know_your_limits>); take care of yourself
+first before the network.
 
 Second, remember that running a network service like a Dogecoin Core node means
 you'll receive traffic from all over the Internet and you'll send traffic all
@@ -189,4 +192,4 @@ of course, but they also fix bugs, add more configuration options, and improve
 security. One important thread in development philosophy is to give
 users--people who run nodes like you are considering--the ability to shape the
 behavior of Dogecoin and its network. To do this responsibly, you need to
-understand what and how you can contribute your vision of Dogecoin.
+understand what and how you can contribute to your vision of Dogecoin.
