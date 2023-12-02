@@ -1,0 +1,174 @@
+=head1 Reproduce Builds
+
+Z<reproduce_builds>
+
+Before the Dogecoin Core maintainers can release a new version, they have to be
+certain that the pending release has certain properties. It has to run, it must
+pass tests, it must be compatible with the Dogecoin network, and it must have
+certain security properties. It also has to be reproducible.
+
+For anyone to I<trust> that the source code available in the release reflects
+the actual binary releases you can download, anyone must be able to produce the
+exact same output--bit for bit identical--to what the maintainers have
+published.
+
+This work is not easy. It's essential to allow users to trust but verify.
+Otherwise how can you know that someone hasn't sneaked in an unexpected change
+that puts you and your security at risk?
+
+Fortunately, the maintainers of Dogecoin Core and other cryptography projects
+have put in a lot of work to answer this question--not just how to verify the
+integrity of a Core release (see L<verify_core_releases>), but to ensure that
+Core releases I<can> be verified. You can help!
+
+=head2 *Gitian and Build Reproduction
+
+The Dogecoin Core maintainers use a tool called GitianN<See
+U<https://gitian.org/>.> to produce builds. Gitian manages the process of
+downloading, verifying, and building dependencies, then building the Core
+itself, for every released platform. The resulting binaries can be compared
+between Gitian builds (especially by different people on different systems at
+different times!) to ensure that they are identical (see
+L<make_a_hash_of_fingerprints>).
+
+Three things can go wrong with a Gitian build:
+
+=over 4
+
+=item * The build process fails, which means developers need to debug the
+issue.
+
+=item * The build process succeeds, but the resulting binaries are not
+identical, which means developers need to discover what kind of inputs are
+non-deterministic and patch or eliminate them.
+
+=item * Gitian is configured or launched incorrectly, which usually means
+someone like your author is testing the wrong code. It happens. Keep reading!
+
+=back
+
+In each of these cases, the results should be obvious.
+
+=head3 *Setting Up Gitian
+
+To perform Gitian builds, you need a Linux development system with a lot of
+disk space (at least 20 GB free), a decent Internet connection, and some time.
+This could be a laptop, a virtual machine, or a dedicated server. You also need
+enough system administration skills to install and configure the necessary
+Gitian dependencies.
+
+The Gitian documentation is good and worth reading. The Dogecoin Core also
+includes a Gitian setup guide (see
+U<https://github.com/dogecoin/dogecoin/blob/master/doc/gitian-building.md>.>).
+One benefit of the latter is that Dogecoin developers do their best to keep it
+up to date to reflect the state of the world and any bugs, quirks, workarounds,
+or improvements that people have discovered.
+
+Once you have set up Gitian, you can test it.
+
+=head3 *Watch for the Gitian Bat-Signal
+
+Not all changes require a Gitian test. If you're suggesting an improvement to
+documentation or translation, that's probably safe to assume the output is
+deterministic. The Core maintainers will test this anyway when they start to
+produce a release, but you don't need to worry about it.
+
+If someone upgrades a dependency, such as a library that the Dogecoin Core
+requires to run, it's essential to test that builds remain reproducible. In
+that case, the pull request in the Core repository (see
+L<follow_core_development>) will get a label called "gitian check needed". This
+is your sign that you can help!
+
+=head3 *Get Ready to Go
+
+Check out the Core git repository on your Gitian system. Now look at the pull
+request. Suppose it's PR 3364N<See
+U<https://github.com/dogecoin/dogecoin/pull/3364>.>, shown in
+L<figure-dogecoin-core-pull-request-location>.
+
+=begin figure Dogecoin Core Pull Request, with the upstream repository and
+branch highlighted
+
+Z<figure-dogecoin-core-pull-request-location>
+
+F<images/dogecoin-core-pull-request-location.png>
+
+=end figure
+
+You need two pieces of information to start your Gitian build for this pull
+request: the location of the upstream repository and the name of the branch
+with the proposed changes within that repository. Click on the link highlighted
+in the image. In this case, you will visit a link called
+C<https://github.com/edtubbs/dogecoin/tree/1.14.7-dev-fontconfig>. Split this
+in two parts. The first part is the repository location, here
+C<https://github.com/edtubbs/dogecoin/>. The second part is Ed's branch name,
+here C<1.14.7-dev-fontconfig>. Ignore the C<tree/> in the middle.
+
+=head3 *Start the Build
+
+If you've followed the Gitian setup instructions, you know what to do, but it's
+still a little bit confusing. Instead, it may be easier to use this Bash alias
+to launch the Gitian build:
+
+=begin screen
+
+  function buildgitian {
+      bash contrib/gitian-build-test.sh -b --docker -u "$1" -c "$2"
+      pushd "gitian-output/dogecoin-binaries/$2"
+      sha256sum * | sort -k2
+  }
+
+=end screen
+
+Add this to your F<.bashrc> or F<.aliases> file, however you prefer (or turn it
+into a shell script on its own). Then you can use the command from your
+Dogecoin core checkout directory:
+
+=begin screen
+
+  $ B<buildgitian https://github.com/edtubbs/dogecoin/ 1.14.7-dev-fontconfig>
+  ...
+  e0480f...  dogecoin-1.14.7-aarch64-linux-gnu-debug.tar.gz
+  56950d...  dogecoin-1.14.7-aarch64-linux-gnu.tar.gz
+  6b0a28...  dogecoin-1.14.7-arm-linux-gnueabihf-debug.tar.gz
+  ed0880...  dogecoin-1.14.7-arm-linux-gnueabihf.tar.gz
+  237c41...  dogecoin-1.14.7-i686-pc-linux-gnu-debug.tar.gz
+  6824b4...  dogecoin-1.14.7-i686-pc-linux-gnu.tar.gz
+  cdd318...  dogecoin-1.14.7-osx64.tar.gz
+  65a6ad...  dogecoin-1.14.7-osx-unsigned.dmg
+  f64af9...  dogecoin-1.14.7-osx-unsigned.tar.gz
+  6e5172...  dogecoin-1.14.7.tar.gz
+  1156be...  dogecoin-1.14.7-win32-debug.zip
+  df80b0...  dogecoin-1.14.7-win32-setup-unsigned.exe
+  6b568b...  dogecoin-1.14.7-win32.zip
+  b93147...  dogecoin-1.14.7-win64-debug.zip
+  e9cf63...  dogecoin-1.14.7-win64-setup-unsigned.exe
+  a3baac...  dogecoin-1.14.7-win64.zip
+  c16fd3...  dogecoin-1.14.7-win-unsigned.tar.gz
+  1ad74b...  dogecoin-1.14.7-x86_64-linux-gnu-debug.tar.gz
+
+=end screen
+
+This output elides part of the signatures for brevity. After the build finishes
+and you see this output, you can compare your signatures to those of other
+developers in the comments of the pull request. If all goes well, you've helped
+prove an important characteristic of the Dogecoin Core with regard to this
+proposed change. If there's a mismatch, you've proved something else important:
+that it's time to debug the problem. Either way, you've helped an incredible
+amount!
+
+=head2 *What Can You Do With This?
+
+Many of the proposed changes that go into each release of the Dogecoin Core may
+produce incompatibilities between builds. It's up to the Core maintainers to
+make sure that none of these changes actually I<do> break the repeatability of
+builds. Anyone capable of and willing to perform these verification steps can help
+out with development by attempting builds and producing their signatures.
+
+This process is essential for many but not all proposed changes that go into
+future Dogecoin Core releases. It's even more essential as the Core developers
+prepare for an imminent release. The Gitian build process is a great way to
+increase your ability to contribute to the Core. Furthermore, the latter
+sections of the setup guide show you how to add cryptographic signatures
+verifying that you've personally built the to-be-released binaries and they're
+trustworthy.
