@@ -2,9 +2,10 @@
 
 =head0 Network Services with Dogecoin
 
-Dogecoin is more than just a network of nodes. It's a low-friction payment and
-tipping system that can integrate with the wider Internet. This chapter
-explores several ways to do so, both as a publisher and a consumer.
+Dogecoin is more than just a network of nodes, a funny dog-themed currency, or
+a series of long cryptographic numbers. It's a low-friction payment and tipping
+system that can integrate with the wider Internet. This chapter explores
+several ways to do so, both as a publisher and a consumer.
 
 L<add_wallet_address_to_dns>
 

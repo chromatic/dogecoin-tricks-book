@@ -2,17 +2,18 @@
 
 Z<explore_the_memepool>
 
-You know about addresses, transactions, and blocks. You may wonder "what
-happens to a transaction that isn't yet mined into a block". The answer is, as
-you might expect, slightly complicated. When you create a transaction and
-submit it to the network, it gets broadcast through the network until it
-reaches a miner that mines it into a block.
+You know about addresses, transactions, and blocks, but there are more things
+under heaven and earth than that. You may wonder "what happens to a transaction
+that isn't yet mined into a block". The answer is slightly complicated! When
+you create a transaction and submit it to the network, it gets broadcast
+through the network until it reaches a miner that mines it into a block.
 
 Transmission through the network and mining all depends on the transaction
-being valid: transaction inputs are valid and haven't been spent, transaction
-signature is valid, transaction fees are appropriate. If enough nodes and the
-miner validate all of this information, the transaction is available to be
-mined into a block.
+being valid: the transaction's inputs are valid and haven't been spent, the
+transaction's signature is valid, and the transaction's fees are appropriate.
+If enough nodes and the miner validate all of this information, the transaction
+is available to be mined into a block. Until that mining happens, the
+transaction is pending.
 
 X<concepts; mempool>
 
@@ -48,9 +49,9 @@ state of the mempool:
 =end screen
 
 Given this information, we know that there are currently 823 transactions in
-the mempool, adding up to 476 thousand bytes in size. This costs the Core 1.458
-thousand bytes of memory, with a maximum memory size allowed of 300 million
-bytes. Finally, the Core estimates no minimum fee to process the
+the mempool, adding up to 476 thousand bytes in size. This costs the Core about
+1.459 thousand bytes of memory, with a maximum memory size allowed of 300
+million bytes. Finally, the Core estimates no minimum fee to process the
 transactionN<Don't rely on this number; use the fee recommendations for
 Dogecoin 1.14.6 instead.>.
 
@@ -60,15 +61,15 @@ when the size changes, let's do something interesting.
 
 =head2 *Turn Mem to Meme
 
-Assume you've used your RPC access mechanism (L<enhance_rpc_calls>) to fetch
-the current mempool size. This gives you a semi-random number you can use in
-other ways.
+Assume you've used your RPC access mechanism (see L<enhance_rpc_calls>) to
+fetch the current mempool size. This gives you a semi-random number you can use
+in other ways.
 
-How do you turn a number into a meme? There are plenty of options, but one easy
-option at the time of this writing is C<imgflip.com>N<See the API at
-U<https://imgflip.com/api>.>. If you fetch the url
-U<https://api.imgflip.com/get_memes>, you get back a JSON data structure with a
-list of memes (actually meme templates, but hold that thought).
+How do you turn a number into a meme? One of the easiest options at the time of
+this writing is C<imgflip.com>N<See the API at U<https://imgflip.com/api>.>. If
+you fetch the url U<https://api.imgflip.com/get_memes>, you get back a JSON
+data structure with a list of memes (actually meme templates, but hold that
+thought).
 
 Given the Dogecoin mempool size and a list of memes, you can use the size as an
 index into the list to pick a meme. In Perl, the code would look something
@@ -99,9 +100,12 @@ like:
 
 =end screen
 
-This code is straightforwardN<Okay, if you understand Perl.>. The first couple
-of lines load two libraries, C<Modern::Perl> to set language defaults and
-C<Mojo::UserAgent> to make web requests.
+X<< Perl libraries; C<Modern::Perl> >>
+X<< Perl libraries; C<Mojo::UserAgent> >>
+
+This code is straightforwardN<Especially if you understand Perl.>. The first
+couple of lines load two libraries, C<Modern::Perl> to set language defaults
+and C<Mojo::UserAgent> to make web requests.
 
 The C<main> function first calls a function to fetch the current mempool size,
 the implementation of which you can find alluded to in other tips.
@@ -111,22 +115,23 @@ requests against it, then access the C<data> and C<memes> members of the
 returned object. See the imgflip API for more details about this data
 structure.
 
-C<@$memes> gets the length of the array of memes returned from the API call.
+C<@$memes> gets the number of items in the array of memes returned from the API
+call.
 
-That leaves one interesting line of code, using Perl's modulus operator
-(L<roll_over_your_odometer>) to reduce the value of C<$tx_count> to a number
+That leaves one interesting line of code, using Perl's modulus operator (see
+L<roll_over_your_odometer>) to reduce the value of C<$tx_count> to a number
 between 0 and the current number of memes returned by the imgflip API. If there
 are 12 memes in the response and 25 transactions in the mempool, the resulting
 value will be C<25 % 12> or C<1>.
 
 Finally, the C<say> line fetches the meme from the array at that index, grabs
 the C<url> of that meme, and prints the URL to standard output. You can do more
-with this if you like; hold that thought.
+with this; customize the output to your own preferences!
 
 =head2 *What Can You Do With This?
 
 There aren't many risks from using this code, as long as you're accessing RPC
-securely (L<authenticate_rpc_securely>). Be cautious accessing any API
+securely (see L<authenticate_rpc_securely>). Be cautious accessing any API
 remotely, however; DNS records could change and someone could send back a
 malicious payload. If you make any outgoing network connection from a machine
 hosting a node, lock down your node very carefully and monitor your system to

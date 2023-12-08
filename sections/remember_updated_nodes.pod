@@ -2,26 +2,26 @@
 
 Z<remember_updated_nodes>
 
-Any node that participates in the Dogecoin network has to adhere to a few
-rules, mostly around behaving well, following network consensus, and
-transmitting good data: basically I<behaving well>. Good nodes also help keep
-the network robust, by transmitting necessary data (block history, pending
-transactions) and enforcing network guidelines (block size, difficulty, fees,
-et cetera).
+Any node that participates in the Dogecoin network has to adhere to a few rules
+about following network consensus, and transmitting good data: basically
+I<behaving well>. Good nodes also help keep the network robust, by transmitting
+necessary data (such as block history and pending transactions) and enforcing
+network guidelines (including block size, difficulty, and fees).
 
 There's no requirement your node has to be a Dogecoin Core node, but if you're
 running a node, you're better off running the latest stable software--and
 you're better off if more and more nodes on the network are doing the same, or
 at least running software with similar rules.
 
-How do you know? How do you do this?
+How do you know what they're running and which nodes are good, whatever good
+means?
 
 =head2 *Peer Into Your Peers
 
 X<< RPC commands; C<getpeerinfo> >>
 
-Fortunately, your core node tracks a lot of data about the peer nodes it's
-connected to, and this is available to you via the C<getpeerinfo> RPC command.
+A Core node tracks a lot of data about the peer nodes it's connected to.  This
+is available via the C<getpeerinfo> RPC command, which returns data including:
 
 =begin screen
 
@@ -39,28 +39,28 @@ connected to, and this is available to you via the C<getpeerinfo> RPC command.
 
 There's a lot more information available, but even with only this much shown,
 you can do interesting things. The C<id> is a unique identifier for the peer.
-C<addr> shows the IP address of the peer, whether IPv4 or IPv6. C<addrlocal>
-shows how the peer connects to your node. C<version> shows the version of the
-protocol in use, and you want to see C<70015> for lots of reasonsN<Reading the
-source code will help, so if that's not something you want to do right now,
-remember to ask someone you trust about it in the future.>. C<subver> shows the
-Core version in use as well as any user comment the peer added
-(L<set_your_node_comment>). Finally, C<startingheight> shows the oldest block
-height the peer has available.
+C<addr> shows the peer's IP address, whether IPv4 or IPv6. C<addrlocal> shows
+how the peer connects to your node (IP address and port). C<version> shows the
+version of the protocol in use, and you want to see C<70015> for lots of
+reasonsN<Reading the source code will help, so if that's not something you want
+to do right now, remember to ask someone you trust about it in the future.>.
+C<subver> shows the Core version in use as well as any user comment the peer
+added (see L<set_your_node_comment>). Finally, C<startingheight> shows the
+oldest block height the peer has available.
 
-What makes a node good? That's up to you to figure out, but one place to start
-is "running the latest software" and "has a lot of blocks available".
+What makes a node good? That's up to you to figure out. One place to start is
+"running the latest software" and "has a lot of blocks available".
 
 =head2 *Filter Good Peers
 
 X<< external programs; C<jq> >>
 
-Let's start with the easy question. Which peers you're currently connected to
-are running the latest Core version? At the time of this writing, 1.14.6 has
-been out for a while, so most peers should have updated by now. The
-C<getpeerinfo> command's output is a big blob of JSON with a list of objects,
-so a little bit of C<jq> work will do. Assuming you've stored the output of
-C<getpeerinfo> into a file named F<peers>, you might write:
+Start with the easy question. Which peers you're currently connected to are
+running the latest Core version? At the time of this writing, 1.14.6 has been
+out for a while, so most peers should have updated by now. The C<getpeerinfo>
+command's output is a big blob of JSON with a list of objects, so a little bit
+of C<jq> work to extract data from JSON data will do. Assuming you've stored
+the output of C<getpeerinfo> into a file named F<peers>, you might write:
 
 =begin screen
 
@@ -70,7 +70,7 @@ C<getpeerinfo> into a file named F<peers>, you might write:
 
 This will give you a list of all of the IP addresses of all of the connected
 peers using the latest stable version of the Core. If you prefer to find nodes
-with more blocks, you can filter on C<startingheight> instead:
+with more blocks, filter on C<startingheight> instead:
 
 =begin screen
 
@@ -79,7 +79,8 @@ with more blocks, you can filter on C<startingheight> instead:
 =end screen
 
 Of course, there may be a lot fewer peers with older blocks than run the newer
-version; storing the entire blockchain takes up some space after all.
+version; storing the entire blockchain takes up some space after all (see
+L<run_a_node>).
 
 =head2 *What Can You Do With This?
 

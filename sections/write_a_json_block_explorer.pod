@@ -3,61 +3,65 @@
 Z<write_a_json_block_explorer>
 
 If a blockchain is just an append-only database shared by multiple machines
-across a network, then any meaning we put onto that chain is a series of models
-we apply to raw data. While that could be said of anything computers do, it's
-an important point to realize when we want human beings to do meaningful things
-with this data.
+across a network, then any meaning anyone put onto the data of that chain is a
+series of models humans apply to raw data. While that could be said of anything
+computers do, it's especially true of blockchains, because a blockchain is just
+a bunch of numbers.
 
 If that's too abstract for you, consider this: we talk about blocks,
 transactions, and addresses not because the blockchain I<requires> that we talk
-about these things but because it helps us figure out what's going on and build
-things for other humans to use.
+about these things but because it helps us humans figure out what's going on
+and build things for other humans to use.
 
 X<block explorer>
 
 A piece of software called a I<block explorer> can turn that semi-structured
-data from a blockchain into data that machines can more easily understand (even
-if they don't understand the blockchain protocols) and that humans can process.
-After all, even though a transaction is just a blob of hexadecimal code, it's
-easier to figure out when you can see where the inputs came from and where the
-outputs go.
+data from a blockchain into data that machines can more easily process (even if
+they don't understand the blockchain protocols)--and also data that humans can
+understand. After all, even though a transaction is just a blob of hexadecimal
+code, it's easier to figure out when you can see where the inputs came from and
+where the outputs go.
 
-Multiple services exist to provide this data via API calls. Some let you use
-their data for free. Others cost money. The drawback in all cases is that you
-have to trust someone else for this data. Could you tell if they're subtly
-wrong? What if they cut you off? What if the service goes away?
+At its core, a block explorer reads data about blocks, transactions, and
+addresses and presents this in a meaningful way to other machines or human
+beings. That's it.
 
-Those risks might be worth taking, but you don't have to take them.
+Multiple services provide this data via API calls. Some let you use their data
+for free. Others cost money. The drawback in all cases is that you have to
+trust someone else for this data. Could you tell if they're subtly wrong? What
+if they cut you off? What if the service goes away? What if they sell your
+data?
+
+Those risks might be worth taking, but you don't have to take them. You can
+control your own data.
 
 =head2 *Write Your Own Block Explorer
 
-What does a block explorer do, anyway? At its core, it reads data about blocks,
-transactions, and addresses and presents this in a meaningful way to other
-machines or human beings. That's it.
-
 Let's focus on transactions and addresses to demonstrate this possibility.
-Other tips (see L<enhance_rpc_calls>) suggest that we can already lay this
-foundation by creating, using, or re-using a wrapper around core RPC calls, so
-let's think about this for a moment.
+Dogecoin Core's RPC mechanism (see L<enhance_rpc_calls>) provides a way to get
+this data, and creating, using, or re-using a wrapper around core RPC calls can
+make this task easier.
 
-One block explorer, C<blockchain.info> had an API pattern where you could get
-JSON data for transactions by visiting C<https://blockchain.info/rawtx/...> and
-for addresses at C<https://blockchain.info/rawaddr/...>. The former includes
-things like the number of confirmations, block height, time, and inputs and
-outputs. The latter includes unspent amounts and all transactions with outputs
-to the address.
+A public block explorer, C<blockchain.info> used to have a useful API pattern
+where you could get JSON data for transactions by visiting
+C<https://blockchain.info/rawtx/...> and for addresses at
+C<https://blockchain.info/rawaddr/...>. The former includes things like the
+number of confirmations, block height, time, and inputs and outputs. The latter
+includes unspent amounts and all transactions with outputs to the address.
 
 Let's start with transactions.
 
 =head3 *Serving Transaction JSON
 
 X<< Perl libraries; C<Finance::Dogecoin::Utils::NodeRPC> >>
+X<< Perl libraries; C<Mojolicious> >>
 
-If we use the existing URL pattern, we know what this API has to do; provide a
-transaction hash and then produce the results. I'm building on the Perl
-C<Finance::Dogecoin::Utils::NodeRPC> code described in another tip, so I'll use
-the excellent Perl web framework MojoliciousN<See U<https://mojolicious.org/>
-for more details.> in its lightweight version.
+The API URL pattern makes it easy to know what this API has to do: provide a
+transaction hash and then produce the results. To continue the idea of RPC
+wrapper, let's reuse the C<Finance::Dogecoin::Utils::NodeRPC> code described
+elsewhere and combine it with the excellent Perl web framework MojoliciousN<See
+U<https://mojolicious.org/> for more details.> in its lightweight version. You
+can use whatever code you want, of course.
 
 The interesting part of the API looks like this:
 
@@ -65,7 +69,8 @@ The interesting part of the API looks like this:
 
     get '/rawtx/:txhash' => sub ($c) {
         my $txhash = $c->param('txhash');
-        my $txdata = $c->node_rpc->call_method( getrawtransaction => $txhash, 1 )->{result};
+        my $txdata = $c->node_rpc->
+            call_method( getrawtransaction => $txhash, 1 )->{result};
 
         $c->render( json => $txdata );
     };
@@ -97,7 +102,8 @@ transaction ourselves:
         my $rpc    = $c->node_rpc;
         my $txhash = $c->param('txhash');
         my $raw_tx = $rpc->call_method( gettransaction => $txhash )->{result};
-        my $txdata = $rpc->call_method( decoderawtransaction => $raw_tx->{hex} )->{result};
+        my $txdata = $rpc->
+            call_method( decoderawtransaction => $raw_tx->{hex} )->{result};
 
         $c->render( json => $txdata );
     };
@@ -118,13 +124,13 @@ transaction's hash to its full data.
 
 X<< RPC commands; C<listreceivedbyaddress> >>
 
-Serving an address is similar, in address information is available through RPC
-commands but they don't necessarily make it easy. The C<listreceivedbyaddress>
-command returns a list of all addresses the wallet knows about and their
-current unspent balances as well as all transactions for which the address was
-an output. Unlike transaction data, it's not as easy to get at I<any> arbitrary
-address, but it's still instructive to see what it takes to serve only wallet
-addresses the Core node knows about.
+Serving an address is similar, in that address information is available through
+RPC commands but they don't necessarily make it easy. The
+C<listreceivedbyaddress> command returns a list of all addresses the wallet
+knows about and their current unspent balances as well as all transactions for
+which the address was an output. Unlike transaction data, it's not as easy to
+get at I<any> arbitrary address, but it's still instructive to see what it
+takes to serve only wallet addresses the Core node knows about.
 
 =begin programlisting
 
@@ -156,19 +162,20 @@ addresses the Core node knows about.
 
 =end programlisting
 
-There's more code here, but it really comes down to two things. Step one, find
-the information for the currently requested address in the data returned from
-C<listreceivedbyaddress>. Step two, loop through all of the transaction IDs for
-that address and get the full transaction information, just as the previous
+While there's more code here, it down only two things. One, find the
+information for the currently requested address in the data returned from
+C<listreceivedbyaddress>. Two, loop through all of the transaction IDs for that
+address and get the full transaction information, just as the previous
 transaction-handling route did.
 
 Again, this isn't a full general-purpose block explorer because of the address
-limitation, but that can be solved with some clever thinkingN<Hint: watch-only
-addresses would work.>.
+limitation, but that can be solved with some clever thinking (hint: see
+L<watch_wallet_addresses>).
 
 =head3 *The Rest of the Code
 
-Unless you're a Mojolicious developer, you probably need the rest of the code. It looks like this:
+Unless you're a Mojolicious developer, you probably need the rest of the code.
+It looks like this:
 
 =begin programlisting
 
@@ -207,10 +214,10 @@ Unless you're a Mojolicious developer, you probably need the rest of the code. I
 =end programlisting
 
 Most of this is helper code to allow you to use the authorization file set up
-in L<enhance_rpc_calls> and to create the RPC object. Pay close attention to
-the use of the C<DOGEUTILS_USER> environment variable (see
-L<authenticate_rpc_securely>) to provide the name of a user for the RPC
-commands.
+for the RPC proxy (again, see L<enhance_rpc_calls>) and to create the RPC
+object. Pay close attention to the use of the C<DOGEUTILS_USER> environment
+variable (see L<authenticate_rpc_securely>) to provide the name of a user for
+the RPC commands.
 
 Run this code with:
 
@@ -226,8 +233,9 @@ making these raw transaction/address calls.
 =head2 *Understand the Risks
 
 What's risky here? If you don't go further and figure out how to index all
-addresses, anyone who can make JSON HTTP requests against this server can
-figure out which addresses belong to the wallet associated with the Core node.
+addresses I<or> add some kind of HTTP authorization, anyone who can make JSON
+HTTP requests against this server can figure out which addresses belong to the
+wallet associated with the Core node.
 
 Furthermore, for this to work at all, you have to have a wallet associated with
 the Core node, so make sure you protect that wallet to every extent possible.
@@ -239,11 +247,10 @@ damage is slightly less.
 =begin tip I'm Asking Again, Why Perl?
 
 You can do this in any language you like, and it's important to have multiple
-implementations in multiple languages, so I chose something that was fast for
-me to write, entirely under my control, and not so popular that people would be
-intimidated to reimplement it in their own favorite languages. If I assumed
-everyone knew and wanted to use Python or Node, you wouldn't be reading this
-tip and thinking "Hm, maybe I should rewrite this in something I like better."
+implementations in multiple languages, so your author chose something that was
+fast for me to write, entirely under my control, and not so popular or complex
+that people would be intimidated to reimplement it in their own favorite
+languages.
 
 =end tip
 
@@ -275,5 +282,5 @@ None of this code is so complex you couldn't port it to another language;
 deploying an all-in-one binary with Golang or Rust could make a trivial but
 useful addition to a node you run in the cloud or on a network you control
 somewhere. The important thing is that this data is entirely under your
-control, with no access limits, API permissions, or waiting to add or change
-features.
+control, with no access limits, API permissions, or waiting on someone else to
+add or change features.

@@ -15,9 +15,14 @@ the book talk about controlling physical devices (all of L<chapter_dogecade>
 and L<control_your_jukebox>), you can do other things as well, such as sending
 yourself a notification on your phone or publishing a message to a chat room.
 
-Let's start with Discord.
-
 =head2 *Inside a Webhook
+
+Let's start with Discord, a chat service which allows you to create servers and
+channels for friends, communities, and more. It has a couple of good Dogecoin
+and Dogecoin-related servers, such as the Dogecoin Discord serverN<See
+U<https://discord.gg/dogecoin>.>.
+
+X<concepts; webhook>
 
 Many online services provide a feature called a I<webhook>, which is a way to
 send specifically-formatted data to a URL to perform some action on your
@@ -30,23 +35,21 @@ pre-authorized credentials to perform an action on your behalf.
 
 =head2 *Inside a Discord Webhook
 
-Discord is a chat service which allows you to create servers and channels for
-friends, communities, and more. It has a couple of good Dogecoin and
-Dogecoin-related servers, such as the Dogecoin Discord serverN<See
-U<https://discord.gg/dogecoin>.>. Equally as important, it supports webhooks
+You've probably already guessed that Discord supports webhooks
 without much configuration I<and> it has a good introduction to webhooksN<See
 U<https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks>>
 to help you create and configure your own.
 
-For this to work, you need your own Discord account and access to a server or
+To use this tip, you need your own Discord account and access to a server or
 channel. You can follow along with this tip with a different type of service
 for which you have similar access, though the details will be different.
 
 After you've worked through the creation process and have a Discord webhook,
-you'll have a URL which looks something like
-C<< https://discord.com/api/webhooks/<number>/<string> >>. Keep that safe and
+you'll have a URL which looks something like C<<
+https://discord.com/api/webhooks/<number>/<string> >>. Keep that safe and
 secret; it's your key to sending messages to the webhook you configured. Anyone
-who has that URL can send messages to your Discord server/channel.
+who has that URL can send messages to your Discord server/channel. You probably
+don't want that to happen.
 
 =head2 *Activating Your Webhook
 
@@ -54,7 +57,9 @@ Every webhook is a little bit different. A Discord or Slack or other messaging
 webhook will have a different format than a webhook for a deployment or testing
 service. While Discord lets you format messages with plenty of complexity and
 formatting, the simplest way to send a message is to use an HTTP POST request
-with a JSON body, with two keys: C<content> and C<username>:
+with a JSON body, with two keys, C<content> and C<username>:
+
+X<< external programs; C<curl> >>
 
 =begin screen
 
@@ -69,11 +74,13 @@ appropriate channel in your server.
 
 =head2 *Putting it All Together
 
-Now that you've configured and tested a webhook, you can do something
-interesting with it: maybe send a message each time you receive a transaction,
-share details about every new block that comes in, or something else. For
-example, here's code to send a message to your secret channel every time your
-Core receives a wallet transaction (see L<act_on_wallet_transactions>):
+Now that you've configured and tested a webhook, you can do something more
+interesting: maybe send a message each time you receive a transaction, share
+details about every new block that comes in, or something else. For example,
+here's code to send a message to your secret channel every time your Core
+receives a wallet transaction (see L<act_on_wallet_transactions>):
+
+X<< external programs; C<jq> >>
 
 =begin screen
 

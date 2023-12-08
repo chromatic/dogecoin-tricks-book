@@ -3,20 +3,22 @@
 Z<add_wallet_address_to_dns>
 
 If you have a website, like U<https://ifdogethenwow.com/>, how can people find
-you and send you a tip or a payment for something awesome you've done?
+you and send you a tip or a payment for something awesome you've done? You need
+some way to associate a Dogecoin address with an Internet property.
 
-You need some way to associate a Dogecoin address with an Internet property.
+X<concepts; DNS>
 
 Fortunately, the Internet already has a well-understood mechanism to add this
 kind of metadata to a domain name. It's the same way any device can turn that
 domain name into an IP address or addresses to look up a web page, send email,
-make an SSH connection, or do other things.
+make an SSH connection, or do other things: DNS, the domain name system.
+
+X<people; Timothy Stebbing>
 
 At the inagural Dogecoin
 hackathonN<U<https://foundation.dogecoin.com/announcements/2022-09-08-dogeathon-downunder/>>,
-Timothy Stebbing showed off this idea.
-
-Here's how to make it work.
+Timothy Stebbing showed off this ideaN<... and, inadvertently, kicked off the
+writing of this book. Thanks, Timothy!>.
 
 =head2 *How to Add a TXT Record
 
@@ -24,9 +26,10 @@ X<domain name>
 X<domain name; TXT record>
 X<domain name; DNS>
 
-First, generate a new, unique Dogecoin address. Use the Dogecoin Core,
-C<libdogecoin>, or a non-custodial wallet you trust. Keep the private key safe,
-as always.
+Assume you have a website. How do you allow people to send you tips? First,
+generate a new, unique Dogecoin address (see L<replenish_your_address_pool>,
+for example). Use the Dogecoin Core, C<libdogecoin>, or a non-custodial wallet
+you trust. Keep the private key safe, as always.
 
 Second, take a domain name you control. Maybe that's C<mycoolsite.example> or
 something else. You've registered this through a domain registrar, and you have
@@ -40,41 +43,39 @@ website, email, or other network services associated with that domain.
 
 =end tip
 
-Now go into your DNS configuration and add a `TXT` record. This is an arbitrary
+Go into your DNS configuration and add a `TXT` record. This is an arbitrary
 text string associated with your domain name and propagated through the
-globally-accessible, cached DNS system.
+globally-accessible, cached DNS system. For now, stick with the defaults of
+I<which> DNS entry, TTL settings, et cetera.
 
-For now, stick with the defaults of I<which> DNS entry, TTL settings, et
-cetera.
+X<BIPs; BIP-21>
 
 The contents of this new record should be the literal string `dogecoin:` (yes,
 include the colon) plus the new wallet address you generated, with no spaces in
-between. This conforms to BIP
-21N<U<https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki>>, so
-other applications can use this. Hold onto that thought.
+between. This conforms to BIP-21N<See
+U<https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki>>, so other
+applications can use this. Hold onto that thought.
 
-Save the configuration and publish it and you're good to go.
+Save the configuration and publish it. In a few minutes, when your DNS changes
+propagate to the rest of the Internet, you'll be ready to go. Anyone will be
+able to look up your domain name, find this new record, and do something with
+this wallet address.
 
 =begin tip Specific DNS Configuration Details See... Elsewhere
 
 Looking for a visual explanation of how to do this? The process varies
 depending on your domain registrar and DNS host. Again, this has the potential
-to render your domain I<temporarily> unusable, so this tip won't go into much
-more detail.
-
-This might change in the future.
+to render your domain I<temporarily> unusable, so be cautious, read the
+documentation, and ask for help if you need it.
 
 =end tip
-
-When this change makes its way through DNS, anyone will be able to look up your
-domain name, find this new record, and do something with this wallet address.
 
 =head2 *Understand the Risks
 
 At this point in the book, you should be a little bit wary of the words
 I<anyone> and I<something>, because publishing an address like this means
-anyone can do I<anything> with both the address and the knowledge the address
-is associated with the domain name.
+anyone can do I<anything> with both the address and the knowledge that the
+address is associated with the domain name.
 
 X<< external programs; C<whois> >>
 
@@ -82,7 +83,8 @@ DNS entries often contain contact information for the person managing the
 domain. While many registrars allow domain security and privacy to hide your
 personal information, some don't. Before you add this record, check your DNS
 settings with a DNS lookup tool like the C<whois> command-line tool or a
-reputable website.
+reputable website. If you see your name, address, phone number, and email
+address available, then so do other people.
 
 You I<can> of course add this record even if you have contact information
 recorded, but be mindful of the fact that any transaction to and from this
@@ -90,7 +92,8 @@ address can be associated with the domain contact permanently.
 
 You should also be aware that DNS as originally designed has potential security
 flaws, including spoofing. If you're concerned about this potential flaw, make
-sure you've configured DNSSEC correctly.
+sure you've configured DNSSEC correctly. Otherwise, someone could pretend to be
+you, change this DNS information, and swap their Dogecoin address for yours.
 
 Finally, if you fail to renew your domain or someone snatches it up out from
 under you, they can swap their address for yours in their configuration, in the
@@ -105,19 +108,18 @@ integrations it enables.
 
 Imagine a web browser extension that could show you a Dogecoin tip address
 whenever you visited, if the site owner had one configured. If you like the
-site, throw a few Doge their way, right from your browser or device.
+site, throw a few Doge their way, right from your browser or mobile device.
 
 Or imagine we repurposed this record to point to a text file or structured data
 file on the server, served over HTTPS, that gave access information, purchase
 data, or other suggestions, like "If you send 10 Doge to this address, you'll
-get 24 hours of access" for a news site or something.
+get 24 hours of access" for a news or other subscription site.
 
 Consider also an alternate approach. C<ifdogethenwow.com> has, as of this
 writing, the main domain and a well-knownN<Okay okay, hear me out though!>
 subdomain of C<blog.ifdogethenwow.com>. Any and every subdomain could have its
-own TXT record with a unique wallet address.
-
-An enterprising shibe could start a site called C<shibetips.whatever> and, for
-a small fee or out of the goodness of their hearts, allow users I<optionally>
-to associate an address with a subdomain. As always, keep in mind the security
-and privacy implications, but think of the possibilities.
+own TXT record with a unique wallet address. An enterprising shibe could start
+a site called C<shibetips.whatever> and, for a small fee or out of the goodness
+of their hearts, allow users I<optionally> to associate an address with a
+subdomain. As always, keep in mind the security and privacy implications, but
+think of the possibilities.
