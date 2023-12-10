@@ -6,30 +6,30 @@ X<< Dogecoin Core; C<dogecoind> >>
 X<< Dogecoin Core; C<dogecoin-qt> >>
 
 Whether you're running the Core daemon C<dogecoind> or the Qt GUI
-C<dogecoin-qt>, if you allow RPC access, you give up some degree of security
-and isolation in return for getting data from and potentially changing data in
-your Core node. This is a tradeoff. It's often worth it, I<if> you manage the
-security implications carefully.
+C<dogecoin-qt> (see L<understand_core_programs>), if you allow RPC access, you
+give up some degree of security and isolation in return for getting data from
+and potentially changing data in your Core node. This is a tradeoff. It's often
+worth it, I<if> you manage the security implications carefully.
 
-Requiring authentication to access your node's RPC server is a good step
-(L<authenticate_rpc_securely>); it's not the only step. You can restrict which machines
-can access your RPC node in multiple ways.
+Requiring authentication to access your node's RPC server is essential (see
+L<authenticate_rpc_securely>), but it's not the only step. You can restrict
+which machines can access your RPC node in multiple ways.
 
 =head2 *Do-Nothing Security
 
 By default, a Core node allows RPC requests only from the machine it's running
 on. If you do nothing, set no configuration, make no changes, your node will
-only take requests from processes running on your own machine, assuming that
-there are no bugs or exploits in effect in your machine's networking code. This
-is pretty good security.
+take requests only from processes running on your own machine. This is pretty
+good security.
 
 X<< external programs; C<netstat> >>
 
-Of course this only applies if you're running the Dogecoin Core software;
-anything else you should inspect the code yourself (or ask someone you trust to
-do so) and verify the results. For example, on a Linux machine you could run
-the C<netstat> utility to list all of the programs listening for network
-connections:
+This only applies if you're running the Dogecoin Core software and if there are
+no bugs or exploits in your machine or network that give anyone else access to
+your system. Any other Dogecoin software you should inspect the code yourself
+(or ask someone you trust to do so) and verify the results. For example, on a
+Linux machine you could run the C<netstat> utility to list all of the programs
+listening for network connections:
 
 =begin screen
 
@@ -49,10 +49,11 @@ that the Qt GUI is running and listening on both the IPv4 C<localhost> and IPv6
 C<ip6-localhost> interfaces for port 22555. Port 22556 is listening on all
 interfaces (C<0.0.0.0> for IPv4 and C<[::]> for IPv6).
 
-Port 22555 is the default RPC port, so this is exactly what we want to seeN<A
-malicious binary I<could> fork off of the Qt process, bind to a different port,
-and change its process name so it won't appear in the list, so look at the
-I<full> C<netstat> output before you consider yourself completely safe.>.
+Port 22555 is the default RPC port, so this is exactly what we want to see.
+Remember, however, that a malicious binary I<could> fork off of the Qt process,
+bind to a different port, and change its process name so it won't appear in the
+list, so look at the I<full> C<netstat> output before you consider yourself
+completely safe.
 
 X<< configuration options; C<debug> >>
 
@@ -62,14 +63,15 @@ addresses it binds to for RPC commands. This will add information to your file
 F<debug.log> in your default Dogecoin directory. It can create a I<lot> of
 output, depending how busy your node is, so it may be worth using only while
 you're testing things. Alternately, your author filed Dogecoin Core issue
-3216N<See U<https://github.com/dogecoin/dogecoin/issues/3216>.> to discuss
-improving this situation.
+3216N<See U<https://github.com/dogecoin/dogecoin/issues/3216>, fixed in
+U<https://github.com/dogecoin/dogecoin/pull/3217>.> to discuss improving this
+situation.
 
 =head2 *Binding to Specific Interfaces and/or Hosts and/or Ports
 
 Of course, if you I<want> to run your Core node on a machine on a network
-I<and> access RPC from somewhere else, you have other options. Again, security
-is a tradeoff.
+I<and> access RPC from somewhere else, you have to make some security
+tradeoffs.
 
 X<< configuration options; C<rpcbind> >>
 
@@ -92,11 +94,11 @@ work.
 
 X<< configuration options; C<rpcallowip> >>
 
-You can add multiple C<rpcbind> options if you want to listen on multiple
-network addresses. Mixing and matching IPv4 and IPv6 works here as well. Of
-course, if managing a long list of listen addresses is complicated, or you have
-other hosts on that network you don't trust fully, you can use C<rpcallowip> to
-tell the Core to accept only traffic from IP addresses which match the
+Add multiple C<rpcbind> options if to listen on multiple network addresses.
+Mixing and matching IPv4 and IPv6 works here as well. When it becomes too
+complicated to manage a long list of listen addresses, or if you have other
+hosts on that network you don't trust fully, you can use C<rpcallowip> to tell
+the Core to accept only traffic from IP addresses which match the
 configuration. For example, if you trust only one machine:
 
 =begin screen
@@ -106,21 +108,20 @@ configuration. For example, if you trust only one machine:
 
 =end screen
 
-You can also use netmasks or CIDR to specify a range of machines. Be cautious
-doing so unless you're certain you control which machines can and cannot
-somehow gain these IP addresses on your network.
+You can also use netmasks or CIDR notation to specify a range of machines. Be
+cautious doing so unless you're certain you control which machines can and
+cannot somehow gain these IP addresses on your network.
 
 X<< configuration options; C<rpcport> >>
 
 X<obscure references; 912>
 X<obscure references; Stonecutters>
 
-Finally, if you want to add a little obscurity to your network (or you have
-routing concerns that make certain ports unreliable or unusable), you can use
-the C<rpcport> option to ask the Core to listen on a port other than
-22555N<While it's tempting to use the Stonecutter's secret emergency number,
-912 is less than 1024, so you need C<root> privileges. Don't run your Core as
-root.>.
+Finally, if you want to add obscurity to your network (or you have routing
+concerns that make certain ports unreliable or unusable), use the C<rpcport>
+option to ask the Core to listen on a port other than 22555N<While it's
+tempting to use the Stonecutter's secret emergency number, 912 is less than
+1024, so you need C<root> privileges. Don't run your Core as root.>.
 
 =begin screen
 
@@ -131,21 +132,24 @@ root.>.
 =end screen
 
 Now anyone probing at your network for an open Dogecoin Core RPC port will have
-to do a very small extra amount of work to figure out what's going on.
+to do a very small extra amount of work to figure out what's going on. This is
+not sufficient security on its own, but it can enhance your security if you've
+already taken other steps.
 
 =head2 *Understand the Risks
 
-Closing off network access is important and good. By default, if you make no
+Restricting network access is important and good. By default, if you make no
 configuration changes, your node will have good security, at the expense of
-usability. Consider well how much access you need and whether there are other
-ways to make this information available.
+usability. Consider how much access you need and whether there are other ways
+to make this information available.
 
-X<< external programs; C<telnet> >>
+X<< external programs; C<curl> >>
+X<< external programs; C<nc> >>
 
 If you do make changes to restrict network access, test and verify them
 thoroughly, not just by examining listening ports but by testing access to your
-node. You can do this with a program such as C<telnet>, C<dogecoin-cli>, or any
-other utility.
+node. Use a program such as C<curl>, C<nc>, C<dogecoin-cli>, or any other
+utility.
 
 Remember also that configuration options I<change> default behavior. If you
 assume that your configuration is always set in a F<dogecoin.conf> file and

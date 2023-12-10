@@ -6,18 +6,23 @@ A running Dogecoin node holds a lot of information. If you ask it nicely, it
 can give you this information: what's in your wallet, what happened in a given
 block, the current difficulty, the contents of the mempool, and more.
 
-If you read "your wallet" and think "Wait, I don't want just anyone to have
-access to my wallet", that's good. You probably don't. That means you need to
-restrict access to your node. Fortunately, the Dogecoin Core has a way to
-ensure that only the people who are supposed to connect to a node can do so.
-All you have to do is configure it securely.
+When you read the phrase "your wallet", think about what your wallet
+represents: not just your keys, but the transactions you've made. Who paid you?
+Who did you pay? When did this happen? If you think "Wait, I don't want just
+anyone to that information", that's good. You probably don't.
+
+Securing your wallet and your node keeps your coins I<and> your privacy safe.
+That means you need to restrict access to your node. Fortunately, the Dogecoin
+Core has a way to ensure that only the people who are supposed to connect to a
+node can do so. All you have to do is configure it securely.
 
 =head2 *Understanding Secure Authentication
 
 X<RPC; authentication>
 
-To authenticate to a Core node--for example, to ask it for information or to do
-things on your behalf--you need to prove your identity in two ways:
+To connect to a Core node security--for example, to ask it for information or
+to do things on your behalf--you need to authenticate, or prove your identity,
+in two ways:
 
 =over 4
 
@@ -27,16 +32,16 @@ things on your behalf--you need to prove your identity in two ways:
 
 =back
 
-As you can imagine, the straightforward approach is to give the node a list of
-authorized users and some way of confirming the identity of those users. In
-other words, if the server knows about C<ralph>, C<nelson>, and C<milhouse> and
-someone tries to connect as C<jimbo>, the node can easily deny that connection.
+The straightforward approach is to give the node a list of authorized users and
+some way of confirming the identity of those users. In other words, if the
+server knows about C<ralph>, C<nelson>, and C<milhouse> and someone tries to
+connect as C<jimbo>, the node can easily deny that connection.
 
-Of course, if Jimbo gets smart and tries to connect as C<milhouse>, the node
-also needs to check that Jimbo has permission as C<milhouse>--by using
-C<milhouse>'s password. If Jimbo tries C<bartrules>, C<imissmymom>, and
-C<pantsme>, he'll have trouble. If he manages to guess C<thrillho>N<See
-U<https://www.youtube.com/watch?v=nbbKsAZatao>.>, he's in.
+If Jimbo gets smart and tries to connect as C<milhouse>, the node also needs to
+check that Jimbo has permission to connect as C<milhouse>. He can "prove" this
+by providing C<milhouse>'s password. If Jimbo tries C<bartrules>,
+C<imissmymom>, and C<pantsme>, he'll have trouble. If he manages to guess
+C<thrillho>N<See U<https://www.youtube.com/watch?v=nbbKsAZatao>.>, he's in.
 
 For this approach to work, the Core has to know about usernames and passwords.
 
@@ -65,10 +70,10 @@ If you have the Python programming language, run this program like:
 
 =end screen
 
-This program generates a random password for you and a string you can add to
-your configuration file. Keep those lines handy. First, grab the line starting
-with C<rpcauth> and add it to your F<dogecoin.conf> file, then save the file.
-Start or restart your node.
+This program generates a random password for you to remember and a string you
+can add to your configuration file. Keep those two items separate but close.
+First, grab the line starting with C<rpcauth> and add it to your
+F<dogecoin.conf> file, then save the file. Start or restart your node.
 
 Second, take the password and store it somewhere else, securely. Don't write it
 on your hand; that's what Milhouse did and that's how Jimbo impersonated him.
@@ -78,10 +83,10 @@ on your hand; that's what Milhouse did and that's how Jimbo impersonated him.
 You could, of course, modify the code to provide your own password, but the
 random value you get here is going to be difficult to guess. Bitcoin has an
 updated version of this code (at least newer than the version in Dogecoin Core
-1.14.6), so look in their repository for a file named F<rpcauth.py> for more
-options when generating passwords. In particular, the Bitcoin utility uses more
-entropy (see L<embrace_entropy>) when generating random passwords--giving you
-more security.
+1.14.6; version 1.14.7 may update this code), so look in their repository for a
+file named F<rpcauth.py> for more options when generating passwords. In
+particular, the Bitcoin utility uses more entropy (see L<embrace_entropy>) when
+generating random passwords--giving you more security.
 
 =end tip
 
@@ -89,10 +94,11 @@ X<< external programs; C<curl> >>
 X<< RPC commands; C<getdifficulty> >>
 
 When your node starts, test your authentication by connecting with your
-preferred RPC mechanism. The C<curl> binary, because it has nothing to do with
-Dogecoin or any other cryptocurrency, so if it works, you can be confident that
-you have configured things correctly. The C<getdifficulty> RPC command is a
-good test for connectivity.
+preferred RPC mechanism and issuing a command. The C<getdifficulty> RPC command
+is a good test for connectivity. The C<curl> binary is a good client to use,
+because it has nothing to do with Dogecoin or any other cryptocurrency. If a
+request like this works, you can be confident that you have configured things
+correctly:
 
 =begin screen
 
@@ -108,37 +114,38 @@ good test for connectivity.
 
 =end screen
 
-If you get the authentication wrong, you'll instead receive error output.
+This example assumes you're running C<curl> on the same machine as your Code
+node. Change the IP address (here, C<127.0.0.1>) if not. If you get the
+authentication wrong, you'll instead receive error output.
 
 =head3 *How Does This Work?
 
-If you run the Python code again, you'll get a different result, both the
-password you use and the string you need to add to your configuration file. The
-code picks random values for you, with the password it provides and the salted
+Run the Python code again and you'll see different results: both the password
+you use and the string you need to add to your configuration file. The code
+picks random values for you, with the password it provides and the salted
 value.
 
 Why does this work?
 
 Neither the configuration file nor the Core store or know your password. The
 information you add with the C<rpcauth> line is two things: a random salt and
-the hashed value of the combination of the salt and your password.
+the I<hashed> value of the combination of the salt and your password (see
+L<make_a_hash_of_fingerprints>).
 
 To prove that you're C<lisa> or C<milhouse> or C<nelson> or anyone else the
 node knows about, you have to provide your username and your password. When the
 node receives both values, it finds the relevant auth line for your username,
 splits the rest of the line into the salt and hash, then hashes your password
-with the salt and checks the results against the value you added to your
-configuration file.
+with the salt and checks the results against the configuration value.
 
 Then (importantly) it throws away the password because it knows who you are.
 
 =begin tip Salt is Healthy in Moderation
 
-You may hear about an alternate authentication approach where you add
-username/password pairs to your F<dogecoin.conf> file directly. Beware of this;
-it's much less secure than the approach described here. If someone were to read
-the contents of your configuration file, they would be able to read your
-passwords.
+An alternate authentication approach lets you add username/password pairs to
+your F<dogecoin.conf> file directly. Beware of this; it's much less secure than
+the approach described here. If someone were to read the contents of your
+configuration file, they would be able to read your passwords.
 
 With this salted approach, you still want to keep your configuration file safe,
 but an attacker will have much more difficulty figuring out your password.
@@ -151,7 +158,7 @@ attacker could try a bunch of potential passwords with the same salt to find
 something that lets them in. By using a different random salt for every user,
 attackers have to do a lot more work.
 
-Of course, changing your password (and salt) every now and then is healthy, as
+As well, changing your password (and salt) every now and then is healthy, as
 long as you don't change it so frequently that you have to keep writing it on
 your hand.
 
@@ -169,12 +176,12 @@ If you I<do> need a wallet, use layers of security such as a good firewall,
 binding your node only to trusted network interfaces, et cetera.
 
 Please also note that there's no reason you have to run the Python code on the
-same computer as where you're running your node. In fact, it's safer if you
-don't.  That way your password and the salted, hashed password aren't on the
-node at all, so they're not both available to attackers.
+same computer as where you're running your node. It's safer if you don't. That
+way your password and the salted, hashed password aren't on the node at all, so
+they're not both available to attackers.
 
 If you need to store your password somewhere, for example with an automated
 process, be sure to store it securely in a way that it's not also exposed to
 attackers. This is the weakest part of the entire security model, so if you're
-going to keep it in plain text in a file on your server in the cloud somewhere,
-realize what you've exposed yourself to.
+going to keep it in a file on your server in the cloud somewhere, realize what
+you've exposed yourself to.

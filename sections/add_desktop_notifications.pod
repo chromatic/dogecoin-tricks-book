@@ -3,13 +3,13 @@
 Z<add_desktop_notifications>
 
 Now that you know how to do things when the Dogecoin network accepts new blocks
-(L<take_actions_on_new_blocks>), it's time to get creative. You could go the
-Internet of Things route and turn on a lava lamp, play a trumpet salute through
-the office speakers, or flash a message on the electronic reader board outside
-your schoolN<Get permission before doing any of these things, of course!>.
+(see L<take_actions_on_new_blocks>), it's time to get creative. You could go
+the Internet of Things route and turn on a lava lamp, play a trumpet salute
+through the office speakers, or flash a message on the electronic reader board
+outside your schoolN<Please get permission before doing any of these things!>.
 
-Let's start with something simple. Let's pop up a desktop notification on
-Linux, Windows, or Mac OS X with interesting data you can get for each block.
+Let's start with something simple: pop up a desktop notification on Linux,
+Windows, or Mac OS X with interesting data about each new block.
 
 =head2 *A Simple Desktop Notification for Block Difficulty
 
@@ -21,16 +21,16 @@ miners have more power on the network, the difficulty will increase. If fewer
 miners are running (they have solar power and it's cloudy), the difficulty will
 decrease. This variable difficulty is an attempt to keep the amount of time it
 takes to mine a block to about a minute no matter how much or little mining
-capacity is working.
+capacity is available.
 
-If you're a miner, this is interesting because mining difficulty and hashrate affects
-the likelihood that you will mine any single block.
+If you're a miner, this is interesting because mining difficulty and hashrate
+affects the likelihood that you will mine any single block.
 
 If you're not a miner, it's an interesting number to track to gauge what's
 going on in the network. It's also easy but not trivial to get from a Core
 node, which makes it a good example.
 
-Let's think about what we want to happen. In simple terms:
+Think about how this will work. In simple terms:
 
 =over 4
 
@@ -42,7 +42,7 @@ Let's think about what we want to happen. In simple terms:
 
 =back
 
-We already know the first part. It's time for some code.
+The first part is easy. Now comes some code.
 
 =head3 *Display Latest Block Difficulty Notifications
 
@@ -50,14 +50,12 @@ X<< C<getdifficulty> >>
 X<< RPC commands; C<getdifficulty> >>
 
 What does this code need to do? The Core will launch it every time a new block
-gets mined.  It needs to receive a single argument: the height of that block.
+gets mined. It needs to receive a single argument: the height of that block.
 
-To get the difficulty of the new block, we can use the RPC call
-C<getdifficulty>. This call takes no arguments and returns the current
-difficulty.
-
-That's also easy enough; we know how to make RPC calls and get the results. All
-that's left is popping up a desktop notification.
+Use the C<getdifficulty> RPC call to get the difficulty of the new block. This
+call takes no arguments and returns the current difficulty. That's also easy
+enough; it's an RPC call like anything else. All that's left is popping up a
+desktop notification.
 
 =begin figure Dogecoin Difficulty Desktop Notification
 
@@ -74,7 +72,7 @@ the details. You can provide it a title for the notification, text for the
 notification, and even an icon. The result looks like
 L<figure-dogecoin-difficulty-desktop-notification>.
 
-That's the concept, at least. What does the code look like?
+What does the code look like?
 
 =begin programlisting
 
@@ -96,18 +94,19 @@ That's the concept, at least. What does the code look like?
 
 That's not so bad, but there's a little bit going on behind the scenes.
 
-The C<HEIGHT> assignment gives a readable name to the one parameter this
-script gets, obviously the height of the freshly-mined block.
+The C<HEIGHT> assignment gives a readable name to the one parameter this script
+gets, the height of the freshly-mined block.
 
 The C<DIFFICULTY_RAW> assignment uses the C<dogecoin-cli> utility to make the
 C<getdifficulty> RPC call. Using the CLI program directly does two things:
 avoid having to deal with authentication for a call on the local machine and
-get the result directly as a plain number, rather than JSON output.
+get the result directly as a plain number, rather than JSON output needing
+additional parsing.
 
 The C<DIFFICULTY_FORMATTED> assignment uses the GNU C<numfmt> utility to turn a
-big number into something formatted more appropriately for display. In my
-current locale, that means adding commas to separate thousands. Big numbers are
-easier to read this way.
+big number into something formatted more appropriately for display. In an
+English-speaking locale like C<en_US>, that means adding commas to separate
+thousands. Big numbers are easier to read this way.
 
 =begin tip But I Don't Read Bash!
 
@@ -117,16 +116,16 @@ PerlN<Admit it, you thought it might be in Perl, didn't you?>.
 =end tip
 
 Finally, the call to C<notify-send> takes three arguments. First, the C<-i>
-argument uses a path to an icon. In this example, I took the Dogecoin logo from
-the core (F<src/qt/res/icons/dogecoin.png>) and put it in a directory of my own
-making.  The second argument is the title of the notification. The third
-interpolates the nicely-formatted block difficulty and the block height into
-the notification body.
+argument uses a path to an icon. This example copies the Dogecoin logo from the
+core (F<src/qt/res/icons/dogecoin.png>) into a separate directory. The second
+argument is the title of the notification. The third interpolates the
+nicely-formatted block difficulty and the block height into the notification
+body.
 
 That's it.
 
-This message will pop up on my screen every minute or so and gradually fade
-away after a couple of seconds.
+This message will pop up every minute or so and gradually fade away after a
+couple of seconds.
 
 X<< external programs; C<numfmt> >>
 
@@ -143,7 +142,8 @@ for more details.>. You'll have to run the command through C<osacript -e
 "...">.
 
 If you don't have C<numfmt> installed, install the C<coreutils> package on
-Linux or via Homebrew on Mac OS X. This may require a different approach on Windows.
+Linux or via Homebrew on Mac OS X. This may require a different approach on
+Windows.
 
 =end tip
 
@@ -156,7 +156,7 @@ wallet. You can have a slim node or a headless node or a wallet-free node, but
 the code as written requires a node running locally.
 
 To connect to a node on another machine securely, be sure to set up
-authentication appropriately (L<authenticate_rpc_securely>) and provide the
+authentication appropriately (see L<authenticate_rpc_securely>) and provide the
 appropriate connection arguments to the C<dogecoin-cli> call.
 
 If you install third-party code (such as the C<notify-send> port on Windows or
@@ -168,8 +168,8 @@ If you use this code to affect a third-party machine or system (such as playing
 the chorus of Queen's "Another One Bites the Dust" on every block mined), be
 aware that your coworkers, roommates, fellow commuters, and everyone around you
 may not fully appreciate your musical tasteN<Sure, it's not "Radio Gaga", but
-it's also not "Crazy Little Thing Called Doge"!> and you should be kind to them
-because they don't share your excitement about block mining.
+it's also not "Crazy Little Thing Called Doge"!>. Be kind to others even if
+they don't share your excitement about block mining.
 
 =head2 *What Can You Do With This?
 
@@ -184,6 +184,6 @@ in-person transactions or e-commerce transactions.
 You could bring additional mining capacity online if you see the difficulty
 rate or hashrate drop.
 
-Or you can leave this as it is and bask in the warm glow that you're part of a
+You can leave this as it is and bask in the warm glow that you're part of a
 community that processes transactions in big blocks, day and night, every sixty
 seconds or so.

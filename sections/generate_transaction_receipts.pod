@@ -2,34 +2,31 @@
 
 Z<generate_transaction_receipts>
 
-Dogecoin is money, and money implies a lot of things. One of those things is
-I<accounting>. At some point, you're going to need to take your transactions to
-your tax preparer, your accountant, or the spreadsheet you use to track your
-finances.
+Dogecoin is money, and money implies a lot of things. Sending and receiving
+money is all well and good, but besides letting your wallet keep track of your
+transactions, eventually you'll want to figure out where your Dogecoin came
+from, where it went, and why and when--not just how much you have left.
 
-Sending and receiving money is all well and good, but besides letting your
-wallet keep track of your transactions, eventually you'll want to figure out
-where your Dogecoin came from, where it went, and why and when--not just how
-much you have left.
-
+At some point, you're going to need to take your transactions to your tax
+preparer, your accountant, or the spreadsheet you use to track your finances.
 Fortunately, getting this data out of the Dogecoin Core in a format you want
-can be straightforward, with a little RPC help.
+can be straightforward.
 
 =head2 *List Transactions
 
 X<< RPC commands; C<listtransactions> >>
 
-The C<listtransactions> RPC command for the Dogecoin Core allows you to get
-transactions from your wallet. It provides an entire swath of data for each
+The C<listtransactions> RPC command in the Dogecoin Core allows you to get
+transactions from your wallet. It provides an swath of data for each
 transaction, including whether you sent or received money, the timestamp of the
 transaction, the amount of the transaction, transaction fees, the number of
 confirmations of the transaction's block, and any label associated with the
 address.
 
 By default, C<listtransaction> shows only the 10 most recent transactions, but
-you can provide a second argument to it to show, for example, up to 93. The
-first argument, while optional, should always be C<"*">, for historical
-reasons.
+you can provide a second argument to it to show, for example, up to 93N<If you
+have fewer transactions, you'll get fewer results.>. The first argument, while
+optional, should always be C<"*">, for historical reasons.
 
 =begin screen
 
@@ -49,11 +46,11 @@ by looking only at transactions where you've I<received> Dogecoin.
 
 X<< external programs; C<jq> >>
 
-The C<jq> program is a command-line JSON processor. It allows you to manipulate
-JSON data, such as the output of most C<dogecoin-cli>/RPC commands. If you pipe
-the output of the previous command into C<jq>, you can see a nicely-formatted
-(and probably colorized) view of the data, but there's a lot more power lurking
-here:
+The C<jq> program is a command-line JSON processor which allows you to
+manipulate JSON data, such as the output of most C<dogecoin-cli>/RPC commands.
+If you pipe the output of the previous command into C<jq>, you can see a
+nicely-formatted (and probably colorized) view of the data, but there's a lot
+more power lurking here:
 
 =begin screen
 
@@ -65,9 +62,9 @@ here:
 =end screen
 
 C<jq> also allows you to filter the data based on the value of a specific
-field. For this example, looking at transactions where you've received
-payments, you want the C<.category> field to be C<receive>. To do this, use a
-C<jq> command that looks at every element of the JSON array (C<.[]>), pipes the
+field. To filter only transactions where you've received payments, the
+C<.category> field must contain the string C<receive>. To do this, use a C<jq>
+command that looks at every element of the JSON array (C<.[]>), pipes the
 results to a filter (C<|>), and then selects only those array elements where
 the value of the C<.category> field equals the text C<receive>. It's more work
 to describe the result than to write that command:
@@ -134,10 +131,10 @@ day followed by Hour, Minutes, and Seconds.
 =head2 *What Can You Do With This?
 
 You don't have to use C<jq> to process the output of C<listtransactions>. You
-can use anything you want. Yet the power of command line tools, including
-C<dogecoin-cli>, C<jq>, and others, is that you can combine them to do things
-that might otherwise take a lot of work. All of the other RPC commands in this
-book--and supported by the Dogecoin Core now and in the future--are amenable to
-similar types of manipulation and processing. If you exercise your skills
-working with these tools in these ways, you can find yourself solving problems
-almost as fast as you can think of them.
+can use anything you want. Remember though that the power of command line
+tools, including C<dogecoin-cli> and C<jq>, is that you can combine them to do
+things that might otherwise take a lot of work. All of the other RPC commands
+in this book--and supported by the Dogecoin Core now and in the future--are
+amenable to similar types of manipulation and processing. If you exercise your
+skills working with these tools in these ways, you can find yourself solving
+problems almost as fast as you can think of them.

@@ -11,19 +11,17 @@ that work for Dogecoin.
 Sometimes you can't, however.
 
 For example, the current major version of Bitcoin (version 24.x) supports
-several RPC calls that use and manipulate and query address labels.
+several RPC calls that use and manipulate and query address labels. The current
+major version of Dogecoin (version 1.14.x) doesn't support these features.
 
-The current major version of Dogecoin (version 1.14.x) doesn't support these
-features.
-
-That doesn't mean you're out of luck. That means you have to be a little
+You're not out of luck if you want these features. You just have to be a little
 creative.
 
 =head2 *Proxy RPC Calls
 
 Think of a label as a nickname. Any operation you want to do on an address, you
-can do on a label instead. You just need the ability to associate a label with
-an address and you're off to the races.
+can do on a label instead. If you have  the ability to associate a label with
+an address, you're off to the races.
 
 X<< external programs; C<cpanm> >>
 X<< external programs; C<dogeutils> >>
@@ -48,10 +46,10 @@ arguments, the C<address> to associate and the C<label> to use.
 
 This already suggests a lot of the implementation.
 
-In C<Finance::Dogecoin::Utils>, I use this information to populate a JSON file
-stored in the appropriate configuration directory (F<~/.local/share/dogeutils/>
-on a Linux system). This JSON file contains an object that maps a label to an
-address. For example:
+The C<Finance::Dogecoin::Utils> library uses this information to populate a
+JSON file stored in the appropriate configuration directory
+(F<~/.local/share/dogeutils/> on a Linux system). This JSON file contains an
+object that maps a label to an address. For example:
 
 =begin programlisting
 
@@ -63,16 +61,16 @@ address. For example:
 =end programlisting
 
 Writing this as a plain text file has several benefits: you can move it between
-machines, you can edit by hand if you want, and it's not tied to any wallet
+machines and you can edit by hand if you want, and it's not tied to any wallet
 format. You can read or write it with anything that understands JSON.
 
 The drawback is that it's not attached to your wallet itself, although that may
 be a benefit. If someone gets their hands on this file, they'll know you have
-interest in these addresses (and know what you called them), but they won't get
-your wallet itself.
+interest in these addresses (especially if your labels are meaningful), but
+they won't get your wallet itself or your keys.
 
 With the C<dogeutils> command provided by the Perl code mentioned earlier, you
-could achieve by using the command line:
+could achieve this by using the command line:
 
 =begin screen
 
@@ -92,9 +90,9 @@ or Python's C<requests> or whatever you prefer in your preferred language to
 make requests of the node and relay back the responses.
 
 Handling passwords securely can be tricky. You I<could> use an authcookie
-solution. I decided to use a username and password approachN<At least until
-someone suggests something better!> where another JSON file in the same
-configuration directory associates names and passwords.
+solution. The Perl library uses a username and password approachN<At least
+until someone suggests something better!> with another JSON file in the same
+configuration directory to associate names with passwords.
 
 When the C<dogeutils> program starts, it looks for a username provided on the
 command line (or in an environment variable) and then looks up the password for
@@ -153,15 +151,13 @@ which returns the amount of coins received by the address(es) associated with a
 label. This does the same thing as C<getreceivedbyaddress> except its argument
 is a label, not an address.
 
-That's fine; now we've gone through all the pieces necessary to make this work.
-
-C<dogeutils> has a little bit of glue code to understand it should provide both
-C<setlabel> (which doesn't talk to a Core node) and C<getreceivedbylabel>
-(which does). The I<implementation> of the thing that looks like a
-C<getreceivedbylabel> call is entirely within the C<dogeutils> program. Given a
-label, it looks up the associated address in the JSON file, then calls
-C<getreceivedbyaddress> with the address and returns the resulting JSON
-verbatim.
+This is fixable. C<dogeutils> has a little bit of glue code to understand it
+should provide both C<setlabel> (which doesn't talk to a Core node) and
+C<getreceivedbylabel> (which does). The I<implementation> of the thing that
+looks like a C<getreceivedbylabel> call is entirely within the C<dogeutils>
+program. Given a label, it looks up the associated address in the JSON file,
+then calls C<getreceivedbyaddress> with the address and returns the resulting
+JSON verbatim.
 
 That's it.
 
@@ -171,14 +167,14 @@ a JSON file, an SQLite database, whatever), you have lots of options.
 
 =head2 *Understand the Risks
 
-RPC against a Dogecoin Core node needs authentication. Enable this. Manage it
-securely.
+RPC against a Dogecoin Core node needs authentication. Maybe you grow weary
+reading this reminder. Enable authentication and manage it securely.
 
-The authentication approach I describe here has some flaws; leaving your
-password in the clear even in a file you control means anyone who can get
-access to that file has your password. It'd be more secure to store it in a
-local keychain somewhere. Alternately, you could force the secure entry of your
-password on the command line every time you run a command like C<dogeutils>.
+The authentication approach described here has a flaw; leaving your password in
+the clear even in a file you control means anyone who can get access to that
+file has your password. It'd be more secure to store it in a local keychain
+somewhere. Alternately, you could force the secure entry of your password on
+the command line every time you run a command like C<dogeutils>.
 
 This is probably secure enough if you're running this program against a Core
 node running on the same machine, because that's just as vulnerable to anyone
@@ -189,7 +185,7 @@ connecting to a Core over a network), ensure that the network is secure.
 =head2 *What Can You Do With This?
 
 You can use this to provide RPC calls not yet supported by the current Dogecoin
-Core, of course, but you can provide other features as well.
+Core, but you can provide other features as well.
 
 Want to get all of the transactions at a specific block height? Chain together
 several RPC commands and make your own utility call.
@@ -198,7 +194,7 @@ Want to list blocks in reverse order? You can do that.
 
 Want to turn addresses into labels in the output? You can do that too.
 
-You're not limited to I<modifying> calls either. You could provide an access
+You're also not limited to I<modifying> calls. You could provide an access
 control mechanism where certain user accounts can access specific types of
 calls. For example, you might have read-only accounts that can read general
 blockchain data such as looking at blocks or transactions and provide other

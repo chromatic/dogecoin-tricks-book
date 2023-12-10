@@ -5,11 +5,11 @@ Z<add_an_action_launcher>
 X<dogecoin.conf>
 X<Dogecoin Core; configuration>
 
-When you start developing things that require changing your F<dogecoin.conf>
-file, you'll inevitably run into situations where you need to restart your Core
-node to test your changes.
+When you developing things that require changing your F<dogecoin.conf> file,
+you'll inevitably run into situations where you need to restart your Core node
+to test your changes.
 
-The wait for a node to restart can be annoying on a fast local machine, where
+Waiting for a node to restart can be annoying on a fast local machine, where
 you have to wait several seconds to validate all the blocks you have
 downloaded. On a remote machine in the cloud with a full node, you could wait
 I<minutes> or more between restarts.
@@ -18,33 +18,29 @@ We can do better.
 
 One approach is to add features to the Core that let you configure its
 parameters through RPC calls. Another approach is what software developers
-happily refer to as "yet another layer of indirection".
-
-Fortunately, there's one really good opportunity to make your life a lot
-easier.
+happily refer to as "yet another layer of indirection". The latter has at least
+one really good opportunity to streamline your life.
 
 =head2 *Launch a Launcher for New Block Actions
 
 The tip for L<take_actions_on_new_blocks> showed off a Dogecoin feature to
 launch an arbitrary program for every new block accepted on the network.
 Whether that's one program or a thousand you want to launch, it's all the same
-to the Core; it's just a single configuration like in the F<dogecoin.conf>
+to the Core; it's just a single configuration line in the F<dogecoin.conf>
 file.
 
 The contents of this file are completely arbitrary. You could do something, but
-you could also do entirely nothing. You could do a dozen things. All the things
-you can do could change.
-
-There's only one you I<can't> change without restarting your Core node: the
-command to invoke.
+you could also do entirely nothing. You could do a dozen things. Anything you
+can do could change. There's only one change you I<can't> make without
+restarting your Core node: the command to invoke.
 
 The previous tip had a configuration like this:
 
 =begin programlisting
 
-  blocknotify=/bin/bash \
-    "${BOOK_HOME}/chapter_3/bin/launch_listener.sh" \
-    "%i" "%s" >> blocks.log
+    blocknotify=/bin/bash \
+      "${BOOK_HOME}/chapter_3/bin/launch_listener.sh" \
+      "%i" "%s" >> blocks.log
 
 =end programlisting
 
@@ -52,8 +48,8 @@ The previous tip had a configuration like this:
 
 =begin programlisting
 
-  blocknotify=/bin/bash \
-    "${BOOK_HOME}/chapter_3/bin/launch_loader.sh "%i" "%s"
+    blocknotify=/bin/bash \
+      "${BOOK_HOME}/chapter_3/bin/launch_loader.sh "%i" "%s"
 
 =end programlisting
 
@@ -90,17 +86,16 @@ The previous tip had a configuration like this:
 
 In plain English, all this file has to do is prepare the arguments the Dogecoin
 Core provides (height of the newly-mined block and its hash), do whatever
-environment manipulation is necessary, and launch a bunch of commands.
+environment manipulation is necessary, and launch I<one or more> commands.
 
-You can write this launcher in whatever language you like: shell, Python,
-PowerShell, Rust, whatever you like. If you want to launch all of these
-processes independently in parallel, you can. If you want to launch them one
-after another, you can.
+Write this launcher in whatever language you like: shell, Python, PowerShell,
+Rust, or whatever you like. If you want to launch all of these processes
+independently in parallel, you can. If you want to launch them one after
+another, you can.
 
 Best of all, you can make changes to the loader without restarting your node.
-You can even test this by providing your own arguments to it; it's just a
-program, launched by the Core automatically but a program runnable however you
-want.
+Test this by providing your own arguments to it; it's just a program, launched
+by the Core automatically but a program runnable however you want.
 
 =head2 *Understand the Risks
 
@@ -115,5 +110,5 @@ service, they may be available to other programs launched from this launcher
 too.
 
 It's not easy to predict every way someone might find to interfere with your
-system, but keep this file locked down as tightly as you would your core
-configuration yourself.
+system, but keep this file locked down as tightly as you do your Core
+configuration.

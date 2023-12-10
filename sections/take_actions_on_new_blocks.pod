@@ -2,14 +2,16 @@
 
 Z<take_actions_on_new_blocks>
 
-Because Dogecoin is an ever-increasing network of transactions, you can think
-of interesting ideas if you realize that a network of transactions is a series
-of events.
+Dogecoin is an ever-increasing network of transactions. Each transaction occurs
+as a specific item in a block. Each block has a specific order in the
+blockchain, and each block comes in at a specific time. If you think of
+Dogecoin that way, you can see it as a network of transactions that's also a
+series of events.
 
-Payment processing is an easy and obvious idea. When a block gets mined, look
-for any payments to any address you're interested in, then do something based
-on the source address, the destination, the amount, any script in the
-transaction, or whatever.
+This is a powerful idea you can use to do many interesting things. Consider
+payment processing. When a block gets mined, look for any payments to any
+address you're interested in, then do something based on the source address,
+the destination, the amount, any script in the transaction, or whatever.
 
 You could also monitor the health of the network as a whole by looking at time
 between blocks, number of transactions in a block, number of coins transferred
@@ -17,7 +19,7 @@ in a block, difficulty change in blocks over time, or any other piece of data
 available.
 
 Dogecoin Core gives you options to treat these events as events, so you can do
-the interesting things you have in mind.
+these interesting things and more.
 
 =head2 *Configuring C<blocknotify>
 
@@ -29,33 +31,28 @@ which allows you to ask the Core to launch an external command whenever the
 Core processes a new block.
 
 You can pass two options to this command: the I<number> or I<height> of the
-block and the I<hash> of the block.
+block and the I<hash> of the block. With that, you have everything you need to
+do much, much more.
 
-With that, you have everything you need to do much, much more.
-
-How do you make this work?
-
-First, configure your node for RPC. Be aware of the risks of doing so, and
-follow all the security guidelines to your degree of comfort and safety.
-
-Second, write a command that does something useful.
-
-Third, launch or re-launch your node.
+How do you make this work? First, configure your node for RPC. Be aware of the
+risks of doing so, and follow all the security guidelines to your degree of
+comfort and safety. Second, write a command that does something useful. Third,
+launch or re-launch your node.
 
 That's it.
 
 =head3 *Processing a New Block
 
-Let's show this off by writing a simple command that shows basic block
-statistics, such as the number of transactions, difficulty, time, and size of a
-block. As it turns out, I already have some code in Perl that performs
-authenticated RPC, so I'll reuse that and gloss over some of the details.
+Let's start by writing a simple command that shows basic block statistics, such
+as the number of transactions, difficulty, time, and size of a block. This code
+re-uses some example code to perform authenticated RPC (see
+L<enhance_rpc_calls>), so you can focus on the behavior:
 
 =begin programlisting
 
     #!/usr/bin/env perl
 
-    use v5.036;
+    use v5.038;
 
     use JSON;
     use Path::Tiny;
@@ -98,48 +95,45 @@ authenticated RPC, so I'll reuse that and gloss over some of the details.
 
 =end programlisting
 
-If you haven't read much Perl, don't fret. It's relatively easy to follow
-despite some of the syntactic details looking a little odd. The first handful
-of lines set the version of Perl (the latest stable release, as of this
-writing, so I can use a few newer features) and load a couple of useful
-modules, including C<RPCAgent>, the code I alluded to earlier.  All I<that>
-code does is wrap calls to the Core's RPC listener in a Perlish interface, so I
-can write C<< $rpc->get_block_by_hash( $hash ) >> and not have to think about
+If you haven't read much Perl, don't fret at some of the syntactic details.
+The first handful of lines set the version of Perl (the latest stable release,
+as of this writing, to use a few newer features) and load a couple of useful
+modules, including C<RPCAgent>, the secure authentication code. All I<that>
+code does is wrap calls to the Core's RPC listener in a Perlish interface, so
+that the line C<< $rpc->get_block_by_hash( $hash ) >> doesn't have to manage
 the details of providing the right HTTP headers. Everything's already set up.
 
 The interesting work is in C<main()> and C<analyze_block()>.
 
-C<main()> starts the action. I've set up a configuration file you'll read more
-about in a moment. That configuration gives me enough data to set up an object
-that performs the RPC requests.
+C<main()> starts the action. It reads a configuration file (more on that in a
+moment) containing data to set up an object to perform RPC requests.
 
-When this code runs, it gets two arguments, the height of the new block and the
-hash of the new block. The RPC call gets all of the block's data with that
-hash.  The Core returns that data as a JSON data structure, but the C<RPCAgent>
-code turns that into a Perl data structure (a nested hash, or a dictionary as
-you might call it in Python, or a hashmap in Java, or an object in JavaScript,
-or...).
+When this code runs, it gets two arguments, the height and hash of the new
+block.  The RPC call gets all of the block's data with that hash. The Core
+returns that data as a JSON data structure, but the C<RPCAgent> code turns that
+into a Perl data structure (a nested hash, or a dictionary as you might call it
+in Python, or a hashmap in Java, or an object in JavaScript, or...).
 
-From there, C<analyze_block()> takes that data structure and pulls out a few
-pieces of data. Difficulty and size are obvious fields. Obvious transformation
-is obvious there. The block's time is in a field named C<time>, but that
-records seconds since the epoch, so I use Perl's C<localtime> to turn that into
-a textual representation. Finally, the I<number> of transactions is
-interesting, so I use a standard Perl idiom to look at the array of items in
-the C<tx> field (representing transactions) and get a scalar value,
-representing the count of items in the array.
+From there, C<analyze_block()> extracts useful data from that data structure.
+Difficulty and size are obvious fields. The block's time is in a field named
+C<time>, but that records seconds since the epoch, so the code uses Perl's
+C<localtime> to turn that into a textual representation. Finally, the I<number>
+of transactions is interesting, so the code uses the standard Perl idiom to
+access the items in the C<tx> field (representing transactions) as a scalar
+value, representing the count of items in the array.
 
 =begin tip But I Don't Read Perl!
 
-"Context? Scalar? That's unique!" I<De gustibus non est disputandum>, but I
-wrote a book called I<Modern Perl> that explains all this stuff and more, so
-head over to U<http://modernperlbooks.com/> and download a free copy. You'll
-have one more interesting tool in your toolkit!
+"Context? Scalar? That's unique! Also, wow, look at the sigils!" I<De gustibus
+non est disputandum>, but your author I<also> wrote a book called I<Modern
+Perl> that explains all this stuff and more, so head over to
+U<http://modernperlbooks.com/> and download a free copy. You'll have one more
+interesting tool in your toolkit!
 
 =end tip
 
-When C<main()> gets the results, it then prints a description of that
-transaction. It will look something like this:
+When C<main()> gets the results, it prints the transction's description. It
+will look something like:
 
 =begin screen
 
@@ -151,17 +145,17 @@ transaction. It will look something like this:
 
 =end screen
 
-I've elided the configuration file setup and the C<RPCAgent> object creation.
-If you have much programming experience, you can probably imagine what they
-look like anyhow.
+To use this code yourself, you'll need to set up the configuration file and
+create an C<RPCAgent> object. If you have much programming experience, you can
+probably imagine what they look like anyhow.
 
 =head3 *Launching Your Program
 
 X<< external programs; C<cron> >>
 
-How does this get executed? My personal preference is to modify my
-F<dogecoin.conf> file to add this command. I wrote a little shell wrapper to
-set up the environment correctlyN<As you might do for a C<cron> command.>:
+How does this get executed? Start by adding a line to your F<dogecoin.conf>
+file to add this command. This shell wrapper sets up the execution environment
+correctlyN<As you might do for a C<cron> command.>:
 
 =begin programlisting
 
@@ -174,11 +168,10 @@ set up the environment correctlyN<As you might do for a C<cron> command.>:
 
 =end programlisting
 
-This file sets the path to my RPC credentials configuration file and makes sure
-Perl knows which paths to search to load my C<RPCAgent> module.
-
-All that's left is to add a single line to F<dogecoin.conf>N<I've added
-linebreaking for the book's formatting.>:
+This file sets the path to the RPC credentials configuration file and makes
+sure Perl where to find the C<RPCAgent> module. All that's left is to add a
+single line to F<dogecoin.conf>N<Linebreaks are for formatting; they're not
+needed.>:
 
 =begin programlisting
 
@@ -188,34 +181,32 @@ linebreaking for the book's formatting.>:
 
 =end programlisting
 
-Again, this looks a lot like what you'd use to set up a cron job on a Unix system.
+If you've set up a C<cron> job, this will also look familiar.
 
 The C<%i> parameter is the height of the new block and the C<%s> parameter is
 the hash of the new block. Whenever the Core processes a new block, it'll
 launch a system process and pass those two values as variables. In this case,
-the system will invoke the C<bash> shell which will itself invoke C<perl>, and
-away things go.
+the system will invoke the C<bash> shell which will itself invoke C<perl>.
 
-If you make this change, you'll have to restart your node before the Core will
-start executing this command.
+As with other changes to F<dogecoin.conf>, you'll have to restart your node
+before the Core will start executing this command.
 
 =head2 *Understand the Risks
 
-As with any use of RPC against a local Core, you should enable authentication
-and authorization (see L<authenticate_rpc_securely>) and keep unauthorized
-activity away from your node. This is especially true if you have a wallet
-attached to your node (so try to avoid doing that). Anyone who can connect to
-your node via RPC can get a lot of data you might not want to expose and take
-network actions you might not want to permit.
+Any time you use RPC against a local Core, you should enable authentication and
+authorization (see L<authenticate_rpc_securely>) and keep unauthorized activity
+away from your node. This is especially true if you have a wallet attached to
+your node. Anyone who can connect to your node via RPC can get a lot of data
+you might not want to expose and take network actions you might not want to
+permit.
 
-Second, be aware that you could write buggy codeN<I sure did, the first couple
-of times I tried this.>. I wrote the example code in such a way that I could
-test my program in isolation by providing block heights and hashes I already
-had without having to test the integration in my F<dogecoin.conf> file. This
-let me fix bugs without launching and relaunching the Core.
-
-Okay, I I<didn't> do that the first couple of times, but I wish I had, so I
-recommend you learn from my mistake and do it right the first time.
+Second, be aware that you could write buggy codeN<Your author's first few
+attempts had bugs!>. The abstraction here of a shell script calling another
+program lets you test your RPC code in isolation by calling it with block
+heights and hashes you already have on hand. That leaves you free to test the
+F<dogecoin.conf> integration later, rather than having to do both at
+once--especially as any change to the F<dogecoin.conf> code means relaunching
+your node.
 
 If you do get your program into a crash loop, you might harm the stability of
 the system and the experience for you and others on the machine. Don't let that
@@ -224,18 +215,14 @@ could go wrong.
 
 =head2 *What Can You Do With This?
 
-I already suggested a couple of interesting ideas, but the world is open at
-this point.
-
 Perhaps you can light up a lava lamp whenever you make or receive a
 transaction.
 
 You could update a counter on a webpage or post a message to Slack or Discord
-with every new block mined.
+(see L<post_to_discord>) with every new block mined.
 
 You could plot the size and fullness of blocks over time.
 
 You could keep a list of the busiest wallets over the past day, week, or month.
 
-I'm sure you'll come up with a few more clever ideas that aren't on this list
-either.
+What interesting ideas do I<you> have now? Be creative!

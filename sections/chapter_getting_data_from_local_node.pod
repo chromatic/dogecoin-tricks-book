@@ -2,13 +2,14 @@
 
 =head0 Getting Data from a Local Node
 
-When you run your own node, you can do more than just mine blocks and keep the
+When you run your own node, you can do more than mine blocks and keep the
 network healthy. You get insight into the current, past, and future state of
 the network.
 
 This is powerful. You do not have to rely on someone else to tell you what's
-happening, what might happen, or what has happened. You can get that from your
-node yourself.
+happening, what might happen, or what has happened. All of your data is in your
+own hands, with no one modifying it behind your back, charging you for access,
+or keeping track of what you're doing.
 
 Here's how.
 
@@ -16,12 +17,12 @@ L<authenticate_rpc_securely>
 
 L<restrict_node_network_access>
 
+L<enhance_rpc_calls>
+
 L<take_actions_on_new_blocks>
 
 L<add_an_action_launcher>
 
 L<add_desktop_notifications>
-
-L<enhance_rpc_calls>
 
 L<generate_transaction_receipts>
