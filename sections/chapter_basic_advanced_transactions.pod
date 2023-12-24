@@ -47,3 +47,5 @@ L<decode_a_transaction_script>
 L<put_funds_in_escrow>
 
 L<crowdfund_crowd_fun>
+
+L<referee_a_raffle>
