@@ -11,8 +11,7 @@ your wallet, securely backing up your wallet, and keeping people out of your
 wallet all contribute to the security of your private keys and, by extension,
 the security of your Dogecoin.
 
-Depending what you're doing with Dogecoin, the safest thing you can do with
-your wallet is I<not> to use it.
+Sometimes the safest thing you can do with your wallet is I<not> to use it.
 
 =head2 *Not Using Your Wallet
 
@@ -20,39 +19,36 @@ X<< configuration options; C<disablewallet> >>
 
 The Dogecoin Core has a configuration option called C<disablewallet>. If you
 set this in your F<dogecoin.conf> file or pass it on the command line, the Core
-will skip loading a wallet at all and will disable certain features. This
-command works whether you run the GUI or the command-line server-only program
-F<dogecoind>.
+will skip loading or generating a wallet and will disable certain features.
+This command works whether you run the GUI or the command-line server-only
+program F<dogecoind>.
 
 =head3 *What Happens When You Disable Your Wallet
 
-When you use this option, all of your addresses will still receive transactions
-and you can still send transactions from them (if you do so from a system that
-has access to your wallet). You can still monitor transactions across the
-network. Your node will still connect to other nodes, transmit and receive
-blocks, and keep your local storage up to date.
+Remember that a wallet is just a way to access your private keys. When you use
+this option, all of your addresses will still receive transactions and you can
+still send transactions from them (if you do so from a system that has access
+to your wallet). You can still monitor transactions across the network. Your
+node will still connect to other nodes, transmit and receive blocks, and keep
+your local storage up to date.
 
-You can use I<most> RPC commands that work with the blockchain: examining
-blocks, deciphering transactions, working with the mempool. You cannot,
-however, use any RPC commands for working with wallets because there's no
-wallet enabled!
-
-Similarly, any notification features you have enabled, such as wallet address
-or watched address notifications, will not execute because there's no wallet.
-
-Of course, this also means that no one can get control of your node by any
-mechanism and act on your behalf.
+Any notification features you have enabled, such as transaction actions (see
+act_on_wallet_transactions>) will not execute because there's no wallet. You
+can use I<most> RPC commands that work with the blockchain: examining blocks,
+deciphering transactions, working with the mempool. You cannot, however, use
+any RPC commands for working with wallets because there's no wallet enabled!
+This also means that no one who can get control of your node by any mechanism
+can transact on your behalf.
 
 =head3 *When to Disable Your Wallet
 
-There are two, perhaps three, scenarios in which you might want to disable
-wallet features entirely.
+You might want to disable wallet features entirely in two or three scenarios.
 
 First, if you're running a node on a computer you don't have complete access to
-at all times. You might have it running on a computer in a friend's basement,
-or you might have a virtual machine launched in a cloud provider somewhere. In
-both cases, if the value of the node to you is that it's participating fully in
-the network, then you don't need a wallet enabled to achieve that benefit.
+at all times. You might run it on a computer in a friend's basement or in a
+virtual machine launched with a cloud provider somewhere. If the value of the
+node to you is that it's participating fully in the network, then you don't
+need a wallet enabled.
 
 Second, if you're doing some development or testing work. For example, if you
 decide to hack on the core, play with a development release to give feedback,
@@ -63,25 +59,25 @@ Third, if you want to be extra-special safe and secure, you might connect your
 wallet on a separate filesystem (a USB key, with proper backups of course)
 I<only> when you want to I<send> a transaction. If you usually run I<without> a
 wallet enabled, the potential for wallet compromise due to user error or
-malicious behavior is less.
+malicious behavior is lessened.
 
 =head2 *Understand the Risks
 
 What's the difference between this and I<not> using your real wallet with your
-real keys on a Core node? In effect, probably not much. In practice, if you
-make and enforce the habit of only running with your wallet when you care about
-working with your actual wallet, you'll have to do the extra work of enabling
-your wallet when you're ready to use it.
+real keys on a Core node? In effect, very little. In practice, if you enforce
+the habit of running with your wallet only when you care about working with
+your actual wallet, you'll have to do the extra work of enabling your wallet
+when you're ready to use it.
 
 In other words, you will break yourself of the habit of assuming your wallet
 is always active and ready to go.
 
-Of course, every node with your wallet attached is a node that has access to
-your wallet and probably a computer where your wallet could be compromised.
-Even if you've encrypted it, it's still more secure if I<no one> has access to
-it than if someone does.
+Of course, every node with your wallet attached (or even on disk somwhere) is a
+node that has access to your wallet and probably a computer where your wallet
+could be compromised.  Even if you've encrypted it, it's still more secure if
+I<no one> has access to it than if someone does.
 
 Are there ways to get the best of both worlds? Yes, with their own tradeoffs!
-Still, if you look at a wallet as a vulnerability (because it is, in some
-ways), you can measure the pros and cons of giving a node access to it and
-evaluate each situation as your needs change.
+Still, if you look at a wallet as a vulnerability (because it is), you can
+measure the pros and cons of giving a node access to it and evaluate each
+situation as your needs change.

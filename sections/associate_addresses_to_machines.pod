@@ -49,7 +49,7 @@ setup!>. Follow a few steps to get up and running.
 =head3 *Generate a Bunch of Addresses
 
 First, you need a bunch of addresses, maybe exported from a trusted node
-(L<export_wallet_addresses>) or generated from a secure HD key. Prepare these
+(L<extract_wallet_addresses>) or generated from a secure HD key. Prepare these
 in a text file you can import into a database.
 
 =head3 *Configure Your Network

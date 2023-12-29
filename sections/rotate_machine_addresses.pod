@@ -37,7 +37,7 @@ Suppose you have a database table full of addresses under your control:
 =head3 *Find Unused Addresses
 
 Maybe you've generated these with from an HD key and derivation paths or you've
-exported them from a wallet (L<export_wallet_addresses>). When they're in your
+exported them from a wallet (L<extract_wallet_addresses>). When they're in your
 database, you can do a couple of things. First, to see which addresses you've
 already used:
 

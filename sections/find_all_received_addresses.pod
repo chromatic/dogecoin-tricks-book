@@ -2,33 +2,31 @@
 
 Z<find_all_received_addresses>
 
-When you first launch a recent release of the Core and you've never created a
-wallet before, the Core will create one for you. By default it will create a
-bunch of addresses as well. While there's no shortage of addresses available,
-there may be more than you are likely to use for a while. That's okay, but it
-can make accounting a little more difficult than it needs to be.
+When you first launch a recent release of the Dogecoin Core, it will create a
+new wallet for you if and only if you've never created one before. By default
+this wallet will contain a lot of addresses as well--more than you're likely to
+use for a while.
 
 An address is usually most useful when you can do something with it, either
-receiving coins or sending them.
-
-What if there were a way to narrow down the hundreds or thousands of addresses
-your wallet has generated for you to only those addresses that have actually
-received coins?
+receiving coins or sending them. Extra addresses aren't a problem--there are
+plenty to go around--but but a wallet full of unused addresses can make
+accounting a little more difficult than it needs to be. What if there were a
+way to narrow down the hundreds or thousands of addresses your wallet has
+generated for you to only those addresses that have actually received coins?
 
 There's an obvious but tedious way, a spreadsheet way, and a programming way.
 
 =head2 *Manual Transaction Accounting
 
-Click the Transactions button in the Dogecoin GUI. This will bring up a window
+Click the Transactions button in the Dogecoin GUI. This will open a window
 showing all of the transactions associated with your wallet. Use the filter
 widgets to include or exclude types of transactions or date ranges. For
 example, the figure in L<figure-dogecoin-core-transactions-list> shows only
 those addresses which have received funds in transactions.
 
-All you have to do is look at all of the addresses (or tooltips, if the
-addresses have labels) in that list to see the addresses which have received
-funds. If you've had this wallet for a while or made a lot of transactions,
-have fun.
+Examine the addresses (or tooltips, if you use address labels) in that list to
+see the addresses which have received funds. If you've had this wallet for a
+while or made a lot of transactions, have fun.
 
 =begin figure Dogecoin Core Transactions List
 
@@ -42,11 +40,10 @@ F<images/dogecoin-core-transactions-list.png>
 
 X<data formats; CSV>
 
-Look again at L<figure-dogecoin-core-transactions-list>. In the bottom right
-corner, the button labeled "Export" can save you a lot of time and effort.
-Click that button and the Core will prompt you to write a comma-separated value
-(CSV) file containing all of the transactions displayed with your current
-filter set.
+Look again at L<figure-dogecoin-core-transactions-list>. The "Export" button in
+the bottom-right corner can save you time and effort. Click that button and the
+Core will prompt you to write a comma-separated value (CSV) file containing all
+of the transactions displayed with your current filter set.
 
 This file contains all of the data shown and more, including a true or false
 value indicating whether the transaction has been confirmed, the timestamp of
@@ -54,39 +51,36 @@ the transaction, the type of the transaction (mining, sending, receiving, etc),
 any label associated with the address, the address, the amount of Doge affected
 for that address, and the transaction ID.
 
-The nice thing about the CSV format is that you can import it into any modern
-spreadsheet application (from Excel to LibreOffice to Google Sheets) or
-manipulate it with just about any programming language you can find and perform
-all sorts of calculation, charting, or data manipulation you like.
+You can import this CSV file import it into any modern spreadsheet application
+(Excel, LibreOffice, Numbers, Google Sheets) or manipulate it with just about
+any programming language you can find and perform all sorts of calculation,
+charting, or data manipulation you like.
 
 To answer the question "Which addresses have received Doge in transactions",
 set your filter to "Received with", export the data, grab the contents of the
 fifth field in the CSV file (starting from 1, not 0), and get a unique list of
 the contents of that column.
 
-What could be easier?
-
 =head3 *Command-Line Transaction Evaluation
 
 X<< Dogecoin Core; C<dogecoin-cli> >>
 
-The C<dogecoin-cli> program works really well as a command-line program in a
-series of other command-line programs. If this sounds like something a nerdy
-Unix user would claim, you're right. If you're comfortable using the command
-line, it may be the quickest and easiest way to answer the question.
+The C<dogecoin-cli> program combines well with other other command-line
+programs in a nerdy Unix way. If you're comfortable using the command line, you
+can answer a lot of questions quickly and easily.
 
 X<< RPC commands; C<listreceivedbyaddress> >>
 
 The C<listreceivedbyaddress> RPC command tells the Core to give you a list of
-all addresses which have received Dogecoin in any transaction. In effect, it
-does the same filtering as the GUI transaction list earlier. It also does one
-more thing: it groups all transactions together per addressN<Isn't that
-convenient, that this command does exactly what this tip set out to do? So
-suspiciously convenient.>.
+all addresses which have received Dogecoin in any transaction. It does the same
+filtering as the GUI transaction list earlier I<and> it groups all transactions
+together per addressN<Isn't that convenient, that this command does exactly
+what this tip set out to do? So suspiciously convenient.>.
 
 While C<dogecoin-cli> often hides the details of I<how> the RPC works behind
-the scenes (it's JSON over HTTP), in this case, the output is a JSON array of
-objects, as shown in L<figure-dogecoin-listreceivedbyaddress-cli-output>.
+the scenes (JSON over HTTP), complex output is often a JSON object: in this
+case, a JSON array of objects, as shown in
+L<figure-dogecoin-listreceivedbyaddress-cli-output>.
 
 =begin figure Output of the C<listreceivedbyaddress> Command
 
@@ -98,17 +92,16 @@ F<images/dogecoin-listreceivedbyaddress-cli-output.png>
 
 X<< external programs; C<jq> >>
 
-As with the CSV format, just about any programming language you're likely to
-run into these days can work with this JSON output. You don't need to rush off
-to install PHP or Ruby or Rust for this, though; the C<jq> utilityN<See
-U<https://stedolan.github.io/jq/> but, as always, verify with other places that
-this is still correct.> is all you need for the current task.
+Almost any programming language you're likely to run into these days can work
+with this JSON output. You don't need to rush off to install PHP or Ruby or
+Rust for this, though; the C<jq> utilityN<See U<https://stedolan.github.io/jq/>
+but, as always, verify with other places that this is still correct.> may be
+all you need.
 
-When you give C<jq> some JSON data, you can ask it to extract specific fields,
-such as C<.address> from the example output, or C<.address> and C<.label> to
-get both fields. Of course, the output from C<listreceivedbyaddress> is a
-I<list> (or I<array> in JSON terms) of multiple addresses, so the C<jq> command
-is a little bit more interesting:
+Provide C<jq> with JSON data and ask it to extract specific fields, such as
+C<.address> from the example output, or C<.address> and C<.label> for two
+fields. Because the output from C<listreceivedbyaddress> is a JSON array of
+multiple addresses, the necessary C<jq> command is more complex:
 
 =begin screen
 
@@ -123,46 +116,44 @@ is a little bit more interesting:
 
 =end screen
 
-Pay close attention to the C<jq> section; this essentially says "From the root
-of the JSON provided (C<.>), there's a top-level array (C<[]>). For each item
-in that array (C<|>), get the C<.address> and C<.label> elements, then
-concatenate them together with a blank space between them (C<+ " " +>)"N<Your
-author has to look up the appropriate syntax of this operation sometimes too.>.
+Pay close attention to the C<jq> section; this essentially says "At the root of
+the JSON provided (C<.>) is a top-level array (C<[]>). For each item in that
+array (C<|>), get the C<.address> and C<.label> elements, then concatenate them
+together with a blank space between them (C<+ " " +>)"N<< Your author had to
+look up the appropriate syntax here. Search for C<jq> examples online. >>.
 
-Okay, the I<details> are a little bit more complicated than throwing everything
-in a spreadsheet and pivoting to find all unique items in the Addresses column,
-but once you get the hang of manipulating JSON output at the command line, it's
-fast to write these things.
-
-Fortunately, you have multiple ways to get this information, depending on the
-tools you have, what you're comfortable doing, and what you're trying to
-accomplish.
+While the I<details> may be more complicated than throwing everything in a
+spreadsheet and pivoting to find all unique items in the Addresses column, once
+you get the hang of manipulating JSON output at the command line, it's fast to
+write these things.
 
 =head2 *What Can You Do With This?
 
-Searching and filtering transaction data can be really useful, especially if
-you need to perform accounting operations. When did Client A really pay you?
-Did they pay on time? What tax year comes into play? Answering an ad hoc
-question like this is easy enough in the Core transaction list.
+Searching and filtering transaction data can be useful, especially if you need
+to perform accounting operations (see L<generate_transaction_receipts>). When
+did Client A pay you? Did they pay on time? What tax year comes into play?
+Answering an ad hoc question like this is easy enough in the Core transaction
+list.
 
 If you need to import this data into an accounting system and/or you don't
 really want to be doing your books on the same machine as your Core is running,
-exporting this data every now and then can be useful. In that case, the CSV
-output works really well with structured data systems that like to use line
-items as a metaphor.
+export this data. CSV output works really well with structured data systems
+which think of transactions as line items.
 
 If you're performing data analysis or automating other tools or systems, the
 JSON output can give you a lot of flexibility. In this specific case, the
 aggregating behavior of the RPC command may or may not work in your favor.
 Sometimes it's great, though, and there are always other wallet-manipulation
-and query commands available.
+and query commands available. Fortunately, you have multiple ways to get this
+information, depending on the tools you have, what you're comfortable doing,
+and what you're trying to accomplish.
 
 =head2 *Understand the Risks
 
 Besides the normal risks of using RPC commands against any node, especially one
 with a wallet, you should be careful not to expose your addresses to anyone you
 don't want to have your addresses. That's why the addresses in the example
-figures here are obscured--not because your author doesn't trust you, but your
-author doesn't want you to trust other people blindly.
+figures here are obscured--not because your author doesn't trust I<you>, but
+your author doesn't want you to trust I<other people> blindly.
 
-Keep your data safe and secure--all of your data.
+Keep your data safe and secure--all of it.

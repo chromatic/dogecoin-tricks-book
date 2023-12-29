@@ -125,6 +125,9 @@ example, you could make separate aliases/launchers named C<Testnet Dogecoin
 GUI> or C<testnet-dogecoin-qt> to remind you of what you intend to happen when
 you launch the Core with that specific configuration.
 
+X<< configuration options; C<datadir> >>
+X<< configuration options; C<backupdir> >>
+
 Finally, if you I<do> use multiple configurations to switch between networks
 and full/pruned nodes and wallets, be very careful to manage options such as
 C<datadir> and C<backupdir> (as of 1.14.6). Keeping data separated is essential

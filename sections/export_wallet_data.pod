@@ -7,39 +7,37 @@ X<Dogecoin Core; wallet>
 
 A previous tip explained how to back up your wallet
 (L<securely_back_up_your_wallet>). This approach works great if you want
-toN<... and you do want to!> keep multiple copies in multiple places just in
-case something happens to your main system.
+toN<... and you do want to!> keep multiple secure copies in multiple places
+just in case something happens to your main system.
 
-Your secure backup is great for that, but it doesn't give you a view of the
-I<contents> of your wallet: your private keys, HD key derivation paths, labels,
+Your secure backup is great for that, but it treats your wallet as opaque,
+obscuring its I<contents>: your private keys, HD key derivation paths, labels,
 and addresses. If you need to operate on this set of data as a whole, exporting
 your wallet makes this possible--at the risk of exposing your wallet data in
 plain text.
 
 =head2 *Understand the Risks
 
-What you're about to learn will give you an unencrypted, plain-text
-representation of your wallet. In other words, this file will contain your
-private keys I<and> the Dogecoin addresses derived from those keys. If you have
-a cool 100 million Dogecoin in unspent transactions received by an address, you
-can look at this file, find that address, and see exactly the private key you
-need to use to I<spend> those 100 million Dogecoin.
-
-If you use this command, your private keys will be in a file on your computer
-in plain text, and anyone who can get their hands on that file will also get
-their hands on those keys--the same way that anyone who gets their hands on
-your unencrypted wallet or unencrypted wallet backup has your keys and can
-spend your Dogecoin.
+This tip will produce an unencrypted, plain-text representation of your wallet.
+This file will contain your private keys I<and> the Dogecoin addresses derived
+from those keys. Your private keys will be in a file on your computer in plain
+text, and anyone who can get their hands on that file will also get their hands
+on those keys--the same way that anyone who gets their hands on your
+unencrypted wallet or unencrypted wallet backup has your keys and can spend
+your Dogecoin. If you have a cool 100 million Dogecoin in unspent transactions
+received by an address, you--or anyone else--can look at this file, find that
+address, and see exactly which private key you need to use to I<spend> those
+coins.
 
 X<< external programs; C<shred> >>
 
 I<If> you use the knowledge in this tip, use the data in your exported wallet
-carefully, then discard of the file appropriately. Merely deleting it may not
-be enough; on Unix-like systems such as Linux, a BSD, or Mac OS X, you can use
-a binary called C<shred> to mangle the file past the point of hard drive
-recovery before deleting it. On Windows, look for a reputable file shredding
-utility. Even so, never underestimate the lengths to which someone might go to
-get data you want to keep private.
+carefully, then discard of the file effectively. Merely deleting it may not be
+enough; on Unix-like systems such as Linux, a BSD, or Mac OS X, use a binary
+called C<shred> to mangle the file past the point of hard drive recovery before
+deleting it. On Windows, look for a reputable file shredding utility. Even so,
+never underestimate the lengths to which someone might go to get your private
+data.
 
 =head2 *Dump Your Wallet
 
@@ -83,14 +81,13 @@ something like:
 
 =end screen
 
-To interpret this, you need to know that there are multiple fields, each
-separated by spaces, and that there's an optional comment at the end of the
-line (preceded by the C<#> character). The first field is the private key. The
-second field is the timestamp when the private key was added to the wallet. In
-the third field, you may see a C<label=> (though the value may be blank, as it
-is in the third line of this example). You might also alternately see
-C<reserve=1>, which indicates that the Core has generated this address for
-future use, but nothing has used it yet.
+This file contains multiple fields, each separated by spaces, with an optional
+comment at the end of the line preceded by the C<#> character. The first field
+is the private key. The second field is the timestamp when the private key was
+added to the wallet. In the third field, you may see a C<label=> (though the
+value may be blank, as it is in the third line of this example). You might also
+alternately see C<reserve=1>, which indicates that the Core has generated this
+address for future use, but nothing has used it yet.
 
 Finally, the comment may include the public address associated with the key. In
 the case where the Core has derived the key from an HD seed, you will also see
@@ -110,7 +107,7 @@ study computer science, and wake up in the middle of the night realizing that
 everyone in University may have been able to grab this file off of an
 unprotected network share.
 
-=item * Process this file for another purpose, then delete it securely. Hold
-that thought.
+=item * Process this file for another purpose (see
+L<extract_wallet_addresses>), then delete it securely.
 
 =back

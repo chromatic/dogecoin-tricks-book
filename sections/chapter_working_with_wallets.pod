@@ -2,17 +2,19 @@
 
 =head0 Working With Wallets
 
-A Dogecoin wallet isn't a pouch full of metal coins and wads of paper. Neither
-is it a ledger of incoming and outgoing transactions. It I<is> a list of
-numbers and descriptions, but those are public and private keys and any labels
-you've attached to them.
+A Dogecoin wallet isn't a pouch full of paper wads and metal lumps. Neither is
+it a ledger of incoming and outgoing transactions. It I<is> a list of numbers
+and descriptions. Those are public and private keys and any labels you've
+attached to them.
 
 Even though that sounds deceptively simple (and doesn't translate directly to
 the contents of your pocket or your bank account), the contents of your wallet
-are important. In fact, those contents are what give you (or deny you) access
-to the Dogecoin you control.
+are important. They give (or you) access to the Dogecoin you can spend. What
+you do or don't do with them can make the difference between having Dogecoin
+and watching someone else spend it.
 
-Here's how to work with your wallet well.
+Here's how to work with your wallet well, from keeping it secure to receiving
+payments safely to recovering from potential catastrophe.
 
 L<securely_back_up_your_wallet>
 

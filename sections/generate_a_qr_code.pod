@@ -2,24 +2,16 @@
 
 Z<generate_a_qr_code>
 
-If you're taking payments in Dogecoin in some kind of in-person setting, you
-probably want an easy way to allow people to send you payments without talking
-through an entire wallet address out loudN<"That's D as in Doge, K as in
-Kabosu, no I don't want to say Donkey Kong, just trust me.">.
+If you take Dogecoin payments in some kind of in-person setting, you probably
+want an easy way to allow people to send you payments without talking through
+an entire wallet address out loudN<"That's D as in Doge, K as in Kabosu, no I
+don't want to say Donkey Kong, just trust me.">.
 
 This is even more important when you want to remove some degree of human
 intervention from the process. Suppose you have a pinball arcade and you want
-to allow people to pay with quarters I<or> with Dogecoin. What can you do to
-accept payments with as little friction as possible?
-
-=begin tip Payments, Part One
-
-There are other logistical problems to overcome with the arcade example, but
-those are the subjects of other tips. Keep reading!
-
-=end tip
-
-A Bitcoin Improvement Proposal has the answer.
+to allow people to pay with quarters I<or> with Dogecoin (see
+L<chapter_dogecade>). How can you accept payments with as little friction as
+possible? A Bitcoin Improvement Proposal has the answer.
 
 =head2 *Dogecoin-Aware Wallet Links
 
@@ -34,19 +26,17 @@ application and prepare to send a transaction to the given address.
 Dogecoin adopted this obviously good idea.
 
 If you are, for example, selling electronic copies of a book about Dogecoin
-online, you might create BIP-21 address like
-C<dogecoin:DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL> to receive funds. Then if
-someone clicks on that link on a device that understands that format, their
-wallet will pop up and allow them to decide whether to complete the
-transaction.
+online, you might create a BIP-21 address such as
+C<dogecoin:DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL> to receive funds. If someone
+clicks on that link on a device that understands that format, their wallet will
+prompt them to decide whether to complete the transaction.
 
-That works pretty well on a web page, but if you're in this amazing Doge-aware
-pinball arcade, do you really want to pull up a webpage and search for the
-right link when you turn the corner and see the incredibly rare Baby Pac-Man!
-machine you weren't sure if you imagined in a dream?
+That works well on a web page, but if you're in this amazing Doge-aware pinball
+arcade, do you really want to pull up a webpage and search for the right link
+when you turn the corner and see the incredibly rare Baby Pac-Man! machine you
+weren't sure if you imagined in a dream?
 
-Wouldn't it be more fun to pull out your phone, snap a pic, and then start
-playing?
+Wouldn't it be more fun to snap a pic and then start playing?
 
 =head2 *Dogecoin-Aware Images
 
@@ -54,30 +44,26 @@ X<QR code>
 
 You're probably already familiar with QR codes, the three-dimensional barcode
 looking images that contain arbitrary data and take you to real estate listings
-or menus in restaurants that don't want to hand out grubby menus. Why not make
-your own?
+or menus in restaurants that don't want to hand out grubby menus. You may
+already have seen that the Dogecoin Core creates both a BIP-21 address and a QR
+code when you ask it to produce a receiving address. That's not always 100%
+convenient (What if you're using an offline wallet? What if you don't have the
+Core available? What if you don't have the Core GUI running?)
 
-Okay, you've probably also already seen that the Dogecoin Core creates both a
-BIP-21 address and a QR code when you ask it to produce a receiving address.
-That's not always 100% convenient (What if you're using an offline wallet? What
-if you don't have the Core available? What if you don't have the Core GUI
-running?)
+You can make your own QR code with your own address.
 
-It's easy enough to make your own QR code with your own address.
-
-While there are multiple websites that purport to generate QR codes given a
-link, you shouldn't have to trust a third-party to do it right. Yes, you can
-and should always double-check with your own phone or device that the code
-contains the link you want, but it's important to know how to work these tools
-on your own as well.
+While multiple websites purport to generate QR codes for you, you shouldn't
+have to trust a third-party to do it right. While you can and should
+double-check with your own phone or device that the code contains the link you
+want, it's important to be able to use these tools on your own too.
 
 X<< Python libraries; C<qrcode> >>
 X<< external programs; C<qr> >>
 
-You can generate QR codes from lots of programming languages and tools. One
-good tool is the Python module C<qrcode>N<See
-U<https://pypi.org/project/qrcode/> for more details.>. This module includes a
-command-line utility called C<qr> that makes generating images easy:
+Many programming languages can generate QR codes, such as good tool is the
+Python module C<qrcode>N<See U<https://pypi.org/project/qrcode/> for more
+details.>. This module includes an easy to use command-line utility called
+C<qr>:
 
 =begin screen
 
@@ -89,7 +75,7 @@ command-line utility called C<qr> that makes generating images easy:
 This will write a PNG file as output containing the QR code encoding the
 address. If your terminal supports image output, you can test the command by
 skipping the file redirection and pointing your phone at the screen, as shown
-in in L<figure-dogecoin-qr-code-generation>.
+in L<figure-dogecoin-qr-code-generation>.
 
 =begin figure Generate a QR Code from the Command Line
 
@@ -99,38 +85,33 @@ F<images/dogecoin-qr-code-generation>
 
 =end figure
 
-Easy enough?
-
 =begin tip Install Python and qrcode Simply
 
 IF you already have Python 3 installed, use C<python3 -m pip install qrcode>.
-If you don't have Python 3 installed, I've created an installer at
+If you don't have Python 3 installed, download an installer from
 U<https://platform.activestate.com/chromatic/Python-QR-Codes> for Linux, Mac,
 and Windows systems.
 
 =end tip
 
-=head2 *What Can You Do With This?
-
-You can take payments from a variety of devices with reduced human interaction.
-
 =head2 *Understand the Risks
 
-We've already discussed the risk of using someone else's QR code generator to
-generate your QR codes. Always check and double-check that the embedded link is
-a BIP-21 link that contains your address.
+With a QR code, you can take payments from a variety of devices with reduced
+human interaction. That's great, but the link in the QR code is now the entry
+point to your payments. Always check and double-check that the embedded link is
+a BIP-21 link that contains I<your> address.
 
-If you do print out these QR codes and put them on your pinball machines, be
-sure to do so in a way that doesn't hurt the paint. Attach them to glass or
-metal surfaces. You'll thank yourself later.
+If you print these QR codes to attach to your pinball machines, be sure to do
+so in a way that doesn't hurt the paint. Attach them to glass or metal surfaces
+with the appropriate adhesive. You'll thank yourself later.
 
-Printing out QR codes does run the risk of re-using addresses. While it's much,
-much safer to generate new addresses for each transaction, you may find this
-risk is worthwhile to reduce the need for human interaction for every pinball
-play. If you do go this route, rotate your addresses and generate new QR codes
-frequently (weekly? monthly?).
+Printing QR codes runs the risk of re-using addresses. While it's much, much
+safer to generate new addresses for each transaction, you may find this risk is
+worthwhile to reduce the need for human interaction for every pinball play. If
+you do go this route, rotate your addresses (see L<rotate_machine_addresses>)
+and generate new QR codes frequently (weekly? monthly?).
 
 Finally, be aware that a payment system that relies on people scanning codes
 with their phones is susceptible to the risk that someone may print out their
 own QR codes and stick them over the top of your own codes, sort of like an ATM
-skimmer. Watch your pinball machines carefully.
+skimmer. Watch your machines carefully.
