@@ -3,12 +3,11 @@
 Z<understand_the_debug_log>
 
 If you launch the Core--especially if you don't launch the Qt GUI--a lot of
-things happen but most of those things aren't visible. You can go on your way,
-leaving your VM running in the cloud, laptop plugged in on your desk, or tiny
-device nestled in a corner of your goat barn connected to solar panels on the
-roof, and your Core node will contentedly hum along. While you're enjoying the
-sunshine, your node is making and receiving connections to and from other
-nodes, relaying data, validating transactions, and slowly gathering new blocks.
+things happen, many invisible. You can go on your way, leaving your VM running
+in the cloud, laptop plugged in on your desk, or tiny solar-powered device
+nestled in a corner of your goat barn, and your Core node will contentedly hum
+along. While you're enjoying the sunshine, your node is making and receiving
+connections to relay data, validate transactions, and gather new blocks.
 
 Unless you've set up your node to do something visible whenever something
 happens (see L<take_actions_on_new_blocks>), you'll have to look at Dogecoin's
@@ -37,21 +36,20 @@ X<< configuration options; C<printtoconsole> >>
 If you really need to debug something--if you're I<changing> the core, for
 example--use the configuration option C<printtoconsole> to bypass writing to
 F<debug.log>. This is only useful if you're I<launching> the Core from the
-command line and, of course, output will go away when the terminal does unless
-you do something else with it.
+command line. Remember that output will go away when the terminal does unless
+you redirect or capture it.
 
 =end tip
 
 =head2 *What's in the Log?
 
-When the Core starts up, it prints a lot of messages to the log. Most of these
+The Core prints a lot of messages to the long as it starts up. Most of these
 are internal details and not very interesting, but in the case where you're
 running on a slow machine (perhaps a tiny device, an underpowered cloud VM, an
 aging laptop), you can watch the log file to see the progress.
 
 Some of the initial data can be valuable for your on purposes. For example, you
-might see something like this snippet from a recent launch on the author's
-laptop:
+might see something like this snippet:
 
 =begin screen
 
@@ -86,8 +84,6 @@ interface for IPv4 and IPv6 traffic. If you're concerned about specific network
 security, use this information to help figure out if you've configured your
 node appropriately.
 
-There are other lines, but they're not as generally useful, so skip them for now.
-
 =head2 *What Does It Mean?
 
 After your node has run for a while, you'll see other types of messages:
@@ -98,15 +94,15 @@ After your node has run for a while, you'll see other types of messages:
       version 70015, blocks=4678120, us=67.189.98.209:42198, peer=3
   2023-04-15 21:32:19 connect() to [2602:fc05::32]:22556 failed after select():
       No route to host (113)
-  2023-04-15 21:36:09 UpdateTip: new best=af8461i... height=4678121 version=0x00620104
-      log2_work=75.419327 tx=95260772 date='2023-04-15 21:34:26'
-      progress=1.000000 cache=78.0MiB(10374tx)
+  2023-04-15 21:36:09 UpdateTip: new best=af8461i... height=4678121
+      version=0x00620104 log2_work=75.419327 tx=95260772
+      date='2023-04-15 21:34:26' progress=1.000000 cache=78.0MiB(10374tx)
 
 =end screen
 
 This example shows three different types of information, all useful. In your
-log, these three lines will all be on single lines, but for the sake of the
-book, they've broken across multiple lines.
+log, these three lines will all be on single lines, but to fit printed pages,
+they've broken across multiple lines.
 
 The first line records a new connection from another Dogecoin node. This node
 reports that it's running version 1.14.6 of the Core with a standard version
@@ -116,15 +112,15 @@ reports that it's running version 1.14.6 of the Core with a standard version
 connected to the running node.
 
 The second line indicates a network connection failure to another node over
-IPv6. This is normal; nodes come and go and sometimes backhoes make entire
+IPv6. This is normal; nodes come and go. Sometimes backhoes make entire
 networks of nodes temporarily invisible.
 
-The third line will happen a lot, approximately once every minute. That
-probably gives away what's happening. This node has received a new block with
-the given hash (truncated in this example), at height 4,678,121. There are now
-95,260,772 transactions in the entire blockchain, and the block's mining date
-was April 15, 2023 around 9:30 pm UTC. This block is the most recent block
-(otherwise C<progress> would be less than 1.0 or 100%).
+The third line will approximately once every minute. That probably gives away
+what's happening. This node has received a new block with the given hash
+(truncated in this example), at height 4,678,121. There are now 95,260,772
+transactions in the entire blockchain, and the block's mining date was April
+15, 2023 around 9:30 pm UTC. This block is the most recent block (otherwise
+C<progress> would be less than 1.0 or 100%).
 
 The C<log2_work> number represents the number of block hashes you'd have to
 calculate to recreate the entire chain up to this block: two to the power of
@@ -146,9 +142,9 @@ thoughtN<Sigh?>.
 
 If you're interested in mapping nodes on the network, you can analyze node
 connection logs to see how many nodes are available, the versions of the
-network they support, the versions of the Core they run, and their node
-comments (and whatever information you can derive from things like IP addresses
-and numbers of blocks).
+network they support, the versions of the Core they run, their node comments,
+and any other information you can derive from things like IP addresses and
+block counts.
 
 If you're interested in mining statistics, you can examine the C<UpdateTip>
 messages to determine the approximate mining difficulty at any point, the
@@ -156,6 +152,3 @@ number of seconds between blocks, the average number of transactions per block
 at any period of time, et cetera. While this information is available
 historically from other sources and commands, taking it from log data is cheap
 and easy for people who are comfortable processing logs as they arrive.
-
-Other times, it's just interesting to watch for a while. After all, isn't it
-more satisfying to know what's happening behind the scenes now and then?

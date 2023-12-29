@@ -2,20 +2,20 @@
 
 Z<verify_core_releases>
 
-One of the themes of this book is "you can and should check and double-check
-things yourself". Nowhere is this more true than with the wallet software
-you're running. If you use the Dogecoin Core (or any software really), you
-should be able to assure yourself that the code is what you expect it to be.
+Several tips emphasize the importance of checking and double-checking your
+assumptions. With any software you use, you should be able to assure yourself
+that the code you're running is what you expect it to be. Nowhere is this more
+true than with the wallet software you're running--or relying on others to run.
 
 At some point you still have to trust that the developers are doing what they
 say they're doing and the code they've designed and written and tested and
-reviewed does what it should, but trustworthy developers and maintainers will
-go out of the way to give you multiple, cooperating mechanisms to increase your
-confidence and decrease your risk.
+reviewed does what it should. Trustworthy developers and maintainers will give
+you multiple, cooperating mechanisms to increase your confidence and decrease
+your risk.
 
-When a new Dogecoin Core release comes out, here's what you can do to verify
-that the code you're thinking of running hasn't been replaced, misplaced, or
-malformed.
+When a new Dogecoin Core release comes out, you can verify that the code you're
+thinking of running has been reviewed, tested, verified, and pristine from
+undesired modifications.
 
 =head2 *Release Signatures and Checksums
 
@@ -24,10 +24,12 @@ the time of this writing, Dogecoin Core releases have a Git tag and
 accompanying release notes. For example, see the 1.14.6 release notes at
 U<https://github.com/dogecoin/dogecoin/releases/tag/v1.14.6>.
 
-While these release notes have a lot of useful information, they include three
-data points essential to your verification. First, take note of the person who
-made the release (L<figure-dogecoin-core-1.14.6-release-notes-author>). In this
-case, it's C<patricklodder>.
+X<people; Patrick Lodder>
+
+These notes include three data points essential to verification. First, take
+note of the person who made the release
+(L<figure-dogecoin-core-1.14.6-release-notes-author>). In this case, it's
+C<patricklodder>.
 
 =begin figure Dogecoin Core 1.14.6 Release Notes with Author Highlighted
 
@@ -39,9 +41,9 @@ F<images/dogecoin-core-1.14.6-release-notes-author.png>
 
 =head3 *What Would Patrick Sign?
 
-Now that we know Patrick performed this release, we have another piece of data
-to verify. Navigate to the C<v1.14.6> tag, then the
-F<dogecoin/contrib/gitian-keys/> directory. You will see a file called
+Now that you know Patrick performed this release, you can verify another piece
+of data. Navigate to the C<v1.14.6> tag, then the
+F<dogecoin/contrib/gitian-keys/> directory. You'll see a file called
 F<patricklodder-key.pgp> (L<figure-dogecoin-core-1.14.6-gitian-keys>).
 
 =begin figure Dogecoin Core 1.14.6 Release Gitian Keys
@@ -58,17 +60,18 @@ X<< external programs; C<gpg> >>
 =begin tip PGP? GPG? Make up your mind!
 
 PGP stands for Pretty Good Privacy. It's an specification of asymmetric
-cryptography, codified for the Internet at large in RFC
-4880N<https://www.ietf.org/rfc/rfc4880.txt>. GPG stands for GNU Privacy Guard,
-a free software implementation of RFC 4880. While technically GPG signatures
-are PGP signatures, you'll hear people refer to them interchangeably.
+cryptography, codified for the Internet at large in RFC 4880N<See
+U<https://www.ietf.org/rfc/rfc4880.txt>.>. GPG stands for GNU Privacy Guard, a
+free software implementation of RFC 4880. While technically GPG signatures are
+PGP signatures, you'll hear people refer to them interchangeably.
 
 Install GPG from U<https://gnupg.org/>.
 
 =end tip
 
-This file contains the public half of a GPG keypair. Patrick has the other
-private half. Download this file, then import it into your local C<gpg> keyring:
+This file contains the public half of a GPG keypair (see
+L<create_asymmetric_keys>). Patrick has the other private half. Download this
+file, then import it into your local C<gpg> keyring:
 
 =begin screen
 
@@ -79,12 +82,12 @@ private half. Download this file, then import it into your local C<gpg> keyring:
 
 =end screen
 
-When you do this, you give C<gpg> the ability to verify that any file that
-claims Patrick has signed it was actually signed by Patrick. He uses his
-private key to add a signature to a file, then distributes his public key. Take
-a look at that F<SHA256SUMS.asc> file from the GitHub release. Download it and
-you'll seeN<I've trimmed the signatures slightly to fit in the book's
-formatting; they're much longer in the actual file.>:
+When you do this, you give C<gpg> the ability to verify that Patrick did or did
+not actually sign a file with his private key. He uses his private key to add a
+signature to a file, then distributes his public key. Look at that
+F<SHA256SUMS.asc> file from the GitHub release. Download it and you'll seeN<The
+signatures here are truncated to fit the book; they're much longer in the
+actual file.>:
 
 =begin screen
 
@@ -115,11 +118,9 @@ formatting; they're much longer in the actual file.>:
 
 =end screen
 
-That PGP signature is what Patrick generated when he produced this release. If
-anyone has tampered with this file since Patrick produced and signed it, the
-PGP signature will be invalid.
-
-Validate the signature of the file with:
+Patrick generated the PGP signature when he produced the release. If anyone has
+tampered with this file since then, the PGP signature will be invalid. Validate
+the signature of the file with:
 
 =begin screen
 
@@ -133,13 +134,12 @@ Validate the signature of the file with:
 
 =end screen
 
-The signature is good; the file is pristine since Patrick generated and signed
-itN<That warning looks a little concerning; we should probably find a way to
-fix that.>.
+The signature is good; the file is pristine its generation and signingN<That
+warning looks a little concerning and should be fixed, but it's not an error.>.
 
 =head3 *What Did Patrick Intend?
 
-What do we know now?
+What do you know now?
 
 =over 4
 
@@ -153,11 +153,11 @@ What do we know now?
 
 =back
 
-This gives us a lot of confidence that the signatures of the files listed in
-the signature file are trustworthy, I<if we trust Patrick and the other Core
-developers>N<You don't have to trust the Core developers. Your author thinks
-they're trustworthy, but your author isn't going to tell you what level of risk
-and trust you're comfortable with.>.
+This can give you a lot of confidence that the signatures of the files listed
+in the signature file are trustworthy, I<if you trust Patrick and the other
+Core developers>N<You don't have to trust the Core developers. Your author
+thinks they're trustworthy, but your author also will not tell you what level
+of risk and trust you're comfortable with.>.
 
 X<< external programs; C<sha256sum> >>
 
@@ -182,12 +182,12 @@ You don't have to take only Patrick's word for it though. For every Core
 release, the developers create a GitHub issue to track the release tasks. For
 the 1.14.6 release, you can see this at
 U<https://github.com/dogecoin/dogecoin/issues/2975>. On this ticket, multiple
-developers (both maintainers and contributors) must independently build the
-release files on all platforms and provide the signatures and all of the
-signatures must match before the release can go public.
+developers (maintainers and contributors alike) independently build the release
+files on all platforms and provide the signatures and all of the signatures
+must match before the release can go public (see L<reproduce_builds>).
 
 Look at the comments on the issue; Patrick, Michi, chromatic, xanimo, and Alam
-all performed this task and all of our signatures match in the comments and in
+all performed this task. Everyone's signatures matched in the comments and in
 the signatures file. Any interested developer can perform this validation for a
 work in progress, and if their signatures do not match, the Core maintainers
 can stop the release process to investigate what's going on.
@@ -200,20 +200,22 @@ go to a lot of effort to compromise a developer's keys, replace a lot of data
 in a lot of places, or generate a malicious file that somehow produced exactly
 the checksum of the original file.
 
-The latter is only I<theoretically> infeasible, to the best of our knowledge
-now. If at some point in the future this becomes practical, the Core will have
-to switch to another verification/validation mechanism. Whenever this happens,
-keep your eyes and ears open for lots of publicity about how to ensure that
-what you're running is actually what you intend to run.
+The latter is only I<theoretically> infeasible, to the best of everyone's
+knowledge now. If at some point in the future this becomes practical, the Core
+will have to switch to another verification/validation mechanism. Whenever this
+happens, keep your eyes and ears open for lots of publicity about how to ensure
+that what you're running is actually what you intend to run.
 
 =head2 *What Can You Do With This?
 
 Hopefully all of this process improves your confidence that the Dogecoin Core
 you're running is the Core the developers created and verified and released.
-This work doesn't prevent bugs, of course, but it helps guard against imposters
-and frauds sneaking unwanted code onto your system.
+This work doesn't prevent bugs or misfeatures, of course, but it helps guard
+against imposters and frauds sneaking unwanted code onto your system.
 
 If you get your Core from a third-party repository, such as a Linux
 distribution vendor, Homebrew, Chocolatey, or another packaging system, review
 their process and pipeline to see if they perform these verifications. If they
-don't, tread with caution.
+don't, tread with caution. The Core developers can't control what third-party
+bundlers, packagers, or redistributors do--so you can always verify and then
+download the files the Core developers produced.

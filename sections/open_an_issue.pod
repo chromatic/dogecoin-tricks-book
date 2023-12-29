@@ -5,13 +5,12 @@ Z<open_an_issue>
 No matter how smart, hard-working, and attentive software developers are,
 sometimes things just aren't quite right. You'll find a bug, or something that
 looks like a bug. You'll look for a feature you're convinced really ought to be
-there and you won't find it. The documentation will be confusing, or missing,
-or full of glaring typosN<Unlike this book, in which all typos are subtle and,
-very possibly, intentional.>.
+there and it isn't. The documentation will be confusing, or missing, or full of
+glaring typosN<Unlike this book, in which all typos are subtle and
+intentional.>.
 
-In short, you're going to notice something that could be improved.
-
-In that case, who better to ask for the improvement than you?
+In short, you're going to notice something that could be improved. In that
+case, who better to ask for the improvement than you?
 
 =head2 *How to Open an Issue
 
@@ -21,16 +20,16 @@ As of this writing, Dogecoin Core development happens on GitHub
 (L<follow_core_development>). If you run into a developer in person, follow
 them on Twitter, swap messages on Reddit, or change your node's comment
 (L<set_your_node_comment>) to read "Hey devs, when are you porting Core to the
-Nintendo Switch?", your request isn't I<official>-official until it's written
-down in some persistent fashion.
+Nintendo Switch?", your request isn't I<official>-official until it's captured
+in some persistent fashion.
 
-That's why the other core developers aren't facepalming right now, thinking
+That's why the other Core developers aren't facepalming right now, thinking
 "Wait, is he I<really> trying to port to the Switch?"
 
 If you have a more realistic request, such as "I see an error message when I
-try to do ..." or "I think there's a missing feature, because I can't figure
-out how to do ...", then you're in luck. Head over to the Dogecoin Core GitHub
-Issues pageN<At U<https://github.com/dogecoin/dogecoin/issues/>.>. You'll see
+try to ..." or "I think there's a missing feature, because I can't figure out
+how to ...", then you're in luck. Visit the Dogecoin Core GitHub Issues
+pageN<At U<https://github.com/dogecoin/dogecoin/issues/>.>. You'll see
 something like L<figure-dogecoin-core-github-issues>.
 
 =begin figure Dogecoin Core GitHub Issues
@@ -43,10 +42,10 @@ F<images/dogecoin-core-github-issues.png>
 
 Check to see that the URL includes C<dogecoin/dogecoin>. Note that the GitHub
 interface has C<Issues> underlined, indicating that you're looking at the right
-issues tab. Now you have to make a choice. Are you going to report a bug or
-request a new feature?
+issues tab.
 
-Depending on your choice, you'll see a textbox with a lot of text already
+Now you have to make a choice. Are you going to report a bug or request a new
+feature? Depending on your choice, you'll see a textbox with some text already
 included. Both options have different templates that will prompt you to include
 lots of information. Fill out as much detail as you can. While the more detail
 you can include, the better--but if you don't have everything, it's okay. Think
@@ -55,7 +54,7 @@ through all that you do know. Developers can always ask for more information.
 =head2 *What Makes a Good Request?
 
 Before you submit your request, think through what you're trying to achieve. A
-good request tells a story, and that story needs at least four parts.
+good request tells a story. That story needs at least four parts.
 
 =over 4
 
@@ -67,38 +66,37 @@ specific. Did you get an error message? What was the exact text? What did you
 try? What are the steps you tried; can you reproduce them?
 
 =item * What context you have. What operating system are you using? Processor?
-Version? The more detail here, the easier it may be to discover useful
-information. This is often more helpful for bug reports than feature requests,
-but sometimes features are missing because of bugs.
+Version? The more detail here, the easier it is discover useful information.
+This is often more helpful for bug reports than feature requests, but sometimes
+features are missing because of bugs.
 
 =item * How you will know your problem is solved. This is different from your
-big goal, because this is very specific.
+big goal; this is very specific.
 
 =back
 
 =head3 *A Practical Feature Request Example
 
 For example, your author filed a feature request in his head while writing
-about footprint calculations (L<calculate_your_dogecoin_footprint>). What would
-that feature request look like in this framework?
+about footprint calculations (see L<calculate_your_dogecoin_footprint>). What
+would that feature request look like in this framework?
 
 B<I want to accomplish:> performing specific calculations based on actual,
 measurable statistics of the blockchain, such as the number of transactions
-seen at a specific block. I want to do this through RPC commands, like
-C<getblockcount>.
+seen at a specific block, accessed via RPC commands such as C<getblockcount>.
 
 B<What prevented me:> there's no obvious RPC method that provides this data
-directly or implicitly provides this data. While I could get data for each
+directly or implicitly provides this data. While it's possible to data for each
 block from the genesis block to the most recently-mined block and calculate
 this count myself, that would require hundreds of thousands of RPC requests and
 would take a lot of time.
 
-B<What context is appropriate:> I tested this on a 64-bit Linux machine with a
-wallet enabled and transactions indexed (L<index_all_transactions>), so I'm
-confident that the node has enough data to provide this information.
+B<What context is appropriate:> A test on a 64-bit Linux machine with a wallet
+enabled and transactions indexed (L<index_all_transactions>) demonstrated that
+that the node has enough data to provide this information.
 
-B<My problem will be solved when:> I can use a single RPC command to get the
-information I like in less than ten seconds.
+B<My problem will be solved when:> anyone can use a single RPC command to get
+the information needed in fewer than ten seconds.
 
 This request turned into a pull requestN<See
 U<https://github.com/dogecoin/dogecoin/pull/3248>.>, where all of this
@@ -113,15 +111,14 @@ issue. I<Should> you?
 
 If you've found what you believe to be a bug--the Core behaving in a way you
 don't expect, a feature not working, a strange crash or error message--then
-please do report a bug. While developers spend a lot of time thinking about
-things, testing them, and trying to improve quality, the best feedback
-available is from real users doing real things in new ways and different
-contexts.
+I<please> do report a bug. Developers spend a lot of time thinking about
+things, testing them, and trying to improve quality, but the best feedback
+comes from real users doing real things in new ways and different contexts.
 
 If you're missing a feature, think about the best place to add it. Is it
 something that should be in Core, or is it something you can add yourself with
-the features the Core already provides? (Or, in the example case, is it
-I<better> done in Core, because the external implementation would be expensive,
+the features the Core already provides? (In the example case, is it I<better>
+done in Core, because the external implementation would be expensive,
 difficult, or fragile?)
 
 If you're not sure, feel free to reach out to other Dogecoin friends for

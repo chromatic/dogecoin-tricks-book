@@ -2,16 +2,22 @@
 
 =head0 Inside the Dogecoin Core
 
-Dogecoin is a lot of things. One of those things is the Dogecoin Core wallet.
-While anyone can write or run their own client, this code is the first client
-among equals.
+Dogecoin is a lot of things, and one of them is the Dogecoin Core wallet. There
+is no such thing as an "official" wallet or "official" implementation of
+Dogecoin. Dogecoin is a protocol and a network and the consensus of everyone
+who participates in producing, consuming, relaying, and mining transactions and
+blocks. Anyone can write or modify or run their own client.
 
-This is good, in that it's tested, observed, analyzed, and deployed widely.
-It's risky, in that Dogecoin belongs to everyone who participates. Fortunately,
-the code is open and available for anyone to read, study, adapt, modify on
-their own, and suggest changes.
+Yet the Dogecoin Core was the first client, and it remains one of the most
+popular. Anyone can read its code, modify it, suggest changes, and even verify
+that the code as published is the same code that builds the binaries. This is
+good, in that it's tested, observed, analyzed, and deployed widely. It's risky,
+in that Dogecoin belongs to everyone who participates, regardless of their
+intentions.
 
-That includes you.
+Fortunately, the phrase "anyone can contribute" is true--and it requires less
+skill, time, and effort than you might think. Your experience and insights and
+suggestions are valuable to Dogecoin and the Dogecoin Core.
 
 L<follow_core_development>
 

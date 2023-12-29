@@ -2,7 +2,7 @@
 
 Z<put_your_face_on_your_wallet>
 
-From the start, Dogecoin intended to put a friendly face on cryptocurrency.
+Dogecoin intended to put an amusing face on cryptocurrency from the start.
 That's one reason a friendly Shiba Inu shines on you happily when you launch
 the core GUI and look at the wallet. A happy dog makes other people happy.
 
@@ -14,14 +14,12 @@ and more options to choose how their nodes and the network as a whole behaves.
 
 Some of these options are available to everyone running the latest software.
 Other options rely on your ability to reconfigure the Core (or write your own
-software). Some of these are terrible ideas, but others can be harmless fun.
-
-If you're comfortable compiling your own version of the Dogecoin core software
-(see L<build_core_in_docker>, for example), you can do a lot of things,
+software). Some of these are terrible ideas, but others can be harmless fun,
 including replacing the default wallet image with one of your choosing. For
 example, see L<figure-dogecoin-custom-wallet-background>).
 
-=begin figure Your Author, as a Post-Apocalyptic Troubadour Shibe, Hosting a Wallet
+=begin figure Your Author As a Post-Apocalyptic Troubadour Shibe, Hosting a
+Wallet
 
 Z<figure-dogecoin-custom-wallet-background>
 
@@ -29,16 +27,16 @@ F<images/dogecoin-custom-wallet-background.png>
 
 =end figure
 
-Assuming you can compile source code, apply a patch, and supply an image with
-the appropriate characteristics, you can add a little more brightness to your
-own day too!
+Assuming you can compile source code (see L<build_core_in_docker>), apply a
+patch, and supply an image with the appropriate characteristics, you can
+brighten your own heart too!
 
 =head2 *Replacing an Image in Dogecoin Core
 
 While this may seem like either a lot of work or a little bit, your author's
-first proof of concept took two lines of code. He predicted doing this
-mostly-right would take about ten lines of code. With the right guidance,
-swapping an image can be straightforward. Some caveats apply.
+first proof of concept took two lines of code. Doing this in the mostly-right
+way might take about ten lines of code. With the right guidance, swapping an
+image can be straightforward. Some caveats apply.
 
 =head3 *How Images Work in Dogecoin
 
@@ -46,35 +44,33 @@ X<external software; Qt toolkit>
 X<< Dogecoin Core; C<dogecoin-qt> >>
 
 The Dogecoin Core GUI uses a graphical toolkit called QtN<See
-U<https://qt.io/>.> to provide features such as user interface widgets, event
-handling, and graphical display. This toolkit has a lot of options and
-possibilities, and it provides support for a lot of operations including image
-display. Because C<dogecoin-qt> is an all-in-one single binary file, it has to
-include image data within the one binary file rather than load images, icons,
-and graphics from disk whenever it startsN<This is a good thing; there are
-risks to loading external images this tip will discuss later.>.
+U<https://qt.io/>.> to mange interface widgets, handle events, and display
+graphics. Because C<dogecoin-qt> (see L<understand_core_programs>) is an
+all-in-one single binary file, it has to include image data within the one
+binary file rather than load images, icons, and graphics from disk whenever it
+startsN<This is a good thing; there are risks to loading external images.>
 
-While that's a good thing, replacing an image isn't as easy as moving,
-renaming, or overwriting a file.
+This means that replacing an image isn't as easy as moving, renaming, or
+overwriting a file.
 
 =head3 *Finding the Right Place to Modify
 
 Dogecoin uses a Qt feature called I<forms> to implement the visible user
-interface. The screens and views you see when you use the Core GUI are all
-defined in forms. These forms specify the types of widgets, the layout of the
-screens, and the images, fonts, and other resources used to draw the interface.
-You can find these forms in F<src/qt/forms/> in the Dogecoin source code tree.
+interface. Every screen and view you see when you use the Core GUI has a form
+definition somewhere. These forms specify the types of widgets, the layout of
+the screens, and the images, fonts, and other resources used to draw the
+interface. Find these forms in F<src/qt/forms/> in the Dogecoin source code
+tree.
 
 Similarly, all of the images used in forms are in the F<src/qt/res/icons/>
 directory. To find a specific image, look at the files in that directory.
-Spoiler alert: the one we want to replace is
+Spoiler alert: the one used in this tip is
 F<src/qt/res/icons/wallet_bgcoin.png>. Remember that name.
 
-Working with full filenames and paths is verbose, so Qt in Dogecoin uses
-something called a C<QResource> file to associate short aliases with these
-filenames. If you look at the file F<src/qt/bitcoin.qrc>, you'll find that the
-image we're looking at has an alias of C<wallet_bgcoin>. In retrospect, that
-was predictable.
+Working with full filenames and paths is verbose, so Qt in Dogecoin uses a
+C<QResource> file to associate short aliases with these filenames. If you look
+at the file F<src/qt/bitcoin.qrc>, you'll find that the wallet background image
+has an alias of C<wallet_bgcoin>. In retrospect, that was predictable.
 
 =begin tip You're Not Born Knowing This
 
@@ -84,68 +80,67 @@ X<< external programs; C<git-grep> >>
 X<< external programs; C<hg> >>
 
 Knowing this now is all well and good, but if you didn't know this, how would
-you figure it out? Developer tip: get really good at searching a directory tree
-for a string of text. Your author had to find the right file, then searched for
-the filename and found the C<qrc> file. If you're using an IDE which includes
+you figure it out? Developer tip: get good at searching a directory tree for a
+string of text. Your author had to find the right file, then searched for the
+filename and found the C<qrc> file. If you're using an IDE which includes
 search features, use them! Otherwise practice using a search utility like
 C<grep>, C<git-grep>, C<ack>, or C<hg>. You'll unlock a superpower figuring out
 how things fit together.
 
 =end tip
 
-With the alias name, it's easy to find the form using that image: it's
-F<src/qt/forms/overviewpage.ui>. We're almost all the way down the rabbit hole.
+With the alias name, you can search for the form using that image: it's
+F<src/qt/forms/overviewpage.ui>.
+
 You can go one of two directions here. Either you've used Qt this way before
 and you know exactly what this means, or you take two more steps and figure out
 what's going on. Behind the scenes, when you compile Dogecoin Core, the Qt
-software takes the XML in this UI file and generates some complex but
-predictable C++ code from it. This C++ code has a specific class with public
-members you can manipulate like you would any other C++ code. Build the Core to
-see a header file named F<src/qt/forms/ui_overviewpage.h>, which you can read
-to see that the corresponding class is C<Ui_OverviewPage> and the class member
-corresponding to this image's widget is C<label_wallet_bgcoin>.
+software uses the XML in this UI file to generate complex but predictable C++
+code from it. This C++ code has a specific class with public members you can
+manipulate like you would any other C++ code. Build the Core to see a header
+file named F<src/qt/forms/ui_overviewpage.h>, which you can read to see that
+the corresponding class is C<Ui_OverviewPage>. The class member corresponding
+to this image's widget is C<label_wallet_bgcoin>.
 
 If you're comfortable modifying C++ code, you're off to the races now. The last
 thing you need to know is that the Core initializes this form in a class called
 C<OverviewPage>, found in F<src/qt/overviewpage.cpp>. To load a I<different>
-image, you could either modify the Qt resource and UI declaration, or change
-the pixmapN<This is how Qt refers to an image in this context.> when the Core
-initializes this page. That's in the C<OverviewPage> constructor, and that's
-where we'll head next.
+image, either modify the Qt resource and UI declaration, or change the
+pixmapN<This is how Qt refers to an image in this context.> when the Core
+initializes this page.
 
 =head3 *Hard-Coding a New Image in the Core
 
-The C<OverviewPage> constructor receives the Qt widget as a parameter called
-C<ui>, and all of that widget's public members are available, so all we have to
-do is create a new C<QPixmap> and set it as the pixmap of C<<
-ui->label_wallet_bgcoin >>.
+Initialization occurs in the C<OverviewPage> constructor. This constructor
+receives the Qt widget as a parameter called C<ui>, and all of that widget's
+public members are available. To override the wallet background image, create a
+new C<QPixmap> and set it as the pixmap of C<< ui->label_wallet_bgcoin >>:
 
-=begin code
+=begin screen
 
   QPixmap pic("src/qt/res/icons/jr_developer_puppet_from_real_shibes.png");
   ui->label_wallet_bgcoin->setPixmap(pic);
 
-=end code
+=end screen
 
-Recompile and launch C<dogecoin-qt> and you should see the results from
+Recompile and launch C<dogecoin-qt>. You should see the results from
 L<figure-dogecoin-custom-wallet-background>.
 
 =head3 *What Kind of Images Work?
 
-Look at the original image. It's a 300x300 square image in PNG format with a
-transparent background. You can use any image you like, but the further you go
-from this form, the worse things will look. For your best options, stick with a
-square image of about those dimensions, in PNG format with a transparent
-background. JPEG files don't allow transparency and GIFs don't necessarily have
-the color fidelity you might want.
+The original image is a 300x300 square image in PNG format with a transparent
+background. You can use any image you like, but the closer you stick to this
+format, the better your results. For your best options, stick with a square
+image of about those dimensions, in PNG format with a transparent background.
+JPEG files don't allow transparency and GIFs don't necessarily have the color
+fidelity you might want.
 
 =head3 *Working with the Existing Patch
 
 Hard-coding an image file and recompiling every time you want to re-skin your
-wallet background is a little more effort than you might want to undertake.
-What if there were a way to select an appropriate image every time you
-I<launch> the Qt GUI? What if you could use a configuration option to provide a
-path to an image?
+wallet background is more effort than you might want to undertake.  What if
+there were a way to select an appropriate image every time you I<launch> the Qt
+GUI or use a configuration option to provide a path to an image?
 
 As of this writing, you can't do this with any released Dogecoin Core version,
 but you I<can> grab a patch from the author's GitHub branchN<See
@@ -158,32 +153,30 @@ launched the Core GUI) to use as a background image.
 For example, to use that Junior Developer Puppet image created by
 JimmieN<U<https://twitter.com/jimjimmiejames>> of the Real
 ShibesN<U<https://twitter.com/Real_Shibes>> podcastN<Listen and subscribe at
-U<https://dogebroadcast.com/>>, your author would use a command like:
+U<https://dogebroadcast.com/>.>, your author would use a command like:
 
 =begin screen
 
   $ B<ls *png>
   jr-developer-shibe.png
 
-  $ <dogecoin-qt --walletimage=jr-developer-shibe.png>
+  $ B<dogecoin-qt --walletimage=jr-developer-shibe.png>
 
 =end screen
 
-This tip deliberately includes I<no> walkthrough of how to apply this change or
-build it, because of the risks it introduces. Speaking of risk, let's talk
-about them.
-
 =head2 *Understand the Risks
 
-First off, understand that the risk here is that you're using I<unsupported>,
-I<modified> software that has even fewer guarantees than the Dogecoin Core,
-which is released with zero guarantees. If something goes wrong, you get double
-the blame you would otherwise.
+This tip deliberately includes I<no> walkthrough of how to apply this change or
+build it, because of the risks it introduces.
+
+One big risk is that you're using I<unsupported>, I<modified> software that has
+even fewer guarantees than the Dogecoin Core, which is released with zero
+guarantees. If something goes wrong, you're own your own.
 
 That's a standard disclaimer, though. The real truth is that the risk is
 slightly higher than running a modified build. If you use an arbitrary image
 outside of your own control, you've put yourself at risk of malicious code or
-exploits from an image. Yes, an image--bugs exist in image processing
+exploits from an image. Yes, from an image--bugs exist in image processing
 libraries, and multiple security vulnerabilities have happened because people
 assumed image files are safe.
 
@@ -191,12 +184,12 @@ Using an image you created, modified, edited, validated with your own software
 on a machine you trust is one thing. You're still using code that hasn't been
 vetted by the Core developers, but the provenance of that image is less
 worrisome. If, instead, someone tells you "Download this file, then run your
-core wallet with this command-line option to use this image!" never do what
-they say. Fun customizations entirely under your control are one thing.
-Letting someone else put arbitrary code or data on your computer is something
-else, and you can and should safely ignore those suggestions.
+core wallet with this command-line option to use this image!" never do it.  Fun
+customizations entirely under your control are one thing. Letting someone else
+put arbitrary code or data on your computer is something else. Avoid those
+people.
 
-Second off, if anyone points you at a branch, a patch, or any other
+Furthermore, if anyone points you at a branch, a patch, or any other
 modification to the Dogecoin Core and tells you to download, compile, and run
 it, be I<very> careful. There's no end to the malice someone could perform if
 they convince you to do something you wouldn't normally do.
@@ -226,7 +219,7 @@ the standard rules:
 =back
 
 Above all, have fun! Yes, that's a long list of caution to keep in mind, but if
-you're careful, even silly ideas like this can get more people involved.
-Writing software can be enjoyable and it can teach people to think deeply about
-all the ways things can go wrong even as they're still putting friendly faces
-and interfaces on their systems.
+you're careful, even silly ideas like this have value! Writing software can be
+enjoyable and it can teach people to think deeply about all the ways things can
+go wrong even as they're still putting friendly faces and interfaces on their
+systems.
