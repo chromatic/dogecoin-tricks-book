@@ -163,7 +163,7 @@ object itself, such that every call to a method would increment that value and
 give you a new address.
 
 X<people; Raph Levien>
-X<obsure references; Advogato>
+X<obscure references; Advogato>
 
 None of these examples require the use of Perl, of course. The same techniques
 work in any language which provides C<libdogecoin> bindings; even C

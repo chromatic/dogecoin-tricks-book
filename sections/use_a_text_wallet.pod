@@ -1,0 +1,168 @@
+=head1 Use a Text Wallet
+
+Z<use_a_text_wallet>
+
+X<wallet>
+X<concepts; text wallet>
+
+Without diving into the complex and fascinating world of semiotics, this book
+attempts to express the idea that cryptocurrency is the meaning that humans
+assign to complex sequences of numbers and rules about how to interpret,
+generate, and verify those numbers. While this book uses the Dogecoin Core as
+an example of software used for that meaning-making, it is not the only way to
+participate in the Dogecoin network.
+
+Even the word "wallet" is a metaphor, perhaps a misnomer. If you had 10,000
+Dogecoin right now you could make up a valid Dogecoin address, throw away any
+way to regenerate the key, and send some or all of your funds to that address.
+The network doesn't care until I<someone> attempts to spend those funds. Unlike
+a real kruggerand which changes hands during transactions, the network only
+cares about proof of access to any transaction when someone tries to spend the
+funds.
+
+In other words, you don't need I<software> to hold funds or receive funds. You
+only need software at the point of creating and broadcasting a transaction to
+I<spend> funds.
+
+How do you keep track of how to spend your hard-earned coins without a wallet?
+
+=head2 *What is a Text Wallet?
+
+The wallet you might have attached to your Core node is a binary file which
+acts as a database of sorts. It contains a list of private keys, labels, and
+addresses. Your wallet may also include transaction information to help you
+access this data more quickly--but the only thing it really must contain is
+enough private key information to derive public keys and addresses.
+
+A text wallet is I<something> which contains that information but which is not
+connected to a Core node or another piece of software. It could be a text file
+on a removable drive, a list of data printed on a piece of paper, or even
+something chiseled into stone. For this to work well, this text wallet must
+demonstrate at least three properties:
+
+=over 4
+
+=item * The data must be accessible and retrievable when you need it
+
+=item * The data must be secure from theft or loss
+
+=item * The data must be accurate, complete, and reproducible
+
+=back
+
+As usual, the balance between security (no one should have access to the
+contents of the wallet) and accessibility (it should be easy to perform wallet
+transactions when desired) complicates things. If you were to memorize your
+private keys and could type them from memory perfectly every time you wanted to
+spend funds, you could avoid having a wallet artifact at all.
+
+You should not trust your memory, however. Too many things could happen to you
+to rely solely on perfect recall.
+
+Similarly, you could write your private keys on a sticky note and keep it under
+your keyboardN<Don't do this!>. This would be easy to access and immune to
+power outages, hard drive crashes, or attackers who manage to gain access to
+the files on your laptop, but paper is easily lost and damaged, and if someone
+wanders into your New Years Eve party and sees the note, you could be in
+trouble.
+
+=head3 *Generate or Export a Text Wallet
+
+How do you get a text wallet? The rules for I<generating> private keys and
+deriving public keys are well-understood, so any compatible and trustworthy
+software can work for you. If you want to use the Dogecoin Core, you can start
+with an empty wallet then expand the wallet pool to give you enough addresses
+for the foreseeable future (see L<replenish_your_address_pool>).
+
+X<< external software; C<libdogecoin> >>
+
+If you want to use different software, such as C<libdogecoin>, you might find
+it easier to generate a BIP-32 or BIP-44 wallet (see L<derive_more_addresses>)
+where you have a single seed phrase which you can use to generate an infinite,
+predictable series of private and public keys. In that case, you can back up
+I<only> the seed phrase and use it to regenerate your wallet at any time. You
+may want to generate plenty of addresses in advance, however, to avoid needing
+to enter your seed phrase too often.
+
+Furthermore, any software which implements either of those two BIPs can
+generate a master key which you can use to regenerate your wallet. Be cautious
+that you can trust this code, that it implements the Dogecoin network and key
+parameters correctly, and that you can trust its entropy source (see
+L<embrace_entropy>).
+
+Regardless of whichever approach you choose, you should be able to export a
+list of addresses to which you can receive Dogecoin as well as either a seed
+phrase or a list of private keys. While you can keep all of this information
+together, you may want to separate your addresses from your secrets. This
+allows you to treat the most secret information with the most security (you
+only need access when you want to spend funds), while keeping the addresses
+more accessible (you may need to get a new address or batch of addresses every
+day).
+
+=head2 *What Can You Do With This?
+
+To spend your funds, you need to use some kind of software to create a
+transaction. One of the inputs, of course, is the private key of the address
+which holds the funds you want to spend. To get that private key, you need to
+get the right data from your text wallet into the software.
+
+If you've backed up your private keys, you can import the appropriate private
+key into software like Dogecoin Core. WIF-style keys are good for this (see
+L<interchange_your_wallet_keys>). Seed phrases are good for software like (or
+built upon) C<libdogecoin>. Remember that you can import data from a computer
+file or type it in by hand, but you should check for typos or file corruption
+before doing anything you can't reverse.
+
+X<people; Fluvio55>
+
+An alternate approachN<Your author has not tested it, but takes the
+recommendation of Reddit Dogecoin Shibe C</u/Fulvio55> seriously.> is to use a
+local copy of the C<coinb.in> website with your computer disconnected from
+every network to create and sign transactions. While this adds friction to the
+process, it also adds security by reducing the amount of time your private keys
+or passphrase needs to be exposed.
+
+By separating your addresses from your text wallet, you can monitor them for
+transactions (see L<watch_wallet_addresses>) and even perform automated actions
+on them (see L<act_on_wallet_transactions>).
+
+=head2 *Understand the Risks
+
+The biggest benefit of a text wallet is that it's not online and not easily
+available from a computer that someone can carry off or break into. If you keep
+your wallet on your phone, laptop, or another mobile device, the risk is even
+higher than if you have a clunky desktop computer padlocked to a steel beam in
+your basement. The more difficult it is for anyone to access your wallet, the
+fewer chances you have of losing your funds.
+
+The drawback of most effective security measures is that inaccessibility means
+inconvenience when I<you> want to access your funds. It's easy to use a
+custodial tipbot with a mobile client to send Dogecoin to someone for creating
+an amazing meme, posting something useful on social media, or being an amazing
+person, but all of those funds are at higher risk than if you keep your keys
+printed on paper and stored in a safe deposit box.
+
+Paper has its own risks too. Moths or insects can eat it. Fire and water can
+damage it. Wars or civil unrest can destroy it (and the bank and the bank
+vault).
+
+A USB key has other risks--besides physical damage, it can have data loss or
+you may no longer be able to read the file, depending on its format. (A
+F<wallet.dat> file may be riskier than the plain-text contents of your wallet,
+for example.) Lightning may strike or an EMP blast may happen if a mad
+scientist miswires a Tesla coil.
+
+In all cases, I<your> ability to remember that the text wallet exists, how to
+access it, and how to use it is another gating factor. If you've saved up
+emergency money for health care costs and you cannot go to a physical location
+or communicate your access mechanism to your loved ones, your funds may not be
+accessible. The same applies to an unencrypted wallet on your computer too, of
+course.
+
+In every case, balance the risks of losing your funds with the risks of losing
+your text wallet. Multiple copies of the text wallet reduce the risk of losing
+any single copy, but increase the chances that anyone can get their hands on
+any copy. The safest funds are in a wallet where no one can access the private
+keys. That probably defeats your purpose though, so your security strategy will
+depend on your circumstances and needs. Review this regularly and make changes
+as appropriate.

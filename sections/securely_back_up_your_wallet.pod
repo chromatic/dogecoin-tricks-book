@@ -29,12 +29,12 @@ the former by making a backup.
 =head2 *Understand the Risks
 
 If you have only a single copy of your wallet, the thing (computer, USB key,
-laminated paper in a safety deposit box) containing that wallet has a physical
-risk of theft, destruction, or data exfiltration. Hard drives die, cats knock
-laptops off of bookshelves, and USB keys go through laundry. Maybe your hard
-drive will grind to a halt. Maybe you'll spill a glass of orange juice on your
-laptop during a hearty breakfastN<Your author has, of course, I<never> done
-this. It was lunch.>.
+laminated paper in a safety deposit box--see L<use_a_text_wallet>) containing
+that wallet has a physical risk of theft, destruction, or data exfiltration.
+Hard drives die, cats knock laptops off of bookshelves, and USB keys go through
+laundry. Maybe your hard drive will grind to a halt. Maybe you'll spill a glass
+of orange juice on your laptop during a hearty breakfastN<Your author has, of
+course, I<never> done this. It was lunch.>.
 
 Having multiple copies of essential data is a good disaster recovery mechanism.
 Maybe you're being sufficiently cautious during an upgrade of the Core version.
