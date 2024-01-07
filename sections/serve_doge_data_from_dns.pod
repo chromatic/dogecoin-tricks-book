@@ -1,0 +1,293 @@
+=head1 Serve Doge Data from DNS
+
+Z<serve_doge_data_from_dns>
+
+A previous tip about adding wallet addresses to a DNS record (see
+L<add_wallet_address_to_dns>) opened the door to serving static or at least
+semi-static data from DNS. There's plenty more where that came from!
+
+For example, retrieving data from a node under your control requires
+configuration and security (see L<chapter_getting_data_from_local_node>). While
+this remains true, using an existing network service such as DNS to serve this
+data can simplify your life, especially if the alternative means exposing RPC
+or other services to the Internet--or pushing you to rely on someone else's
+potentially untrustworthy copy of the data.
+
+=head2 *Generating Data from DNS Queries
+
+X<people; Kailash Nadh>
+
+Kailash Nadh's DNS ToysN<See U<https://www.dns.toys/>.> is a great example of a
+useful principle behind DNS: a query is a kind of request, and a response is a
+kind of answer. While the original purpose of a DNS query is to resolve a
+domain name into an IP address for serving HTTP content, responding to email
+queries, et cetera, there's no reason a I<custom> DNS server cannot respond to
+non-domain-name queries with custom data.
+
+In other words--in Kailash's examples--a DNS query for C<berlin.time> does not
+represent an actual domain name but instead gets interpreted as a request for
+the current time in the city of Berlin.
+
+For this to work, the querant has to understand the format of the query (city
+name dot time, in this case) and the server has to understand both the query
+format (all dot time requests are time requests) and the data format to return.
+A general purpose DNS server will respond with "There's no such domain name",
+so you need a custom DNS server.
+
+=head2 *Responding to Custom Queries
+
+X<< Perl libraries; C<Net::DNS::Nameserver> >>
+
+Responding to custom queries is easy with the right DNS server. For example,
+your author knew about the Perl library C<Net::DNS::Nameserver>, so he was able
+to write a responder in a few minutes. You can use whatever language or toolkit
+you like; this is only for example purposes.
+
+Start with something easy, such as a query for the oldest and newest block
+heights that a Dogecoin Core node can serve. Why is this useful? Perhaps you
+have a pruned node (see L<know_your_limits>>) and you want to know how far back
+you can go to retrieve data. Perhaps you have a regular process which needs to
+examine newer blocks and transactions and you want to know if you're up to
+date.
+
+In this case, a good format might be C<param.block.doge>, where C<param> is
+either C<first> or C<last>. This pattern is easy to parse and should be easy to
+extend.
+
+The responder should be able to respond to queries of this form with a C<TXT>
+record. For the sake of argument, consider returning a semi-structured string
+something like "First block height is 1" or "Last block height is 5038774".
+
+C<Net::DNS::Resolver> allows you to specify a custom function to act as a reply helper, so the body of the Perl code will look something like:
+
+=begin screen
+
+  sub reply_handler( $qname, $qclass, @rest ) {
+      state %actions = (
+          block       => \&handle_block_query,
+          transaction => \&handle_tx_query,
+      );
+
+      my @results;
+
+      my ($param, $type, $doge) = split /\./, $qname;
+
+      if ($doge eq 'doge' && $actions{$type} {
+          @results = $actions{$type}->( $param, $qclass, @rest );
+      }
+
+      @results = ( 'NXDOMAIN', [] ) unless @results;
+
+      return @results, [], [];
+  }
+
+
+  sub handle_block_query( $param, $qclass, @rest ) {
+      my $height = $param eq 'last' ? 1 : 5038774;
+      my $txt    = ucfirst $param . " block height is $height";
+
+      return 'NOERROR', [ make_txt_record( block => $txt ) ];
+  }
+
+  sub make_txt_record( $name, $txtdata, $ttl = 60 ) {
+      return Net::DNS::RR->new(
+          name    => $name,
+          type    => 'TXT',
+          ttl     => $ttl,
+          txtdata => $txtdata,
+      );
+  }
+
+=end screen
+
+The first function takes several elements from the DNS query; the most
+important is C<$qname> which, in this case, contains something like
+C<first.block.doge> or something entirely unlike that. The function splits the
+response into three parts corresponding to the three parts in the query. If the
+last part is not C<doge>, the function returns an error response which means
+"The domain does not exist".
+
+For the case when the last part I<is> C<doge>, the function calls a helper
+named C<handle_block_query>. Here there are two hard-coded values for the last
+block and everything else, assumed to be the first block. This function itself
+calls another helper to make a C<TXT> record object which the Perl library can
+translate into the appropriate output.
+
+This C<make_txt_record> helper is not strictly necessary, but it allows further
+customization. For example, it includes a parameter to set the time-to-live
+(TTL) value for the record. The default is 60 seconds. Any DNS caching between
+this server and the client you use to query the server can cache a response for
+the duration of the TTL value, reducing network traffic.
+
+To test this service, you need a little more code to run it:
+
+=begin screen
+
+  use Modern::Perl '2023';
+  use Net::DNS::Nameserver;
+
+  exit run( @ARGV );
+
+  sub run( $timeout = 20 ) {
+      my $ns = Net::DNS::Nameserver->new(
+          LocalAddr    => '127.0.0.1',
+          LocalPort    => 5354,
+          ReplyHandler => \&reply_handler,
+          Verbose      => 1,
+      ) || die "Couldn't create Net::DNS::Nameserver object\n";
+
+      local $SIG{INT} = sub { $ns->stop_server };
+
+      $ns->start_server( $timeout );
+  }
+
+=end screen
+
+X<< Perl libraries; C<Modern::Perl> >>
+
+If you save the entire file as F<dogedns.pl> (and install C<Modern::Perl> and
+C<Net::DNS::Nameserver>), you can run it from the command line:
+
+=begin screen
+
+  $ B<perl dogedns.pl>
+
+=end screen
+
+X<< external programs; C<dig> >>
+
+To test it, use the C<dig> command-line tool:
+
+=begin screen
+
+  $ B<dig +short @127.0.0.1 -p 5354 last.block.doge>
+  "Last block height is 5038774"
+  $ B<dig +short @127.0.0.1 -p 5354 first.block.doge>
+  "First block height is 1"
+
+=end screen
+
+The C<+short> option tells C<dig> to only print the response data, not the
+remainder of the query information. You can remove it to see more information.
+C<@127.0.0.1> queries the local host (set in the C<run> function) and C<-p>
+specifies the port number (also set in the C<run> function).
+
+=head2 *Serve JSON From Custom Queries
+
+Serving hard-coded block heights isn't interesting for long. It'd be more
+useful to serve the actual block heights from the node. This requires a little
+more work, but not much (see L<enhance_rpc_calls>, for example).
+
+Returning text or block heights themselves is also interesting, but serving
+structured data--such as the JSON of a transaction itself--is a lot more
+interesting. What if there were a query scheme something like
+C<txid.transaction.doge>? Adding that to the handler could be:
+
+=begin screen
+
+  use JSON 'encode_json';
+
+  ...
+
+    state %actions = (
+        block       => \&handle_block_query,
+        transaction => \&handle_tx_query,
+    );
+
+  ...
+
+  sub handle_tx_query( $param, $qclass, @rest ) {
+      my $tx = get_transaction( $param );
+
+      return 'NOERROR', [ make_txt_record( tx => encode_json( $json ) ) ];
+  }
+
+=end screen
+
+... where C<get_transaction> knows how to call the RPC interface to get the
+JSON of the node. Note two things here. First, there's no error handling (and
+there should be). Second, the C<make_txt_record> helper creates another C<TXT>
+record with a name of C<tx> and a single entry containing the encoded JSON of
+the transaction. Behind the scenes, the Perl library will format the encoded
+text such that it conforms to the DNS protocol specification. That means that
+I<consuming> the output is a little trickier, as you can see if you run another
+C<dig> query to see the output.
+
+To consume this data with C<jq>, for example, you need to remove quoted spaces
+to concatenate together multiple C<TXT> entries:
+
+X<< external programs; C<jq> >>
+X<< external programs; C<sed> >>
+
+=begin screen
+
+  $ B<dig +short @127.0.0.1 -p 5354 tx.transaction.doge |>
+    B<sed -r 's/" "//g' | jq ". | fromjson | .">
+
+=end screen
+
+Swap C<tx> for the id of a transaction your node can serve. Here, the C<sed>
+Unix utility removes all quoted spaces from the output, which allows C<jq> to
+parse the resulting string as a JSON string. The C<. | fromjson | .> part of
+the C<jq> command parses the JSON string I<as> JSON, and then prints it out in
+a more readable format.
+
+If you're consuming this data from your own code, make sure your library or
+parser handles the output here appropriately. Similarly, if you implement this
+in a different language, see what kind of output you get from providing long
+strings as C<TXT> responses.
+
+=head2 *Understand the Risks
+
+Exposing any data from a node (or a machine with access to a node) represents a
+point of connection to the node. Beware that any exploit of this service could
+lead to a compromise of the machine where it runs and, from there, the node
+itself.
+
+Do you want Perl and a stack of libraries running on your machine to serve DNS
+queries? Perhaps or perhaps not. It might be interesting to port this code to
+Golang or another single-binary distributable language--though your ability to
+hack on it may be more interesting than the language itself.
+
+This code runs on an unprivileged port (5354) so it doesn't need superuser
+privileges to run. It also runs on the loopback interface so that only the
+local machine can query it. If you want to change either of those properties,
+be very cautious. If you're not sure what that means or what they imply, ask
+some trusted friends and consider reconsidering what you want to accomplish.
+
+=head2 *What Can You Do With This?
+
+This is currently a toy, but it demonstrates where things could go.
+
+You could combine this with the DNS wallet address service to create a registry
+of names to addresses, even subdividing things further. For example, each user
+of your system could have their own C<person.shibes.doge> subdomain which
+returns information including a tip wallet address, contact information, et
+ceteraN<Remember to practice good security and privacy hygiene when doing so.>.
+
+If you find that transaction IDs are too lengthy or confusing to use, you could
+associate labels or other aliases to them, corresponding to labels for
+addresses.
+
+Any read-only RPC call could be served over DNS. You could even serve (limited)
+write calls over DNS, but the thought of doing so securely gives even your
+author pause.
+
+There's more of DNS to explore here as well. Serving blocks and transaction
+information over DNS has some big advantages.
+
+The transaction response uses the default 60 second TTL setting, but because
+transactions are effectively immutable after a few block confirmations, you
+could set a TTL of days, weeks, or months for those responses. Similarly, 60
+seconds might be too long for block heights, as blocks should get mined every
+minute or so but may be mind more frequently.
+
+If you find yourself serving a fleet of nodes or systems making a large number
+of queries, you could put a caching DNS server between your clients and the DNS
+server and rely on the intermediary to handle TTL and response caching
+appropriately.
+
+The biggest problem/advantage to consider is that individual clients and
+servers and languages and libraries may all handle DNS in different ways. This
+tip pushes the intent of DNS perhaps further than it's generally used, so
+perform lots of testing before you rely on it.

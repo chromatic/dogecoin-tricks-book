@@ -2,6 +2,8 @@
 
 =head0 Getting Data from a Local Node
 
+Z<chapter_getting_data_from_local_node>
+
 When you run your own node, you can do more than mine blocks and keep the
 network healthy. You get insight into the current, past, and future state of
 the network.
