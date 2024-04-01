@@ -2,6 +2,8 @@
 
 =head0 More Art than Math
 
+Z<chapter_more_art_than_math>
+
 Even though Dogecoin and cryptocurrency builds on a foundation of deep math and
 security to exist, keep things running, and ensure that public information is
 both safe and transparent, you don't have to focus on the math and security and

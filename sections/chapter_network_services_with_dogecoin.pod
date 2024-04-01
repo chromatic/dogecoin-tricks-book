@@ -2,6 +2,8 @@
 
 =head0 Network Services with Dogecoin
 
+Z<chapter_network_services_with_dogecoin>
+
 Dogecoin is more than just a network of nodes, a funny dog-themed currency, or
 a series of long cryptographic numbers. It's a low-friction payment and tipping
 system that can integrate with the wider Internet. This chapter explores

@@ -2,6 +2,8 @@
 
 =head0 Dogecoin in the World
 
+Z<chapter_dogecoin_in_the_world>
+
 Watching numbers change on a computer can be soothing or fulfilling for a
 while, but eventually the physical needs of being human intervene. While
 Dogecoin's original purpose was to poke fun at cryptocurrency and the people

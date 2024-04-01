@@ -2,6 +2,8 @@
 
 =head0 Basic (and Advanced) Transaction Stuff
 
+Z<chapter_basic_advanced_transactions>
+
 X<currency>
 
 Hoarding coins can be fun for a while, but eventually they have to move around.

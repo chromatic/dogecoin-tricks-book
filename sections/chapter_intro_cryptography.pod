@@ -2,7 +2,7 @@
 
 =head0 Understanding Cryptography
 
-Z<intro_cryptography>
+Z<chapter_intro_cryptography>
 
 Wow, that sounds yawn-inducing!
 

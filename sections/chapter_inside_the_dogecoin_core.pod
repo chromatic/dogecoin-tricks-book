@@ -2,6 +2,8 @@
 
 =head0 Inside the Dogecoin Core
 
+Z<chapter_inside_the_dogecoin_core>
+
 Dogecoin is a lot of things, and one of them is the Dogecoin Core wallet. There
 is no such thing as an "official" wallet or "official" implementation of
 Dogecoin. Dogecoin is a protocol and a network and the consensus of everyone

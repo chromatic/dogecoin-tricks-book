@@ -2,6 +2,8 @@
 
 =head0 Running Your Own Node
 
+Z<chapter_running_your_own_node>
+
 Dogecoin gives you as much or as little control and custody of your funds as
 you like. You can delegate management of everything to an exchange, for
 example, or you can run your own node and have complete control over your funds

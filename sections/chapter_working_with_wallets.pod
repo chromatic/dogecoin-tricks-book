@@ -2,6 +2,8 @@
 
 =head0 Working With Wallets
 
+Z<chapter_working_with_wallets>
+
 A Dogecoin wallet isn't a pouch full of paper wads and metal lumps. Neither is
 it a ledger of incoming and outgoing transactions. It I<is> a list of numbers
 and descriptions. Those are public and private keys and any labels you've
