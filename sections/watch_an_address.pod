@@ -4,13 +4,12 @@ Z<watch_an_address>
 
 One of the complicated (and valuable) features about blockchains is that all
 transactions are public. Anyone, anywhere can review any transaction and trace
-the lineage of its coins back to a coinbase. They may have to put a little bit
-of work into it, but that ability is there.
+the lineage of its coins back to a coinbase. They may have to put work into it,
+but the coherence of the entire chain is observable.
 
-This helps ensure the coherence of the chain as a whole, and it also gives you
-an opportunity to keep an eye on interesting things. Suppose, for example, you
-want to track all transactions to and from the Dogecoin Developer
-walletN<C<9xEP9voiNLw7Y7DS87M8QRqKM43r6r5KM5>, as shown at
+This also gives you an opportunity to keep an eye on interesting things.
+Suppose, for example, you want to track all transactions to and from the
+Dogecoin Developer walletN<C<9xEP9voiNLw7Y7DS87M8QRqKM43r6r5KM5>, as shown at
 U<https://foundation.dogecoin.com/announcements/2022-12-31-corefund/>>.
 
 You don't have the private key (three out of five people have enough data that
@@ -23,7 +22,7 @@ X<< RPC commands; C<importaddress> >>
 
 Dogecoin Core borrowed a Bitcoin Core feature where you can import an address
 to your wallet. You can't send or receive funds from or to it, but the Core
-will index all transactions to and from the wallet and let you query them. Use
+will index all transactions to and from the address and let you query them. Use
 C<importaddress> to ask the Core to keep track of things.
 
 =begin screen
@@ -32,12 +31,11 @@ C<importaddress> to ask the Core to keep track of things.
 
 =end screen
 
-If you use this command, it will take a while to complete; by default, the
-command will rescan the entire blockchain you have available to see which
-transactions affected this wallet. Pass a string as a label for the address as
-an optional second parameter and a C<false> value as the third parameter to
-skip this rescanning. However, until you rescan, you won't see any historical
-transactions to this address.
+This command will take a while to complete; by default, it will rescan the
+entire blockchain you have available to see which transactions affected this
+wallet. Pass a string as a label for the address as an optional second
+parameter and a C<false> value as the third parameter to skip this rescanning.
+Until you rescan, you will see no historical transactions to this address.
 
 Rescanning may remind you of the work performed in transaction indexing (see
 L<index_all_transactions>); that's because it's similar. Rather than scanning
@@ -46,9 +44,9 @@ a persistent data structure to represent what you're most interested in.
 
 =begin tip Don't Be Afraid of Heights
 
-A future release of the Core, perhaps even 1.14.7, may add another parameter to
-this call to allow you to specify the block height from which to start
-scanning. This will save time and wear-and-tear on your hard drive.
+The Dogecoin Core 1.14.7 release added another parameter to this call to allow
+you to specify the block height from which to start scanning. This will save
+time and wear-and-tear on your hard drive.
 
 =end tip
 
@@ -73,8 +71,8 @@ encrypted on a USB key (L<securely_back_up_your_wallet>) because you watched
 every address you could find, you'll have to find an alternate approach.
 
 Second, you can't spend funds sent to this address. If a notification blips on
-your screen that 10 million Doge just appeared, don't get your hopes up; it's
-not your funds.
+your screen that 10 million Doge just appeared, don't get your hopes up; if
+it's not your private key, it's not your funds.
 
 Third, rescanning takes time. Yes, this tip covered that already, but it's
 important to re-emphasize. That doesn't mean your node will be useless while

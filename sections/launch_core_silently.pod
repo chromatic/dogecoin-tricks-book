@@ -4,26 +4,25 @@ Z<launch_core_silently>
 
 Think back to the first time you launched the Dogecoin Core on your computer. A
 friendly dog's face popped up along with some text in a cartoonish font, as if
-to say "Don't worry. Things are happening, but it'll be okay. Don't take it all
-so seriously. We're going to have fun and learn some things."
+to say "Don't worry. Things are happening, and they're fine. Don't take it all
+so seriously. We're going to learn things and have fun."
 
-All of that is true, but if you've set up your Core to launch when you launch
+All of that is true. Yet if you've set up your Core to launch when you launch
 your computer (or if you launch it yourself to run in the background), you
-might not need that window to pop up every time.
+might not need that reminder every time.
 
-We can make things quieter, of course.
+Here's how to make things quieter.
 
 =head2 *Minimize Splashing and Windows
 
 This happy little window is called a "splash screen", both in application
-parlance and in the Dogecoin source code itself. Now that you know that, you
-know almost everything you need to make the Core launch itself a little more
+parlance and in the Dogecoin source code itself. With that fact, you know
+almost everything you need to make the Core launch itself a little more
 quietly.
 
 If you run C<dogecoin-qt> yourself from a command line, you might have used the
-C<--help> command to show a list of options you can use to change how the Qt
-GUI works. Here we care about two (other output elided for the sake of this
-example):
+C<--help> command to show a list of options you can use to change how the Core
+and Qt GUI behave.  In this example, two options are important:
 
 =begin screen
 
@@ -40,21 +39,18 @@ example):
 =end screen
 
 In other words, if you launch the Core with C<--splash=0> and C<-min>, you'll
-see no splash screen and, when the program finishes validating the blockchain
-and loading your wallet, you won't see the main window either. The program will
+see no splash screen. When the program finishes validating the blockchain and
+loading your wallet, you won't see the main window either. The program will
 simply run in the background and do its thing until you ask to see it.
 
 If you're using a Unix-like system such as Linux, a BSD, or Mac OS X and launch
-the program yourself from the command lineN<You can do this from Windows as
-well, of course.>, you can write a shell script, set an alias, or simply type
-C<dogecoin-qt -splash=0 -min> and not much will (visibly) happen.
+the program yourself from the command lineN<You can also do this from Windows,
+of course.>, you can write a shell script, set an alias, or simply type
+C<dogecoin-qt -splash=0 -min> and not much will (visibly) happen--as you want.
 
 If you use the GUI to launch the Core, you'll have to find the launcher and
-change its properties to pass these command-line options.
-
-=for author
-
-Figure out how to fill this in.
+change its properties to pass these command-line options. Consult your
+operating system or window manager documentation for more details.
 
 =head2 *Understand the Risks
 
@@ -67,6 +63,5 @@ could be running without you knowing it.
 That list of I<everything> includes sending and receiving network traffic,
 updating your wallet, and responding to RPC requests. Even if you're certain
 this isn't an issue, double- and triple-check before you let anything launch
-your Core without you knowing exactly when and how it's running.
-
-=end for
+your Core without you knowing exactly when and how it's running. Otherwise your
+wallet or data may be at greater risk than you intended.

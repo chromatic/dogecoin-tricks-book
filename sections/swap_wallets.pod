@@ -8,12 +8,12 @@ addresses representing addresses you use to send and receive Dogecoin
 a great way to avoid mishaps and keep your hard-earned koinu safe.
 
 Sometimes you do need to spend your coins and send transactions from your
-addresses. Because your watch-only wallet does not contain private keys, you
-can't use it for sending transactions (at least, not transactions that you need
-to validate with private keys).
+addresses. Because your watch-only wallet lacks your private keys, you can't
+use it for sending transactions (at least, not transactions that you need to
+validate with private keys).
 
 In the case where you want to use Dogecoin Core to manage your transactions,
-you can run the Core with different wallet files.
+consider running the core with different wallet files.
 
 =head2 *Launch with Wallet File Locations
 
@@ -44,23 +44,21 @@ or the other wallet file:
 
 =end screen
 
-When the core launches, you should see the difference between the different
-wallets based on their contents.
-
-If you want to make this easier, use a separate configuration file
-(L<manage_multiple_configurations>) for different wallets.
+When the Core launches, you should see the difference between the different
+wallets based on their contents. Use a separate configuration file
+(L<manage_multiple_configurations>) for different wallets to make this easier
 
 Be aware that all wallet files, whatever their names, must be in your Dogecoin
 data directory.
 
 =head2 *Understand the Risks
 
-If you launch the core with a new wallet but use the same blockchain data, your
-core will have to rescan blocks since the last launch of the core with that
-wallet. This helps prevent data loss (specifically any transactions that
-affected your wallet), but it will increase startup time. If you need fast
-startup time, launch the core with your other wallet(s) frequently--once a day,
-once a week, however often makes sense for you.
+If you launch the Core with a new wallet but use the same blockchain data, your
+Core will have to rescan blocks since its last launch with that wallet. This
+helps prevent data loss (specifically any transactions that affected your
+wallet), but it will increase startup time. If you need fast startup time,
+launch the Core with your other wallet(s) frequently--once a day, once a week,
+however often makes sense for you.
 
 Every computer with a wallet increases your security footprint. Every new
 wallet file containing private keys adds a security risk. Even if you have
@@ -70,9 +68,9 @@ one more machine or device or location you have to secure.
 
 With that said, running a node that I<doesn't> have access to a wallet storing
 private keys reduces the risk that a bug or an exploit in Dogecoin Core or the
-network or RPC or any other interface can expose wallet information--so running
-a node without a wallet (L<work_without_a_wallet>) or with a watch-only wallet
-can increase your security.
+network or RPC or REST or any other interface can expose wallet information--so
+running a node without a wallet (L<work_without_a_wallet>) or with a watch-only
+wallet can increase your security.
 
 For a I<tiny> amount of minimal security against the laziest possible attacker,
 you could even name your wallet file something entirely I<unlike>
