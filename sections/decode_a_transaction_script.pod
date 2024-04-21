@@ -2,34 +2,33 @@
 
 Z<decode_a_transaction_script>
 
-If you're doing anything more complex with Dogecoin transactions than letting
-your wallet send funds, you need to be doubly careful that your transaction
-does exactly no more and no less than what you intend it to do. Consider this:
-the central activity of a Dogecoin transaction is to ask nodes and miners to
-verify that a piece of data from your transaction provided to a little bit of
-code encoded in the input transaction produces a true value I<when executed>.
+If you do anything more complex with Dogecoin transactions than letting your
+wallet send funds, be doubly careful that your transaction does no more and no
+less than what you intend.
 
-This powerful and dangerous idea gives the blockchain a lot of power, but it
-also means that you're asking multiple other computers to run a little computer
-program on your behalf.
+Consider this: the central activity of a Dogecoin transaction is to ask nodes
+and miners to verify that a piece of data from your transaction provided to a
+little bit of code encoded in the input transaction produces a true value
+I<when executed>. This powerful and dangerous idea gives the blockchain power
+while asking multiple other computers to run tiny computer programs on your
+behalf.
 
-Programs often have bugs, and if you're creating transactions with any kind of
-logic in them, you should double- and triple-check that they do what you think
-they should, lest you lock up funds so they're unspendable or allow anyone else
-to spend them.
+Programs often have bugs. If you're creating transactions with any kind of
+logic in them, double- and triple-check that they do what you think they
+should, lest you lock up funds so they're unspendable or allow anyone else to
+spend them.
 
-This is even more true if you use third-party software to help you craft that
-transaction.
+This is especially true if you use third-party software to help you craft
+transactions.
 
 =head2 *Parts of a Script
 
-Remember that a script has two parts. First, the script itself comes from the
-input transaction. This is kind of like a lock on the funds for which you need
-the key to spend. The second part is the data the spending transaction
-provides. In other tips (L<host_a_treasure_hunt>), this could be a password or
-phrase or other puzzle.
+Script has two parts. First, the script itself comes from the input
+transaction. This is a lock on funds for which you need the key to spend. The
+second part is the data the spending transaction provides. In other tips
+(L<host_a_treasure_hunt>), this could be a password or phrase or other puzzle.
 
-In the timelocking tip (L<timelock_a_vault>), the script was more complex. To
+Some scripts, such as timelocking (see L<timelock_a_vault>), are complex. To
 unlock the transaction, the time or block height had to be after a specified
 threshold I<and> the spending transaction had to come from someone with the
 right private key.
@@ -60,15 +59,15 @@ address is C<9rbpxxkjB9uZbcZzZCPibnoiotGkPoGFEJ>.
 
 Patrick used custom software to create the transaction and the P2SH address,
 but gave people everything they need to verify that what he wrote is accurate.
-It's also easy to guess that I<he> verified the script himself through
-alternate means, figuring that, if multiple decoding methods all give the same
-results, he could trust them.
+I<He> verified the script himself through alternate means, figuring that, if
+multiple decoding methods all give the same results, he could trust them--and
+other people could trust him.
 
 X<< RPC commands; C<decodescript> >>
 
 Open the Dogecoin Core debug console or use C<dogecoin-cli> and use the
-C<decodescript> RPC command with the raw script (C<03d075...>) as the single
-argument. You should get the result:
+C<decodescript> RPC command with the raw script (C<03d075...>) as a single
+argument to see the result:
 
 =begin screen
 
@@ -85,27 +84,26 @@ argument. You should get the result:
 
 These three fields tell you a lot: this is a "nonstandard" script, which means
 (more or less) the address is not the hash of a public key. The C<p2sh> field
-reveals that what Patrick claimed is correct; to send funds which can be
-unlocked by fulfilling this script, use the provided address. Finally, the
-C<asm> field decodes the script itself into something more or less human
-friendly: the opcodes and data used to construct the script.
+reveals that what Patrick claimed is correct; send funds to this address which
+can be unlocked by fulfilling this script. Finally, the C<asm> field decodes
+the script itself into a human-friend representation of the opcodes and data
+used to construct the script.
 
 After block height 4,290,000, the locktime will release. The script will then
 remove the true value (returned from the previous opcode), then duplicate the
 next item on the stack (the key provided by the spending transaction), hash the
-duplicate, verify that the hash matches the hash provided in the script, and
+duplicate, verify that the hash matches the one provided in the script, and
 finally verify that the key provided by the spending transaction matches the
-expected key and script signature (link to tip; maybe rephrase).
+expected key and script signature.
 
-All that is left is for Patrick to verify that the HASH160 of the key he
+All that is left is for anyone to verify that the HASH160 of the key Patrick
 intends to use matches the provided value.
 
 X<< RPC commands; C<getrawtransaction> >>
 
-You don't have to use this on transactions you've written yourself; any output
-of C<getrawtransaction> will work. Just be aware that, at the time of this
-writing, most transactions are very simple payments to the hashes of public
-keys.
+You can decode any transaction for which you have output from
+C<getrawtransaction>. Just be aware that, at the time of this writing, most
+transactions are very simple payments to the hashes of public keys.
 
 =head2 *Understand the Risks
 
@@ -121,4 +119,4 @@ variables--the data in the script--to the data you intend to use. This is especi
 if you use a third-party tool to create the transaction.
 
 If you're determined to do something new and invent your own script, try it
-multiple times on the testnet first (L<test_first_safely>).
+multiple times on the testnet first (see L<test_first_safely>).

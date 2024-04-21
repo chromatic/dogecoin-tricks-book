@@ -5,27 +5,26 @@ Z<manage_big_transactions_gently>
 The very thing that makes Dogecoin work as a globally-distributed,
 permissionless network to send and receive transactions also makes it
 complicated: miners and nodes will do what they will do when they receive,
-evaluate, confirm, and retransmit transactions. No one central authority exists
-that can say "This transaction moving a million Doge is more important than
-this transaction moving 1 Doge"; it's all about what the network as a whole
-decides to do.
+evaluate, confirm, and retransmit transactions. No single central authority
+exists that can say "This transaction moving a million Doge is more important
+than this transaction moving 1 Doge"; it's all about what the network as a
+whole decides to do.
 
 You can use this information to be a good network participant.
 
 =head2 *Transactions and Blocks
 
-The blockchain underlying Dogecoin doesn't think in terms of transactions or
-addresses as much as it thinks in terms of I<blocks>. A block is a big batch of
-transactions bundled together and mined about every 60 seconds. Miners bundle
-pending transactions into blocks and, when everything verifies correctly, issue
-a new block for everyone else to analyze and store in the blockchain
-permanently.
+The blockchain underlying Dogecoin organizes itself in terms of I<blocks>. A
+block is a big batch of transactions bundled together and mined about every 60
+seconds. Miners bundle pending transactions into blocks and, when everything
+verifies correctly, issue a new block for everyone else to analyze and store in
+the blockchain permanently.
 
 A Dogecoin block is 1 MB in size. That's enough space for 2400 average-sized
 transactions. The fuller the block, the more efficient the network is. However,
 the fuller the blocks over a period of time, the more chance that any one
 transaction will be delayed to a new block. With a mining time of about 60
-seconds, every delay adds a minute to confirmation time.
+seconds, every delay of one block can add one minute to confirmation time.
 
 If you are sending a lot of transactions I<or> you're sending especially large
 transactions, there's a chance your transactions could fill up the entire
@@ -41,21 +40,21 @@ capacity your transaction won't bump others.
 
 =head3 *Transaction Costs
 
-In the current stable Dogecoin Core release (1.14.6), the recommended
+In the current stable Dogecoin Core release (1.14.7), the recommended
 transaction fee is 0.01 Dogecoin per kilobyte of transaction size. Unless you
 create a transaction by hand or change this value yourself via the Core, this
 is what you'll offer to pay miners to include your transaction in a block. The
 more core nodes that run code that accepts this transaction fee, the more
 likely the network will accept your transaction request.
 
-Because this is the recommended default since Dogecoin Core 1.14.5, this is a
-good number to use.
+Because this has been the recommended default since Dogecoin Core 1.14.5, this
+is a good number to use.
 
-To be a good network neighbor for big or multiple transactions, you want to
-allow everyone else to use the default but you want to pay a little bit less so
-that nodes will prefer other transactions when filling up a block. If there's
-space left over, they can pick up your transaction. Pick a value slightly below
-0.01 Doge per kilobyte; perhaps 0.0098 Doge per kilobyte.
+To be a good network neighbor, you want to allow everyone else to use the
+default but you want to pay a little bit less so that nodes will prefer other
+transactions when filling up a block. If there's space left over, they can pick
+up your transaction. Pick a value slightly below 0.01 Doge per kilobyte;
+perhaps 0.0098 Doge per kilobyte.
 L<figure-dogecoin-core-custom-transaction-fee-screenshot> shows an example.
 
 =begin figure Custom Transaction Fee Configuration
@@ -67,10 +66,10 @@ F<images/dogecoin-core-custom-transaction-fee-screenshot.png>
 =end figure
 
 With this value selected, nodes which prioritize transactions based on
-transaction fees will consider everything using the default transaction fee
-before yours. If the current block is empty, your transaction can go through
-soon. If there's any kind of congestion, your transaction will wait until
-everything else clears and there's space remaining.
+transaction fees will prefer default transaction fee transactions to yours. If
+the current block is empty, your transaction can go through soon. If there's
+any kind of congestion, your transaction will wait until everything else clears
+and there's space remaining.
 
 =head2 *Understand the Risks
 

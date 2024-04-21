@@ -2,35 +2,36 @@
 
 Z<identify_input_transactions>
 
-Suppose you're heading to the local taco truck for lunch one sunny weekend. You
-buy three delicious street tacos and a cup of limonada. Your total is $17.95,
-including a tip. You have $20 in your wallet. What happens next?
+Suppose you head to the local taco truck for lunch one sunny weekend. You buy
+three delicious street tacos and a cup of limonada. Your total is $17.95,
+including tip. You have $20 in your wallet. What happens next?
 
-You reach into your wallet and pull out a $10 bill and two $5 bills. You hand
-that to the cashier. They hand you back $2 and you wave off the nickel, saying
+You reach into your wallet and pull out a $10 bill and two $5s, then give them
+that to the cashier. They hand you back $2. You wave off the nickel, saying
 "give it to someone who needs it". You put the $2 in your wallet and take your
 limonada to sit and wait for your tacos.
 
 What just happened? Those three bills entered your wallet via one or more input
-transactions.  You consolidated them to make a new, outgoing transaction.
+transactions. You consolidated them to make a new, outgoing transaction.
 Because the exact values you had from the inputs didn't match up with the exact
-value you needed for the outputs, you put $2 in change back into your wallet.
+value you needed for the outputs, you put $2 in change back into your
+wallet--and you put a nickel aside for someone else.
 
-This sort of thing happens all the time in blockchain transactions. The amount
-of coins in all inputs used in a transaction must be completely consumed,
-whether the amounts are sent to recipients, returned as change, turned into
-transaction fees, or donated to miners.
+This happens all the time in blockchain transactions. The amount of coins in
+all inputs used in a transaction must be completely consumed, whether the
+amounts are sent to recipients, returned as change, turned into transaction
+fees, or donated to miners.
 
 If you're watching the addresses in your wallet because you're selling
-something, you need to be able to distinguish between "someone put new money in
-my wallet" and "I took money out of my wallet and added change".
+something (see L<act_on_wallet_transactions>), you must distinguish between
+"someone put new money in my wallet" and "I took money out of my wallet and
+added change".
 
-For the sake of argument, suppose the term "input transaction" means "a
-transaction to one of your addresses from someone else", the term "change
-transaction" means "a transaction from one of your addresses which puts change
-into another of your addresses", and the term "output transaction" means "a
-transaction from one of your addresses to an address belonging to another
-person".
+Suppose the term "input transaction" means "a transaction to one of your
+addresses from someone else", the term "change transaction" means "a
+transaction from one of your addresses which puts change into another of your
+addresses", and the term "output transaction" means "a transaction from one of
+your addresses to an address belonging to another person".
 
 =head2 *Restrict Input Transactions to Addresses
 
@@ -40,10 +41,9 @@ transactions that affect any of your addresses, you need to be able to
 distinguish between someone sending you new Dogecoin you didn't have before and
 your own wallet sending Dogecoin to itself.
 
-The easy case is when you have a wallet address that's never received a
-transaction before. By definition, the first inputs to that address is a new
-transaction I<to> that address; you can't send change from an address if there
-are no unspent coins associated with that address. If you never, ever reuse
+If you have a wallet address that's never received a transaction before, any
+input to that address is a new transaction I<to> that address; you can't send
+change from an address if it has no unspent coins. If you never, ever reuse
 addresses, you might be able to get away with the assumption that any new
 transaction to an address is a new input transaction.
 
@@ -62,25 +62,24 @@ and change transactions.
 
 =head2 *Look Inside Transactions
 
-Given a transaction id and the ability to inspect its details (see
-L<inspect_a_transaction>), you want to look for a couple of characteristics.
-First, your wallet address should be in the transaction's output list. Second,
-the transaction should have at least one input address that isn't one of yours.
-Ideally, none of the transaction input addresses will be your address in the
-output list.
+Given a transaction id, you want to look for a couple of characteristics (see
+L<inspect_a_transaction>).  First, your wallet address should be in the
+transaction's output list. Second, the transaction should have at least one
+input address that isn't one of yours. Ideally, none of the transaction input
+addresses will be your address in the output list.
 
 X<< RPC commands; C<decoderawtransaction> >>
 
 To make this work, you have to decode at least two transactions. One is the
 input transaction which triggered your payment system. Given its transaction id
-(and knowing your address), you can look at the transaction's output list (the
-C<vout> section of the JSON emitted from C<decoderawtransaction>) to find your
-own address.
+(and knowing your address), look at the transaction's output list (the C<vout>
+section of the JSON emitted from C<decoderawtransaction>) to find your own
+address.
 
 Then for every input transaction (in the C<vin> section of the emitted JSON),
-look up and decode those transactions and look for your wallet address in their
-C<vout> lists. The C<vout> entry of the JSON for each input transaction will
-tell you the position of the previous transaction which added funds to the
+look up and decode I<those> transactions and look for your wallet address in
+their C<vout> lists. The C<vout> entry of the JSON for each input transaction
+will tell you the position of the previous transaction which added funds to the
 input address. In other words, given a decoded transaction like:
 
 =begin screen
@@ -114,7 +113,7 @@ C<f806b>. Look in the C<vout> data for that transaction, at position 1 (C<n> is
 This is a little bit complicated, so play with existing transactions using the
 RPC commands and/or a block explorer until everything makes sense. For now,
 remember two important things: reusing addresses makes your life more difficult
-and all outputs can be tied to inputs.
+and all outputs must be tied to inputs.
 
 =head2 *Understand the Risks
 

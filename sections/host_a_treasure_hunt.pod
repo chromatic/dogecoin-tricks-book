@@ -7,8 +7,6 @@ address is just a number and a private key is just one way to derive that
 number. Similarly, a passphrase or mnemonic is one way to generate that private
 key.
 
-This is really abstract, I know. Hold that thought.
-
 X<public key>
 X<private key>
 X<address>
@@ -16,19 +14,17 @@ X<address>
 In Dogecoin terms, an address in your wallet is a large number associated with
 a public key, which is itself a large number associated with a private key.
 Anyone can send to your address if they have it, but only someone with your
-private key can send I<from> your address (if there are any unspent Koinu
-associated with it). That's why keeping your wallet and private keys private is
-so important; anyone else with access to a private key has access to your
-funds.
+private key can send any unspent koinu I<from> your address. That's why keeping
+your wallet and private keys private is so important; anyone else with access
+to a private key has access to your funds.
 
-In other words, a wallet's access isn't governed by access to a file on your
-hard drive. It's completely under the control of anyone who has the large
-number that's your private key, I<or> anything they can use to derive that
-private key.
+A wallet's access isn't governed by access to a file on your hard drive. It's
+completely under the control of anyone who has the large number that's your
+private key, I<or> anything they can use to derive that private key.
 
-If you don't want anyone to have access to that wallet address, keep your
-private key safe. If you I<do> want someone to have access, you have to share
-it with them somehow.
+To prevent unauthorized access to that wallet address, keep your private key
+safe. If you I<do> want someone to have access, you have to share it with them
+somehow.
 
 That somehow can be fun.
 
@@ -57,21 +53,21 @@ U<https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki>.> proposes a
 way to take a series of words, ideally easy to remember, and use them to
 produce a private key which can produce a public key which can represent an
 address. As long as you have a deterministic way to generate these keys from
-the words, you don't have to remember the keys, whether writing them town,
+the words, you don't have to remember the keys, whether writing them down,
 tattooing them on your eyelids, or saving them in an encrypted file on your
 backup hard drive. You just have to keep the words...
 
 ... or figure out a way to I<remember> the words.
 
-This is perfect for a scavenger hunt. Generate a phrase, cut it up into some
+This is perfect for a scavenger hunt. Generate a phrase, cut it up into a
 riddle format, figure out the resulting public address, throw away the private
-key, then send some Dogecoin to that address, then wait for all of the amazing
+key, send some Dogecoin to that address, and then wait for all of the amazing
 tourists to show up and try to figure out your riddle so they can solve the
 mystery of Big Whoop!
 
-If you read the BIP carefully, including between the lines, you'll see the
-recommendation I<not> to pick several words at random. There are carefully-chosen
-and curated wordlists available to reduce confusion and make it more likely that you
+If you read the BIP carefully between the lines you'll see the recommendation
+I<not> to pick several words at random. There are carefully-chosen and curated
+wordlists available to reduce confusion and make it more likely that you
 I<won't> lose access to your address.
 
 How do you generate your phrase?
@@ -84,17 +80,17 @@ U<https://github.com/iancoleman/bip39/releases/latest/>.> to generate phrases
 as well as derive keypairs and addresses. This is a single-page application you
 can run locally to manage this process for multiple spoken languages.
 
-If you're going to use Ian's tool, download the page to your own machine, then
-open it up in a web browser. Now comes the most important part: turn off your
-network. Turn off wifi. Unplug your Ethernet cable. Flip the power switch on
-your router. Put some salt on the coax or fiber or copper cable heading out to
-the street and let some goats chew on it. Whatever it takes, make sure that
-this web page can't give away what you're about to generate.
+To use Ian's tool, download the page to your own machine, then open it in a web
+browser. Now comes the most important part: turn off your network. Turn off
+wifi. Unplug your Ethernet cable. Flip the power switch on your router. Put
+some salt on the coax or fiber or copper cable heading out to the street and
+let some goats chew on it. Whatever it takes to go offline, make sure that this
+web page can't give away what you're about to generate.
 
-Is this too cautious? That depends on you. Keeping secret things secret is
-important, so please think about what could go wrong, who you're trusting with
-what, and how to protect yourself even if you think you're safe. Multiple
-layers of safety are important.
+Is this too cautious? That depends! Keeping secret things secret is important,
+so think about what could go wrong, who you're trusting with what, and how to
+protect yourself even if you think you're safe. Multiple layers of safety are
+important.
 
 X<obscure references; howling fantods>
 
@@ -104,8 +100,9 @@ Sure, you're hoping I<someone> will figure out the passphrase eventually, but
 there's no fun if you accidentally use the wrong generator and some malicious
 operator gets the coins before you even publish your treasure hunting
 pamphlets. As always, check that the source you use to generate the passphrase
-is trustworthy. Ian's page links to several alternative tools, so if you get
-the howling fantods from one tool, switch to another.
+is trustworthy. Ian's page links to alternatives, so if one gives you the
+howling fantods, switch to another--or compare the outputs from two against
+each other.
 
 =end tip
 
@@ -113,8 +110,8 @@ the howling fantods from one tool, switch to another.
 
 Now that you can generate a passphrase, you need to know a little bit more
 about how to turn this passphrase into a private key, a public key, and an
-address. Fortunately, Ian's page can do all the calculations for you, but it's
-still important to know some details.
+address. While Ian's page can do all the calculations, it's still important to
+understand the details.
 
 =begin figure Generating BIP-39 Mnemonic and Dogecoin Keys
 
@@ -128,17 +125,16 @@ X<BIPs; BIP-44>
 
 The smartest way to generate this key is to use hierarchical deterministic
 keys, as described in BIP-44N<See
-U<https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki>.>. This is
-widely useful elsewhere, but in general gives you access to a I<range> of keys
-and addresses from a single starting point. We won't use that for this tip, but
-we'll come back to it again.
+U<https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki>.> . This
+gives you access to a I<range> of keys and addresses from a single starting
+point. We won't use that for this tip, but it wil come up again (see
+L<use_a_hd_wallet>).
 
-Ian's tool uses some hidden calculation (read the source code) to turn that
+Ian's tool uses a hidden calculation (read the source code) to turn that
 passphrase into a seed value which, when combined with the right parameters for
 the Dogecoin network, produces enough information to derive multiple keypairs
-and addresses. You don't have to understand this all now, but the HD chain for
-our purposes is C<m/44'/3'/0'/0/0>. In other words, pick the I<first> address
-from the Derived Addresses section of the tool.
+and addresses. The HD chain for Dogecoin is C<m/44'/3'/0'/0/0>. In other words,
+pick the I<first> address from the Derived Addresses section of the tool.
 
 Save the address (in this case C<DEypUe2QRe1W4CsNsTQHpfiwMFLLM1zceQ> and the
 passphrase (approve bean worth merge spot grant extend box tragic churn laundry
@@ -147,7 +143,7 @@ sugar).
 =head3 *Fund the Address
 
 Now validate the address. On a I<different> computer (or web browser) also not
-connected to the Internet, type in the passphrase exactly as written and verify
+connected to the Internet, enter the passphrase exactly as written to verify
 that the C<m/44'/3'/0'/0/0> address is exactly as you expected. If it is,
 great! If not, then you have a problem: someone who finally figures out all of
 your riddles all the way up to "sugar" can't easily go from these twelve words
@@ -156,13 +152,13 @@ control of the treasure.
 
 X<QR code>
 
-This is really important: some clue or rule is going to have to point people to
-how to I<redeem> these coins. Maybe they bring the passphrase back to you, or
-maybe you point them at a QR code that has redemption instructions.
+This is important: some clue or rule will have to point people to how to
+I<redeem> these coins. Maybe they bring the passphrase back to you, or maybe
+you point them at a QR code with redemption instructions.
 
 When you're convinced that the keys and address are deterministically derivable
 from the phrase, send a thousand Dogecoin (or whatever the chamber of commerce
-can afford; don't skimp, because we're looking at lots of tourist dollars!) to
+can afford; don't skimp, because you brought in lots of tourist dollars!) to
 the address. Now the pressure's on.
 
 =head3 *Make a Fun Riddle
@@ -190,29 +186,28 @@ Enjoy our island!
 =end blockquote
 
 Maybe the second one will have you trade the family's cow for a single seed
-used to grow a stalk to steal a giant's treasure. The possibilities exist.
+used to grow a stalk to steal a giant's treasure. Possibilities exist.
 
-Of course, some phrases are more difficult to manage than others; feel free to
-reload or regenerate the phrase until you feel confident you can produce a good
+Some phrases will be more difficult to manage than others; feel free to reload
+or regenerate the phrase until you feel confident you can produce a good
 scavenger huntN<"Worth"? That'll take some thinking. "Extend"? Awkward but
 doable.>.
 
 =begin tip Be Kind; Help Find
 
 Whether you're sending folks to all of the interesting shops on your islandN<If
-you open a bakery called "Shiver Me Maple Bars", please send the author a
-box.>, hiding clues in the plaques on exhibits in the museum, or developing a
-full alternate reality game, remember that not everyone is as crypto-savvy as
-you are. Make the rules clear, especially the "how do I redeem my winnings?"
-guidelines.
+you open a bakery called "Shiver Me Maple Bars", please send the author a full
+box.>, hiding clues in museum exhibit plaques, or developing a full alternate
+reality game, remember that not everyone is as crypto-savvy as you are. Make
+the rules clear, especially your "how do I redeem my winnings?" guidelines.
 
 =end tip
 
 =head2 *Understand the Risks
 
-We've already covered some of the risks of using an external tool to help you
-generate keys and addresses. While the approach described could be more
-cautious than you like, the risks of malware are real. Take them seriously.
+This tip has discussed risks of using an external tool to help you generate
+keys and addresses. While the approach described could be more cautious than
+you like, the risks of malware are real. Take them seriously.
 
 On an entirely different note, if you're generating a private key and address
 and throwing away the key, you should make sure of two things. First, you have
@@ -223,11 +218,11 @@ Dogecoin address generator or verifier.
 
 For a treasure hunt, if you expect people to participate without necessarily
 being fluent in Dogecoin or cryptocurrency, it might be wise to have a laptop
-or kiosk or tablet set up at your chamber of commerce where they can try to
-enter their passphrases to see if they can get the wallet address right. You
-I<can> keep the address around for verification as long as you don't keep the
-passphrase or private key around; there's no harm in publishing that address.
-It's only derivable from the private key which is derivable from a passphrase.
+or kiosk or tablet available in person where tourists can try to enter their
+passphrases to see if they can get the wallet address right. You I<can> keep
+the address around for verification as long as you don't keep the passphrase or
+private key around; there's no harm in publishing that address. It's only
+derivable from the private key which is derivable from a passphrase.
 
-Just remind folks not to step on the flowers and leave their shovels back at
+Just remind folks not to step on the flowers and to leave their shovels at
 home.

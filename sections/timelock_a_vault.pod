@@ -4,11 +4,11 @@ Z<timelock_a_vault>
 
 Other tips in this book demonstrate that the network will only validate a
 transaction if the funds are otherwise unspent I<and> if the transaction
-satisfies some sort of mathematical puzzle or lock for its incoming
-transactions. Traditionally and most commonly, this puzzle or lock is "prove
-the person attempting to spend the input transactions has a private key which
-corresponds with a public key associated with the incoming funds", but the
-puzzle can be anything (L<host_a_treasure_hunt>).
+satisfies a mathematical puzzle or lock for its incoming transactions.
+Traditionally, this puzzle or lock is "prove the person attempting to spend the
+input transactions has a private key which corresponds with a public key
+associated with the incoming funds", but the puzzle can be anything
+(L<host_a_treasure_hunt>).
 
 X<concepts; timelock>
 
@@ -16,8 +16,8 @@ Dogecoin inherited a complex set of operations from Bitcoin that you can use to
 create multiple types of puzzles used to unlock funds. These operations are a
 mini programming language with rich potentialN<... both to perform complex and
 useful operations I<and> to create complicated ways to lose your funds
-forever.>. One of those operations is the I<timelock>, which allows you to
-create an input transaction that can only be spent at a certain point in time.
+forever.>. One such operation is the I<timelock>, which allows you to create an
+input transaction unspendable until a specific point in time.
 
 =head2 *Create a Vault with a Time-Based Lock
 
@@ -30,21 +30,18 @@ time (January 1, 1970) or the blockheight.
 
 How do you distinguish between the two values? Dogecoin Core uses a threshold
 value called C<LOCKTIME_THRESHOLD> (you can see it in action in BIP-65, but at
-the time of current writing, the BIP doesn't really explain what the value
-should be). In Dogecoin Core 1.14.7-dev, the value is 500000000, or 500
-million. Any value less than 500 million is interpreted as a block height. Any
-value greater than 500 million is interpreted as epoch seconds. Right now there
-have been fewer than 5 million blocks mined, so we have some room to grow.
+the time of current writing, the BIP does not explain this value clearly). As
+of Dogecoin Core 1.14.7, the value is 500000000, or 500 million. Any value less
+than 500 million is interpreted as a block height. Any value greater than 500
+million is interpreted as epoch seconds. Right now there have been fewer than 5
+million blocks mined, so there's room to grow.
 
 X<people; Peter Todd>
 X<people; Patrick Lodder>
 
 You can write this transaction by hand, or you can use an established pattern.
-Fortunately, Peter Todd, the author of BIP-65 devised a template for this and
-Patrick Lodder, Dogecoin Core maintainer, has written software to generate
-vault data for you.
-
-The script pattern (link to tip) looks like this:
+Fortunately, Peter Todd, the author of BIP-65, devised a template for this. The
+pattern (see L<decode_a_transaction_script>) looks like:
 
 =begin screen
 
@@ -53,18 +50,19 @@ The script pattern (link to tip) looks like this:
 
 =end screen
 
-It's up to you to provide two values. First, the expiry time is either the time
-in Unix epoch seconds after which the transaction can be spent or the height of
-the blockchain after which the transaction can be spent. The second value is
-the hash of the public key associated with the address containing the funds to
-be unlocked.
+You must provide two values. First, the expiry time is either a time in Unix
+epoch seconds or the height of the blockchain after which the transaction can
+be spent. The second value is the hash of the public key associated with the
+address containing the funds to be unlocked.
 
 =head3 *Tools to Create a Locked Vault
 
 X<< Javascript libraries; C<cltv-vaults> >>
 X<< Javascript libraries; C<bitcoinjs-lib> >>
 
-Patrick's tool is in a repository called C<cltv-vaults>N<See
+
+Patrick Lodder, Dogecoin Core maintainer, has written software to generate
+vault data for you. His tool is in a repository called C<cltv-vaults>N<See
 U<https://github.com/liberateinc/cltv-vaults>.>. You'll need a working Node.js
 runtime with C<npm> installed. Use C<npm> to install C<bitcoinjs-lib> as well.
 
@@ -82,30 +80,28 @@ With the C<clvt-vaults> repository downloaded, run:
 =end screen
 
 This script will generate a new private/public keypair and a script that you
-can use to lock funds sent to the vault address until block 31338. That's
-probably not what you want, because that block has come and gone.
+can use to lock funds sent to the vault address until block 31338--but that
+block has come and gone.
 
 Open the example code in your favorite text editor and look for a line like
 C<const UNLOCK_AT = BigInt(31338)>. Change the number in the parentheses to the
-height you prefer (after making sure it's sometime in the future). Then run the
-script again.
-
-Now you can do two things. First, use the C<WIF> value to import into a
-Dogecoin wallet. This will work with the Core or any other wallet that supports
-the Wallet Interchange Format (see L<interchange_your_wallet_keys>).
+height you prefer (after making sure it's sometime in the future). Run the
+script again, and now you can do two things. First, use the C<WIF> value to
+import into a Dogecoin wallet. This will work with the Core or any other wallet
+that supports the Wallet Interchange Format (see
+L<interchange_your_wallet_keys>).
 
 Second, send the funds you want to lock in the vault to the provided address.
-B<Beware> that if you lose the WIF, you'll lose the private key, and even after
-the lock expires you won't be able to unlock the transaction and recover the
-funds.
+B<Beware> that if you lose the WIF, you'll lose the private key. Even after the
+lock expires you won't be able to unlock the transaction and recover the funds.
 
 =head3 *Tools to Verify the Locked Vault
 
 X<< RPC commands; C<decodescript> >>
 
-Once you have that script, you should verify it does what you think it should
-do. Copy the "Vault script" value and use the Dogecoin Core RPC mechanism to
-use the command C<decodescript>.
+Once you have that script, verify it does what you think it should do. Copy the
+"Vault script" value and use the Dogecoin Core RPC mechanism to use the command
+C<decodescript>.
 
 =begin screen
 
@@ -119,32 +115,32 @@ use the command C<decodescript>.
 
 =end screen
 
-For now, ignore the second large number in the C<asm> value; you can verify the
-contents of this with another tip (link to p2sh tip). Check that the first
-value in the script (the contents of C<asm>) matches the block height or epoch
-seconds value you chose and that the second item in the script is truly
+For now, ignore the second large number in the C<asm> value. Check that the
+first value in the script (the contents of C<asm>) matches the block height or
+epoch seconds value you chose and that the second item in the script is truly
 C<OP_CHECKLOCKTIMEVERIFY>.
 
 If and when you're comfortable with this, you can publish your transaction to
-the network (link to tip) and then any funds you send there are out of your
-control until the network reaches the threshold you set.
+the network (see L<put_funds_in_escrow>). Then any funds you send to the P2SH
+address are out of your control until the network reaches the threshold you've
+set.
 
 =head2 *Uses of Vaults
 
-BIP-16 suggests several possibilities. For example, locking funds in a
-multi-key scenario where two or more people can unlock the funds right now, but
-a third is available only after a certain time period.
+BIP-16 suggests several possibilities, such as locking funds in a multi-key
+scenario where two or more people can unlock the funds right now, and a third
+is available only after a certain time period.
 
-Another approach would let you deposit funds into a vault for a child and
-unlock the transaction only when that child reaches 18 years old. Alternately
-you can stagger payments and ladder the funds: one transaction at 18, one at
-19, one at 20, and so forth.
+Another approach lets you deposit funds into a vault for a child and unlock the
+transaction only when that child reaches 18 years old. Alternately you can
+stagger payments and ladder the funds: one transaction at 18, one at 19, one at
+20, and so forth.
 
-Still another approach is to create a vault that can receive public funds the
-bulk of which can't be spent until a specific time, for example to crowdfund a
-book, album, board game, or some other creative endeavor. With this approach
-you can publish the entire transaction script and allow other people to verify
-its intent.
+Yet one more idea is to create a vault that can receive public funds the bulk
+of which can't be spent until a specific time, for example to crowdfund a book,
+album, board game, or another creative endeavor. With this approach you can
+publish the entire transaction script and allow other people to verify its
+intent.
 
 =head2 *Understand the Risks
 
@@ -155,17 +151,20 @@ unspendable transaction.
 Furthermore, be aware that the risk of using block height is that the
 predictable 55-60 second mining rate may not hold in the future. If mining gets
 faster and cheaper, the time between blocks might go down. If miners disappear,
-the time between blocks might go up. Yes, the network adjusts difficulty to
-adapt to these situations, but the 1 minute per block heuristic is an estimate,
-not a hard guarantee.
+the time between blocks might go up. Although the network adjusts difficulty to
+adapt to these situations, the 1 minute per block heuristic is an estimate, not
+a hard guarantee.
 
 Finally, if you've just celebrated the birth of a new child in your family and
 want to lock up Dogecoin for 18 or more years, consider everything that
 happened in the past 18 years and think about what could happen in the future.
 Even only nine and a half years ago, when Dogecoin was created, it wasn't clear
-that this joke currency would have a 10 billion dollar market cap and an
+that this joke currency would have a 22 billion dollar market cap and an
 amazing book with recipes for blueberry lemonade mixed with references to
 classic video games and goat-based treasure hunts written about it.
 
-In other words, don't put your child's college fund in a vault. Predicting the
-future is difficult, especially for things that haven't happened yet.
+X<references; Fallout>
+
+Predicting the future is difficult, especially for things that haven't happened
+yet, so beware of locking things in Vaults (even or especially Vault-Tec
+vaults)!

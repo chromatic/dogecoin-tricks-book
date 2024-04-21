@@ -2,16 +2,15 @@
 
 Z<decode_transactions>
 
-If you find yourself doing something complicated more than once, think about
-how you can avoid repeating yourself--especially if the complicated steps are
-easy to get wrong. This could be anything from transcribing one set of data
-between systems or copying and pasting information from multiple processes,
-windows, or machines.
+If you find yourself doing something complicated more than once, consider how
+to avoid repeating yourself--especially if the complicated steps are easy to
+get wrong. This could be transcribing one set of data between systems or
+copying and pasting information from multiple processes, windows, or machines.
 
 If you read the previous tip (L<inspect_a_transaction>) closely, you noticed
-that the Core as of this writing provides no direct way to go from a
-transaction hash to the decoded transaction, or a list of inputs or outputs, or
-the scripts for outputs, or anything else.
+that the Core currently provides no direct way to go from a transaction hash to
+the decoded transaction, or a list of inputs or outputs, or output scripts, or
+anything else.
 
 You can do the two- or three-step shuffle to get this data, but why do that more
 than once?
@@ -19,7 +18,7 @@ than once?
 =head2 *Chaining RPC Commands
 
 Another tip discusses RPC command stacking (L<enhance_rpc_calls>), where you
-feed the output of one RPC call into that of another. This allows you to act as
+feed the output of one RPC call into another's input. This allows you to act as
 if the Core supported only one call to perform a bunch of behavior, such as
 decoding a transaction into a data structure given only the transaction's hash.
 
@@ -53,7 +52,9 @@ notation for this? Yep!>:
 X<< external programs; C<dogeutils> >>
 
 You can write this in any language you like. Alternately, install the
-C<dogeutils> library and toolkit, which does this for you.
+C<dogeutils> library and toolkitN<See
+U<https://metacpan.org/dist/Finance-Dogecoin-Utils/view/bin/dogeutils>.>, which
+does this for you.
 
 =head2 *Understand the Risks
 
@@ -65,9 +66,8 @@ be especially useful if you wrap calls which take optional parameters.
 The greater risk is long-term maintenance. If the RPC calls you use change
 between releases, your wrapper will have to adapt to them. If the Core adds a
 call with the same name as yours, your code will continue to work, but you may
-have a divergence between your code and the Core's implementation, and you'll
-have to consider the maintenance costs of doing something different from the
-Core.
+see divergence between your code and the Core's implementation. Consider the
+maintenance costs of doing something different from the Core.
 
 Relying on anyone else's wrapper, especially if it performs authentication,
 means giving up some control to someone else's code. Audit it yourself (or have

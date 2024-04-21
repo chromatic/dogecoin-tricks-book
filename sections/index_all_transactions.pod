@@ -2,8 +2,8 @@
 
 Z<index_all_transactions>
 
-Dogecoin Core does a couple of things. One, it acts as a client for the
-network. Two, it acts as an interface to help decode what's on the network.
+Dogecoin Core does several things. One, it acts as a client for the network.
+Two, it acts as an interface to help people decode what's on the network.
 Three, it acts as a wallet. All three of those things work together, but they
 don't all work together in the same way you might expect.
 

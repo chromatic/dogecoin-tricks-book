@@ -2,19 +2,17 @@
 
 Z<vote_on_goats>
 
-
 X<recipes; blackberry lemonade>
 
-Imagine you've done it. You've fulfilled your life-long dream of buying some
-land in the country and only using your laptop while sitting on your back deck,
-sipping lemonade and admiring the view. Then wild blackberry vines grow and
-block your view, and you can either put down your laptop and get out the
-gardening tools or adopt some goats and get back to sipping your drinkN<Recipe
-for blackberry lemonade: pick and wash blackberries. Add to lemonade. Muddle if
-you like.>.
+You've done it--fulfilled your life-long dream of buying land in the country
+and using your laptop only while sitting on your back deck, sipping lemonade
+and admiring the view. Then wild blackberry vines grow and block your view, and
+you can either put down your laptop and get out the gardening tools or adopt
+some goats and get back to sipping your drinkN<Recipe for blackberry lemonade:
+pick and wash blackberries. Add to lemonade. Muddle if you like.>.
 
 The obvious answer is to adopt the goats. Four of them will do it. Now comes
-the difficult part: what do you name them?
+the difficult part: naming them.
 
 Make a poll!
 
@@ -24,7 +22,7 @@ Blockchain technology has an interesting inherent property that transactions
 cannot be reversed. Once enough of the network has confirmed a transaction, it
 becomes increasingly expensive and troublesome to remove that transaction. In
 the case of Dogecoin, with blocks mined every 60 seconds or so, you can be
-pretty certain that a transaction confirmed ten minutes ago is going to stick.
+pretty certain that a transaction confirmed ten minutes ago is permanent.
 
 This property leads some people to suggest the use of blockchain technology for
 voting systems. While administering voting on the level of a town, parish,
@@ -32,8 +30,8 @@ state, province, nation, or corporation is an interesting thought experiment,
 handling all the edge cases for something that matters more than capra hircus
 nomenclature gets complicated and messy.
 
-The allure exists, however. If you're clever and careful, you can use
-blockchain properties to validate properties of transactions to discern between
+Yet the allure persists. If you're clever and careful, you can use blockchain
+properties to validate properties of transactions to discern between
 valid/allowed votes and invalid/disallowed votes, depending on how you define
 all these terms.
 
@@ -60,15 +58,13 @@ feedback, remember they're hypothetical goats.>
 =back
 
 Why not use ninja turtle names? Too many syllables to yell when they wander
-away from the blackberry vines and wander into the roses.
+away from the blackberry vines and into the roses.
 
 For each set of possibilities, generate or choose a fresh, unused Dogecoin
-address for each set of possibilities. Then publicize your vote. To vote for
-the first set, send I<your amount here> of Koinu to I<selected address>. Go
-through the list. Remember to tell people when voting starts and when voting
-ends.
-
-Wait until voting ends, then pick the winner.
+address. Then publicize your vote. To vote for the first set, send I<your
+amount here> of Koinu to I<selected address>. Go through the list. Tell people
+when voting starts and voting ends. Wait until voting ends, then pick the
+winner.
 
 =head3 *Counting Poll Responses
 
@@ -79,15 +75,15 @@ C<getreceivedbyaddress> RPC call and adding up either the number of koinu sent
 to each address. The highest value wins!
 
 What if, however, you start to wonder if allowing the wealthiest and most
-generous voter to have the most votes is right? It might not be. What if you
+generous voter to have the most votes is ethical? It might not be! What if you
 want to count the I<number> of transactions to each address and use that to
 decide on the winning names?
 
 X<< RPC commands; C<getreceivedbyaddress> >>
 
-Use the C<listtransactions> RPC call to make a list of all transactions to your
-wallet, then use a spreadsheet or code or a friend with a notepad and writing
-implement to tick off the votes.
+Use the C<listtransactions> RPC call to list the transactions in your wallet,
+then use a spreadsheet or program or a friend with pen and paper to tabulate
+the results.
 
 =begin tip Good Coders Borrow; Great Coders Steal
 
@@ -95,7 +91,7 @@ X<< RPC commands; C<listreceivedbyaddress> >>
 
 Bitcoin's C<listreceivedbyaddress> call has an additional fourth argument used
 to filter transactions to specific addresses, but as of this writing, Dogecoin
-1.14.6 does not have that feature. Check back soon.
+1.14.7 does not have that feature.
 
 =end tip
 
@@ -107,16 +103,15 @@ count, depending on your preferences.
 
 X<epoch time>
 
-Remember that Dogecoin records time in epoch time; this represents the number
-of seconds since the birthdate of Unix on January 1, 1970. Use an "epoch time
-converter" built into your favorite programming environment or one of multiple
-web sites to translate these numbers to and from a time system more to your
-liking.
+Remember that Dogecoin records time in epoch time: the number of seconds since
+the birthdate of Unix on January 1, 1970. Use an "epoch time converter" built
+into your favorite programming environment or one of multiple web sites to
+translate these numbers to and from a time system more to your liking.
 
 If you're really clever or appropriately lazy, you could write a little program
 to make this RPC call, loop through all transactions, ignore everything outside
-of the start and end epochs, ignore everything to non-vote addresses, and print
-a little summary at the end.
+of the start and end epochs, ignore everything to non-vote addresses, and
+summarize the results.
 
 =head3 *Avoid Poll Stuffing
 
@@ -143,20 +138,20 @@ transaction, send 10 Dogecoin each to each of your 10 friendsN<Remember there's
 a very small transaction fee, so use the 1 extra to pay that.>. Tell your
 friends that their votes I<must> come from the 10 Dogecoin they've each
 received, so when they craft their transactions either do so explicitly, use an
-otherwise empty wallet, or use a mechanism such as C<lockunspent> to ensure the
-funds come from the right place.
+otherwise empty wallet, or use a mechanism such as C<lockunspent> (see
+L<protect_unspent_transaction_outputs>) to ensure the funds come from the right
+place.
 
 Then open the poll as normal.
 
-When you go to count votes, use the C<listreceivedbyaddress> approach. Use the
-same C<blocktime> approach to validate the timing of the votes, but also look
-at the I<source> of funds for each transaction. A vote is only valid I<if> the
-received coins spent in that transaction came from the transaction you used to
-seed each friend's wallet. Any other transaction is an invalid vote, and you
-can ignore it.
+When you count votes, use C<listreceivedbyaddress> and the same C<blocktime>
+approach to validate the timing of the votes, but look also at the I<source> of
+funds for each transaction. A vote is only valid I<if> the received coins spent
+in that transaction came from the transaction you used to seed each friend's
+wallet. Any other transaction is an invalid vote, so ignore it.
 
 This approach also has the nice property of vote weighting, which gives voters
-a little more say than the majority-rules approach.
+more say than the majority-rules approach.
 
 =head2 *Understand the Risks
 
@@ -183,7 +178,7 @@ risk.
 If you use an existing wallet for these addresses, you'll make your life more
 difficult in counting votes/transactions. Furthermore, you run the risk of
 mingling koinu used in voting with koinu used in other purposes, which could
-also de-anonymize you in part.
+also de-anonymize you.
 
 =head2 *What Can You Do With This?
 
@@ -197,7 +192,7 @@ The ability to set up a private Dogecoin network/blockchain is interesting and
 avoids a lot of privacy and financial concerns, though admittedly the entire
 Dogecoin software stack is a lot of extra code and complexity that you wouldn't
 necessarily need in this scenario; it's probably smarter to run a
-voting-specific blockchain if you wanted to use such a system.
+voting-specific blockchain for this.
 
 With that said, if you want to get something up and going quickly, you could do
 a lot worse. Software that exists that you know how to use well is better than

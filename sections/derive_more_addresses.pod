@@ -128,7 +128,7 @@ In a web context, you might want to build a model object more like this:
       use Crypt::Lite;
       use Finance::Libdogecoin 'get_derived_hd_address_by_path';
 
-      has $key;
+      field $key;
 
       ADJUSTPARAMS( $params ) {
           $key = Crypt::Lite->new->decrypt($params->{master_key}, $params->{secret});

@@ -7,14 +7,14 @@ Z<chapter_basic_advanced_transactions>
 X<currency>
 
 Hoarding coins can be fun for a while, but eventually they have to move around.
-That's part of the definition of a I<currency>, after all: something you can
-trade for goods or services. Whether that's buying a cute stuffed animal or
-flag online, getting paid for consulting or writing something
-funny/sad/insightful, or just giving a tip to someone who made you smile,
-transactions are the beating heart of Dogecoin.
+That's what makes coins into a I<currency>, after all: you trade them for goods
+or services. Whether that's buying a cute stuffed animal or flag online,
+getting paid for consulting or writing something funny/sad/insightful, or
+giving a tip to someone who made you smile, transactions are the beating heart
+of Dogecoin.
 
-This chapter walks through smart, surprising, or merely silly things you can do
-with transactions.
+This chapter walks through smart, surprising, and silly things you can do with
+transactions.
 
 L<bundle_and_track_transactions>
 

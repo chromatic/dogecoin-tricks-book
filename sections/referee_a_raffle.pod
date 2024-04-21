@@ -2,7 +2,7 @@
 
 Z<referee_a_raffle>
 
-Anywhere someone has to hand money to someone else, there's an opportunity for
+Anywhere someone has to hand money to someone else is an opportunity for
 someone to transfer Dogecoin to someone else. That's the I<currency> part of
 the word I<cryptocurrency>. The more places and situations where you can spend
 friendly dog money, the more useful it becomes.
@@ -12,22 +12,22 @@ be appropriate, the more I<interesting> Dogecoin becomes. The immutable, public
 ledger offers opportunities to build transparency and fairness into situations
 where other people might have to take your word for trustworthiness.
 
-Consider, for example, a raffle: a lottery where people buy tickets and one or
+Consider a raffle as example: a lottery where people buy tickets and one or
 more drawings awards prized based on the purchased tickets. How do you know the
 drawing is fair? With cryptocurrency, you can make the drawing itself 100%
 provably fair and reproducible. Here's how.
 
 =head2 *Prove Your Work
 
-How does a lottery work outside of a blockchain? Every time you sell a ticket,
-you tear it in half and give one half to the buyer. You keep the other half.
-When it's time to draw a winner, put all of the halves in some container, close
-your eyes, and pull out the winning ticket. Call the number, and let the person
-with the other half show you their ticket and verify that the two halves match.
+Outside of a blockchain, you can sell a raffle ticket, tear it in half, and
+give one half to the buyer. You keep the other. When it's time to draw a
+winner, put all of the halves in a container, close your eyes, and pull out the
+winning ticket. Call the number, and let the person with the other half show
+you their ticket and verify that the two halves match.
 
 How do you do this with a blockchain? There might not be physical tickets. You
 might not all be in the same physical location. You might not even know who the
-winner is in any non-anonymous sense.
+(anonymous) winner is.
 
 That's okay; you can still make this system work. The key is to make the
 I<drawing> itself provably fair and transparent.
@@ -35,53 +35,48 @@ I<drawing> itself provably fair and transparent.
 =head3 *Pick a Winner
 
 Suppose you have a hundred tickets available. Choose a random number. Publish
-that number along with a list of 100 unused Dogecoin receiving addresses you've
-generated (see L<derive_more_addresses>).  The first person to send a
-transaction to each address has successfully bought a ticket. When you've sold
-all 100 tickets, you have a list of 100 addresses as well as the 100
-transactions. List these transactions all in order in which they were
-received--the first is transaction 0, the second 1, and so forth. Write down
-the index of each of these transactions in their blocks--this time starting
-from 1.
+that number along with a list of 100 unused Dogecoin receiving addresses (see
+L<derive_more_addresses>).  The first person to send a transaction to each
+address has successfully bought a ticket. When you've sold all 100 tickets, you
+have a list of 100 addresses as well as the 100 transactions. List these
+transactions all in order in which you received them--the first is transaction
+0, the second 1, and so forth. Write down the index of each of these
+transactions in their blocks--this time starting from 1.
 
-Now choose a random number. It doesn't matter what it is, as long as it's
+Now choose another random number. It doesn't matter what it is, as long as it's
 random. Change every transaction id into a number. Multiply each transaction
 number by its index in its block. Multiply the result by your random number.
-Now add all of those numbers together.  Finally take the modulus (see
+Now add all of those numbers together. Finally take the modulus (see
 L<roll_over_your_odometer>) of that result and 100 (or just take the last two
 digits of that number--but if you sell a different number of tickets, use the
 number you sold as the modulus). The final number there is the number of the
 winning transaction.
 
-Contact the winner somehowN<Yes, this is a tricky part.>.
+Contact the winner somehowN<This may be the tricky part.>.
 
-Provided that you've published the random seed and the list of transaction
+Given that you've published the random seed and the list of transaction
 addresses publicly, anyone can verify the list of transactions and their order
 to reproduce your results. You can reproduce the results--even write a program
-to do this for you or anyone else. As long as you've provided the algorithm
-you're using (assign each transaction an index number, starting with the
-earliest first, then the earliest in the block if two transactions get mined in
-the same block, starting from the first random seed, modulus by the number of
+to do this for you or anyone else. As long as you publish the algorithm you're
+using (assign each transaction an index number, starting with the earliest
+first, then the earliest in the block if two transactions get mined in the same
+block, starting from the first random seed, modulus by the number of
 transactions), you've achieved your goal of transparency.
 
 =head3 *Pick Multiple Winners
 
-What if you're raffling off more than one item? You can still use this system.
-For each item you're awarding, remove the winning transaction from the list and
-reduce the modulus by one. Reproduce the results and continue until you've
-awarded all items.
-
-Again, to make this work, all of the input data to the algorithm has to be
-available to anyone who wants to check your work and they have to use the same
-mechanism you use.
+What if you have multiple prizes? For each item you're awarding, remove the
+winning transaction from the list and reduce the modulus by one. Reproduce the
+results and continue until you've awarded everything. The same rules apply: the
+algorithm and all of its input data must be available to anyone who wants to
+check your work.
 
 =head3 *Can This Be Gamed?
 
-All of this information is publicly available, including the algorithm you use
-to choose the winning tickets. Can someone game the system? That depends on
-their ability to I<predict> the index of the transaction that will win any
-specific prize--or, in the case of multiple prizes, the indices of all of the
-winning transactions in order.
+If all of this information is publicly available, can someone game the system?
+That depends on their ability to I<predict> the index of the transaction that
+will win any specific prize--or, in the case of multiple prizes, the indices of
+all of the winning transactions in order.
 
 Given that the inputs to the algorithm are your random seed and all of the
 relevant transaction ids, this is I<probably> good security. If you publish
@@ -98,27 +93,29 @@ transaction can modify!>) to influence the final result. That's why the
 transaction id gets multiplied against the transaction's index in its block:
 it's more difficult to influence I<that> number.
 
-Incidentally, this is why good cryptography validated by experienced
-cryptographers is so important. Any mistake you make that leaks information or
-gives anyone an advantage over anyone else is a potential attack vector.
+Difficult but impossible? It's not clear yet. This is why good cryptography
+validated by experienced cryptographers is so important. Any mistake you make
+that leaks information or gives anyone an advantage over anyone else is a
+potential attack vector.
 
 =head2 *Weigh Sold Tickets
 
 If you've ever bought a raffle ticket before, you've probably noticed that you
 can buy more than one ticket a time. Perhaps one ticket costs $5 but you can
 buy 5 tickets for $20. This is great--you get more chances to win and the
-raffle organizers can raise more money.
-This makes your job as a referee slightly more complicated, because you have to
-account for the I<number> of tickets purchased, not just the I<number> of
-transactions. Of course, this is probably what you want anyway, because you've
-already invalidated transactions that didn't go through, were refunded, or
-didn't meet the minimum entry fee.
+raffle organizers raise more money.
 
-There are many ways to do this. The computer science/algorithms way is to use a
-technique called "weighted random" selection. Another approach is simpler: add
-one entry for each ticket of each transaction in order. For example, if each
-ticket costs 10 Dogecoin and the first transaction was for 30 Dogecoin, add
-that input address to the list of candidates three times.
+This complicates your job as a referee, because you have to account for the
+I<number> of tickets purchased, not just the I<number> of transactions. Of
+course, this is probably what you want anyway, because you've already
+invalidated transactions that didn't go through, were refunded, or didn't meet
+the minimum entry fee.
+
+The computer science/algorithms solution to this problem is to use a technique
+called "weighted random" selection. Another approach is simpler: add one entry
+for each ticket of each transaction in order. For example, if each ticket costs
+10 Dogecoin and the first transaction was for 30 Dogecoin, add that input
+address to the list of candidates three times.
 
 =head2 *Understand the Risks
 
@@ -126,35 +123,33 @@ While this tip is I<nominally> about how to hold a fair and transparent raffle
 with virtual payments, it's also about how to I<design> a fair and transparent
 mechanism where everyone can verify the results. When designing a system like
 this, you might inadvertently make a loophole that a clever attacker can
-exploit.  Think about this system and how it works and think about how you
-yourself might exploit it. If you decide to use the system described here, buy
-a couple of sneaky friends dinner or a delicious beverage and brainstorm ways
-to cheat. If you can't think of any, that doesn't mean you're okay, but it's a
-start.
+exploit. Think about this system and how it works and how you yourself might
+exploit it. If you decide to use the system described here, buy a couple of
+sneaky friends dinner or a delicious beverage and brainstorm ways to cheat. If
+you can't think of any, that doesn't mean you're okay--but it's a start.
 
-Another risk unique to a virtual, distributed, trustless raffle is in
-I<getting> the prizes to the winners. If you host a raffle in person and
-someone wins, you can hand them the prize and everyone will believe that they
-bought the ticket and will take the prize home. In an online,
-cryptocurrency-based raffle, you can prove that the drawing was fair and
-transparent, but you can't prove that the winner actually received the
-autographed first edition of I<Modern Perl> they spent 10,000 Dogecoin to win.
-You also can't prove that the author's mother didn't send the winning
-transaction.
+Another risk unique to a virtual, distributed, trustless raffle is I<getting>
+the prizes to the winners. If you host a raffle in person and someone wins, you
+can hand them the prize and everyone will believe that they bought the winning
+ticket and should take home their prize. In an online, cryptocurrency-based
+raffle, you can prove that the drawing was fair and transparent, but you can't
+prove that the winner actually received the autographed first edition of
+I<Modern Perl> they spent 10,000 Dogecoin to win. You also can't prove that the
+author's mother didn't send the winning transaction, even though she already
+has a copy.
 
-To send any prize at all, you have to be able to associate an incoming
+To send I<any> physical prize, you have to be able to associate an incoming
 transaction with a person, whether email address, shipping address, or
 something else. If you've generated a new receiving address for each person,
 that's easy to manage--but you have to maintain that mapping of address to
 people at least until you've distributed all prizes I<and> you have to make all
 receiving addresses public so people can verify the prize distributions. This
-may or may not be a lot of work. Furthermore, any mechanism that ties an
-identity to a transaction represents de-anonymizing data that you need to keep
-safe from other people and may want to destroy when you've finished.
+may be a lot of work. Furthermore, any mechanism that ties an identity to a
+transaction represents de-anonymizing data that you need to keep safe from
+other people. You may want to destroy this when you've finished.
 
-Finally--and relatedly--any legal entity which believes itself to have
-jurisdiction over you may have opinions about how to run a raffle, including
-the idea that you can or cannot run one at all or that you or prize recipients
-may owe taxes on the prizes or be entitled to tax deductions based on the cost
-of their tickets. Your author offers no advice on this topic besides "do your
-research".
+Finally, any legal entity which believes itself to have jurisdiction over you
+may have opinions about how to run a raffle, including the idea that you can or
+cannot run one at all or that you or prize recipients may owe taxes on the
+prizes or be entitled to tax deductions based on the cost of their tickets.
+Your author offers no advice on this topic besides "do your research".

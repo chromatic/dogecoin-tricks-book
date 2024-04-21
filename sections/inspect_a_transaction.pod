@@ -2,22 +2,22 @@
 
 Z<inspect_a_transaction>
 
-Holding Dogecoin is interesting and spending Dogecoin is fun, but there's a
-whole world of things going on behind the scenes when you do either. The
-fundamental concepts of blockchains require that everything from mining coins
-to sending coins to receiving coins happens in a public, verifiable way. This
-means the I<mechanism> of your actions is visible to other people, and to you.
+Holding Dogecoin is interesting and spending Dogecoin is fun, but a whole world
+of things happens when you do either. The fundamental concepts of blockchains
+require that everything happens in public, in a verifiable way: mining coins,
+sending coins, receiving coins, et cetera.  The I<mechanism> of your actions is
+visible to you and everyone.
 
 Understanding what happens when you send or receive coins can open the door to
 a lot of possibilities.
 
 =head2 *What's in a Transaction?
 
-The best way to understand a transaction is to start with the idea of a ledger.
-All the bookkeepers and accountants reading this book can now say "Yes!
-Finally!" and enjoy the warm glow for a second. In the simplest terms (and all
-those bookkeepers and accountants can say "Oh no, it's not I<that> simple!"), a
-ledger has to keep track of a few things:
+To understand a transaction, think of a ledger. All the bookkeepers and
+accountants reading this book can now say "Yes! Finally!" and enjoy the warm
+glow for a second. In the simplest terms (and all those bookkeepers and
+accountants can say "Oh no, it's not I<that> simple!"), a ledger tracks a few
+things:
 
 =over 4
 
@@ -32,38 +32,37 @@ ledger has to keep track of a few things:
 That repeated phrase "at a specific point in time" is essential. At every part
 of the process, after every change to the ledger, the numbers should all add up
 correctly. If I take a transaction worth 1000 Doge and send you 900 and pay
-0.01 in transaction fees, I'd better make sure the other 99.99 go somewhere
-else, or the transaction is incomplete and the ledger won't add up.
+0.01 in transaction fees, the other 99.99 must go somewhere else, otherwise the
+transaction is invalid and the ledger is incomplete.
 
-In practice, this means transactions have inputs, outputs, and other data.
+Thus, transactions have inputs and outputs--and other data.
 
 =head3 *Transaction Inputs
 
-Transaction money has to come from I<somewhere>. If you're going to send me 100
-Doge to buy a copy of this book, you have to have 100 Doge available. With all
-of the addresses under your control in your wallet, you have to find enough
-unspent Doge to add up to that 100 Doge threshold, plus enough to cover the
-transaction fees.
+Transaction money must come from I<somewhere>. For you to send the author 100
+Doge to buy a copy of this book, you must have access to at least 100 Doge.
+With all of the addresses under your control in your wallet, you must find
+enough unspent Doge to add up to that 100 Doge threshold, plus enough to cover
+the transaction fees.
 
 Make note of the word "unspent" there. If, per the accounting guidelines
 earlier, every ledger in the entry balances perfectly, we should be able to
 examine every address under your control and see the exact inputs and outputs
-and get a perfect balance of the funds not already spent. That's the point!
-That's one thing miners do on the blockchain; they verify that the transaction
-you're attempting to transact is coherent with regard to the blockchain itself.
+and get a perfect balance of the funds you control but have not already spent.
+That's the point! On the blockchain, miners verify that the transaction you're
+attempting to transact is coherent with regard to the blockchain itself.
 
 To make life easier for miners, a valid Dogecoin transaction requires the
-sender to identify the source transaction of any and all coins used in the
+sender to identify the source transaction of every coins used in the
 transaction. It's like when you swipe or tap a payment card at your favorite
 falafel stand; it's not enough to say "I'll send you the money". You have to
 identify the source of the funds.
 
 Clever readers may be asking "What prevents someone from picking an arbitrary
-transaction as an input and spending someone else's koinu?" The answer is that
-transaction inputs also have special data that proves that whoever created the
-current transaction can satisfy the conditions to unlock the input
-transaction(s). There's a lot to discuss here, so other tips will cover this in
-more detail.
+transaction as an input and spending someone else's koinu?" Transaction inputs
+also have special data that proves that whoever created the current transaction
+can satisfy the conditions to unlock the input transaction(s). There's a lot to
+discuss here, so other tips will cover this in more detail.
 
 =begin tip The Ultimate Input
 
@@ -73,47 +72,47 @@ X<coinbase>
 
 Where do miner rewards come from, if transaction fees are so small? Where did
 the initial Dogecoin come from? The first transaction of every block is called
-a coinbase transaction, and it's a special transaction type that can create
-more Dogecoin out of thin air. Every non-coinbase transaction has to trace its
-inputs back to one or more coinbase transactions. That's the rule.
+a coinbase transaction. This special transaction type can create more Dogecoin
+out of thin air. Every non-coinbase transaction must trace its inputs back to
+one or more coinbase transactions.
 
 =end tip
 
 When you're looking at a transactionN<It's not a fireworks factory; we'll get
 there soon!>, you'll see one or more inputs, except for coinbase transactions.
-This makes the ledger work from a bookkeeping sense.
+This makes ledger bookkeeping work correctly.
 
 =head3 *Transaction Output
 
 Inputs and outputs go together just like taking a kruggerand out of your pocket
-puts it in your hand. Without an output, your transaction just kind of sits
-there, doing nothing interesting.
+puts it in your hand. Without an output, your transaction sits around, doing
+nothing.
 
-A transaction can have one or more outputs, and each output has to contain a
-couple of pieces of data. First, it needs the number of koinu included. If
-you're sending me 100 Dogecoin for a copy of this book, the output needs to
-contain 100 Dogecoin. Second, the output needs a condition under which the
-recipient can spend the provided Dogecoin. If you're sending this to one of my
-addresses, you need to provide a cryptographic puzzle that only I, as the owner
-of the private key behind that address, can solve.
+A transaction can have one or more outputs. Each output contains its own data.
+First, it needs the number of koinu included. If you're paying 100 Dogecoin for
+a copy of this book, the output needs to contain 100 Dogecoin. Second, the
+output needs a condition under which the recipient can spend the provided
+Dogecoin. If you're sending this to one of the author's addresses, you need to
+provide a cryptographic puzzle that only the owner of the private key behind
+that address can solve.
 
 That's not the only kind of condition you can produce, of course, but that's a
-topic for another tip.
+topic for another tip (see L<timelock_a_vault>, for example).
 
 =begin tip Transaction Metadata
 
-Transactions also include a little bit of bookkeeping information, such as the
-transaction ID. For now you can ignore most of that information, but you
-absolutely need the transaction ID to do anything interesting; it's what links
-all of the transactions in the blockchain together in a chain.
+Transactions also include bookkeeping information, such as the transaction ID.
+For now you can ignore most of that information, but you absolutely need the
+transaction ID to do anything interesting; it links every transaction in the
+blockchain together into a chain.
 
 =end tip
 
 =head2 *What's in a Transaction?
 
-Enough theory; how about looking at a real transaction? If you have the Core running on your computer
-and if you have a wallet that's received inputs, you can use a handful of RPC
-commands to look at a transaction.
+How about looking at a real transaction? If you have the Core running on your
+computer and if you have a wallet that's received inputs, use RPC commands to
+examine one of your transactions.
 
 X<< external programs; C<jq> >>
 X<< RPC commands; C<listreceivedbyaddress> >>
@@ -176,38 +175,37 @@ X<< RPC commands; C<decoderawtransaction> >>
 
 =end screen
 
-I've truncated some of the output so that the structure is visible but the
-details don't obscure the information. You can see that this transaction has a
-single input (in C<vin>), with a reference to a single input transaction
-(C<txid>). This transaction also has two outputs (both found in C<vout>). These
-outputs have a C<value> of 6.9 and 978.55966 Dogecoin respectively. If you add
-these amounts together, you'll come up with almost the same amount as was
-received in the input transaction, less a few koinu used for transaction fees.
+This example truncates some information to reveal the structure of a
+transaction without burdening it with details. This transaction has a single
+input (in C<vin>), with a reference to a single input transaction (C<txid>).
+This transaction also has two outputs (both found in C<vout>). These outputs
+have a C<value> of 6.9 and 978.55966 Dogecoin respectively. If you add these
+amounts together, you'll come up with almost the same amount as was received in
+the input transaction, less a few koinu used for transaction fees.
 
-The command-line commands themselves aren't super interesting; the commands
-feed into each other (hence the use of shell variables). The C<jq> line is only
-for this example; it looks at all of the addresses which have received Dogecoin
-inputs, looks at the first one, looks at the first transaction, and gets its
-transaction ID. You could use I<any> valid transaction ID, including the
-transaction ID of the input transaction and its input transaction(s) and so
-forth, until you reach a coinbase transaction.
+The command-line commands feed into each other (hence the use of shell
+variables). The C<jq> line is only for this example; it looks at all of the
+addresses which have received Dogecoin inputs, looks at the first one, looks at
+the first transaction, and gets its transaction ID. You could use I<any> valid
+transaction ID, including the transaction ID of the input transaction and its
+input transaction(s) and so forth, until you reach a coinbase transaction.
 
-Of course, this is all easier using a blockchain explorer, but doing it this
-way means you don't have to trust anyone else; you can navigate the ledger
-yourself to validate and verify everything to your own satisfaction.
+This is all easier using a blockchain explorer, but if you do it yourself you
+can trust and verify your own copy of the blockchain and not rely on someone
+else's opinion.
 
 =head2 *Understand the Risks
 
-There's really no risk in exploring the blockchain other than the same risk as
-always of running a Core node on a computer hooked up to a network. Issuing
-these RPC commands over the network (not on your local machine) has the same
-risks as always.
+There's no risk in exploring the blockchain other than the same risk as always
+of running a Core node on a computer hooked up to a network. Issuing these RPC
+commands over the network (not on your local machine) has the same risks as
+always.
 
 X<people; Andreas M. Antonopoulos>
 
 The biggest risk here is making assumptions about the structure of transactions
-and how they work. The "Mastering Bitcoin" bookN<See
-U<https://github.com/bitcoinbook/bitcoinbook>.>, by Andreas M. Antonopoulos,
-explains transactions in much greater detail (among other things). It's a good
-reference for anyone interested in the structure and use of transactions down
-to the data sent over the network.
+and how they work. The "Mastering Bitcoin" bookN<See U<https://amzn.to/3xxDKHf>
+or U<https://github.com/bitcoinbook/bitcoinbook>.>, by Andreas M. Antonopoulos,
+explains transactions in much greater detail. It's a good reference for anyone
+interested in the structure and use of transactions and Bitcoin-style
+technology in general.

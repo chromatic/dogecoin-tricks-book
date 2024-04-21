@@ -3,9 +3,9 @@
 Z<protect_unspent_transaction_outputs>
 
 Dogecoins are I<fungible> in the sense that 1 Doge always equals 1 Doge,
-regardless of whether it came from a coinbase five years ago or five seconds
-ago. When you send Doge in a transaction, you or your wallet can look through
-all of your unspent transaction inputs to find enough Doge to satisfy your
+regardless of whether it came from a coinbase five years or five seconds ago.
+When you send Doge in a transaction, you or your wallet can look through all of
+your unspent transaction inputs to find enough Doge to satisfy your
 transaction. Any input is as good as any other input.
 
 X<fiat currency; Canadian paper money>
@@ -18,17 +18,17 @@ scarcity.
 
 X<Minecraft>
 
-While you can always craft transactions by hand, if you're into that kind of
+While you can always craft transactions by hand if you're into that kind of
 thing, letting your wallet software move your Doge around might be like letting
 your pre-teen niece rummage through your cash jar to find just enough money to
 buy the Minecraft gift card her parents told her she could buy if she earned
-enough money to buy it. If you suddenly can't find Queen Elizabeth II on a
-tugboat, you'll regret letting your money out of your sight.
+the cash. If you suddenly can't find Queen Elizabeth II on a tugboat, you'll
+regret letting your money out of your sight.
 
 Suppose you're super proud of the first work-for-hire gig you did that landed
 you a cool 200 Dogecoin in a transaction in 2016, and you'd like to do the
 virtual equivalent of framing it and hanging it on your wall. You can do this
-in a couple of ways; let's focus on making that transaction input
+in a couple of ways; for now, focus on making that transaction input
 I<unspendable>.
 
 =head2 *Lock (and Unlock) Unspent Transactions
@@ -48,8 +48,8 @@ Doge to an address starting with C<AC8Q9Z>. The entire transaction starts with
 C<5c7561>.
 
 If you control the first address and don't want to spend those 140,000 Doge in
-some random transaction, use C<lockunspent> to keep the Core from looking at
-this transaction when it rummages around in your wallet.
+some random transaction, use C<lockunspent> to keep the Core away from those
+coins when it rummages around in your wallet.
 
 =begin screen
 
@@ -58,9 +58,9 @@ this transaction when it rummages around in your wallet.
 
 =end screen
 
-Be very cautious here; this is tricky to get right. The first argument is a
-boolean, true or false value. If you pass C<true>, the command will B<unlock>
-the specified transactions. To lock, use a value of C<false>. Yes, this seems
+Be very cautious; this is tricky to get right. The first argument is a boolean
+true or false value. If you pass C<true>, the command will B<unlock> the
+specified transactions. To lock, use a value of C<false>. Yes, this seems
 backwards.
 
 The second parameter is optional; it's the serialized form of a JSON array of
@@ -70,8 +70,8 @@ use `dogecoin-cli` to perform this command from the command line.
 
 X<< RPC commands; C<listlockunspent> >>
 
-After you've sent this command, immediately follow up with C<listlockunspent>
-to see if the transactions you intended to lock are actually locked:
+After you've sent this command, immediately use C<listlockunspent> to see if
+the transactions you intended to lock are actually locked:
 
 =begin screen
 
@@ -85,10 +85,10 @@ to see if the transactions you intended to lock are actually locked:
 
 =end screen
 
-If you've locked multiple transaction outputs, you'll see the entire list here.
+If you've locked multiple transaction outputs, you'll see the entire list.
 
 To I<unlock> a single transaction output, provide the transaction id and output
-index, but this time change the boolean argument to C<true>.
+index, changing the boolean argument to C<true>.
 
 =begin tip Always List Your Locks
 
@@ -98,7 +98,7 @@ transaction output identifiers, you will unlock I<all> locked transactions.
 
 Arguably the implementation of this command is misleading, though your author
 admits he had to read the Core source code and think really hard to figure out
-what it was doing.
+how it works.
 
 =end tip
 
@@ -139,4 +139,3 @@ might create a new transaction I<before> the script has a chance to run. A
 stronger solution is to isolate the wallet address(es) into a separate wallet
 not visible to the core where you want to lock these... but that's a discussion
 for a separate tip!
-

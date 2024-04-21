@@ -3,11 +3,11 @@
 Z<put_funds_in_escrow>
 
 Suppose you commission an artist to paint a picture of your cute little pupper.
-This is going to hang in a place of honor in your office, so it's a large
-painting. You agree to pay 10,000 Dogecoin. This is a chunk of cash, so you're
-anxious to get your work, and the artist has to buy and stretch a canvas, buy
-paints, do some sketches, and risk carpal tunnel trying to get all of the
-little eyelashes of your pooch just right.
+This will hang in a place of honor in your office, so it's a large painting.
+You agree to pay 10,000 Dogecoin. This is a lot of coins, so you're anxious to
+get your work. The artist has to buy and stretch a canvas, buy paints, do some
+sketches, and risk carpal tunnel trying to get all of the little eyelashes of
+your pooch just right.
 
 If things go south, you want to get your money back. If you stiff the
 artistN<Please never do this.>, they'll have trouble selling the painting of
@@ -19,53 +19,51 @@ How can you reduce the risk for both of you? Put the money in escrow.
 
 Another tip demonstrated how to send funds to an address that you can't spend
 until a certain time or block threshold has passed (see L<timelock_a_vault>).
-Dogecoin inherited from Bitcoin another interesting script feature: the
+Dogecoin inherited another interesting script feature from Bitcoin: the
 requirement that multiple keys sign a transaction before you can spend itN<See
 U<https://developer.bitcoin.org/devguide/transactions.html#multisig> in the
 Bitcoin documentation for more details.>.
 
-The C<OP_CHECKMULTISIG> script opcode takes a couple of arguments: a list of
+The C<OP_CHECKMULTISIG> script opcode takes multiple arguments: a list of
 public keys used to verify the spending transaction signature and a number.
-This is important: multiple public keys means that you can require multiple
-I<private> keys to sign a transaction to unlock it. If multiple people use
-their own public/private keypairs, you can require that more than one--but not
-every person--unlock the transaction.
+This is important: multiple public keys means that you need multiple I<private>
+keys to sign and unlock a transaction. If multiple people use their own
+public/private keypairs, you can require that more than one--but not every
+one--unlock the transaction.
 
 X<references; Oh, Henry!>
 
-For example, if you and your significant other are saving up for a trip to
-Kauai, the garden island, you might each send your Dogecoin change to a special
+For example, if you and your significant other are saving for a trip to Kauai,
+the garden island, you might each send your Dogecoin change to a special
 address. When it comes time to buy your plane tickets, you both need to sign
 the transaction to unlock the funds, thus avoiding a hilarious Gift of the Magi
 situation. This would be a 2-of-2 multisig script.
 
 When considering how to treat you, your doggo, and your painter fairly, you
 might prefer a 2-of-3 multisig script, where you and the artist each contribute
-a public key and a trusted third party provides the third. Thus the ideal
-situation is where you and the artist each sign the spending transaction and
-everyone is satisfied, or one or the other of you convince the escrow agent to
-sign the transaction without the other party agreeing. You can add arbitrary
-complexity here, as long as you want to wrangle the signatures, and if you
-define "arbitrary" as "probably about 16"N<Technically, the number allowed may
-be more than a hundred, but is that practical?>.
+a public key and a trusted third party provides the third. In the ideal
+situation, you and the artist each sign the spending transaction and everyone
+is satisfied. Else, one or the other of you convince the escrow agent to sign
+the transaction without the other party agreeing. You can add arbitrary
+complexity, as long as you want to wrangle the signatures, and if you define
+"arbitrary" as "probably about 16"N<Technically, the number allowed may be more
+than a hundred, but is that practical?>.
 
 =head2 *Use a Multisig Script for Escrow
 
 How do you create this script? Assume you've agreed on an escrow agent. Each of
-you should now generate a public/private keypair (link to tip). Keep your
-private key private and safe.
+you should now generate a public/private keypair. Keep your private key private
+and safe.
 
-All three of you should share your public keys. Perhaps the safest way to do
-this is for you and the artist to send your keys separately to the escrow
-agent; that way you can be sure the agent has both keys. Presumably you trust
-the agent.
+All three of you should share your public keys. The safest way to do this is
+for you and the artist to send your keys separately to the escrow agent; that
+way you can be sure the agent has both keys. Presumably you trust the agent.
 
 =head3 *Create the Multisig Script
 
 X<< RPC commands; C<createmultisig> >>
 
-At this point, the agent can create the script using the C<createmultisig> RPC
-command:
+Now the agent can create the script using the C<createmultisig> RPC command:
 
 =begin script
 
@@ -76,22 +74,22 @@ command:
 The result will be a JSON object with two keys: C<address> and C<redeemScript>.
 The escrow agent should send this to both so that you can verify the script
 (see L<decode_a_transaction_script>). Be sure that your public key is in the
-right spot when you decode the script. C<address> is where you can send your
-funds, the 10k Dogecoin you agreed on. When the artist sees that this
-transaction has been approved, they can begin to paint.
+right spot when you decode the script. C<address> is where to send the 10k
+Dogecoin you agreed on. When the artist sees that this transaction has been
+mined, they can begin to paint.
 
 =head3 *Spend the Multisig Inputs
 
 X<obscure references; Team Venture>
 
 What happens when something happens? If two of you three parties are satisfied,
-you can spend the funds. This is where things get a little bit tricky. First,
-you have to sign the transaction I<in the order in which your public keys
-appeared when creating the script>. If the escrow agent created the script with
-keys in order of Brock, Orpheus, and RustyN<On second thought, Rusty may be the
-I<worst> choice for an escrow agent.> then Brock must sign before Orpheus or
-Rusty I<or> Orpheus must sign before Rusty. If you don't sign in the right
-order, you won't unlock the funds. This applies for any I<n> of I<m> script.
+you can spend the funds. This is where things get tricky. First, you have to
+sign the transaction I<in the order in which your public keys appeared when
+creating the script>. If the escrow agent created the script with keys in order
+of Brock, Orpheus, and RustyN<On second thought, Rusty may be the I<worst>
+choice for an escrow agent.> then Brock must sign before Orpheus or Rusty I<or>
+Orpheus must sign before Rusty. If you sign in the wrong order, you won't
+unlock the funds. This applies for every I<n> of I<m> script.
 
 Second, someone (ideally the escrow agent) has to create a raw, unsigned
 transaction, then get two of the signers to sign the transaction in progress to
@@ -116,15 +114,15 @@ signed).
 
 X<< RPC commands; C<sendrawtransaction> >>
 
-Finally, you can use C<sendrawtransaction> to send the results to the Dogecoin
-network. Nodes will validate and transmit it and miners will mine it into a
-block and, ideally, you'll have a painting of your faithful companion in your
-office and an artist will have a few thousand Dogecoin in their wallet.
+Finally, use C<sendrawtransaction> to send the results to the Dogecoin network.
+Nodes will validate and transmit it and miners will mine it into a block.
+You'll have a painting of your faithful companion in your office and an artist
+will have a few thousand Dogecoin in their wallet.
 
 =head3 *Wait, What About the Escrow Agent?
 
 This is a lot of work. You should probably also pay the escrow agent. Figure
-out something fair. Remember there are transaction fees, too.
+out something fair. Remember to account for transaction fees, too.
 
 Of course the I<spending> transaction can have arbitrary complexity, like
 sending 10,000 Dogecoin to the artist and 100 to the agent (if you funded the
@@ -133,11 +131,9 @@ p2sh address with 10,100 Dogecoin).
 =head2 *Timelock a Multisig Script
 
 If the spending transaction can be arbitrarily complex, what about the script
-itself? As if it weren't complex enough with all of this key and raw
-transaction shuffling, it's important to remember that payment scripts can also
-be arbitrarily complex. You can write any valid script code and submit it to
-the networkN<Not all nodes will retransmit non-standard scripts, but some
-will.>.
+itself? Payment scripts can also be arbitrarily complex. You can write any
+valid script code and submit it to the networkN<Not all nodes will retransmit
+non-standard scripts, but some will.>.
 
 If you want to prevent anyone from spending the funds for a period of
 time--after all, painting a good picture of your very good boi or girl will
@@ -156,16 +152,18 @@ Any complex transaction runs the risk of human misunderstanding, and that could
 mean putting your hard-earned Dogecoin at risk, especially of being
 unreachable.
 
-Is it worth creating transactions by hand like this? That depends on your risk
-tolerance and your desire for control. Relying on software someone else created
-to do the right thing introduces some risk, but the convenience of well-tested
-and repeatable code is important. B<Do not> blindly copy the code or
-instructions here without testing, verification, and validation.
-
-Finally, escrow exists so that a subset of people can agree to a transaction without
+Escrow exists so that a subset of people can complete a transaction without
 everyone agreeing to it. If you are worried about dealing with untrustworthy or
 unreasonable people and find yourself making ever more complex transactions,
 step back and think about the kind of stress you want to experience in your
 life. A simple transaction is easy to understand and easy to execute. A complex
-transaction is harder to understand and more difficult to produce, requiring
-more steps. More steps means more opportunities to get things wrong.
+transaction takes more effort, requiring more steps. More steps means more
+opportunities to get things wrong.
+
+Is it worth creating transactions by hand like this? Balance your risk
+tolerance with your desire for control. Relying on software someone else
+created to do the right thing introduces some risk, but the convenience of
+well-tested and repeatable code is important. B<Do not> blindly copy the code
+or instructions here without testing, verification, and validation--there's a
+reason the "how to generate keypairs" section is left as an exercise for the
+reader.
