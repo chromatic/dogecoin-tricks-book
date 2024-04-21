@@ -12,7 +12,7 @@ transactions.
 You may think to yourself "I know there's a lot going on behind the scenes, but
 is this it? A friendly dog image, a couple of buttons, and a lot of math I
 really ought to go back and read in more detail (see
-L<intro_cryptography>)?"
+L<chapter_intro_cryptography>)?"
 
 Click the Help menu, then the Debug window item, and finally the Console tab.
 You will then see something like L<dogecoin-core-debug-window-console>.
