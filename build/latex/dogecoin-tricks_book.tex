@@ -29,11 +29,14 @@
 \tableofcontents
 \cleardoublepage
 
-% mark preface specially
+% mark foreword and preface specially
 \pagestyle{fancy}
+\addcontentsline{toc}{chapter}{Foreword}
+\fancyhead[OR]{\nouppercase {\em Foreword}}
+\pagenumbering{roman}
+\include{chapter_foreword}
 \addcontentsline{toc}{chapter}{Preface}
 \fancyhead[OR]{\nouppercase {\em Preface}}
-\pagenumbering{roman}
 \include{chapter_00}
 \thispagestyle{empty}
 

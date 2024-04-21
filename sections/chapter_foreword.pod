@@ -1,0 +1,97 @@
+=encoding utf-8
+
+=head0 *Foreword
+
+Z<chapter_foreword>
+
+As I write this foreword to chromatic's beautiful book, in the corner of an
+empty well-lighted bar in the middle of the night, cannoli waiting for me in a
+tray next to my computer, my mind wanders. It goes back to those early days of
+December 2013, when I was still living in a small apartment overlooking the
+river Tejo in Lisbon. With my partner, I had finally decided to understand more
+about Bitcoin and cryptocurrencies. The idea of trying to use my GPU to mine a
+cryptocurrency seemed a good point of entry.
+
+Back then, it was already impossible to mine Bitcoin with a GPU. Litecoin was a
+possibility. But then we came across the first posts about Dogecoin on Twitter
+and Reddit. The “fundamentals” that attracted us to Dogecoin were the yellow
+dog in the logo and the Comic Sans font. Yes, it was clear this was a fork of
+coins derived from Bitcoin, but the joke of it all was so funny and endearing
+that all the rest did not matter. We looked at our dog K., back then still
+young and sleeping at our feet, and the decision was taken. I can still hear
+the whirring sound of the GPU in that small one-room apartment. It would serve
+as a background to my work, sleep, and indoor soccer games with K. for a few
+months.
+
+Since 2013, reports of Dogecoin’s death have been greatly exaggerated. The coin
+and the community around it that was supposed to die off and disappear proved
+to be incredibly resilient. A testament to its decentralized and permissionless
+nature, to its community of wacky heroes and occasional villains, but also to
+the power of memes and jokes, the power of dogs and the Comic Sans font. "A
+laugh that will bury them all," is a phrase that keeps ringing in my head
+whenever I see Dogecoin in the wild.
+
+More than 10 years have passed, and while cryptocurrencies have evolved,
+education around them is still lacking and is often focusing on the speculative
+side of it all. Everything is about the market, instead than on how the tech
+works, why it works, and why permissionless decentralized money can matter.
+
+Because Dogecoin is, for the most part, a fork of Bitcoin with the good heart
+of a dog. The technical foundations are solid--insofar as Dogecoin is well
+maintained and its network is healthy--but the face shown to the public, the
+ubiquity of the meme, its irony and friendliness, and the often welcoming
+community make it a favorite point of entry for those new to crypto. Dogecoin
+holds this special position of being the gateway to crypto for so many, a
+special vantage point that should come with a certain sense of responsibility.
+
+This is why a book like this one is so important. chromatic, who also
+contributes as a developer and maintainer for Dogecoin Core (Dogecoin’s
+reference implementation), guides you through the concepts behind
+cryptocurrencies with poise and panache. The brilliant chapters opening the
+book introduce important yet potentially unintuitive concepts in a very
+approachable and rewarding way. Through the rest of the book, chromatic then
+uses dog money as a playground to teach concepts that transcend it.
+
+A writer and free software programmer with a profound love for humanities in
+his heart, he might demystify "mnemonic passphrases" by using the words as
+solutions to riddles in a treasure hunt, in a chapter filled with Easter eggs
+and references to the best adventure game ever. He spends time to teach you how
+to run a Dogecoin Node and to monitor and interact with it, but he also needs
+to show you how to turn your transaction IDs into music, how to create a
+Dogecoin-powered jukebox, how to hide a wallet address in the photo of a lovely
+pug, how to tip a Geocache with Dogecoin. Each one of these tricks introduces
+or reinforces important concepts by asking you to play with Dogecoin and to
+build small things. “Learning by playing” is a way of teaching that seems to
+capture Dogecoin’s essence just perfectly.
+
+chromatic writes with lightness and an ebullient sense of fun, but without
+eschewing responsibility. He constantly reminds the reader of risks and
+possible pitfalls behind many of these tricks. The “Understand the Risks”
+section at the end of his tricks are invaluable.
+
+A chapter on how to “Manage a Dogecoin Arcade” completes this book, tying
+together everything chromatic has taught you. The chapter introduces design
+ideas that might very well power other ventures--such as a cannoli smuggling
+device--and like many other chapters of the book tries to bring Dogecoin into
+the real world.
+
+Because in the end, I believe that a cryptocurrency has real value only when
+people use and transact with it. A cryptocurrency lives when it serves the
+purpose of sending money from point A to point B without a centralized
+authority behind it, and when it does so safely and reliably. Dogecoin can do
+this with the lightness of a joke, the irony of the dog reminding you that
+money has worth because people have agreed to transact with it, because they
+have decided it stands for something valuable. Dogecoin reminds you that people
+should have power over money and not the other way around.
+
+And with his wit, warmth, and intelligence, chromatic manages to introduce
+concepts and ideas that will serve his readers well, beyond Dogecoin.
+
+I have indirectly known chromatic for a long time through the legendary Perl
+books he wrote, and which I pillaged in my career as a web developer for
+desperados and cannoli smugglers running at the edges of this troubled world.
+
+This book has already proven to be just as useful as his earlier books. Have
+fun with it.
+
+I<Mishaboar, April 2024>
