@@ -1,3 +1,5 @@
+=encoding utf-8
+
 =head1 Roll the Dice
 
 Z<roll_the_dice>
@@ -60,7 +62,9 @@ X<< Ruby libraries; C<bundler> >>
 
       while true do
           prompt = TTY::Prompt.new
-          input = prompt.select('Choose number of d6 to roll', items, per_page: 7)
+          input = prompt.select(
+            'Choose number of d6 to roll', items, per_page: 7
+          )
           break if input == 'quit'
 
           input.to_i.times do
@@ -82,7 +86,8 @@ six-sided dice to roll:
 
 =begin screen
 
-  Choose number of d6 to roll (Press ↑/↓/←/→ arrow to move and Enter to select)
+  Choose number of d6 to roll
+ (Press ↑/↓/←/→ arrow to move and Enter to select)
   > 1
     2
     3

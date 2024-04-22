@@ -14,7 +14,7 @@ cryptocurrency seemed a good point of entry.
 
 Back then, it was already impossible to mine Bitcoin with a GPU. Litecoin was a
 possibility. But then we came across the first posts about Dogecoin on Twitter
-and Reddit. The “fundamentals” that attracted us to Dogecoin were the yellow
+and Reddit. The "fundamentals" that attracted us to Dogecoin were the yellow
 dog in the logo and the Comic Sans font. Yes, it was clear this was a fork of
 coins derived from Bitcoin, but the joke of it all was so funny and endearing
 that all the rest did not matter. We looked at our dog K., back then still

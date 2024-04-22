@@ -20,14 +20,11 @@ data from a blockchain into data that machines can more easily process (even if
 they don't understand the blockchain protocols)--and also data that humans can
 understand. After all, even though a transaction is just a blob of hexadecimal
 code, it's easier to figure out when you can see where the inputs came from and
-where the outputs go.
-
-At its core, a block explorer reads data about blocks, transactions, and
-addresses and presents this in a meaningful way to other machines or human
-beings. That's it.
+where the outputs go. A block explorer translates block, transaction, and
+address data into a form that's meaningful to humans and other machines.
 
 Multiple services provide this data via API calls. Some let you use their data
-for free. Others cost money. The drawback in all cases is that you have to
+for free. Others charge money. The drawback in all cases is that you have to
 trust someone else for this data. Could you tell if they're subtly wrong? What
 if they cut you off? What if the service goes away? What if they sell your
 data?
@@ -42,12 +39,12 @@ Dogecoin Core's RPC mechanism (see L<enhance_rpc_calls>) provides a way to get
 this data, and creating, using, or re-using a wrapper around core RPC calls can
 make this task easier.
 
-A public block explorer, C<blockchain.info> used to have a useful API pattern
-where you could get JSON data for transactions by visiting
-C<https://blockchain.info/rawtx/...> and for addresses at
-C<https://blockchain.info/rawaddr/...>. The former includes things like the
-number of confirmations, block height, time, and inputs and outputs. The latter
-includes unspent amounts and all transactions with outputs to the address.
+At one point, the C<blockchain.info> block explorer provided an API which
+served JSON transaction data from C<https://blockchain.info/rawtx/...> and
+address data at C<https://blockchain.info/rawaddr/...>. The former included
+things like the number of confirmations, block height, time, and inputs and
+outputs. The latter included unspent amounts and all transactions with outputs
+to the address.
 
 Let's start with transactions.
 
@@ -101,9 +98,12 @@ transaction ourselves:
     get '/rawtx/:txhash' => sub ($c) {
         my $rpc    = $c->node_rpc;
         my $txhash = $c->param('txhash');
-        my $raw_tx = $rpc->call_method( gettransaction => $txhash )->{result};
-        my $txdata = $rpc->
-            call_method( decoderawtransaction => $raw_tx->{hex} )->{result};
+        my $raw_tx = $rpc->call_method(
+             gettransaction => $txhash
+        )->{result};
+        my $txdata = $rpc->call_method(
+            decoderawtransaction => $raw_tx->{hex}
+         )->{result};
 
         $c->render( json => $txdata );
     };
@@ -124,22 +124,23 @@ transaction's hash to its full data.
 
 X<< RPC commands; C<listreceivedbyaddress> >>
 
-Serving an address is similar, in that address information is available through
-RPC commands but they don't necessarily make it easy. The
-C<listreceivedbyaddress> command returns a list of all addresses the wallet
-knows about and their current unspent balances as well as all transactions for
-which the address was an output. Unlike transaction data, it's not as easy to
-get at I<any> arbitrary address, but it's still instructive to see what it
-takes to serve only wallet addresses the Core node knows about.
+Address information is also available through RPC commands, but they don't make
+it easy. The C<listreceivedbyaddress> command returns a list of all known
+wallet addresses and their current unspent balances as well as all transactions
+for which the address was an output. Unlike transaction data, it's not as easy
+to get at I<any> arbitrary address, but there's still useful information here.
 
 =begin programlisting
 
     get '/rawaddr/:address' => sub ($c) {
         my $address = $c->param('address');
         my $rpc     = $c->node_rpc;
+        my $received = $rpc->call_method('listreceivedbyaddress')
+                            ->{result}
+
         my $addy_data;
 
-        for my $addy ($rpc->call_method('listreceivedbyaddress')->{result}->@*) {
+        for my $addy (@$received) {
             next unless $addy->{address} eq $address;
             $addy_data = $addy;
             last;
@@ -150,8 +151,12 @@ takes to serve only wallet addresses the Core node knows about.
         $addy_data->{txs} = [];
 
         for my $txhash ($addy_data->{txids}->@*) {
-            my $raw_tx = $rpc->call_method( gettransaction => $txhash )->{result};
-            my $tx     = $rpc->call_method( decoderawtransaction => $raw_tx->{hex} );
+            my $raw_tx = $rpc->call_method(
+                 gettransaction => $txhash
+            )->{result};
+            my $tx     = $rpc->call_method(
+                 decoderawtransaction => $raw_tx->{hex}
+            );
             push $addy_data->{txs}->@*, $tx->{result};
         }
 
@@ -174,8 +179,7 @@ L<watch_wallet_addresses>).
 
 =head3 *The Rest of the Code
 
-Unless you're a Mojolicious developer, you probably need the rest of the code.
-It looks like this:
+The remainder of the code looks like:
 
 =begin programlisting
 
@@ -187,7 +191,8 @@ It looks like this:
     use Finance::Dogecoin::Utils::NodeRPC;
 
     helper conf_dir => sub ($self) {
-        state $conf_dir = path(File::HomeDir->my_data)->child('dogeutils')->mkdir;
+        state $conf_dir =
+            path(File::HomeDir->my_data)->child('dogeutils')->mkdir;
         return $conf_dir;
     };
 

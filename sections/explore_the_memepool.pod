@@ -77,7 +77,7 @@ like:
 
 =begin screen
 
-    use Modern::Perl;
+    use Modern::Perl '2023';
     use Mojo::UserAgent;
 
     exit main( @ARGV );
@@ -86,12 +86,14 @@ like:
         my $tx_count = fetch_mempool_size();
 
         my $ua    = Mojo::UserAgent->new->max_redirects(3);
-        my $json  = $ua->get('https://api.imgflip.com/get_memes')->res->json;
+        my $json  = $ua->get(
+            'https://api.imgflip.com/get_memes'
+        )->res->json;
+
         my $memes = $json->{data}{memes};
 
         my $meme_count = @$memes;
-
-        my $idx = int($tx_count % $meme_count);
+        my $idx        = int($tx_count % $meme_count);
 
         say $memes->[$idx]{url};
 
@@ -104,8 +106,8 @@ X<< Perl libraries; C<Modern::Perl> >>
 X<< Perl libraries; C<Mojo::UserAgent> >>
 
 This code is straightforwardN<Especially if you understand Perl.>. The first
-couple of lines load two libraries, C<Modern::Perl> to set language defaults
-and C<Mojo::UserAgent> to make web requests.
+lines load two libraries, C<Modern::Perl> to set language defaults and
+C<Mojo::UserAgent> to make web requests.
 
 The C<main> function first calls a function to fetch the current mempool size,
 the implementation of which you can find alluded to in other tips.

@@ -97,7 +97,7 @@ the blockchain. Take note of this.
 
 =over 4
 
-=item * On Linux, BSD, and other Unix-like systems, the default is F<$HOME/.dogecoin/>
+=item * On Unix-like systems (Linux, BSD, etc), the default is F<$HOME/.dogecoin/>
 
 =item * On Windows, the default is F<%APPDATA%\Dogecoin>
 

@@ -33,7 +33,7 @@ doesn't always explain why it works.
 
 Here's how.
 
-Start with your private key. Suppose its hexadecimal representation is
+Imagine the hexadecimal representation of your private key is
 C<0x123abc456def>. That's not a valid private key, but it's clearly a valid hex
 number and it's both long enough to demonstrate the principle and simple enough
 to keep in your head.
@@ -48,8 +48,8 @@ hexadecimal number. Convert the hex into a number, then run it through SHA-256
 twice. You'll get a large number back, but you only need the first eight digits
 (four bytes): C<18d796>.
 
-Append those eight digits to the end of the number with the prefix, giving
-C<0x1e123abc456def18d796>.
+Append those eight digits to the end of the number with the prefix. You should
+get the result C<0x1e123abc456def18d796>.
 
 =begin tip Hash Numbers, Not Text
 
