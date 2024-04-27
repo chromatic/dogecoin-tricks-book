@@ -8,9 +8,18 @@
 \usepackage[OnyxNeon]{onfancy}
 \usepackage{onyxneon}
 \usepackage[english]{babel}
+\usepackage{graphicx}
 
 \DefineVerbatimEnvironment{CodeListing}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
 \DefineVerbatimEnvironment{programlisting}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
 \DefineVerbatimEnvironment{Screen}{Verbatim}{gobble=0,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
+
+\newcommand*{\dogebreak}{
+    \includegraphics[height=2em]{Dogebreak.png}
+}
+
+\newcommand*{\dogesectionbreak}{\nopagebreak[4] \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center}}
+
+% \newcommand{\sectionbreak}{\nopagebreak[4] \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center}}
 
 \input{dogecoin-tricks_book}

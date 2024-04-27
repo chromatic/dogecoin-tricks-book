@@ -1,5 +1,5 @@
 % start sections on new pages
-\newcommand{\sectionbreak}{\clearpage}
+% \newcommand{\sectionbreak}{\clearpage}
 
 \makeindex
 
@@ -59,6 +59,7 @@
 [\vspace{2ex}\titlerule\vspace{2ex}]
 
 % the content begins here
+\newcommand{\sectionbreak}{\dogesectionbreak}
 \pagenumbering{arabic}
 \pagestyle{plain}
 \include{chapter_intro_cryptography}
