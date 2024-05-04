@@ -4,45 +4,43 @@
 
 Dogecoin is the Internet's original meme-based cryptocurrency.
 
-That sentence may read like a bunch of nerdy nonsense to you. Don't worry; it
-is! Fortunately, this book will make it clearer. It'll still be a bunch of
-nerdy nonsense, but you'll understand it and be able to have fun, do cool
-things, and show off your new knowledge to friends at partiesN<Talk about other
-things too; we want you invited I<back>.>.
+That sentence may read like a bunch of nerdy nonsense. Don't worry; it is!
+Fortunately, this book will make it clearer. While it will remain nerdy
+nonsense, you'll understand it and be able to have fun, do cool things, and
+show off your new knowledge to friends at partiesN<Talk about other things too;
+we want you invited I<back>.>.
 
 Let's explain that first sentence.
 
-Dogecoin is what we're talking about.
+I<Dogecoin> is the subject of this book.
 
-The Internet is a globally-distributed network of computers that lets people
-and machines communicate in words, pictures, video, audio, and all kinds of
-data.
+I<The Internet> is a globally-distributed network of computers where people and
+machines communicate in words, pictures, video, audio, and other data.
 
 X<meme>
 
-A meme is an idea, usually clever or ironic or sarcastic or joking, that's
-easily spread between people. It often takes the form of an image or video that
-can be shared on the Internet.
+A I<meme> is an idea, often clever or ironic or sarcastic or joking, which
+spreads easily between people. It often takes the form of an image or video.
 
 X<cryptocurrency>
 
-Cryptocurrency is a mechanism to record digital transactions over the Internet
-between people who don't necessarily trust each other as individuals but, as a
-group, agree to specific ways to communicate that ideally make the entire
+I<Cryptocurrency> is a mechanism to record digital transactions over the
+Internet between people who don't necessarily trust each other as individuals
+but who agree, as a group, to communicate in rigorous ways to make the entire
 network of people trustworthy enough to serve as a mechanism of financial
 exchange.
 
 Whew.
 
-The crypto stuff is interesting, and there's a lot to learn if you want, but
-most of it summarizes to this: you don't have to take someone's word that
-they're trustworthy. You should be able to verify it.
+The crypto stuff can get a lot deeper, but most of it summarizes to this: you
+don't have to take someone's word that they're trustworthy. You should be able
+to verify it.
 
 If that sounds like a lot of work with a bunch of serious nerds doing serious
-nerd stuff, remember that there's a friendly dog mascot with a bunch of silly
-memes and the whole point is to have fun.
+nerd stuff, remember that Dogecoin has a friendly dog mascot with a bunch of
+silly memes. The point is to have fun.
 
-That's what this book is about.
+I<Fun> is what this book is about.
 
 =begin sidebar What do I need?
 
@@ -64,26 +62,27 @@ give you good answers and help you verify them for yourself.
 
 =head1 *How to Read This Book
 
-A cryptocurrency with a friendly dog mascot is supposed to be I<fun>, so you
-should read this book in a way that you enjoy. Maybe that's front to back or
-back to front or skipping around. Maybe you read a couple of pages before going
-to sleep to relax you or teach your brain a lesson. The only I<wrong> way to
-read this book is a way that you don't enjoy.
+X<< obscure references; I<Letters to Malcolm> >>
 
-In general, the book starts by assuming you're new to cryptography,
-cryptocurrency, and Dogecoin. Earlier pages introduce concepts that later pages
-build on, but it's totally okay to skip around. Skim the table of contents.
-Look at the names of every chapter and every tip. If something grabs your
-attention, read that first. Repeat.
+Fun is the serious business of Dogecoin, so please read this book in a way that
+I<you> enjoy. Maybe that's front to back or back to front or skipping around.
+Maybe you read a couple of pages before going to sleep to relax you or teach
+your brain a lesson. The only I<wrong> way to read this book is a way that you
+don't enjoy.
 
-This book also tries to express links between concepts, ideas, and tips.
-Sometimes something introduced earlier will show up later, and sometimes you'll
-see similar themes repeated throughout the book. That's on purpose. It's just
-as valid to breeze through this book on a lazy summer afternoon as it is to
-skim through it over the period of weeks, months, or years. Feel free to set it
-down and come back to it later; all of the information will be waiting for you,
-and ideally each tip has enough breadcrumbs to point to other places that you
-can remind yourself where you were in your journey at the time.
+The book starts by assuming you're new to cryptography, cryptocurrency, and
+Dogecoin. Earlier pages introduce concepts that later pages expand, but it's
+fine to skip around. Skim the table of contents. Look at the names of every
+chapter and every tip. If something grabs your attention, read that first.
+Repeat.
+
+This book also makes explicit links between ideas. Concepts introduced early
+reappear later. You'll see themes repeated throughout the book--on purpose.
+It's just as valid to breeze through this book on a lazy summer afternoon as it
+is to skim through it over the period of weeks, months, or years. Feel free to
+set it down and come back to it later; all of the information will be waiting
+for you. Ideally each tip has enough breadcrumbs to point to other places that
+you can remind yourself where you were in your journey at the time.
 
 Put this book on your bedside table. Face it out on from the bookshelf behind
 you when you're on video calls. Carry it when you're walking, riding the train,
@@ -98,53 +97,67 @@ With that said, take note of a couple of things.
 =head2 *Cryptocurrency Isn't Only Dogecoin
 
 Although this book I<focuses> on Dogecoin, the basic concepts and a lot of the
-ideas apply to multiple cryptocurrencies, especially Litecoin and Bitcoin. Many
-of the examples will work with small or minor modifications. If you prefer one
-of those other coins over Dogecoin, that's totally okay! You can still learn a
-lot and have the appropriate amount of fun. We all share some common ground,
-including code, so we can all learn from each other.
+ideas apply to multiple cryptocurrencies, especially coins with a similar
+lineage. A lot of this book applies to BitcoinN<See U<https://bitcoin.org/>.>.
+Much of it applies to LitecoinN<See U<https://litecoin.org/>.>, as well as
+other forks of Bitcoin and Dogecoin--currencies like PepecoinN<See
+U<https://pepecoin.org/>.> and DingocoinN<See U<https://dingocoin.com/>.>.
+
+Many of the examples will work with small or minor modifications. If you prefer
+one of those other coins over Dogecoin, that's totally okay! You can still
+learn a lot and have the appropriate amount of fun. We all share some common
+ground, including code, so we can all learn from each other.
+
+What will you need to change? The names of executable files, for example, are
+different between coins. Where you launch the Dogecoin Core wallet GUI via a
+program named C<dogecoin-qt>, you launch the Pepecoin equivalent via
+C<pepecoin-qt>. Similarly, wallet addresses are all different, as are the ports
+used to connect to each coin's network and RPC mechanisms. It's okay if this
+seems like a lot of overwhelming detail now; it will make more sense when
+you really need to know it.
+
+Consult the documentation for a different coin for details on what needs to
+change.
 
 =head2 *Programmable Money Brings Risks
 
 Even if the only thing we used cryptocurrency for were to track scores in a
-massive, multiplayer online game of some kind, there would still be risks. The
-fact that it's I<money> means those risks are more serious. Scammers, thieves,
-grifters, and other bad actors are, unfortunately, a part of the landscape.
-Where possible, this book attempts to identify risks to you, the people you
-care about, and the other people in the community. It's up to you to keep
-yourself and other people safe, but it's only possible to ameliorate risks you
-know about. Read the risk sections carefully and think about other things that
-could go wrong.
+massive, multiplayer online game, we'd still face risk. Money or any value
+makes those risks more serious. Scammers, thieves, grifters, and other bad
+actors are, unfortunately, a part of the landscape. Where possible, this book
+attempts to identify risks to you, the people you care about, and the other
+people in the community. It's up to you to keep yourself and others safe, but
+it's only possible to ameliorate risks you know about. Read the risk sections
+carefully and think about other things that could go wrong.
 
-If you're not sure, ask. After you ask, verify. After all, this is a book about
-ways to prove things. Knowledge is power.
+If you're not sure, ask. After you ask, verify. This is also a book about ways
+to prove things, and knowledge and proof are power.
 
 =head2 *A Little Programming Can Be Fun
 
-There's code in this book, and if you're familiar with programming in a
-language such as Python, Ruby, JavaScript, Perl, or something else, you're in a
-position to get the most out of it. If you've never done this before, that's
-okay too! The code is there to help you understand and take advantage of
-things, but you don't have to be a programmer to use programmable money
-effectively.
+This book contains code. If you're familiar with programming in a language such
+as Python, Ruby, JavaScript, or Perl, you're in a position to get the most out
+of it. If you've never done this before, that's okay too! The code is there to
+explain and illustrate concepts, but you don't have to be a programmer to use
+programmable money effectively.
 
-With that said, you will get the most out of this book if you're comfortable
-installing and configuring software, especially working with text files and the
-command line. If you have a trusted friend to help you, you can learn a lot and
-take control of your system in ways you previously didn't understand.
+With that said, you I<will> get the most out of this book if you're comfortable
+installing and configuring software, especially working with configuration
+files and the command line. If you have a trusted friend to help you, you can
+learn a lot and take control of your system in ways you previously didn't
+understand.
 
-Basically if you're comfortable working a spreadsheet, you can build up your
-skills!
+In short, if you're comfortable working with a spreadsheet, you know enough to
+get technical with Dogecoin!
 
 =head2 *You Can Grow with This Book
 
-Sure, you picked up this book because it has cute dogs on the cover and you're
-not yet ready to build a pinball museum where people pay for credits with
-cryptocurrency. That's okay! If you read one tip today and another every week
-after that, you'll get through this book in two years. That's not a bad
-investment of lazy Sunday afternoons--and at that point, you may be full of
-other ideas no one has thought of before as well as new skills to bring them to
-life.
+Perhaps you picked up this book because it has cute dogs on the cover and
+you're not yet ready to build a pinball museum where people pay for credits
+with cryptocurrency. That's okay! If you read one tip every week, you'll get
+through this book in two years. That's not a bad investment of lazy Sunday
+afternoons. At that point, you may be full of other ideas no one has thought of
+before as well as new skills to bring them to life.
 
 =head1 *Credits
 
