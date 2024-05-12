@@ -6,6 +6,8 @@
 \usepackage{titletoc}
 \usepackage[firstpageonly=true]{draftwatermark}
 
+\usepackage{ifthen}
+
 \begin{document}
 \belowdisplayskip=0pt
 
@@ -51,9 +53,17 @@
 \AddToHook{cmd/section/before}{\stepcounter{tipsCounter}}
 \renewcommand\thesection{\#\arabic{tipsCounter}}
 
+\providetoggle{isFirstSectionInChapter}
+\AddToHook{cmd/chapter/before}{\toggletrue{isFirstSectionInChapter}}
+% \AddToHook{cmd/section/before}{\toggletrue{isFirstSectionInChapter}}
+
 \titleformat{\section}
 {}
-{\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace}
+{\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace %
+    \iftoggle{isFirstSectionInChapter} { %
+        \global\togglefalse{isFirstSectionInChapter} %
+    } {} %
+}
 {8pt}
 {\Large\bfseries}
 [\vspace{2ex}\titlerule\vspace{2ex}]
