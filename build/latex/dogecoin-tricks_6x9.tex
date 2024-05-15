@@ -15,10 +15,20 @@
 \DefineVerbatimEnvironment{Screen}{Verbatim}{gobble=0,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
 
 \newcommand*{\dogebreak}{
-    \nottoggle{isFirstSectionInChapter} { \includegraphics[height=2em]{Dogebreak.png} } {}
+    \nottoggle{isFirstSectionInChapter} { \includegraphics[height=2em]{Dogebreak.png} } {} %
 }
 
-\newcommand*{\dogesectionbreak}{\nopagebreak[4] \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center}}
+\newcommand*{\dogesectionbreak}{
+    \par %
+%    \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center} %
+}
+
+\titleformat{\section}
+{}
+{\filright \includegraphics[height=2em]{Dogebreak.png} \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace }
+{8pt}
+{\Large\bfseries}
+[\vspace{2ex}\titlerule\vspace{2ex}]
 
 % \newcommand{\sectionbreak}{\nopagebreak[4] \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center}}
 

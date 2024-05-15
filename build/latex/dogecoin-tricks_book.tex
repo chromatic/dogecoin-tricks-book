@@ -57,16 +57,16 @@
 \AddToHook{cmd/chapter/before}{\toggletrue{isFirstSectionInChapter}}
 % \AddToHook{cmd/section/before}{\toggletrue{isFirstSectionInChapter}}
 
-\titleformat{\section}
-{}
-{\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace %
-    \iftoggle{isFirstSectionInChapter} { %
-        \global\togglefalse{isFirstSectionInChapter} %
-    } {} %
-}
-{8pt}
-{\Large\bfseries}
-[\vspace{2ex}\titlerule\vspace{2ex}]
+% \titleformat{\section}
+% {}
+% {\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace %
+%     \iftoggle{isFirstSectionInChapter} { %
+%         \global\togglefalse{isFirstSectionInChapter} %
+%     } {} %
+% }
+% {8pt}
+% {\Large\bfseries}
+% [\vspace{2ex}\titlerule\vspace{2ex}]
 
 % the content begins here
 \newcommand{\sectionbreak}{\dogesectionbreak}
