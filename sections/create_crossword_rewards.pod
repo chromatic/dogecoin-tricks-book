@@ -6,8 +6,6 @@ If you like to start or end your day with a little bit of
 cruciverbalismN<Crossword puzzles!>, there's a way to combine your interest in
 puzzles with the blockchain.
 
-=head2 *What's in a Crossword Puzzle?
-
 What's in a crossword puzzle? You need a few things:
 
 =over 4
@@ -22,10 +20,9 @@ What's in a crossword puzzle? You need a few things:
 
 X<people; Saul Pwanson>
 
-Fortunately, the Internet provides. You can find multiple good wordlists
-online. One such resource is Saul Pwanson's wordlistN<See
-U<https://xd.saul.pw/data/>.>. The F<xd-clues.zip> file in particular is a nice
-source of words and clues, going back decades.
+Fortunately, the Internet provides. Saul Pwanson's wordlistN<See
+U<https://xd.saul.pw/data/>.> is one of many good sources. The F<xd-clues.zip>
+file in particular contains plenty of words and clues, going back decades.
 
 X<< external programs; C<genxword> >>
 X<people; David Whitlock>
@@ -59,11 +56,12 @@ utility:
 
 Now translate the tab-separated file into a list of words and clues by removing
 the first two columns and using a space to separate the words from the
-cluesN<This is the format the puzzle generator prefers.>:
+cluesN<The puzzle generator prefers this format.>:
 
 =begin screen
 
-  $ B<< cut daily-clues.txt -f 3,4 --output-delimiter ' ' > daily_word_list.txt >>
+  $ B<< cut daily-clues.txt -f 3,4 --output-delimiter ' ' \ >>
+    B<<     > daily_word_list.txt >>
 
 =end screen
 
@@ -80,21 +78,20 @@ get two files, F<daily_puzzle_gridl.pdf> and F<daily_puzzle_keyl.pdf>. If you
 want a textual list of clues and words, use the C<n> option to produce PNG
 files instead or in addition.
 
-Now you have something you can share with other people. What happens next? Add
-a reward!
+Now you have something you can share with other people.
 
 =head2 *Rewards on the Blockchain
 
-Assume you've put 100 Dogecoin aside as a reward for the puzzle. Hold the
-question of how to fund that prize for a second. First, think about how someone
-will claim that reward. Obviously they need to start by solving the puzzle.
-Then you have at least two options.
+What happens next? Add a reward! Assume you've put 100 Dogecoin aside for this.
+Hold the question of how to fund that prize for a second. First, think about
+how someone will claim that reward. Obviously they need to start by solving the
+puzzle. Then you have at least two options.
 
 =head3 *Solution as Private Key Input
 
-If you use some or all of the solution as the input for a private key, they can
-add the private key to their wallet and claim the reward by transferring the
-funds to an address under their control.
+If you use some or all of the solution as the input for a private key, a solver
+can add the private key to their wallet and claim the reward by transferring
+the funds to an address under their control.
 
 If you use this approach, make sure the rules for extracting the key input from
 the solution is clear and unambiguous. For example, you could use the rule
@@ -116,7 +113,7 @@ but can't agree on the solution.
 An alternate solution--untethered from keys and addresses--is to use something
 derived from the puzzle solution as the unlock script for a transaction. As
 with the private key mnemonic in the previous example, the goal is to make
-something that's unguessable without solving the puzzle.
+something no one can guess without solving the puzzle.
 
 Your rules can be similar: "Join all across words together with spaces, then
 hash this to generate a value which is the unlock script". For this to work,
@@ -132,10 +129,10 @@ unlock script, which will look something like this:
 
 =end screen
 
-To unlock this transaction, the solver needs to provide the solution to the
-puzzle (hashed once). Yes, you read that right: you've hashed the solution
-three times, once to turn a crossword solution into something you can use to
-unlock a transaction, and then twice more to lock the transaction.
+To unlock this transaction, the solver must provide the solution to the puzzle
+(hashed once). Yes, you read that right: you've hashed the solution three
+times, once to turn a crossword solution into something you can use to unlock a
+transaction, and then twice more to lock the transaction.
 
 There is one downside to this approach: if someone solves the puzzle, anyone
 can look at the pending transaction in the mempool and submit a similar
@@ -170,10 +167,10 @@ L<embrace_entropy>) to guard against prediction attacks.
 If you're publishing puzzles publicly, remember that the clues and answers are
 often language- and culture-specific. Referring to a television advertisement
 for chocolate milk in the 1980s featuring Pancho PanteraN<See
-U<https://www.youtube.com/watch?v=4oMQSGRnNiY>.> might leave out a broad swath
-of your potential audience. Furthermore, if you reliably publish your puzzles
-at 10 am local time, people who are awake and not at work right them might have
-an advantage solving puzzles over people who have to wait several hours to have
+U<https://www.youtube.com/watch?v=4oMQSGRnNiY>.> might exclude a broad swath of
+your potential audience. Furthermore, if you reliably publish your puzzles at
+10 am local time, people who are awake and not at work right them might have an
+advantage solving puzzles over people who have to wait several hours to have
 time free to ponder your clues.
 
 Most of these risks summarize to "help everyone compete fairly".

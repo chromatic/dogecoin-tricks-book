@@ -4,15 +4,15 @@
 
 Z<chapter_more_art_than_math>
 
-Even though Dogecoin and cryptocurrency builds on a foundation of deep math and
-security to exist, keep things running, and ensure that public information is
-both safe and transparent, you don't have to focus on the math and security and
-networking with everything you do. In fact, it's more fun sometimes to focus on
-the odd, the bizarre, the unexpected, and the surprising.
+dogecoin and cryptocurrency build on a foundation of deep math and security to
+exist, run, and ensure the safety and transparency of public information. Yet
+you don't have to focus on the math and security and networking with everything
+you do. Sometimes it's more fun to focus on the odd, the bizarre, the
+unexpected, and the surprising.
 
-Here are several ideas that are fully compatible with cryptocurrency and
-Dogecoin but bring some ancillary, unique perspectives to your work with the
-coin.
+In this chapter you'll find several ideas both fully compatible with
+cryptocurrency and Dogecoin I<and> which bring ancillary, unique, weird, and
+perhaps even silly perspectives to your work with the coin.
 
 L<turn_your_transactions_into_songs>
 

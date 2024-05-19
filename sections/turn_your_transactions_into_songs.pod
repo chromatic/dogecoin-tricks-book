@@ -2,16 +2,17 @@
 
 Z<turn_your_transactions_into_songs>
 
-Crypto is math. At the core of everything, we're just moving big numbers
-around. Any meaning those numbers have is meaning that we humans put onto them.
-Yes, the Dogecoin network I<interprets> some of those numbers and so does the
-Core software, but the value of the Dogecoin in your wallet is a consensual
-agreement among everyone in the Dogecoin community that this set of numbers
-reachable from this other set of numbers and indexed by a third set of numbers
-represents something special and unique to I<you>.
+Crypto is math. At its core, we're moving big numbers around. Any meaning those
+numbers have is meaning that we humans put onto them. The Dogecoin network
+I<interprets> some of those numbers. So does the Core software. Yet the value
+of the Dogecoin in your wallet is a consensual agreement among everyone in the
+Dogecoin community that a set of numbers reachable from another set of numbers
+and indexed by a third set of numbers represents something special and unique
+to I<you>.
 
-What if those numbers also represented something else? What if they could
-create art, like an image, or a visualization, or sound?
+Meaning is an external property of use. What if those numbers also represented
+something else? What if they could create art, an image, a visualization, a
+game, or sound?
 
 They can!
 
@@ -20,28 +21,26 @@ They can!
 At the intersection of computer programming, music theory, and art sits
 something called "generated music", where a computer program assembles a bunch
 of numbers that match and flow sonically together in unique waysN<Oh, did I
-mention music is math too?> Given some patterns to assemble and a starting
-point, the system can produce an infinite stream of audio, if you put it
-together correctly.
+mention music is math too?> Given patterns to assemble and a starting point,
+the system can produce an infinite stream of audio, if you put it together
+correctly.
 
 For example, Dogecoin developer langerhansN<U<https://github.com/langerhans>.>
 created a website that generates sound using data from the Dogecoin
 networkN<U<https://langerhans.github.io/dogelisten/>.>.
 
 Similarly, your author created a project with the descriptive but unexciting
-name of C<GenMIDIPython> that does something similar with your own data. We'll
-explore this technique.
+name of C<GenMIDIPython> to do something similar with your own data.
 
 =head3 *Random Seeds and Random Meaning
 
 How does music come from your own data?
 
-Let's talk about randomness in the computer sense. Computers are predictable,
-no matter how much they seem to misbehave at the most inopportune times. Given
-a computer program which relies on only its inputs (it doesn't have any hidden
-inputs outside of your control, like "it reads from a clock" or "it counts
-network packets it receives", you should always get the same outputs for the
-same inputs.
+Think about how computers think about randomness. Computers are predictable, no
+matter how much misbehave at the most inopportune times. Given a computer
+program which relies on only its inputs (it has no any hidden inputs outside of
+your control, like "it reads from a clock" or "it counts network packets it
+receives"), you should always get the same outputs for the same inputs.
 
 When a computer generates a random number, it generally does so by using either
 a pseudo-random process I<or> an external source of data that's sufficiently
@@ -50,12 +49,13 @@ received, the way you move your mouse or hit keys on your keyboard). For more
 details, research pseudo-random number generationN<Start with Wikipedia's
 U<https://en.wikipedia.org/wiki/Pseudorandom_number_generator>.>.
 
-To give the I<appearance> of randomness, you want unpredictability, and to get
-unpredictability from a deterministic algorithm, you want to start from a
-different place each time. A I<good> random number generator often has a
-I<seed> value. With different seeds, you'll get different (apparently random)
-results. With the I<same> seed, you'll get apparently random results but always
-the same from always the same seed.
+To give the I<appearance> of randomness, you want unpredictability (see
+L<embrace_entropy>). To get unpredictability from a deterministic algorithm,
+you want to start from a different--and unpredictable--place each time. A
+I<good> random number generator often has a I<seed> value. With different
+seeds, you'll get different (apparently random) results. With the I<same> seed,
+you'll get apparently random results but the same seed will always produce the
+same results.
 
 In other words, if you provide a seed to a program and if that program
 initialized its random number generator with that seed, the random numbers it
@@ -69,15 +69,15 @@ random seed?
 
 X<< RPC commands; C<listreceivedbyaddress> >>
 
-Let's start by seeing if transaction and address numbers look random enough.
-Recall the tip (see L<find_all_received_addresses>) that discussed the use of
+Are transaction and address numbers random enough? Recall the tip (see
+L<find_all_received_addresses>) that discussed the use of
 C<listreceivedbyaddress>. Even looking at the first 6 characters of addresses,
-there's a fair amount of variation in the data. Sure, all of these Dogecoin
-addresses start with C<D> but they go all over the place after that.
+there's a fair amount of variation in the data. While all of these Dogecoin
+addresses start with C<D>, they go all over the place after that.
 
-For more variance, pick a transaction ID, the entire thing. It's a sizeable
-number and no one can predict them easily before they're created, so you have a
-lot of potential uniqueness.
+For more variance, pick an entire transaction ID, every bit of it. They are
+large numbers, and no one can predict them easily before they're created, so
+they provide plenty of potential uniqueness.
 
 =head3 *Making Music
 
@@ -117,47 +117,46 @@ X<external programs; FluidSynth>
 
 What can you do with this file?
 
-If you use the VLC media playerN<U<https://www.videolan.org/vlc/>>, you can
-open this file on most desktop operating systems and listen to it. If you
-prefer the command-line interface, the FluidSynth
-playerN<U<https://www.fluidsynth.org/>> can do the same.
+The VLC media playerN<U<https://www.videolan.org/vlc/>> can open this file on
+most desktop operating systems and listen to it. If you prefer the command-line
+interface, the FluidSynth playerN<U<https://www.fluidsynth.org/>> can do the
+same.
 
 =begin tip Make This Sound Better
 
 MIDI files I<do> include instrument information, but they I<don't> include any
-samples that make a trumpet or jazz guitar really sound like the real
-instruments. FluidSynth supports instrument samples in a form called SoundFont.
-Choosing the right SoundFont can turn a MIDI file that sounds like an old '80s
-home arcade game into something cool. VLC can use FluidSynth sound fonts.
+samples that make a trumpet or jazz guitar sound like real instruments.
+FluidSynth supports instrument samples in a form called SoundFont. Choosing the
+right SoundFont can turn a MIDI file that sounds like an old '80s home arcade
+game into something cool. VLC can use FluidSynth sound fonts.
 
-For these compositions, the author recommends some sort of science fiction or
-ambient synthesizer sound; you can find lots of SoundFont files online worth
-trying. Half the fun is experimenting with what turns something simple and
-basic into something smooth and enjoyable.
+For these compositions, the author recommends a science fiction or ambient
+synthesizer sound; you can find lots of SoundFont files online worth trying.
+Half the fun is experimenting with what turns something simple and basic into
+something smooth and enjoyable.
 
 =end tip
 
 =head2 *What Can You Do With This?
 
 Supposedly a Russian proverb says "The marvel is not that the bear dances well,
-but that the bear dances at all." If you have much musical training or
-composition experience, you might rightly say "This randomly-generated music
-could be a I<lot> better."
+but that the bear dances at all." If you have musical training or composition
+experience, you might rightly say "This randomly-generated music could be a
+I<lot> better."
 
 You're absolutely right! The point of this tip is to show off the idea of art
 or composition or invention that uses the seed of an ideaN<Pun intended!> to
-create something new and surprising, something that might in fact inspire you.
-If you have music theory or composition skills, you can easily modify the
-example code to follow a stronger tonality in a specific key, to add other
-instruments and generate melodies, to produce more than 16 bars of
-mostly-whole-note three-note chords, et cetera.
+create something new and surprising and inspiring. If you have music theory or
+composition skills, you can modify the example code to follow a stronger
+tonality in a specific key, to add other instruments and generate melodies, to
+produce more than 16 bars of mostly-whole-note three-note chords, et cetera.
 
 Just as a permissionless, distributed, global financial system can grow out of
-a mutual understanding and agreement about a bunch of numbers computers send to
-each other, perhaps other interesting things can come from different
-interpretations of those numbers. Look for ways to turn them into data and
-patterns that make your ears perk up, your eyes widen, or your mind pay a
-little more attention to something new.
+mutual understanding and agreement about a bunch of numbers computers swap,
+perhaps other interesting things can come from different interpretations of
+those numbers. Look for ways to turn them into data and patterns that make your
+ears perk up, your eyes widen, or your mind pay a little more attention to
+something new.
 
 =head2 *Understand the Risks
 

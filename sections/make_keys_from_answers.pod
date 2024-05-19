@@ -40,13 +40,12 @@ X<BIPs; BIP-39>
 
 Normally this approach is a bad idea because the security of a key is
 essential, but where you I<do> want to share a key, this approach works. Think
-about BIP-39 for a moment (see L<hide_addresses_in_stories>). That proposal described
-a mechanism to turn a list of words into entropy used to generate a private key.
+about BIP-39 (see L<hide_addresses_in_stories>): that proposal describes a
+mechanism to turn a list of words into entropy used to generate a private key.
 
-The same approach works here: not necessarily as using the words directly as
-entropy but using the words to I<create> entropy, or at least sufficient
-entropy that people are unlikely to guess the private key without solving the
-puzzle.
+The same approach works here by using the words to I<create> entropy, or at
+least sufficient entropy that people are unlikely to guess the private key
+without solving the puzzle.
 
 Remember also that this process must be I<repeatable> such that anyone who's
 solved the puzzle should be able to generate the same private key and have a
@@ -71,18 +70,21 @@ approach doesn't use. In particular, BIP-39 word lists reduce ambiguity and the
 rest of the standard provides some convenient security features which multiple
 clients and multiple cryptocurrencies have adopted.
 
-Suppose you were to write a little PerlN<You can use any language you trust and
-your users are likely to use. In this case, I've used this library multiple
-times before and contributed code to it, so I trust it.> utility to do this:
+Suppose you were to write a little PerlN<Use any language you trust and your
+users are likely to use. In this case, your author has used and contributed
+code to this library before, so he trusts it.> utility to do this:
 
 =begin screen
 
-    use Modern::Perl '2022';
+    use Modern::Perl '2024';
+
     use Bitcoin::Crypto::Key::Private;
     use Digest::SHA 'sha256';
 
     my $bytes = sha256( $input );
-    my $key   = Bitcoin::Crypto::Key::Private->from_bytes( $bytes );
+    my $key   =
+         Bitcoin::Crypto::Key::Private->from_serialized( $bytes );
+
     $key->set_network( 'dogecoin' );
 
     say $key->to_wif;
@@ -110,7 +112,7 @@ the four words in the puzzle solution:
 
 =end screen
 
-... and there's a WIF you or anyone can import into any wallet.
+Now anyone can import that WIF into any compatible wallet.
 
 =head2 *What Can You Do With This?
 
@@ -127,7 +129,7 @@ transaction can move the funds until the time expires. At that point, if one or
 ten or a hundred competing transactions all are in the mempool, whichever
 transaction gets mined into a block first will win.
 
-Think of it as a kind of random drawing for all winners.
+Think of this as a random drawing for all winners.
 
 Regardless of I<which> technique you use to provide rewards on the blockchain,
 having funds sent to a puzzle address or to an address for which people allows
@@ -135,14 +137,14 @@ you and/or anyone else to increase the puzzle's reward. Publish the address and
 anyone else can send funds there as well.
 
 If your users aren't likely to have Perl, Ruby, Python, PHP, Go, Rust, Node, or
-whatever language you coded your solution, you might consider creating a little
-web app where they can paste their words. Or you could go all the way and
-create a full-fledged web app that allows them to solve the puzzle online and
-generate a WIF for them.
+whatever language you coded your solution, consider creating a web app where
+they can paste their words. Or you could go all the way and create a
+full-fledged web app that allows them to solve the puzzle online and generate a
+WIF for them.
 
 Of course, remember that this technique for generating keys is not secure
 because the I<problem> you're trying to solve here is not primarily a security
-problem.  You I<want> other people to get access to the key and its funds.
+problem. You I<want> other people to get access to the key and its funds.
 Never use this technique for your own private funds you want to keep secure;
 it's better to stick with a hardware wallet, a BIP-39 generator using
 sufficient entropy, or another technique not intended to be guessed or shared.

@@ -6,8 +6,8 @@ Maybe generating your own songs isn't your thing
 (L<turn_your_transactions_into_songs>). Maybe you're happier with good songs
 performed by great artists.
 
-Suppose you're throwing a barn party for the community, and you have a little
-Linux box in the corner loaded up with some bangers, including:
+Suppose you're throwing a community barn party, and you've loaded up a little
+Linux box in the corner with some bangers, including:
 
 =over 4
 
@@ -23,33 +23,29 @@ Linux box in the corner loaded up with some bangers, including:
 
 =back
 
-... and a bunch of other great tunes. You're streaming video to a bunch of
-invitees online, and you're ready for other folks to help you pick the right
-order of music.
+... and a bunch of other great tunes. You're streaming video to online
+invitees, and you're even ready other folks to pick the right playlist order.
 
 Your friends from out of town can't exactly put a quarter in the jukebox, but
-you don't have a coin slot hooked up to your media box anyway, so why not feed
-two birds with one scone and show off your Dogecoin transaction skills and let
-people pick songs with Dogecoin?
+you don't have a coin slot on your media box anyway. Why not feed two birds
+with one scone and show off your Dogecoin transaction skills and let people
+pick songs with Dogecoin?
 
 =head2 *Set Up Your Song List
 
-Other tips show off how to turn incoming transactions into events, but this use
-case is a little bit different. Rather than paying for a physical good (a candy
-bar) or an immediate single-person service (a single credit on a pinball
-machine), a jukebox can entertain or annoy a bunch of people at the same time
-(half of the world loves "Sweet Caroline" and half of the world rolls their
-eyes at the inevitable singalong) I<and> a jukebox queues up songs.
-
-We can share a lot of the plumbing from other tips, but we'll have to work with
-them slightly differently.
+Other tips show how to turn incoming transactions into events, but this example
+is a little bit different. Rather than paying for a physical good (a candy bar)
+or an immediate single-person service (a single credit on a pinball machine), a
+jukebox can entertain or annoy a bunch of people at the same time (half of the
+world loves "Sweet Caroline" and half of the world rolls their through the
+entire singalong) I<and> a jukebox queues up songs.
 
 Start by picking your playlist. Each song on the list needs a unique number.
-We'll start with zero and count up.
+Start with zero and count up.
 
 Generate an address for each song on the playlist. Store this association
-somewhere (see L<associate_addresses_to_machines>). If you're storing this in
-a database, you'll end up with something like:
+somewhere (see L<associate_addresses_to_machines>). In a database you might use
+the schema:
 
 =begin screen
 
@@ -65,21 +61,21 @@ a database, you'll end up with something like:
 
 X<obscure references; The Man in Black>
 
-You can add, remove, or modify this schema as much as you like, but these
-fields allow you to model the data set of songs shown earlier. Each song has an
+You can add, remove, or modify this schema as much as you like. These fields
+allow you to model the data set of songs shown earlier. Each song has an
 address, a writing credit, and a performing creditN<Trent wrote it, but the Man
 in Black owned it!>
 
-Populate this table, and then you can do two things. First, set up your
-Dogecoin webhooks (see L<post_to_discord> for one example) so that all
-transactions to the associated addresses invoke some code we're about to walk
-through. Second, publish the list of song data and addresses so your friends
-online can start queueing up songs in your jukebox!
+Populate this table. Then, set up your Dogecoin webhooks (see
+L<post_to_discord> for one example) so that all transactions to the associated
+addresses invoke your custom jukebox code. Finally, publish the list of song
+data and addresses so your friends online can start queueing up songs in your
+jukebox!
 
 =begin tip Make a Nice UI
 
-How will people browse songs? You could print out a short text list, or make a
-nice web interface, or make a short app--whatever you like. The interesting
+How will people browse songs? You could print out a short text list, make a
+nice web interface, or create a small app--whatever you like. The interesting
 plumbing is in the Dogecoin and jukebox pieces. Everything else is up to you to
 customize to your liking!
 
@@ -93,19 +89,18 @@ songs. That's easy to write with a little bit of Python.
 X<< Python libraries; C<flask> >>
 X<< Python libraries; C<python-vlc> >>
 
-What's a jukebox? It's a list of songs and a way to play them in some order.
-You can do this in about 50 lines of Python with the right modules installed
+What's a jukebox? It's a list of songs and a way to play them in arbitrary
+order. This takes about 50 lines of Python with the right modules installed
 (C<flask>, C<python-vlc>).
 
 The Flask portion is a simple web endpoint that takes a JSON payload containing
 the index of a song in the playlist and queues it. The VLC portion uses Python
 bindings to the VLC media playerN<Currently at U<https://www.videolan.org/vlc>,
-but verify before installing!> to queue up a list of songs or other media to
-play.
+but verify before installing!> to queue a list of songs or media to play.
 
 =head3 *A Queue Design
 
-Only one thing makes this complicated: there are two tasks that have to run
+Only one thing makes this complicated: these two tasks have to run
 simultaneously. The jukebox shouldn't pause the song when someone requests a
 new song. Similarly, the jukebox should graciously add new songs to the queue.
 If you're an experienced programmer, you probably recognize that this means the
@@ -113,24 +108,24 @@ system has to use some kind of parallelization, whether through threads
 (spoiler: it'll be threads), asynchronous programming, or inter-process
 management.
 
-If you're not an experienced programmer, all you need to understand is that a
-program naturally wants to do only one thing at a time, so it's important to
-recognize the types of problems where this is not appropriate and design them
-carefully so you don't introduce subtle and difficult to debug errors. If
-you've ever wondered why rescanning the blockchain (L<watch_an_address>) stops
-you from doing other things, that's because changing the chain while you
-analyze it could introduce odd inconsistencies.
+If you're not an experienced programmer, you need to understand that a program
+naturally wants to do only one thing at a time, so it's important to recognize
+the types of problems where this is not appropriate and design them carefully
+so you don't introduce subtle and difficult to debug errors. If you've ever
+wondered why rescanning the blockchain (L<watch_an_address>) stops you from
+doing other things, that's because changing the chain while you analyze it
+could introduce odd inconsistencies.
 
 This jukebox has to have two independent streams of work: playing the songs in
-the queue in order and waiting for input from a Dogecoin webhook. These streams have to communicate,
-but they need to communicate in only one way. When the webhook activates, that stream of work
-needs to put a song on the queue. That's it.
+the queue in order and waiting for input from a Dogecoin webhook. These streams
+have to communicate, but in only one way. When the webhook activates, that
+stream of work needs to put a song on the queue. That's it.
 
 Fortunately, Python's C<Queue> data structure does this in a thread-safe way.
 
 =head3 *Inside the Code
 
-What does the code look like? The first section loads some libraries:
+The first section of the code loads libraries:
 
 =begin screen
 
@@ -143,9 +138,8 @@ What does the code look like? The first section loads some libraries:
 
 =end screen
 
-You'll have to install C<flask> and C<python-vlc> on your own.
-
-The second section of the code initializes the C<Queue> object and sets up the playlist:
+Remember to install C<flask> and C<python-vlc> on your own. The second section
+of the code initializes the C<Queue> object and sets up the playlist:
 
 =begin screen
 
@@ -162,10 +156,9 @@ The second section of the code initializes the C<Queue> object and sets up the p
 =end screen
 
 Hard-coding this list here isn't wonderful; it'd be better to connect to the
-database containing the table discussed earlier, but for the sake of this
-example, it's easy to understand.
-
-The next section of code defines the two functions that handle playing songs:
+database shown earlier, but for the sake of this example, it's easy to
+understand. The next section of code defines two functions to handle playing
+songs:
 
 =begin screen
 
@@ -189,17 +182,16 @@ The next section of code defines the two functions that handle playing songs:
 
 =end screen
 
-Python will run C<playSongs()> in a separate thread; we'll see this code
-shortly. This function loops until the program exits. It checks whether there
+Python will run C<playSongs()> in a separate thread. Remember that for a
+moment. This function loops until the program exits. It checks whether there
 are any songs in the queue. If so, it uses C<get()> to pull the index of the
-next song off of the queue, then calls C<playSong()> to play the song. This function
-checks the queue every second.
+next song off of the queue, then calls C<playSong()> to play the song. This
+function checks the queue every second.
 
-You can modify this to play a random song if there's nothing anyone else has
-scheduled currently in the queue. Otherwise there will be silence until the
-next queued song. For a barn party, you might prefer lots of music. For a nice
-quiet ice cream shop, you might prefer a jukebox that only plays songs once in
-a while.
+You can modify this to play a random song if the queue is currently empty.
+Otherwise there will be silence until the next queued song. For a barn party,
+you might prefer lots of music. For a nice quiet ice cream shop, you might
+prefer a jukebox that only plays songs once in a while.
 
 X<obscure references; Rose's Cantina>
 
@@ -211,8 +203,8 @@ attest to this. Add more than one song to your jukebox.
 
 =end tip
 
-The code in C<playSong()> is more interesting. Python's VLC bindings give you a
-lot of options, but the simplest code your author could make work I<and> wanted
+The code in C<playSong()> is more interesting. Python's VLC bindings give you
+many options, but the simplest code your author could make work I<and> wanted
 to explain creates a new player, given the location of a media file on disk
 (that's the C<filename> parameter). The function then plays the file, sleeps
 for a second, and then uses a sleep loop to check if the file is still playing
@@ -238,14 +230,14 @@ The next section of code sets up the webhook destination:
 
 =end screen
 
-This code creates a Flask app and sets up a route at C<queueSong> where you can
-post a JSON body like C<{ 'songIndex': number }>. Given an input, the function
-pushes the index onto the queue. C<playSongs()> will pull that index  out of
-the queue as soon as the currently-playing song has ended.
+This code creates a Flask app and sets up a route at C</queueSong> where you
+can post a JSON body like C<{ 'songIndex': number }>. Given an input, the
+function pushes the index onto the queue. C<playSongs()> will pull that index
+out of the queue as soon as the currently-playing song has ended.
 
 Be sure to add error checking to make sure that the user has provided an actual
 number and that the index is valid for the size of the song list (integers zero
-to 4 are valid for the hard-coded list). 
+to 4 are valid for the hard-coded list).
 
 The final section of code starts everything:
 
@@ -268,14 +260,13 @@ network interfaces on port 9999. Change this to your preferences.
 =head2 *What Can You Do With This?
 
 Nothing limits you to MP3 or Ogg Vorbis files. You can play any media files
-that VLC supports, and VLC has lots of plugins for lots of files. This code
-could play music videos (all you have to do is change what's in C<list> in the
-example, or in the database in a more structured example). If you have video
-output set up, you can actually see the videos. Or you could add a
-visualization to show album art, lyrics, fireworks, or whatever else you like
-for music-only media.
+that VLC supports; VLC has plenty of plugins for many file types. This code
+could play music videos (change what's in C<list> in the example, or in the
+database). If you have video output set up, you can actually see the videos. Or
+you could add a visualization to show album art, lyrics, fireworks, or whatever
+else you like for music-only media.
 
 Be cautious that a little computer on your network listening on a port can take
-data from anyone who can send data on your network. Consider adding
+data from anyone who can send data over your network. Consider adding
 authentication and/or network protection if you want to keep someone from
 queueing the same song over and over.

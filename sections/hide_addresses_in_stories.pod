@@ -3,14 +3,13 @@
 Z<hide_addresses_in_stories>
 
 Steganography in images can be fun (see L<hide_transaction_data_in_media>), but
-it's not the only way to obscure something a little private in plain sight. As
-the world of machine-generated content improves, you can use something called
-I<prompt engineering> to build something new or new-ish out of an existing set
-of data.
+it's not the only way to obscure something in plain sight. As the world of
+machine-generated content improves, you can use something called I<prompt
+engineering> to build something new or new-ish out of an existing set of data.
 
 Let's put together a couple of unique ideas to make something that didn't exist
-before: a ChatGPT-powered short story generator based around a representation
-of a specific Dogecoin address.
+before: an AI-powered short story generator based around a representation of a
+specific Dogecoin address.
 
 Or, put another way, let's ask "What if Jules Verne lived at my (Dogecoin)
 address?"
@@ -21,25 +20,24 @@ X<BIPs; BIP-39>
 
 The BIP-39 wordlist, often used to represent passphrases for private keys, is a
 list of 2048 words intended to be easy to use, read, remember, and distinguish
-from each other. Given a random number, you can turn that into a BIP-39
-compatible list of words and vice versa. While the original intent was to give
-you a list of words that's easier to remember than a long random numberN<See
-U<https://xkcd.com/936/>, for example.>, it's also a list of valid words in
-many languages, including English.
+from each other. Starting from a random number (see L<embrace_entropy>), you
+can turn produce a BIP-39 compatible list of words--and vice versa. While the
+original intent was to give you a list of words that's easier to remember than
+a long random numberN<See U<https://xkcd.com/936/>, for example.>, it's also a
+list of valid words in many languages, including English.
 
-You just need a source of random data, such as a sufficiently long random
-number. Let's start with a Dogecoin address. Given a Dogecoin address, you can
-turn it into 21 bytes of data with Base58Check decoding. Given 16, 20, 24, 28,
-or 32 bytes of random data, you can generate a BIP-39 mnemonic. Given 21 bytes,
-that means we need to remove one and hold it for later. Hold that thought.
+Start with a source of random data, such as a sufficiently long random number.
+How about a Dogecoin address? An address can become 21 bytes of data with
+Base58Check decoding. Given 16, 20, 24, 28, or 32 bytes of random data, you can
+generate a BIP-39 mnemonic. Given 21 bytes, that means we need to remove one
+and hold it for later. Hold that thought.
 
 =begin tip More Entropy
 
-More entropy is usually better (see L<embrace_entropy>), so using Base58
-encoding I<without> the 4-byte check data would give you more entropy, but you
-still have to remove one digit to make the number of bytes work with the
-mnemonic encoder. Also be sure to decode and encode with the same mechanism so
-you don't lose information.
+More entropy is usually better, so using Base58 encoding I<without> the 4-byte
+check data would give you more entropy, but you still have to remove one digit
+to make the number of bytes work with the mnemonic encoder. Also be sure to
+decode and encode with the same mechanism so you don't lose information.
 
 =end tip
 
@@ -65,9 +63,9 @@ X<< Python libraries; C<mnemonic> >>
 
 This code uses the C<base58> and C<mnemonic> modules from PyPI to decode the
 hard-coded address into a byte array, then convert that into a BIP-39 mnemonic.
-The only really interesting code is the expression that uses all but the last
-byte of C<address_bytes> as input to the C<to_mnemonic> method. With this
-approach, there are 20 bytes of entropy.
+The interesting code is the expression that uses all but the last byte of
+C<address_bytes> as input to the C<to_mnemonic> method. With this approach,
+there are 20 bytes of entropy.
 
 Be aware that the mnemonic generation is deterministic; given the same input,
 you'll always get the same output. This is really useful.
@@ -79,13 +77,13 @@ With this list of words, now you can do something interesting with it.
 Services claiming to be artificial intelligence have been around for a long
 time, but in practice they're systems which use statistics to turn a set of
 inputs into a set of outputsN<Your author prefers the term "machine
-learning".>. You can use this approach with a service called ChatGPT from
-OpenAIN<See U<https://chat.openai.com/>> or any of several other services.
+learning".>. As of early 2024, you can use any of several services such as
+Claude, ChatGPT, Geminie, and more to generate text from a prompt.
 
 These services are interesting because you can give them a short prompt and
 they'll produce output you can refine, edit, improve, or otherwise use as the
 start of something more detailed or useful or interesting. Newer LLMs and
-machine learning systems have a lot more training data, so they have a better
+machine learning systems have ever-more training data, so they have a better
 chance of producing something close to what you want than older versions.
 
 After you've turned your address into a wordlist, try a prompt such as "Write a
@@ -102,9 +100,11 @@ shot, no chance for escape. The brown ice bore witness as the captain fell, a
 chapter of glory ending abruptly.
 
 In the midst of this frozen battle, a cricket's chirp rose from an alley
-nearby. A bright sound against the cold clash of forces on the rink. Water
-droplets clung to metal railings, a reminder of the mystery of life and death,
-of victories and losses.
+nearby.
+
+A bright sound against the cold clash of forces on the rink. Water droplets
+clung to metal railings, a reminder of the mystery of life and death, of
+victories and losses.
 
 An exchange of glances among the players, a wordless understanding passing like
 a secret note. The alley's mystery mingled with the aggression, making the
@@ -155,6 +155,12 @@ As with any form of steganography, if you release something to the public and
 rely solely on people not knowing you've hidden a message to keep the message
 secure, you're only as secure as the curiosity of the people who see it.
 
+As with any time you use any online resources, be very careful about what
+information you share. Unless you're running your own instance of an
+LLM-powered text generator, you run the risk of the server operators seeing the
+data you present. If that's a passphrase--even if it's only a public
+passphrase--you've exposed information that you might not want to expose.
+
 Hiding your I<private> key--especially the mnemonic--in this form is a very
 risky idea. Hiding a key for a scavenger hunt or puzzle
 (L<host_a_treasure_hunt>) is much better; you expect people to decode your
@@ -175,8 +181,11 @@ birthday or graduation or congratulations or feel better or just because card,
 you're probably fine. After all, Flannery O'Connor won't be writing a new short
 story any time soon, but you can do something nice for a friend.
 
-As with any time you use any online resources, be very careful about what
-information you share. Unless you're running your own instance of ChatGPT or
-another LLM text generator, you run the risk of the server operators seeing the
-data you present. If that's a passphrase--even if it's only a public
-passphrase--you've exposed information that you might not want to expose.
+Speaking of specific authors, be aware that many public generative AI services
+have been credibly accused of training their models on copyrighted data without
+the consent of the copyright holder. Work that's obviously in the public domain
+(Jules Verne, Mary Shelley) is up for grabs, but the work of a current, living,
+writing author (this book's author, for example) may have been used with
+neither consent nor notification (this is in fact true of this book's author).
+
+Choose your source material carefully.
