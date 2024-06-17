@@ -2,27 +2,27 @@
 
 Z<analyze_block_metadata>
 
-With block metadata in a database (L<export_block_metadata>) you have the
-ability to perform arbitrary queries on the data. A database provides
-I<structure> for the data in a way that allows you to perform somewhat
-arbitrary analysis of the data.
+With block metadata in a database (see L<export_block_metadata>) you can ask
+arbitrary questions about block data. A database provides I<structure> for the
+data in a way that allows you to perform somewhat arbitrary analysis of the
+data.
 
 If that sounds abstract, it's okay. This is an entire field of knowledge with a
-lot of theory and practice behind it, but you can learn the basics and get a
-lot of things done.
+lot of theory and practice behind it, but with some basic understanding, you
+can accomplish a lot!
 
 X<< external programs; C<sqlite> >>
 
-To start, make sure you have SQLite available, open a command-line window (a
-terminal app on Mac OS X, something like Powershell on Windows, and a terminal
-app on Linux or another Unix-like system). Here are several examples of
-questions you can answer with querying power of a relational database.
+To start, with SQLite available, open a command-line window (a terminal app on
+Mac OS X, something like Powershell on Windows, and a terminal app on Linux or
+another Unix-like system). Here are several examples of questions you can
+answer with querying power of a relational database.
 
 =head2 *Count Blocks by Day
 
-How many blocks get mined in a day? Sure, you could take the author's word for
-it that there's one, on average, every 60 seconds so there should be around
-1440 (60 * 24) blocks per day, but does that average day actually happen?
+How many blocks get mined in a day? You could take the author's word that a
+block gets mined, on average, every 60 seconds so there should be around 1440
+(60 * 24) blocks per day, but is any day actually average?
 
 X<concepts; SQL>
 X<people; Donald Chamberlin>
@@ -33,12 +33,12 @@ Language, pronounced sequel or ess-cue-ell or squirrel or whatever you prefer,
 as Donald Chamberlin once told the author.> A SQL query is a request to the
 database to read, write, update, or delete some data stored in a database.
 
-Here we'll be reading data.
+Here you can read data.
 
-What does it mean to count blocks by day? Based on the structure of our data,
-we know that we have the time of each block as measured in epoch seconds, so if
-we can look at the C<blockstats> table to count all blocks per day, grouping
-blocks into days somehow, we can get the result.
+What does it mean to count blocks by day? Based on the structure of this data,
+each block has its mining time as measured in epoch seconds. That means a query
+of the C<blockstats> table to count all blocks per day must group blocks into
+days somehow.
 
 As it turns out, the SQL query reads I<exactly> like that, for a very generous
 reading of the word "exactly". Type this query:
@@ -63,20 +63,18 @@ reading of the word "exactly". Type this query:
 
 =end screen
 
-That's a lot, but take it one step at a time. The indentation here doesn't
-matter for the operation of the code, but it makes reading the query easier.
-Look at the first word of each line.
+The indentation here doesn't matter for the operation of the code, but it makes
+reading the query easier. Look at the first word of each line.
 
 C<SELECT> tells the database that this is a read operation. It won't modify
-data. It won't delete things. All it wants to do is grab some data based on
-certain conditions. The rest of the line describes two columns of data we want
-to see in the output (and you can see them in the output). Hold that thought;
-we'll explain these columns very soon.
+data or delete anything. All it wants to do is grab some data based on certain
+conditions. The rest of the line describes two columns of data to see in the
+output (and you can see them in the output). Hold that thought.
 
 C<FROM> tells the database the source of the data. There's only one table in
-this database so far, but it's still essential to be very specific.
+this database so far, but it's good to be specific in SQL.
 
-C<WHERE> is optional, but here it lets us ask for a subset of all of the data.
+C<WHERE> is optional. Here it filters the data to a specific subset.
 
 C<GROUP BY> will make more sense in a moment. In effect, it's a way of telling
 the database to collect a bunch of data into buckets that make sense based on
@@ -88,26 +86,26 @@ specific column, again the second column.
 
 What are these columns?
 
-C<COUNT(*)> is a special intrinsic operator that tells the database to count
-things. In technical terms, it's an aggregate operator, which means that, on
-its own, no matter how much data is in the table, you'll get one result. If you
-wrote C<SELECT COUNT(*) FROM blockstats;>, you'd get a count of the total
-number of rows in the table.
+C<COUNT(*)> is an intrinsic operator that tells the database to count things.
+In technical terms, it's an aggregate operator, which means that, on its own,
+no matter how much data is in the table, you'll get one result. If you wrote
+C<SELECT COUNT(*) FROM blockstats;>, you'd get a count of the total number of
+rows in the table.
 
 C<DATE(DATETIME(epochtime, 'unixepoch'))> is kind of a messN<The kind that
 makes your author wonder if he made your life more difficult by not converting
-the exported data, but let's roll with it for now.> You may recognize the
-C<epochtime> column from when you inserted data into the database. There are
-two conversions going on in this expression. First, C<DATETIME(epochtime,
-'unixepoch')> asks SQLite to take the value of C<epochtime> and convert it from
-Unix epoch seconds into a date and time value, like "high noon on April 22",
-but a little more mathy. That's a lot more helpful for visual display, because
-C<2023-04-08> makes a lot more sense than however many seconds is in 53 years,
-four months, and eight days.
+the exported data, but roll with it for now.> You may recognize the
+C<epochtime> column from when you inserted data into the database. This
+expression has two conversions. First, C<DATETIME(epochtime, 'unixepoch')> asks
+SQLite to take the value of C<epochtime> and convert it from Unix epoch seconds
+into a date and time value, like "high noon on April 22", but a little more
+mathy. That's a lot more helpful for visual display, because C<2023-04-08>
+makes a lot more sense than however many seconds is in 53 years, four months,
+and eight days.
 
-The outer function, C<DATE(...)> turns a date and time value into only a date,
-which is useful because the point of this query is to count how many blocks get
-mined per day.
+The outer function, C<DATE(...)> truncates a date and time value into only a
+date, which is useful because the point of this query is to count how many
+blocks get mined per day.
 
 You see the calculation for that second column repeated after the C<WHERE>
 keyword; converting the C<epochtime> column to a date again makes the
@@ -124,11 +122,9 @@ own, so it's up to you to disambiguate. You need I<more> count rows and
 I<fewer> date rows.
 
 C<GROUP BY 2> means "put the contents of each row into a bucket based on its
-date", and that's what you get. The output is equivalent to writing a bunch of
-C<SELECT COUNT(*) FROM blockstats WHERE DATE(...) = '2023-04-01'> queries and
-pasting the output together yourself.
-
-After all, why not make the computer do the dirty work for you?
+date". The output is equivalent to writing a bunch of C<SELECT COUNT(*) FROM
+blockstats WHERE DATE(...) = '2023-04-01'> queries and pasting the output
+together yourself, but why not make the computer do the dirty work for you?
 
 =head2 *Count Transactions by Day
 
@@ -156,23 +152,22 @@ Try this query.
 
 =end screen
 
-You've seen a lot of this query before. What's different is C<SUM(txcount)>.
-C<txcount> is a column from the table that contains the number of transactions
-in each block. Like C<epochtime>, it's a scalar (non-aggregate) column. For
-C<GROUP BY> to do the right thing here, the number of transactions column has
-to become an aggregate column. Fortunately, C<SUM(...)> aggregates all of the
-rows bucketed by a single day and, as the name suggests, adds their values
-together.
+You've seen a lot of this query before, but C<SUM(txcount)> is different. The
+C<txcount> column contains the number of transactions in each block. Like
+C<epochtime>, it's a scalar (non-aggregate) column. For C<GROUP BY> to do the
+right thing here, the number of transactions column has to become an aggregate
+column. Fortunately, C<SUM(...)> aggregates all of the rows bucketed by a
+single day and, as the name suggests, adds their values together.
 
 =head2 *What Can You Do With This?
 
 Given what you've seen here, you can modify or adapt these queries to count or
-sum any data you've collected over any timeframe. For example, if you want to
-see the number of transactions by hour, change the column you're selecting on
-from C<DATE> to another SQLite expression that lets you group by day and hour
-(or only hour, if you're looking at a single day).
+sum any data you've collected over any timeframe. For example, to see the
+number of transactions by hour, change the column you're selecting on from
+C<DATE> to another SQLite expression that lets you group by day and hour (or
+only hour, if you're looking at a single day).
 
 If you add other data to this database when you export it from your node, you
 can count and group that data as well.
 
-What happens if you want to calculate things like averages? Read on!
+What if you want to calculate things like averages? Read on!

@@ -2,52 +2,48 @@
 
 Z<calculate_block_statistics>
 
-The previous tip (L<calculate_block_fill>) walked through the mechanics of
-fetching data on blocks to figure out important details the network itself
-can't tell you. There's plenty of data you can mine for information, if you
-have access to that data in meaningful chunks.
+The previous tip (L<calculate_block_fill>) showed how to fetch block data to
+calculate important details the network itself can't tell you. There's plenty
+of data you can mine for information, if you have access to that data.
 
 Running a few RPC commands here and there from the console
 (L<command_the_core>) or C<dogecoin-cli> or another RPC client works for small
-questions. It gets clunky when you have big questions, like "what's the average
+questions. It gets clunky for big questions, such as "what's the average
 transaction size in the past thousand blocks" or "what's the largest number of
 transactions in the past two hundred blocks" or even "how full were blocks on
 average on January 3, 2021". For that, you need a computerN<The digital
-computer kind, not the person who used computing machines back in the 1940s
-kind.>.
+computer kind, not the person who used computing machines back in the 1940s.>.
 
 If you're an experienced programmer, you probably already have an idea how to
-automate this work. If not, have no fear: there are multiple ways to solve this
-problem. This tip shows one approach that you can edit for your own purposes.
+automate this work. If not, have no fear: while you can solve this in multiple
+ways, this tip shows one good and flexible approach.
 
 =head2 *Designing Block Statistics Output
 
-What's the essential behavior to solve here? Given a starting point and a total
-number of blocks to imagine, we want to aggregate specific details about those
-blocks. Some of those details are sums (total number of blocks, total number of
-transactions, total size). Some of those are minimums and maximums (highest and
-lowest sizes, highest and lowest numbers of transactions per block). Some of
-those are averages (highest and lowest block fill rates, total average block
-fill rate). You can think of more details, but these categories cover most
-data.
+What's the essential behavior here? Given a starting point and a total number
+of blocks to examine, we want to aggregate specific details about those blocks.
+Some of those details are sums (total number of blocks, total number of
+transactions, total size). Some are minimums and maximums (highest and lowest
+sizes, highest and lowest numbers of transactions per block). Others are
+averages (highest and lowest block fill rates, total average block fill rate).
+These categories cover most data types.
 
 What does the program need from the user? Mostly optional data: the height of a
 block from which to start (if not the current block), the number of blocks to
-examine (100 is a good default), any authorization information for RPC
-(L<authenticate_rpc_securely>), and perhaps even the maximum block size (if you
+examine (100 is a good default), any RPC credentials (see
+L<authenticate_rpc_securely>), and perhaps even the maximum block size (if you
 want to calculate something other than the default of 750 kb).
 
-What should the program produce as output? JSON is usually handy. This could be
-anything, depending on what you want to do with the data, but as an example,
-printing structured data is both readable by humans and consumable by other
-programs, so it's a reasonable default.
+What should the program produce as output? This could be anything, depending on
+what you want to do with the data, but structured data is both readable by
+humans and consumable by other programs, so JSON is a reasonable default.
 
 =head2 *Block Statistics Code
 
-It's time to look at some code. Here's some Python you can run, if you have the
-right libraries installed and have access to a Core node with authentication
-configured (see L<enhance_rpc_calls> for the pattern used here in a different
-language this time).
+Here's some Python you can run, if you have the right libraries installed and
+have access to a Core node with authentication configured (see
+L<enhance_rpc_calls> for the pattern used here in a different language this
+time):
 
 =begin screen
 
@@ -81,17 +77,17 @@ commands (here referred to by C<dogecoinrpc.connection>)
 =item * C<xdg_base_dirs>, which helps find platform-specific directory
 locations, used to find the RPC authorization configuration file here
 
-=item * C<simplejson>, which helps manipulate JSON in a slightly more flexible
-way than the builtin C<json> library
+=item * C<simplejson>, which offers more flexible JSON manipulation than than
+the builtin C<json> library
 
 =item * C<click>, which processes command-line arguments
 
 =back
 
-The use of C<python-dogecoin> in particular is a little bit awkward here; its
-authorization scheme is different from the scheme expressed in other tips, so
-your author worked around the library's preferred approach slightly. You can
-use whatever mechanism you prefer; it's easy to swap out for something else.
+The use of C<python-dogecoin> in particular is awkward here; its authorization
+scheme is different from the scheme expressed in other tips, so your author
+worked around the library's preferred approach. Use whatever mechanism you
+prefer; it's easy to swap for something else.
 
 =begin screen
 
@@ -112,10 +108,10 @@ use whatever mechanism you prefer; it's easy to swap out for something else.
 
 =end screen
 
-Argument handling is easy with C<click>. A few decorators on the C<main()>
-function let you describe the name of flags users can provide, default values,
-types of those values, and even help text. Remember to add these variables to
-C<main()>, or else you'll get confusing error messages.
+The C<click> library handles command-line arguments. Decorators on the
+C<main()> function describe the name of flags users can provide, default
+values, types of those values, and even help text. Remember to add these
+variables to C<main()>, or else you'll get confusing error messages.
 
 =begin screen
 
@@ -131,11 +127,11 @@ C<main()>, or else you'll get confusing error messages.
 
 =end screen
 
-This next section of code opens the F<auth.json> file explained in another tip
-and attempts to connect via RPC with the authorization code. There's minimal
-error checking here; that may be fine for your purposes. You can make this code
-more robust by checking that the configuration file exists and that any RPC
-command authorizes correctly.
+This next section of code opens the F<auth.json> file containing RPC
+credentials and attempts to connect via RPC with the authorization code.
+There's minimal error checking here; make this code more robust by checking
+that the configuration file exists and that any RPC command authorizes
+correctly.
 
 If you don't run your node on C<localhost>, change the code (or enhance the RPC
 configuration to include a hostname and port, or add those as C<click>
@@ -164,14 +160,14 @@ arguments, or....).
 
 =end screen
 
-This code sets up the data structure that the program will print if it
-succeeds. Setting default values makes the output more sensible, no matter what
-happens. For example, setting the minimum values to C<sys.maxsize> means that
-subsequent code can unilaterally assign minimum values. Keep that in mind.
-Similarly, dividing C<blockmaxbytes> by 100 is effectively the same as
-multiplying anything I<divided> by that value by 100. This approach here saves
-multiple calculations laterN<Maybe this shortcut is too clever for your taste.
-That's fine; make the code as explicit as you prefer.>.
+This code sets up the data structure for the program to print on success.
+Setting default values makes the output more sensible, no matter what happens.
+For example, setting the minimum values to C<sys.maxsize> means that subsequent
+code can unilaterally assign minimum values. Similarly, dividing
+C<blockmaxbytes> by 100 is effectively the same as multiplying anything
+I<divided> by that value by 100. This approach here saves multiple calculations
+laterN<Maybe this shortcut is too clever for your tastes. That's fine; make the
+code as explicit as you prefer.>.
 
 =begin screen
 
@@ -190,13 +186,12 @@ That's fine; make the code as explicit as you prefer.>.
 Next, the code performs a loop. The code shown elides the body of the loop so
 that the structure of the loop is more obvious.
 
-Python's C<range()> operator here counts from 1 to the number of blocks
-requested on the command line (or 100 by default), inclusive. That's 100 times
-by default. Initializing C<hash> outside of the loop for the first iteration
-means that the loop can assume that value is already set. Reassigning to
-C<hash> at the end of the loop skips an extra RPC command to get the hash of
-the block at the next height. Fortunately, C<previousblockhash> is present in
-the C<block>'s data.
+Python's C<range()> operator counts from 1 to the number of blocks requested on
+the command line--100 times by default. Initializing C<hash> outside of the
+loop for the first iteration means that the loop can assume that value is
+already set. Reassigning to C<hash> at the end of the loop skips an extra RPC
+command to get the hash of the block at the next height. Fortunately,
+C<previousblockhash> is present in the C<block>'s data.
 
 If you've read this code closely, you've noticed that this code walks backward
 from the given block to the destination block. That's deliberate, though you
@@ -228,17 +223,16 @@ This code runs for every block fetched in the loop. It's basic statistical and
 aggregation math. Look closely at a couple of things.
 
 First, the content of transactions in a block doesn't matter. Python's C<len()>
-operator returns the number of elements in a list, so that provides the count
-of transactions in the block.
+operator returns the number of elements in a list. That provides the count of
+transactions in the block.
 
 Second, the use of C<min()> and C<max()> in assignments is the short way to
 write "if the current value is less than the previously minimum value, use the
 current value as the new minimum value" and so on for the maximum value. That's
 why C<sys.maxsize> earlier was so useful. It's currently safe to assume that
-the number of transactions in a block is going to be less than the value of the
+the number of transactions in a block will be less than the value of the
 largest integer Python wants to handleN<Python I<can> handle larger numbers,
-but C<maxsize> is still really big, so everything we'll encounter will be
-lesser.>.
+but C<maxsize> is big enough that everything encountered here will be lesser.>.
 
 =begin screen
 
@@ -255,11 +249,11 @@ concluded. With all of the data from every block aggregated together, we know
 enough to calculate aggregated statistics for everything as a whole. That final
 calculation is the most interesting, because the denominator has to be the
 total number of bytes I<available> in every block. You could count this in
-other ways, of course, but this approach is the most explicit.
+other ways, but this approach is explicit.
 
 The C<print()> command uses C<simplejson> to transform the data structure
-C<res> into text. C<indent=2> makes the library format the JSON in a way that's
-easy for people to read (not all jumbled together into a single line).
+C<res> into text. C<indent=2> formats the JSON in a way that's easy for people
+to read (not all jumbled together into a single line).
 
 =begin screen
 
@@ -269,21 +263,19 @@ easy for people to read (not all jumbled together into a single line).
 =end screen
 
 Finally, this program ends defensively such that you could make it into a
-Python library if you wanted.
+Python library if you wantd
 
 =head2 *What Can You Do With This?
 
-This code is a lot more verbose than the previous Bash code, but it's more
-flexible. It's easier to modify to add more calculations, and the output is
-more practical (and includes more data). Given access to a speedy Core node,
-the code runs in linear time with the number of blocks you want to process.
+This code is more verbose than the previous Bash code, but it's more flexible.
+It's easier to modify to add more calculations, and the output is fuller and
+more practical. Given access to a speedy Core node, the code runs in linear
+time with the number of blocks you want to process.
 
-That overhead might be frustrating if you're looking at lots of old blocks, or
-if you're looking at lots and lots of blocks, or if you look at blocks over and
-over again. The complexity of this code, at least from the algorithmic point of
-view, is that you have to issue at least one RPC command for each block you
-want to inspect, which means round trips over a networking call.
+That overhead might be frustrating if you example lots of old blocks or a lot
+of blocks or the same blocks repeatedly.  The algorithmic complexity of this
+code is that you have to issue at least one RPC command for each block you want
+to inspect, which means round trips over a networking call.
 
 Could that be improved? Absolutely--if you can fetch statistics for each block
-once and only once even if you process it more than once. That's another tip
-though.
+once and only once even if you process it more than once. That's another tip!

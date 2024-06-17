@@ -6,15 +6,14 @@ Z<chapter_dogecoin_in_the_world>
 
 Watching numbers change on a computer can be soothing or fulfilling for a
 while, but eventually the physical needs of being human intervene. While
-Dogecoin's original purpose was to poke fun at cryptocurrency and the people
-who took cryptocurrency far too seriously, the very real human needs of utility
+Dogecoin's originally poked fun at cryptocurrency and people who take
+cryptocurrency far too seriously, the very real human needs of utility
 (including having fun) are serious business.
 
-This chapter explores what Dogecoin means in the world through various lenses.
-A word of warning, however: while some people treat Dogecoin or cryptocurrency
-in general as an investment that will make them rich, this book takes a
-different approach. Things are good if they are I<useful> and I<enjoyable> for
-reasons beyond numbers going up in an account somewhere.
+This chapter explores what Dogecoin can mean in the world. A word of warning,
+however: some people treat cryptocurrency and Dogecoin as a get-rich-quick
+investment. This book takes a different approach. Good things are I<useful> and
+I<enjoyable> for reasons beyond numbers going up.
 
 L<calculate_dogecoin_maximum_market_stats>
 
