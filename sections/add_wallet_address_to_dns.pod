@@ -15,7 +15,7 @@ make an SSH connection, or do other things: DNS, the domain name system.
 
 X<people; Timothy Stebbing>
 
-At the inagural Dogecoin
+At the inaugural Dogecoin
 hackathonN<U<https://foundation.dogecoin.com/announcements/2022-09-08-dogeathon-downunder/>>,
 Timothy Stebbing showed off this ideaN<... and, inadvertently, kicked off the
 writing of this book. Thanks, Timothy!>.

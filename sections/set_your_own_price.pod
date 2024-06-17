@@ -2,30 +2,27 @@
 
 Z<set_your_own_price>
 
-You're selling a good or a service. Maybe it's blueberry lemonade, or rocky
-road ice cream. Perhaps it's a book or consulting services or credits in your
-pinball arcade. Unless you're only ever going to use Dogecoin as your currency
-throughout your business, you need to meet your costs somehow, and that means
-knowing how much Dogecoin you need to charge. With the current conversion value
-to your favorite fiat currency (L<estimate_current_conversion_value>), you know
-enough to set your own price.
-
-While setting up an Arcade may not be exactly your style (L<chapter_dogecade>),
-the design and implementation is a good template for your own business.
+You're selling a good or a service, maybe blueberry lemonade or rocky road ice
+cream. Perhaps it's a book or consulting services or credits in your pinball
+arcade. Unless you will only ever use Dogecoin as your currency throughout your
+business, you need to meet your costs somehow. That means knowing how much
+Dogecoin you need to charge. With the current conversion value to your favorite
+fiat currency (set L<estimate_current_conversion_value>), you know enough to
+set your own price.
 
 =head2 *Fill Up Your Price Threshold
 
-Suppose you're selling an ebook, and your cost calculation suggests that the
-ideal cost is $15 USD. At that, you've made back your investment and can turn
-any profits into hardware upgrades to write the next edition of the book. You
-have a website where you sell this ebook and of course you take Dogecoin, but
+Suppose you're selling an ebook. Your cost calculation suggests that the ideal
+price is $15 USD per copy. At that, you've made back your investment and can
+turn any profits into hardware upgrades to write the next edition of the book.
+You have a website where you sell this ebook. Of course you take DogecoinN<And
+in this case, Pepecoin, thanks to the advocacy of that network's creator.>, but
 the value of Dogecoin fluctuates from day to day.
 
 If you'd priced the book at Dogecoin's all time high of around $0.70 USD, you'd
-have priced the book at 21.5 Dogecoin per download. If you'd priced it at a low
-of around $0.06, you'd have charged 250 Dogecoin per download. That's a big
-gap, so floating the price you charge based on the current conversion rate can
-help.
+price the book at 21.5 Dogecoin per download. If you'd priced it at a low of
+around $0.06, you'd charge 250 Dogecoin per download. That's a big gap!
+Floating the price you charge based on the current conversion rate can help.
 
 The simple and direct approach is to set your price threshold and divide based
 on the current conversion rate, but where's the fun in that? Simpler numbers
@@ -33,9 +30,8 @@ seem kinder and easier to manage. After all, if you take this approach and
 apply it to playing music on a jukebox or a round of Dig-Dug, do you really
 want to say "insert 3.5663 Dogecoin to continue"?
 
-Better to figure out a formula that gives you a nicer, rounder number. Maybe
-one decimal point is enough. Here's some JavaScript/Node code that does just
-that.
+It's better to create a formula to produce a nicer, rounder number. Maybe one
+decimal point is enough. This JavaScript/Node code does that:
 
 =begin screen
 
@@ -63,8 +59,8 @@ that.
 
 The C<calculateDogecoinThreshold> function takes the current conversion rate
 and your desired price. For example, if Dogecoin is currently worth $0.068 USD
-and you want to sell each ebook for about $15.00 USD, you need to run C<node
-calcPrice.js 0.068 15.00>. You'll get this output:
+and you want to sell each ebook for $15.00 USD, run C<node calcPrice.js 0.068
+15.00> to get this output:
 
 =begin screen
 
@@ -84,26 +80,26 @@ finally divide by 10 again. This will give you a nicer, rounder number.
 X<references; SICP>
 
 You can get more creative with this. 220.6 Doge is close enough to 220 that you
-could rearrange the value down to a whole number. Or if the conversion price
-were $0.076432, you could round 196.3 Doge up to 200 Doge. Writing that
-algorithm will take more work, but it's a good exercise if you're working your
-way through I<Structure and Interpretation of Computer Programs>.
+could rearrange the value down to a whole number. Alternately, if the
+conversion price were $0.076432, you could round 196.3 Doge up to 200 Doge.
+Writing that algorithm will take more work, but it's a good exercise if you're
+working your way through I<Structure and Interpretation of Computer Programs>.
 
 =head2 *Understand the Risks
 
-What can go wrong here? Given that this is JavaScript code, you or someone you
-love might have the temptation to use this as client-side code in a web page.
-I<If> you do thatN<Don't do that.>, a minimally savvy user can figure out how
-to set their own price and end up getting liters and liters of cheap lemonade.
+What can go wrong? Given that this is JavaScript code, you or someone you love
+might get the temptation to use this as client-side code in a web page. I<If>
+you do thatN<Don't do that.>, a minimally savvy user can figure out how to set
+their own price and end up getting liters and liters of cheap lemonade.
 
 If your conversion rate update threshold is too tight, you can end up with
 people watching the price change frequently as they're trying to buy. In that
-case, you might prefer some type of price affinity mechanism tied to the user's
-session, so that they get a nicer experienceN<Though again, if you store and
-retrieve the price information to and from the client, the client can change
-this information.>.
+case, you might prefer a price affinity mechanism tied to the user's session,
+so that they get a nicer experienceN<Though again, if you store and retrieve
+the price information to and from the client, the client can change this
+information.>.
 
 Finally, if you automate all of the mechanisms you use to set prices, you limit
 your ability to do interesting things such as offering bulk purchase discounts,
 coupons, or other promotional offers. You may experience these cases when you
-provide a token system, for example (L<manage_tokens>).
+provide a token system, for example (see L<manage_tokens>).

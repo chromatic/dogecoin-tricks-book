@@ -10,31 +10,31 @@ combination of three answers:
 
 =item * "It's not. Is it?"
 
-=item * "The price will go up in the future as more people want it in the future"
+=item * "The price will go up in the future as more people want it in the
+future"
 
 =item * "It's worth something because you can do things with it"
 
 =back
 
 If this polling is true and accurate, then you can divide the respondents into
-a couple of categories: those who see a cryptocurrency as primarily an
-investment and those who see it as primarily an instrument of utility. This
-divergence in philosophy mirrors a similar debate in the investing world, where
-technical analysis measures patterns of price movement over time (in other
-words, predicting buyer and seller sentiment based on past price movements) and
-fundamental analysis measures the underlying value of a business, commodity, or
-service (in other words, trying to figure out what something is worth based on
-what it does).
+those who see a cryptocurrency as primarily an investment and those who see it
+as primarily an instrument of utility. This divergence in philosophy mirrors a
+similar debate in the investing world, where technical analysis measures
+patterns of price movement over time (predicting buyer and seller sentiment
+based on past price movements) and fundamental analysis measures the underlying
+value of a business, commodity, or service (trying to figure out what something
+is worth based on what it does).
 
-This is complicated stuff, full of jargon and lots of debates and many charts
-and theories. If you want to oversimplify, however, you can say that the
-fundamental point of fundamental analysis of Dogecoin revolves around the
-questions "what can I do with it" and "what can anyone do with it". To
-illustrate by analogy: if you issued your own dollars but no one else had any,
-they'd be worth only what you could talk someone else into giving you for them.
-That's probably not much. However, if you had 1 of 100 CoolBux and everyone in
-your friend group was swapping CoolBux for pies or babysitting or pictures of
-cute dogs, then CoolBux is worth something because you can do so much with it.
+This is complicated stuff, full of jargon, debates, charts, and theories. If
+you want to oversimplify, however, you can say that the fundamental point of
+fundamental analysis of Dogecoin revolves around the questions "what can I do
+with it" and "what can anyone do with it". To illustrate by analogy: if you
+issued your own dollars but no one else had any, they'd be worth only what you
+could talk someone else into giving you for them. That's probably not much.
+However, if you had 1 of 100 CoolBux and everyone in your friend group swapped
+CoolBux for pies or babysitting or pictures of cute dogs, then CoolBux is worth
+something because you can do so much with it.
 
 Of course, even if 100 people each hold one CoolBux but never actually trade
 them, then their apparent value will go down because no one is actually using
@@ -43,9 +43,9 @@ them.
 =begin tip Why the Economics Lesson?
 
 This is nerdy stuff for a book about technology and Dog-themed money, but it's
-a risk to ignore economic fundamentals. You can and should be skeptical of any
-simple explanation of human activity, but if this subject interests you, read
-about the Capitol Hill Babysitting Co-OpN<See
+a risk to ignore economic fundamentals. Be skeptical of any simple explanation
+of human activity, but if this subject interests you, read about the Capitol
+Hill Babysitting Co-OpN<See
 U<https://en.wikipedia.org/wiki/Capitol_Hill_Babysitting_Co-op>.>, which is one
 actual, studied example of a local currency as well as a Bitcoin-themed
 criticism of a common CHBC analysisN<See
@@ -54,9 +54,8 @@ read about "wage rigidity".
 
 =end tip
 
-If the model that usage influences value is correct, then one way to value
-cryptocurrency is measuring how much of it gets used regularly. Fortunately, we
-can do exactly that.
+If the model where usage influences value is correct, then one way to value
+cryptocurrency is measuring how much of it gets used regularly. We can do that.
 
 =head2 *Velocity and Velocity
 
@@ -64,12 +63,12 @@ The economic measurement of how much money circulates how often is called
 "velocity". If I earn $1 CAD selling maple-flavored dried apple chips and buy
 $1 CAD worth of gasoline for a chainsaw and the chainsaw seller buys $1 CAD
 worth of poutine all in the same week, that's $3 CAD worth of velocity from the
-same Canadian dollar coin trading hands. That's kind of cool to watch a loonie
-spread through the economy. That's $3 CAD worth of value created from $1 CAD!
+same Canadian dollar coin trading hands. How cool to watch a loonie spread
+through the economy: $3 CAD worth of value created from a single $1 CAD coin!
 
 Similarly, if there were only 1000 Dogecoin in circulation, but all of them
 circulated between different people in every block, that's 1000 worth of
-Dogecoin value expressed in every block: every minute or so. That's a lot of
+Dogecoin value expressed in every block every minute or so. That's a lot of
 value created from a small amount of Dogecoin!
 
 How do you actually measure that?
@@ -194,13 +193,13 @@ situations like this!>:
 
 =end screen
 
-Even if you don't read PerlN<Hey, it has sigils. It's not for everyone!> the
-logic should be largely straightforward. The only new idea you might encounter
-if you haven't programmed a lot before is the idea of I<recursion>, where the
-calculation uses previous calculations of smaller values to winnow down the
-requested result to a single, final number. This is probably what you'd do if
-you were calculating this number by hand, however: calculate blocks of blocks,
-sum the rewards for each of those, then add the results together.
+Even if you don't read PerlN<It's not for everyone!> the logic should be
+largely straightforward. The only new idea you might encounter if you haven't
+programmed a lot before is the idea of I<recursion>, where the calculation uses
+previous calculations of smaller values to winnow down the requested result to
+a single, final number. This is probably what you'd do if you were calculating
+this number by hand, however: calculate blocks of blocks, sum the rewards for
+each of those, then add the results together.
 
 Given a block of 4,906,660 (freshly mined during the writing of this tip), the
 maximum number of Dogecoin in circulation is 203,253,110,000--or 203 billion.
@@ -211,39 +210,37 @@ Divide one number by the other. With 380,000 Dogecoin transacted in block
 4,906,660 out of a possible maximum of 203 billion, the velocity of this block
 is 0.000187%.
 
-Is that good? That depends. Is that bad? That depends. It's a number. Some
-blocks will be much higher (especially older blocks). Other blocks will be
-lower.
+Is that good or bad? That depends. It's a number. Some blocks will be much
+higher (especially older blocks). Other blocks will be lower.
 
 =head2 *What Can You Do With This?
 
 Economists don't measure velocity at a single, isolated point in time. They
-measure it over a period, perhaps a week or a month or a year. Economists
-probably I<do> measure with rounder numbers than 0.000187%, but remember that
-the final calculation used an I<estimate> of the maximum total Dogecoin in
-circulation as well as rounded numbers for the number of Dogecoin in the
-transaction.
+measure it over a period of weeks, months, and years. Economists probably I<do>
+measure with rounder numbers than 0.000187%, but remember that the final
+calculation used an I<estimate> of the maximum total Dogecoin in circulation as
+well as rounded numbers for the number of Dogecoin in the transaction.
 
-To make this number more broadly useful, calculate how many coins moved in a
-day or week or month and compare that to the total number of coins in
-circulation. You can also compare the velocity of Dogecoin--with its
-ever-increasing coin supply--to that of a coin with a fixed maximum number of
-coins. (This is, of course, most interesting for coins that have already
-reached the maximum number circulating.)
+To make this number more useful, calculate how many coins moved in a day or
+week or month and compare that to the total number of coins in circulation. You
+can also compare the velocity of Dogecoin--with its ever-increasing coin
+supply--to that of a coin with a fixed maximum number of coins. (This is, of
+course, most interesting for coins that have already reached the maximum number
+circulating.)
 
 Remember as well that the blockchain uses a public ledger where all transaction
 outputs must be completely spent at every transaction. If you broke a $100 bill
 to pay for $1.50 worth of chewing gum at a convenience store, the blockchain
 would measure that as $100 moving around. These numbers don't work the same way
-way that non-blockchain currency numbers work. Again, that's neither good nor
-bad--just different and differently interesting.
+way that non-blockchain currency numbers work. That's neither good nor
+bad--just differently interesting.
 
-Are there things you can do to increase or decrease velocity without adding
-value? Of course! Locking coins in a wallet decreases velocity. Losing coins
-sent to an address by forgetting your key decreases velocity. Moving coins
-around increases velocity. Moving coins between wallet addresses increases
-apparent velocity without necessarily increasing utility. We bring our own
-meaning to the numbers. They're just numbers.
+Can you increase or decrease velocity without adding value? Of course! Locking
+coins in a wallet decreases velocity. Losing coins sent to an address by
+forgetting your key decreases velocity. Moving coins around increases velocity.
+Moving coins between wallet addresses increases apparent velocity without
+necessarily increasing utility. We bring our own meaning to the numbers.
+They're just numbers.
 
 There's no hard and fast rule to measure how useful a coin or a currency is
 other than, as an individual, how useful it is to you. Yet there are ways to

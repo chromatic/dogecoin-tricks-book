@@ -4,8 +4,8 @@ Z<calculate_dogecoin_maximum_market_stats>
 
 In 2013, your author received his first Dogecoin tip, probably for saying
 something insightful or clever on a social media forum. It was worth a fraction
-of a penny but it meant something--it gave a warm glow that your author brought
-a little bit of value into the world.
+of a penny then but it meant something--it your author a warm glow that he'd
+brought something meaningful into the world.
 
 In 2021, that tip was worth hundreds of dollars. At the time of this writing,
 it's worth tens of dollars. Who knows where it will be in a week, a year, or
@@ -14,55 +14,53 @@ ten years?
 Some people care a lot about that. If you're using Dogecoin to buy a meal or
 donate to pay for medical costs of a young child with illness or to support a
 friend on the opposite side of the world, the fluctuations over time aren't
-important. If, on the other hand, you see an asset that may appreciate over
-time, you owe it to yourself to do the math to figure out what I<could> happen,
-if fortunate favored you.
+important. If you also or otherwise see an asset that may appreciate over time,
+you owe it to yourself to do the math to figure out what I<could> and I<won't>
+happen, if fortune favored you.
 
 =head2 *Count All the Doge in Existence
 
 How many Dogecoin are in the world? To answer that question, use any reputable
-block explorer (or ask a search engine to find one). As of this writing in
-April 2023, multiple sources suggest there are about 139 billion Dogecoin in
-the world. This number grows by ten thousand with every block minuted, which
-happens about once per minute, so, on average, you can expect this number to
-grow by 5.26 billion Dogecoin every year.
+block explorer (or ask a search engine to find one). As of this writing in June
+2024, multiple sources suggest there are about 144 billion Dogecoin in the
+world. This number grows by ten thousand with every block minted, which happens
+about once per minute. On average, expect miners to find about 5.26 billion new
+Dogecoin every year.
 
-As of the current writing, there are about 7.96 billion people in the world.
+As of the current writing, there are about 8.12 billion people in the world.
 
-If you do the math, there are, at most, about 17.5 Dogecoin available for every
+This means that there are, at most, about 17.7 Dogecoin available for every
 person in the world. Maybe you have a few more. Most people have fewer. If the
-population stayed flat at 7.96 billion, everyone could get 1.5 more Dogecoin in
-the next year.
+population stayed flat at 8.12 billion, everyone could get 1.5 more Dogecoin
+next year.
 
 That's not a lot of coins to swap between people if you want to buy cool art or
-delicious beverages, or pay for someone to write you a fun computer program or
+delicious beverages, to pay someone to write you a fun computer program, or to
 reward someone for answering a difficult question. Let's think of Dogecoin in a
 different way.
 
 =head2 *Count All the Value in Existence
 
-If you had 100 Dogecoin and sold them at the highest possible valuation
-Dogecoin has reached (as of this writing), you'd have made about $70 USD. If
-you had 1 Bitcoin and sold it at the highest possible valuation it has reached
-(as of this writing), you'd have made about $67,500 USD. That's a big
-difference between the two currencies.
+If you sold 100 Dogecoin at the highest possible valuation Dogecoin has reached
+(as of this writing), you'd have about $70 USD. If you sold 1 Bitcoin at its
+highest possible valuation as of this writing, you'd have about $73,800 USD.
+That's a big difference!
 
-Part of the difference is that there can only ever be 21 million (that's
-million with an m, not billion with a b) Bitcoin. Right now, if all of the
-Bitcoin that could ever exist existed, there'd be 6,620 Dogecoin for every 1
-Bitcoin. If Dogecoin had the same market capitalization as Bitcoin at its all
-time high, that $67,500 per Bitcoin would be equivalent to about $10.20 per
-Dogecoin. (The math goes like this: 139 billion Dogecoin divided by 21 million
-Bitcoin gives 6,620 Dogecoin per Bitcoin. $67,500 divided by 6,620 gives
-$10.20.)
+Only 21 million (million with an m, not billion with a b) Bitcoin will ever
+exist.  Right now, if all of the Bitcoin that could ever exist existed, there'd
+be 6,857 Dogecoin for every 1 Bitcoin. If Dogecoin had the same market
+capitalization as Bitcoin at its all time high, that $73,800 per Bitcoin would
+be equivalent to about $10.76 per Dogecoin. The math goes like this: 144
+billion Dogecoin divided by 21 million Bitcoin gives 6,857 Dogecoin per
+Bitcoin. $73,800 divided by 6,857 gives $10.76.
 
-What if there were no Bitcoin though? What if all other cryptocurrencies and
-currencies in the world vanished, and there were only Dogecoin?
+What if there were no Bitcoin? What if all other cryptocurrencies and
+currencies in the world vanished, leaving only Dogecoin?
 
 The World Bank estimates the total Gross World Product--the value in dollars of
 all of the economic transactions of all of the countries of the world--at $96.5
 trillion (that's trillion with a t) US Dollars at the end of 2021. Let's
-subtract a year of Dogecoin from the current number of coins to give 133.74
+subtract two years of Dogecoin from the current number of coins to give 133.74
 billion.
 
 If I<every one of those dollars worth of GWP turned into value in Dogecoin>,
@@ -70,30 +68,29 @@ each Dogecoin would be worth $721.55 USD.
 
 =head2 *Understand the Risks
 
-If you're investing in Dogecoin, hoping it reaches $10,000 per coin so you can
-buy a nice island and shoot rockets at Mars, you're going to have to wait a
-while longer.
+If you investing in Dogecoin and hope it reaches $10,000 per coin so you can
+buy a nice island and shoot rockets at Mars, you'll have to wait for the GWP to
+grow.
 
-These calculations are very rough. They don't take into account things like
-Dogecoin that were sent to addresses with forgotten keys, or addresses that
-don't exist. They don't account for changes in mining strength where there may
-be more or fewer blocks mined than we expect every 60 seconds.
+These calculations are rough. They don't take into account things lost
+Dogecoin--sent to addresses with forgotten keys or addresses that don't exist.
+They don't account for changes in mining strength where there may be more or
+fewer blocks mined than expected.
 
-What they I<do> accomplish is to set expectations. The entire world economy may
-never switch to Dogecoin as a world currency in the lifetime of anyone reading
-this book. All 8 or 10 or 20 billion people in the world may never get their
-average of 17.5 Dogecoin per person. Your wallet of 100 Dogecoin may never be
-worth $6,750,000 and you may not be able to sell it and buy the goat farm
-you've always dreamed about nestled between the wheat fields and mountains of
-Alberta, Canada.
+They I<do> help to set expectations. The entire world economy may never switch
+to Dogecoin as a world currency in the lifetime of anyone reading this book.
+All 8 or 10 or 20 billion people in the world may never get their average of
+17.5 Dogecoin per person. Your wallet of 100 Dogecoin may never be worth
+$7,380,000 and you may not be able to sell it and buy the goat farm you've
+always dreamed about nestled between Alberta's wheat fields and mountains.
 
-Dogecoin can still be fun and useful, though. In fact, if anything, realizing
-that a billion-dollar moonshot is mathematically and economically impossible
-frees up this goofy cryptocurrency to do interesting and quirky and amusing
-things. It doesn't have to be the buttoned-up, why-so-serious currency of Very
-Serious People who do nothing more than look at charts and talk up their bags.
+Dogecoin can still be fun and useful. If anything, realizing that a
+billion-dollar moonshot is mathematically and economically impossible frees
+this goofy cryptocurrency to do interesting and quirky and amusing things. It
+doesn't have to be the buttoned-up, why-so-serious currency of Very Serious
+People who scowl as they mark up charts and talk up their bags.
 
-It's free to be the currency of people who enjoy fun and creativity and doing
+It's free to be the currency of people who enjoy creative fun while doing
 useful things.
 
-Have fun. Be creative. Do useful things.
+Be creative. Have fun. Do useful things.

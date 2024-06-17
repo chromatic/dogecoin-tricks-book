@@ -4,37 +4,36 @@ Z<estimate_current_conversion_value>
 
 X<references; Hood strawberries>
 
-If Dogecoin is money--and by reading this book, you've implicitly agreed to act
-as if it is--then you should be able to exchange it for other valuable things,
-such as goods, services, and other forms of money. Your consulting business
-where you speed up SQL queries (L<speed_up_analysis>) for 1000 Dogecoin an hour
-is pretty cool, but when it comes time to visit the local farmer's market and
-buy a flat of Hood Strawberries during the three weeks in June when they're
-available, you might want USD or at least CAD on hand.
+If Dogecoin is money, you should be able to exchange it for other valuable
+things, such as goods, services, and other forms of currency. Your consulting
+business where you speed up SQL queries (see L<speed_up_analysis>) for 1000
+Dogecoin an hour is pretty cool, but when it comes time to visit the local
+farmer's market and buy a flat of Hood Strawberries during the three weeks in
+June when they're available, you might want USD or at least CAD on hand.
 
 Or you might have in your mind a conversion where one quarter equals one song
-play in your Dogecoin jukebox (L<control_your_jukebox>), but what exactly does
-"one quarter" mean on the blockchain?
+played in your Dogecoin jukebox (see L<control_your_jukebox>), but what exactly
+does "one quarter" mean on the blockchain?
 
 You can find out and then keep finding out.
 
 =head2 *Conversion Rate APIs
 
-Several exchanges and crypto-related services provide APIs that allow you to
-get the current exchange rate of any coin in one or more fiat currencies. For
-example, you could ask "What would I pay for one Bitcoin in UK Pounds" or "How
-much Litecoin can I get for 1 Rupeee".
+Several exchanges and crypto-related services provide APIs to report the
+current exchange rate of any coin in one or more fiat currencies. For example,
+you could ask "What would I pay for one Bitcoin in UK Pounds" or "How much
+Litecoin can I get for 1 Rupeee".
 
 The intent behind many of these APIs is to charge developers and businesses
 building crypto-related products and services for access, so many of these
-systems want you to sign up for API keys and subscribe to access. This can be a
-good thing in some ways, but for example purposes, this tip uses
-C<coinranking.com> because it has a free API with generous limits for testing.
+systems want you to sign up and subscribe to paid services. This can be a good
+thing in some ways, but for example purposes, this tip uses C<coinranking.com>
+because it has a free API with generous limits for testing.
 
 =begin tip Time Marches On
 
-Depending on how much time has elapsed between the writing of this tip (June
-2023) and your reading of this tip (insert local time and date here), this
+Depending on how much time has elapsed between the writing of this tip (August
+2024) and your reading of this tip (insert local time and date here), this
 example may no longer work or the URL may no longer be useful, available, or
 accurate. That's okay; ask around, search for alternatives, and be prepared to
 switch your code. The concepts still apply even if the details may change.
@@ -53,8 +52,8 @@ X<< external programs; C<curl> >>
 X<< external programs; C<jq> >>
 
 The most important call is get coin price. You need a coin's UUID, which you
-can retrieve from get list of coins. From the command line, with the tools
-C<curl> and C<jq>:
+can retrieve from "get list of coins". Use the tools C<curl> and C<jq> from the
+command line:
 
 =begin screen
 
@@ -65,11 +64,11 @@ C<curl> and C<jq>:
 =end screen
 
 Note that you could swap C<.uuid> for C<.coins> and get the price in an
-all-in-one query, but because we're using the free API with no key, doing this
-two-step process is kinder to the server.
+all-in-one query, but this two-step process is kinder to the server for
+anonymous use.
 
-Given the UUID for Dogecoin (and skim the F<coins> file to convince yourself
-this is correct), the get coin price query is straightforward:
+Given the UUID for Dogecoin (skim the F<coins> file to convince yourself this
+is correct), the "get coin price" query is:
 
 =begin screen
 
@@ -78,14 +77,13 @@ this is correct), the get coin price query is straightforward:
 
 =end screen
 
-The C<-s> switch to C<curl> silences all extraneous output. Be careful that
-this pipeline of commands doesn't handle errors, such as "your network is not
+The C<-s> switch to C<curl> silences extraneous output. Be careful that this
+pipeline of commands doesn't handle errors, such as "your network is not
 connected", "you need an API key", "the server rate-limited your requests", or
-"this API has gone away". In a more critical setting, be sure to add these
-features.
+"this API has gone away". Add whatever error-checking you think you might need.
 
-The default currency value is US Dollars, but if you need something else, look
-for the currency UUID from the reference currencies list:
+The default currency value is US Dollars. If you need something else, look for
+the currency UUID from the reference currencies list:
 
 =begin screen
 
@@ -109,7 +107,7 @@ example is for display purposes; you can run this command as a single line.>:
 
 That's 1.7 lira (Turkish or Cyprian), give or take, per Dogecoin.
 
-With this query example in place, now you can automate this system, perhaps:
+With this query example in place, you can automate this system to:
 
 =over 4
 
@@ -123,27 +121,26 @@ thresholds
 =back
 
 Again, use this only if the I<current> conversion rate between your local
-currency and Dogecoin is meaningful for specific transaction purposes: pricing
-inputs and outputs appropriately. Otherwise you run the risk of worrying too
-much about something that's supposed to be fun.
+currency and Dogecoin is meaningful for specific transaction purposes such as
+pricing inputs and outputs appropriately. Otherwise you run the risk of
+worrying too much about something that's supposed to be fun.
 
 =head2 *Understand the Risks
 
-Whenever you rely on external data you don't control yourself, you must
-understand at least two risks. First, the data could be inaccurate for any
-reason: it's been hijacked, it's under the control of malicious actors, it's
-out of date, it's calculated incorrectly, et cetera. Depending on your needs,
-you might want to verify these values against at least one or two other
-sources. In a case like this, the numbers probably won't match exactly, but you
-might expect them to converge over time on median values no more than one sigma
-apart.
+Whenever you rely on external data you don't control yourself, you face at
+least two risks. First, the data could be inaccurate for any reason: it's been
+hijacked, it's under the control of malicious actors, it's out of date, it's
+calculated incorrectly, et cetera. Depending on your needs, you might want to
+verify these values against multiple independent sources. In a case like this,
+the numbers probably won't match exactly, but you might expect them to converge
+over time on median values no more than one sigma apart.
 
 If that doesn't happen, ring the alarm bell!
 
 The second risk of relying on an external data source is that data source's
 longevity. What happens if the API goes away? If your work depends on fresh and
 accurate data, then establishing a business relationship with an entity with a
-contract and obligations can reduce your risk and help protect you.
+contract and obligations can reduce your risk.
 
 Another, more oblique risk is your personal appetite to watch the value of your
 holdings fluctuate on a regular basis. If you've invested hours and dollars

@@ -2,32 +2,31 @@
 
 Z<track_blockchain_sizes>
 
-While a core feature of Dogecoin is that no one has to ask anyone else's
-permission to participate, your ability to participate may have a cost. If you
-run a node or a miner, it'll cost you electricity, bandwidth, disk space, and
-any maintenance you need to perform to keep things running. Sometimes this is a
-thankless task, but it helps you and the community.
+You never have to ask permission to participate in Dogecoin, but your ability
+to participate may have a cost. To run a node or a miner, you must account for
+electricity, bandwidth, disk space, and routine maintenance to keep things
+running. Sometimes this is a thankless task, but it helps you and the
+community.
 
 What does it take to make the network work? We can measure that!
 
 =head2 *Count All the Unspent Transactions
 
-Other tips have explained how important the entire blockchain is essential to
-proving that any given transaction belongs or doesn't belong to the network
-(see L<forge_a_chain>, for example). Even though every block in the chain
-validates every chain which occurs after it, some blocks and transactions
-supersede others. Any transaction where the recipients have spent all the
-outputs (see L<bundle_and_track_transactions>) is useful for verifying
-historical accuracy, but it's not essential for checking the validity of any
-new proposed transaction.
+Other tips explain how important the entire blockchain is essential to proving
+that any given transaction belongs to the network (see L<forge_a_chain>, for
+example). Even though every block in the chain validates every future block,
+some blocks and transactions supersede others. Any transaction where the
+recipients have spent all the outputs (see L<bundle_and_track_transactions>) is
+useful for verifying historical accuracy, but it's not essential for checking
+the validity of any new proposed transaction.
 
 X<concepts; UTXOs>
 
 In other words, to validate a new transaction, the network has to prove that
 its inputs (the coins it proposes to spend) all come from unspent outputs of
-existing transactions. You may hear these referred to as I<UTXO>s, or Unspent
-Transaction Outputs. A node doesn't have to track every transaction or block
-everywhere to validate any new transaction; it only has to track all UTXOs.
+existing transactions. These are I<UTXO>s, or Unspent Transaction Outputs. A
+node doesn't have to track every transaction or block everywhere to validate
+any new transaction; it only has to track all UTXOs.
 
 The set of all UTXOs grows and shrinks over time. If you receive 10,000 Doge
 from mining a block and then create two transactions, one sending 5,000 Doge to
@@ -42,11 +41,11 @@ miners.>.
 
 X<< RPC commands; C<gettxoutsetinfo> >>
 
-There's no I<theoretical> limit to the total number of UTXOs that can exist.
-Instead there's a I<practical> limit of how many the average node can store.
-Want to see what's currently happening in the network? Use the
-C<gettxoutsetinfo> RPC command to inspect the I<current> set of UTXOs. This
-will take several seconds to return, but you'll get a result resembling:
+There's no I<theoretical> limit to the maximum total number of UTXOs. Instead
+there's a I<practical> limit of how many the average node can store. To see
+what's currently happening in the network, use the C<gettxoutsetinfo> RPC
+command to inspect the I<current> set of UTXOs. This will take several seconds
+to return a result resembling:
 
 =begin screen
 
@@ -62,22 +61,26 @@ will take several seconds to return, but you'll get a result resembling:
 
 =end screen
 
-This output means that there are 8.28 million transactions with unspent outputs
-and 17.64 million unspent outputs in those transactions. There are 138.843
-billion (billion with a b) Dogecoin available for spending in those unspent
-outputs.
+This output shows 8.28 million transactions with unspent outputs and 17.64
+million unspent outputs in those transactions, with 138.843 billion (billion
+with a b) Dogecoin available for spending.
 
 =head2 *Count All the Dogecoin
 
 Want to know how many Dogecoin are available? You just did! Great work!
+
+Although it gets I<slightly> more complicated: not all of these coins can be
+spent. People may lose their wallets and keys. Some coins may be locked up
+until a point in the future. Others were sent to addresses where there can be
+no keys. Even still, an estimate is a good start.
 
 =head2 *Measure Disk and Memory Consumption
 
 X<< RPC commands; C<getmemoryinfo> >>
 
 Disk space and memory aren't free. What does it cost to run a node? For
-example, how much memory does your node use to track UTXOs? It's not easy to
-get I<exact> numbers, but use C<getmemoryinfo> for a hint:
+example, how much memory does your node use to track UTXOs? Use
+C<getmemoryinfo> for a hint:
 
 =begin screen
 
@@ -94,17 +97,17 @@ get I<exact> numbers, but use C<getmemoryinfo> for a hint:
 
 =end screen
 
-This node is using 14,687,328 bytes of memory and has access to 14,942,208
-bytes of memory. Of course, if you're running the GUI, you'll need more than
-that, but this is a start of an estimate.
+This node uses 14,687,328 bytes of memory of 14,942,208 bytes available. If
+you're running the GUI, you'll need more than that, but this is a start of an
+estimate.
 
 How much disk space are you using? Again, an exact example is difficult to get.
 With Dogecoin Core 1.14.x, the C<bytes_serialized> value from
 C<gettxoutsetinfo> shows the size in bytes of the UTXO set as stored on disk,
-more or less. In newer versions of Dogecoin Core (1.21.x and newer), this will
-single value become C<bogosize> and C<disk_size>, and will be slightly more
-accurate. In the previous example, the Core returned a value of 769,053,979
-bytes, or around 7.7 MB on disk.
+more or less. In newer versions of Dogecoin Core (1.21.x and newer), this
+single value will become C<bogosize> and C<disk_size> with more accuracy.  In
+the previous example, the Core returned a value of 769,053,979 bytes: around
+7.7 MB on disk.
 
 If you're running a node, you can use your operating system's file utilities to
 get a better sense of how much space on disk your node uses to store the
@@ -115,12 +118,11 @@ disk space.
 =head2 *Understand the Risks
 
 Besides the risks of running a Core node that may lead you to separate your
-wallet from the node, be aware that you're going to need RAM, disk space, and
-bandwidth to participate in the network. These aren't free. Neither is
-electricity. Your participation is valuable--essential, even. Without multiple,
-cooperating parties, the risk to the blockchain is that one or a few bad actors
-could control all of the transactions.
+wallet from the node, you need RAM, disk space, and bandwidth to participate in
+the network. These aren't free. Neither is electricity. Your participation is
+valuable--essential, even. Without multiple cooperating well-behaved shibes, a
+few bad actors could control all of the transactions.
 
 Consider how much you're willing to invest in keeping Dogecoin independent and
-permissionless, and use what you've learned here to monitor what's happening on
-a regular basis, lest any changes catch you by surprise.
+permissionless. Use what you've learned here to monitor what's happening
+regularly, lest any changes catch you by surprise.

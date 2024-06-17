@@ -2,47 +2,45 @@
 
 Z<tip_a_geocache>
 
-Back in the day, to get where you wanted to go, you either had to have someone
-give you directions (people did this over the phone, and phones had cords
-connected to the wall) or plan out your route with a paper map. This feels like
-ages ago. Sure, a few hundred GPS satellites launched by the end of 1978, but
-you had to be really into satellites and coordinates to use them.
+Back in the day, ages ago, to get where you wanted to go, you either had to
+have someone give you directions (people did this over the phone, and phones
+had cords connected to the wall) or plan your route with a paper map. Sure, a
+few hundred GPS satellites launched by the end of 1978, but you had to be
+really into satellites and coordinates to use them.
 
 Then hand-held receivers appeared and became popular. Then phones became
-smaller and smarter and more capable, and now there's a chance you're reading
-about Dogecoin on a device that can know exactly where in the world you are.
-Now you can get directions from almost anywhere in a populated area to almost
-anywhere else in a populated area (and many unpopulated areas too) with a few
-taps on a phone.
+smaller and smarter and more capable. You may now be reading about Dogecoin on
+a device that can know exactly where in the world you are.  Now you can get
+directions from almost anywhere in a populated area to almost anywhere else in
+a populated area (and many unpopulated areas too) with a few taps on a phone.
 
 New technology adoption happens that way. Things start slow, with gradual
-adoption of something that seems weird or scary or complicated, and then things
-go faster when cool and fun and useful applications arrive. That happened with
-GPS and it could happen with Dogecoin as well.
+adoption of weird or scary or complicated things that start to seem normal when
+cool and fun and useful applications arrive. That happened with GPS. It could
+happen with Dogecoin as well.
 
 =head2 *What is Geocaching?
 
-One of the theses behind this book is "people learn by playing". Geocaching is
-a kind of collective scavenger hunt where people hide containers ("caches") and
-then post clues and coordinates to help others find them. Caches can be in busy
-urban areas (like a park) or in the middle of nowhere (like a forest). They can
-be small (an empty pill bottle or film canister) or large (a multi-liter
-bucket).
+Geocaching is a kind of collective scavenger hunt where people hide containers
+("caches") and then post clues and coordinates to help others find them. Caches
+can be in busy urban areas (like a park) or in the middle of nowhere (like a
+forest). They can be small (an empty pill bottle or film canister) or large (a
+multi-liter bucket).
 
 Visit U<https://www.geocaching.com/play> to learn more about geocaching,
 including a free app for your phone to track clues and log your progress.
 
-Larger caches often contain a log book, where people can sign their names to
-record that they deciphered the clues. Many of these larger caches also include
-small trinkets, that people can take and replace--sort of a take one, leave one
-approach. These trinkets can be stickers, tiny plastic toys, or even
-low-denomination coins from far-off countries. This suggests an opportunity.
+Larger caches often contain a log book, where people sign their names to record
+that they deciphered the clues. Many of these larger caches also include small
+take-and-replace trinkets, for a take one, leave one approach. These trinkets
+can be stickers, tiny plastic toys, or even low-denomination coins from far-off
+countries. This suggests an opportunity.
 
 =head2 *What is a Paper Wallet?
 
 Most of this book assumes you're going to keep your Dogecoin in some kind of
 electronic wallet, such as the Dogecoin Core or a hardware wallet. Many tips
-also repeat the fact that a wallet is just one way to keep track of private
+also repeat the fact that a wallet is only one way to keep track of private
 keys and addresses. If you know the addresses that hold your Dogecoin I<and>
 you have a way to represent those keys, you can access your funds even if your
 private keys aren't accessible through any hardware or software wallet.
@@ -51,13 +49,13 @@ If you lose your keys I<everywhere> you lose your Dogecoin.
 
 X<concepts; paper wallet>
 
-A paper wallet is a piece of paper with some kind of data on it such as a
-Dogecoin address, private key, and QR code representing that key; it's a way to
-share that private key and address with someone else so they can claim the
-unspent funds for that address. It can be an effective way to give someone
-their first Dogecoin--such as tucking a piece of paper into a birthday card for
-your niece on her thirteenth birthday and proving you're the coolest
-aunt/uncle/relative ever.
+A paper wallet is a piece of paper containing data such as a Dogecoin address,
+private key, and QR code representing that key; it's a way to share that
+private key and address with someone else so they can claim the unspent funds
+for that address. It can be an effective way to give someone their first
+Dogecoin--such as tucking a piece of paper into a birthday card for your niece
+on her thirteenth birthday and proving you're the coolest aunt/uncle/relative
+ever.
 
 To print a paper wallet with the Dogecoin Core, launch the GUI, then go to the
 File menu and select Print Paper Wallets. This will pop up a window showing
@@ -67,7 +65,7 @@ and the private key/address.
 
 When you print this page, you'll receive a prompt to send Dogecoin to the
 address to I<fund> the wallet. To give your niece a cool 1000 Birthday
-Dogecoin, you'll need to transfer that amount to the address shown on the paper
+Dogecoin, you must transfer that amount to the address shown on the paper
 wallet. Follow the prompts.
 
 B<Note:> your Core will not store the private key of this wallet. The Core
@@ -82,7 +80,7 @@ immediately.
 
 How do you tie these two ideas together? Print a paper wallet and fund it with
 a nominal amount of coins. Most trinkets you find in caches are worth less than
-a dollar, so (at current prices of about $0.07 USD per Dogecoin), 5 or 10
+a dollar, so (at current prices of about $0.10 USD per Dogecoin), 5 or 10
 Dogecoin is a nice start.
 
 Write out some basic instructions (like "Scan the QR code to claim your
@@ -118,7 +116,7 @@ Even if they didn't scan the paper, they can now tie a list of names to a
 wallet address and monitor all transactions to and from that address.
 
 It's up to the person who takes the wallet I<paper> to practice good
-transaction security, immediately transferring the funds to a new and secure
+transaction security by immediately transferring the funds to a new and secure
 wallet address. As with any paper wallet you weren't immediately and directly
 handed by someone you'd trust with your wallet address, treat the wallet as
 potentially hostile.

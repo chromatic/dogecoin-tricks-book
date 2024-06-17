@@ -2,45 +2,44 @@
 
 Z<build_with_dogecoin>
 
-If the only thing we ever did with our funny, dog-themed cryptocurrency was
-trade memes, have fun, and tip each other back and forth that would be
-enough--but we can do more. Some people want to enhance or replace the global
-financial system. Some people want to send money across the world for fractions
-of a cent in seconds. Some people want to make micropayments and tiny
-transactions feasible for an Internet-connected world.
+Some people want to enhance or replace the global financial system. Some people
+want to send money across the world for fractions of a cent in seconds. Some
+people want to make micropayments and tiny transactions feasible for an
+Internet-connected world.
+
+If the only thing we ever did with our funny, dog-themed cryptocurrency were to
+trade memes, have fun, and tip each other back and forth that would be enough.
+We can do more.
 
 All of these are possible. All of these are happening. Some of these are the
 precursors to other new, interesting, useful, creative, and fun things. For
 example, this book includes a chapter on using Dogecoin as the payment
 mechanism for coin-operated systems such as pinball machines, jukeboxes, and
-vending machines (L<chapter_dogecade>).
+vending machines (see L<chapter_dogecade>).
 
-Putting the pieces together for I<your> project is up to you, but building that
+Putting the pieces together for I<your> project is up to you. Building that
 system well is a lot easier if you're working with a community of smart, fun,
-helpful people. After all, isn't that one of the goals of Dogecoin, to do good
-things together?
+helpful people. That's one of the goals of Dogecoin: do good things together?
 
 =head2 *Find Your Project
 
 Working with other people to build something amazing sounds amazing, but
-without something specific to build, you might end up a little bit like the
-business school graduate going to the computer science job fair and trying to
-find a cofounder for your great new startup ideaN<Especially if your startup
-idea is "Let's make a really popular app!">.
+without something specific to build, you might feel like the business school
+graduate going to the computer science job fair and trying to find a cofounder
+for your great new startup ideaN<Especially if your startup idea is "Let's make
+a really popular app!">.
 
-Think about what motivates I<you>. What problems do you face? What doesn't
-exist, but if it did, would make your life easier or more pleasant or more
-enjoyable? What frustration would you like to go away?
+What motivates I<you>? What problems do you face? What doesn't exist, but if it
+did, would make your life easier or more pleasant or more enjoyable? What
+frustration would you like to go away?
 
 Z<obscure references; "No Cars Go">
 
 When you close your eyes, in the moment between the click of the light and the
 start of your dream, what idea won't stop dancing in your brain? I<That's> your
-project.
-
-When its shape starts to become real, grab whatever you use to take notes and
-start thinking about what it really is. What does it do? What doesn't it do?
-How does it feel to use it?
+project. When its shape starts to become real, grab something to take notes
+about what it really is. What does it do? What doesn't it do? How does it feel
+to use it?
 
 Write down your ideas. Draw pictures. Make lists. Write a press release from
 the future as you're bragging about shipping the first version of your project
@@ -54,12 +53,12 @@ have to have. Then you're ready to start building with other people.
 
 =head2 *Find Your Community
 
-You may think "But I'm not a developer" or "I'm only a junior developer" and
-wonder what you can do. The answer is "plenty"! For example, although your
-author wrote a lot of code and proofs of concepts and so far has managed not to
-destroy any hardware proving that his ideas will work, he's just one person
-with some ideas, some implementation, and the stubbornness to manage a lot of
-things he understands by himself.
+You may think "But I'm not a developer" or "I'm only a junior developer".  What
+can you do? Plenty! For example, although your author wrote a lot of code and
+proofs of concepts and so far has managed not to destroy any hardware proving
+that his ideas will work, he's only one person with some ideas, some
+implementation, and the stubbornness to manage a lot of things he understands
+by himself.
 
 If you were to adopt his code for your own purposes, you might find that it
 doesn't work in some obvious ways, or that it's missing important features, or
@@ -67,15 +66,14 @@ that you're missing some essential customization. All of these can be the basis
 of a useful I<conversation>--ideally one before you've struggled with someone
 else's software and cried out in frustration.
 
-Your requirements--the essential things you absolutely have to have--are vital
-to the conversation, especially for good developers who want to build things
-that other people find useful and usable.
+Your requirements--the essential things you absolutely must have--are vital to
+the conversation, especially for good developers who want to build things that
+other people find useful and usable.
 
-The only twist is that you might find yourself challenged on what you want to
-build and why. In a good, healthy community this can be an act of creativity
-and collaboration. "Why do you want to do I<that>?" can be a question motivated
-by genuine curiosity and care! This is especially true when it's a novel idea
-or it's wildly different from something that already exists.
+You might find yourself challenged on what you want to build and why. A good,
+healthy community makes this an act of creativity and collaboration. "Why do
+you want to do I<that>?" can be a question motivated by genuine curiosity and
+care, especially for novel and unique ideas.
 
 This is where the cooperation comes in. You may have to explain your idea and
 you may have to explore other implementation options, even going so far as
@@ -84,19 +82,18 @@ trying software under development with an open mind.
 =head3 *Create or Fork Your Community
 
 If you can't find a community that's working on the same things you are, you
-may have to build one. If you can't find a community that quite fits you and
-you can't find a way to work together, you may have to fork it. That's okay
-too, and it's not nearly as violent as it sounds. Think of a road which splits
-into two diverging paths to go around a hill. The paths still end up going
-somewhere useful and they both acknowledge the obstacle, but they take
-different approaches.
+may have to build one. If you can't find a community where you fit and can
+work, you may have to fork it. That's okay too, and it's not as violent as it
+sounds. Think of a road which splits into two diverging paths to go around a
+hill. The paths still end up going somewhere useful and they both acknowledge
+the obstacle, but they take different approaches.
 
 The world of free and open source software practices this on a regular basis.
 The license of the code itself often supports this behaviorN<But make sure of
 this before you start over with existing code!>. That's where Dogecoin came
-from--a fork of a fork of Bitcoin source code, with some changes over the years
-and other changes borrowed liberally and thankfully from other projects. We
-work better when we find ways to work together.
+from--a fork of a fork of Bitcoin source code, with unique changes over the
+years and other changes borrowed liberally and thankfully from other projects.
+We work better when we work together.
 
 You're also always welcome to start your own project from an empty
 directory and a good idea. That's how many projects start too!
@@ -143,12 +140,12 @@ Working with other people can be as difficult as it is rewarding. Sometimes
 people get hung up on their own ideas and ways of working. Other times people
 are quick to criticize and slow to help. Sometimes people are mean.
 
-You can only control yourself. If you're working with other people, you can set
-your boundaries and expectations, and you can influence the community to grow
-in healthy ways and avoid unhealthy behaviors. This doesn't mean avoiding all
-disagreements or conflicts. Those can be good if handed well--disagreements can
-lead to better ideas and clearer understandings, especially if you're willing
-to speak (and, sometimes, change) your minds.
+You can control only yourself. If you're working with other people, set your
+boundaries and expectations, and influence the community to grow in healthy
+ways and avoid unhealthy behaviors. This doesn't mean avoiding disagreement or
+conflict. Those can be good if handed well--discussions can lead to better
+ideas and clearer understandings, especially if you're willing to speak (and,
+sometimes, change) your minds.
 
 As a concrete example, your author does most of his prototyping work in Perl,
 because he's used it for a long time and knows a lot of the tips and
@@ -163,5 +160,3 @@ Node.js or PHP or any of a hundred other languages, but the human factor of
 people's contributions is even more important. The problem's we're I<trying> to
 solve with programmable money is how to work I<together> without giving up our
 own power and without centralizing authority in hands we can't trust.
-Whitespace or sigils or installation mechanisms or other technical details
-won't fix the underlying problems if we don't work together.

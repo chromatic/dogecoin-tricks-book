@@ -169,8 +169,8 @@ correctlyN<As you might do for a C<cron> command.>:
 =end programlisting
 
 This file sets the path to the RPC credentials configuration file and makes
-sure Perl where to find the C<RPCAgent> module. All that's left is to add a
-single line to F<dogecoin.conf>N<Linebreaks are for formatting; they're not
+sure Perl knows where to find the C<RPCAgent> module. All that's left is to add
+a single line to F<dogecoin.conf>N<Linebreaks are for formatting; they're not
 needed.>:
 
 =begin programlisting
