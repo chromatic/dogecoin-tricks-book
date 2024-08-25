@@ -2,28 +2,25 @@
 
 Z<rotate_machine_addresses>
 
+Your little arcade is coming together and you're excited! You've set up a way
+to track addresses and machines, and you can reach every machine over a secure
+network with its own name (see L<associate_addresses_to_machines>).
 
-You're really excited about your little arcade. Things are coming together.
-You've set up a way to track addresses and machines, and you can reach every
-machine over a secure network with its own name
-(L<associate_addresses_to_machines>).
-
-It's mid JuneN<For the sake of argument, let's suppose you're experiencing the
-tip at the same time the author wrote it!> and ice cream business is booming,
-so it's time to get people enthusiastic about playing games before, during, or
-after enjoying a tasty frozen treat. You haven't yet printed up little QR codes
-to tape to each machine, because you're still thinking about how to handle
-customer data safely (L<practice_safe_wallet_hygiene>).
+It's mid JuneN<... as of the time of this writing!> and the ice cream business
+is booming. It's time to get people enthusiastic about playing games before,
+during, and after enjoying a tasty frozen treat. You haven't yet printed QR
+codes to tape to each machine, because you're still thinking about how to
+handle customer data safely (see L<practice_safe_wallet_hygiene>).
 
 What do you do?
 
 =head2 *Back to the Database
 
-The C<addresses_to_machines> SQL table had an interesting column, C<is_active>,
-that didn't see much use. It implied that a machine could have multiple
-Dogecoin addresses. How would that happen?
+The C<addresses_to_machines> SQL table had an interesting column, C<is_active>.
+It implied that a machine could have multiple Dogecoin addresses. How would
+that happen?
 
-Suppose you have a database table full of addresses under your control:
+Suppose you have a table full of addresses under your control:
 
 =begin screen
 
@@ -37,8 +34,8 @@ Suppose you have a database table full of addresses under your control:
 =head3 *Find Unused Addresses
 
 Maybe you've generated these with from an HD key and derivation paths or you've
-exported them from a wallet (L<extract_wallet_addresses>). When they're in your
-database, you can do a couple of things. First, to see which addresses you've
+exported them from a wallet (see L<extract_wallet_addresses>). When they're in
+your database, you can do several things. First, to see which addresses you've
 already used:
 
 =begin screen
@@ -59,10 +56,10 @@ addresses in C<wallet_addresses> that aren't in that listN<Experienced database
 users can find better ways to write this query, so if you find this kind of
 work interesting, try some yourself as a learning opportunity!>. That second
 C<SELECT> nested in the outer C<SELECT> is called a sub-select. The database
-will look up all the results for the inner query first, then use its results to
+will look up all the results for the inner query, then use its results to
 filter the outer query.
 
-If you're going to run this query repeatedly, you can turn it into a view:
+If you run this query repeatedly, turn it into a view:
 
 =begin screen
 
@@ -85,8 +82,7 @@ important to think in sets of data when working with a database. What's the
 important data flow here?
 
 For every machine, disable the currently active address. For every machine, get
-a new address. For every new address, mark it active. Thinking in sets, you
-might write something like:
+a new address. For every new address, mark it active. You might write SQL like:
 
 =begin screen
 
@@ -113,7 +109,7 @@ might write something like:
   FROM available_addresses
   JOIN available_machines USING (row_number);
 
-COMMIT;
+  COMMIT;
 
 =end screen
 
@@ -122,65 +118,64 @@ X<concepts; database transactions>
 There's a lot going on here! The C<BEGIN> and C<COMMIT> commands tell the
 database to treat the entire set of statements as a single unit that either
 succeeds entirely or fails. If there are any errors, the database will discard
-all of the changes as an entire unit. This is very helpful; it prevents you
-from getting your data in an inconsistent state due to a logic error. It won't
-prevent you from writing the wrong code, but it will prevent any failures
-during execution of your code from persisting.
+I<all> of the changes. This prevents you from getting your data in an
+inconsistent state due to a logic error. It won't prevent you from writing the
+wrong code, but it will prevent any execution failures from persisting.
 
-The first C<UPDATE> statement should be straightforward. All currently
-associated addresses get disabled in preparation for the new addresses. You
-might not want this behavior; it's safe to remove if you like. However, it does
-show the value of the transactional behavior of C<BEGIN> and C<COMMIT>. If
-everything goes correctly, the new addresses will now be active. If that fails,
-the old addresses will still be active.
+The first C<UPDATE> statement disables all currently associated addresses in
+preparation for the new addresses. You might not want this behavior; it's safe
+to remove if you like. However, it does show the value of the transactional
+behavior of C<BEGIN> and C<COMMIT>. If everything goes correctly, the new
+addresses will now be active. If that fails, the old addresses will still be
+active.
 
-Without the transactional behavior, this code could end up with I<no> addresses
-active. Oops!
+With the transactional behavior, either success or failure means that the
+machines will keep running. Without the transactional behavior, this code could
+end up with I<no> addresses active. Oops!
 
 X<concepts; common table expressions>
 
-The next statement looks like three statements, and it kind of is. The C<WITH>
-... C<AS> behavior looks like the sub-select approached used earlier. It's a
-technique called Common Table Expressions, or CTEs. Giving a name to a query
-like this makes it available as a data source in other parts of the query.
+The next statement looks like three statements, and it kind of is. The C<WITH
+... AS> behavior looks like the sub-select approached used earlier. It's a
+technique called Common Table Expressions, or CTEs. Naming part of the query
+this way makes it available as a data source in other parts of the query.
 
-We want to get a list of machine names and a list of addresses and use that as
-a single data source to insert new records into the list of machine address
-associations, so there are two named CTEs.
+We want to use a list of machine names and a list of addresses as a single data
+source to insert new records into the list of machine address associations.
+This query thus has two CTEs.
 
-There's one piece of complexity that's especially tricky here. What's the
-relationship between data in the address table and in the machine table?
+One remaining piece of the query is tricky. What's the relationship between
+data in the address table and in the machine table?
 
-You know from the view defined earlier that I<some> rows in the addresses table
-I<may> be in the associations table, but ideally most address rows I<aren't> in
-the machines table. In fact, because the first CTE selects from the unassigned
-address view, we know that there I<isn't> any association between rows in each
-table.
+From the view defined earlier, you know that I<some> rows in the addresses
+table I<may> be in the associations table, but ideally most address rows
+I<aren't> in the machines table. Because the first CTE selects from the
+unassigned address view, we know that there is I<no> association between rows
+in each table.
 
 This is a problem.
 
 SQL thinks of tables as sets I<and> it allows you to join sets to each other
-I<if> they have some characteristics in common. For example, if your ice cream
-arcade takes off and you open multiple locations, you might add a location
-identifier to each machine in the associations table and you probably will add
-a locations table to keep track of location-specific information. If you have a
-column of the same type representing the same data in each table, you can join
-those tables together to make an interesting query (show me all of the machines
-in our downtown food cart popup location, show me all of the machines grouped
-by their location, etc).
+I<if> they have common characteristics. For example, if your ice cream arcade
+takes off and you open multiple locations, you might add a location identifier
+to each machine in the associations table and you probably will add a locations
+table to keep track of location-specific information. If you have a location
+column in each table, you can join those tables together to make an interesting
+query (show me all of the machines in our downtown food cart popup location,
+show me all of the machines grouped by their location, etc).
 
 Given that there's I<no> such association between available addresses and
 machines here, we have to make one.
 
 The strange looking C<ROW_NUMBER() OVER (...)> syntax here tells the database
 "arrange the results from this query in a specific order, then give each one a
-number starting from 1". Exciting, isn't it?
+number starting from 1".
 
-Available addresses come out in random order (you can guess what C<RANDOM()>
-does). Machine DNS names come out in alphabetical order. All of this complexity
-allows the piece of SQL C<JOIN ... USING (row_number)> to work. Where there was
-previously no relationship between these two sets of data, this code has
-created an artificial relationship and then made it so.
+Available addresses come out in random order (that's what C<RANDOM()> does).
+Machine DNS names come out in alphabetical order. All of this complexity allows
+the piece of SQL C<JOIN ... USING (row_number)> to work. Where there was
+previously no relationship between these two sets of data, this code creates an
+artificial relationship and then uses it.
 
 The C<INSERT INTO> commands tell the database the name of the table, the
 columns of the table, and how each row should look. C<SELECT ... FROM> is a
@@ -191,27 +186,27 @@ names, and C<true> as a hard-coded value.
 
 =head3 *Do It Now!
 
-Anytime you want to rotate the available addresses for your machines, you can
-run this code. Then you can grab the new active address and machine name from
-the database and print up new QR codes, ship the information to each machine to
-display new QR codes, or update anything you want to update.
+Run this code whenever you want to rotate the available addresses for your
+machines.  Then fetch the new active address and machine name from the database
+and print up new QR codes, ship the information to each machine to display new
+QR codes, or update anything else.
 
 =head2 *Understand the Risks
 
-This isn't perfect for a few reasons, but it's better than using a single
-wallet address for all of your machines or using a single wallet address for
-each machine.
+This isn't perfect, but it's better than using a single wallet address for all
+of your machines or using a single wallet address for each machine.
 
 You can automate the address rotation on a fixed schedule, but if you have
-printed QR codes, someone will have to walk to each machine and update those
-codes. Maybe that's not a problem, but consider the human factor in the
-equation. Someday, someone will trip over a loose shoelace and send a stack of
-index cards flying, so that a customer who wants to play Super Street Fighter 2
+printed QR codes, someone will have to walk to each machine and update them.
+Maybe that's not a problem, but consider the human factor in the equation.
+Someday, someone will trip over a loose shoelace and send a stack of index
+cards flying, so that a customer who wants to play Super Street Fighter 2
 Deluxe but gets a credit for Super Street Fighter 2 Championship Edition
 instead will be super complex disappointed.
 
 If you have a way to rotate addresses on a schedule instead I<and> you remove
 the need for humans to update QR codes or payment information or whatever tells
 a customer which address to use, you can make this system more secure and less
-fragile.
-
+fragile. Perhaps that's adding a QR code to the attract display of each
+machine, updating a webapp with the new address, pushing a new QR code to an
+LCD display on each machine, or something else.

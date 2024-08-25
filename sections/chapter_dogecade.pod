@@ -5,26 +5,27 @@
 Z<chapter_dogecade>
 
 As if this book weren't nerdy and technical enough, here's a full, working
-example to tie together everything you've learned: a design and implementation
-for an arcade using Dogecoin--not quarters, dollars, or barter--to play.
+example to tie everything together: a design and implementation for an arcade
+taking payments in  Dogecoin.
 
-This example has a lot to recommend it: it brings Dogecoin into the real world,
-it represents small, self-contained transactions, and it uses the network for
-something it really ought to be good for: making good experiences, quickly.
+This example has a lot to recommend it. It brings Dogecoin into the real world.
+It represents small, self-contained transactions. It uses the network for its
+strengths: making small payments quickly.
 
-Regardless of whether you have actual video game hardware, virtualized video
-game hardware, or no hardwareN<Maybe you have little interest in arcade games.
-That's fine too!>, many design principles and implementation techniques here
-apply to any kind of payments you might make or receive on the Dogecoin
-network. You might run a coffee shop or volunteer at a farmer's market or have
-a great bake sale fundraising idea or any of a thousand other things.
+Regardless of whether you have actual video game hardware, emulation or
+virtualization systems, or no hardwareN<Maybe you have little interest in
+arcade games.  That's fine too!>, this system's design and implementation will
+work for many types of payments made or received on the Dogecoin network. You
+might run a coffee shop or volunteer at a farmer's market or have a great bake
+sale fundraising idea or any of a thousand other things.
 
-Or you might have a pinball machine by your front door, or a claw machine, or a
-cold drink dispenser or something even cooler we haven't invented yet.
+You might have physical hardware too: a pinball machine by your front door, or
+a claw machine, or a cold drink dispenser or something even cooler we haven't
+invented yet.
 
 Bringing Dogecoin into the real world requires some integration, but all of the
 parts are within your reach. Let's start by assuming you have a combination of
-hardware and software machines.
+hardware and software.
 
 L<associate_addresses_to_machines>
 

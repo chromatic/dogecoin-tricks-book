@@ -2,18 +2,18 @@
 
 Z<derive_more_addresses>
 
-Whether you use a batch of Dogecoin addresses for your machine
-(L<associate_addresses_to_machines>) or generate new addresses for each new
-customer (L<manage_tokens>), or otherwise receive Dogecoin in transactions, you
-need a steady supply of new addresses. This implies a steady supply of new
+Whether you use a batch of Dogecoin addresses for your machine (see
+L<associate_addresses_to_machines>), generate new addresses for each new
+customer (see L<manage_tokens>), or otherwise receive Dogecoin in transactions,
+you need a steady supply of new addresses. This implies a steady supply of new
 public/private key pairs.
 
 Wallet derivation (see L<use_a_hd_wallet>) simplifies this problem by
-describing a hierarchy of keys. Given a single key to start with, you can
-generate an infinite number of related (derived) keys as often as you need
-them. To spend transactions sent to those addresses, you need the starting key
-and some information about derivation but you don't have to track all of the
-public/private key pairs along the way.
+describing a hierarchy of keys. Given a single starting key, you can generate
+an infinite number of related keys as often as you need them. To spend
+transactions sent to those addresses, you need the starting key and information
+about derivation but you don't have to track all of the public/private key
+pairs along the way.
 
 Improve your security and increase your convenience by reducing bookkeeping?
 Yes!
@@ -23,27 +23,26 @@ Yes!
 X<BIPs; BIP-32>
 X<BIPs; BIP-44>
 
-Key derivation follows BIP-32 and BIP-44 standards. The most important piece to
-understand is BIP-44's notion of derivation paths. These are descriptions of
-I<how> to generate additional key pairs from an existing master key. A Dogecoin
+Key derivation follows BIP-32 and BIP-44 standards. You must understand
+BIP-44's notion of derivation paths. These are descriptions of I<how> to
+generate additional key pairs from an existing master key. A Dogecoin
 derivation path looks like C<m/44'/3'/0'/0/0>. The first three path components
 are always the same for BIP-44 paths; they indicate a derivation path (C<m>),
-the purpose of the path (C<44'>), and the Dogecoin network (C<3'>). The
-following path components are up to you.
+the purpose of the path (C<44'>), and the Dogecoin network (C<3'>). Subsequent
+path components are up to you.
 
 The fourth component represents a unique account number. If you have multiple
-arcade locations, you could use different numbers for each location (or machine
-or whatever). The fifth component is either C<0> or C<1> and indicates whether
-you intend for the derived address to receive external payments. You probably
-want to use C<0> to indicate this. Finally, the final component is an index
-number that increases with each new address you derive.
+arcade locations, you can use different numbers for each location or machine or
+whatever. The fifth component is either C<0> or C<1> and indicates whether you
+intend for the derived address to receive external payments. You probably want
+to use C<0> here. Finally, the final component is an index number that
+increases with each new address you derive.
 
 When a conforming wallet sees a key and a derivation path, it can follow that
 path to examine the blockchain to see which addresses have ever received a
-transaction. Even if there's currently no unspent inputs associated with that
-address, if the derived address has ever received funds, the wallet can
-determine this--and know to use the I<next> unused index value when it wants to
-derive further addresses.
+transaction. Even with no unspent inputs associated with that address, if the
+derived address has ever received funds, the wallet can determine this--and
+know to use the I<next> unused index value to derive further addresses.
 
 You don't I<need> a wallet to derive further addresses, though--only software
 that understands this derivation scheme.
@@ -71,32 +70,29 @@ number of new addresses:
 =back
 
 Both account number and index number start from C<0>, so if you want
-simplicity, start with a path of C<m'/44'/3'/0'/0/0> and increment the index
-value.
+simplicity, start with a path of C<m'/44'/3'/0'/0/0> and increment only the
+index value.
 
-If you're associating addresses with some sort of transaction marker (such an
-arcade machine, a customer invoice, or a customer account), you'll probably
-want to store the derived address with the index value in a persistent store
-(for example, in a database) so that you can take the appropriate action when
-you see a confirmed transaction to that address.
+If you're associating addresses with transaction marker (such as an arcade
+machine, a customer invoice, or a customer account), you'll probably want to
+store the derived address with the index value in a persistent store (for
+example, in a database) so that you can take the appropriate action when you
+see a confirmed transaction to that address.
 
-What might code look like?
+How would that code look?
 
 =head2 *Example Derivation Code
 
 X<< external software; C<libdogecoin> >>
 
 The C<libdogecoin> library provides useful functions to derive new addresses
-from hardened master private keys, at least in versions 0.1.3 and laterN<At
-least, 0.1.3 will, if it includes your author's code implementing this
-feature.>.
+from hardened master private keys, at least in versions 0.1.3 and later.
 
 X<< Perl libraries; C<Finance::Libdogecoin> >>
 
 While you can write C or C++ code to link against the library directly, you
 might have a better time using a language binding, such as Perl's
-C<Finance::Libdogecoin> (again, at least version 0.1.3). The code can look like
-this:
+C<Finance::Libdogecoin> (again, at least version 0.1.3), with code as:
 
 =begin screen
 
@@ -131,7 +127,10 @@ In a web context, you might want to build a model object more like this:
       field $key;
 
       ADJUSTPARAMS( $params ) {
-          $key = Crypt::Lite->new->decrypt($params->{master_key}, $params->{secret});
+          $key = Crypt::Lite->new->decrypt(
+            $params->{master_key},
+            $params->{secret}
+          );
       }
 
       method derive_address ($index) {
@@ -181,12 +180,13 @@ related addresses.
 
 Granted, someone with access to your machine could inspect your memory, but a
 safer approach would be if you could derive new keys and addresses from a
-I<public> key only. In that case, any exposure of that key would compromise the
-I<privacy> of your public keys and addresses but not the security of your
-private keys.
+I<public> key onlyN<You I<can> do this in newer versions of C<libdogecoin>; see
+the documentation for pros and cons.>. In that case, any exposure of that key
+would compromise the I<privacy> of your public keys and addresses but not the
+security of your private keys.
 
-In the end, it's up to you to decide how to balance security, privacy, and
-convenience. Filling a pool of fresh addresses will take some ongoing
-maintenance, but it lessens exposure of your keys. Generating new addresses on
-demand is more convenient and needs less maintenance, but it raises the risk of
-master key exposure.
+As always, it's up to you to decide how to balance security, privacy, and
+convenience. Filling a pool of fresh addresses requires ongoing maintenance,
+but it lessens exposure of your keys. Generating new addresses on demand is
+more convenient and needs less maintenance, but it raises the risk of key
+exposure.

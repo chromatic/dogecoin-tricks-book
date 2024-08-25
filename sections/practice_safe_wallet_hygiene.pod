@@ -2,96 +2,95 @@
 
 Z<practice_safe_wallet_hygiene>
 
-You're standing in line at a bakery. You're getting ready to defeat a Balrog in
-a pinball arcade. You're heading to a concert. You have your phone all loaded
-up with enough Dogecoin to get a tasty treat, smack some pinballs, or move to
-the music.
+You stand in line at a bakery. You prepare to defeat a Balrog in a pinball
+arcade. You grab your favorite band's t-shirt and head to a concert. You have
+your phone loaded up with enough Dogecoin to get a tasty treat, smack some
+pinballs, or move to the music.
 
 Would you pull out a wallet with a million dollars in it to spend $5 on a
 pastry and a beverage? Or break a $1000 bill to play four games of pinball? Or
 swipe a credit card with a $50,000 limit in a reader held by a teenager in an
 orange vest standing outside a stadium?
 
-Hopefully the answer is no. Hopefully the answer is still no if we're talking
-Dogecoin and not dollars, because there's an even more important difference
-between physical currency and cryptocurrency: your transactions are public with
-cryptocurrency, at some level.
+Hopefully the answer is no. Hopefully the answer is still no if you change
+"dollars" to "Dogecoin", because there's an even more important difference
+between physical currency and cryptocurrency: your cryptocurrency transactions
+are I<public>.
 
 =head2 *Understand the Risks
 
-Suppose you have 50,080 Doge in your wallet all associated with a single
-address, and the doughnut shop has a QR code on the counter. "Just scan it with
-your phone and hit send", the clerk says, noticing the Dogecoin pin on your
-lapel. The tape's coming up around the edges of the QR code. It's been there
-for a while.
+Suppose you have 50,080 Doge in your wallet associated with a single address,
+and the doughnut shop has a QR code on the counter. "Scan it with your phone
+and hit send", the clerk says, noticing the Dogecoin pin on your lapel. The
+tape's coming up around the edges of the QR code. It's been there for a while.
 
-The guy behind you in line watches you send your transaction with far too much
-interest. He should be eyeing the doughnuts with that much interest.
+The guy behind you in line stares as you send your transaction. He should be
+eyeing the doughnuts with that much interest.
 
 You grab your buttermilk blueberry bars and walk outside. A moment later, your
 phone dings. Your balance is now 50,000 Doge. That's when the sketchy guy bumps
-into you and palms your phone, leaving you with doughnuts and some crumbs,
-because he knows you have a lot of friendly dog-themed cryptocurrency.
+into you and palms your phone, leaving you with doughnuts and crumbs. Hey--he
+stole your phone and your Dogecoin!
 
 =head3 *Multi-Use Addresses Are Bidirectional Risks
 
 X<obscure references; Sins of Sinister>
 
 What went wrong? On your side, you kept all of your eggs in one basket. Wallet
-addresses are free, andN<To the best of our knowledge, cryptographically
-speaking, in early 2023!> cryptographically secure. It's so unlikely you'll
-accidentally bump into someone else's wallet address that you might as well
-guess the coordinates of a specific atom in the entire universe from the big
-bangN<You can tell this is unlikely because something like this was a plot
-point in an X-Men comic to explain a mutant's overpowered prescience.>
+addresses are free, andN<To the best of our knowledge in 2024!>
+cryptographically secure. It's so unlikely you'll accidentally bump into
+someone else's wallet address that you might as well guess the coordinates of a
+specific atom in the entire universe from the big bangN<This was a plot point
+in an X-Men comic to explain a mutant's overpowered prescience.>
 
 Every time you reuse a wallet address to I<send> funds, you run the risk of
-tying your identity to a specific address and all of the addresses used to get
-funds out of a coinbase to that address. If you're spending Dogecoin in person,
-this risk is higher; you've potentially tied that chain of coin custody to your
-physical presence.
+tying your identity to a specific address as well all of the addresses used to
+get funds out of a coinbase to that address. If you're spending Dogecoin in
+person, this risk is higher; you've potentially tied that chain of coin custody
+to your physical presence.
 
 =head3 *Multi-Use Addresses Can Be Snooped
 
 What else went wrong? Anyone who knows that your local doughnut shop has
 re-used its address can track all transactions I<to> that address. The sketchy
 man behind you in line could have looked up the shop's address on a blockchain
-explorer, found your transaction (it just happened), then looked up the unspent
-transactions of the wallet address you used to pay for your tasty treat.
+explorer, found your transaction (the one that just happened a moment ago),
+then looked up the unspent transactions of the wallet address you used to pay
+for your tasty treat.
 
 There's no excuse for any sketchy person to swipe your phone. They own their
-bad behavior. Even still, the temptation is there and the ability to do bad
-things is multiplied by the shop's poor address hygiene.
+bad behavior. Even still, the ability to do bad things is multiplied by the
+shop's poor address hygiene.
 
 Fortunately, this can all be fixed.
 
 =head2 *Limit Your Walking Around Money
 
 Unlike a physical wallet full of $1000 bills, your wallet addresses can only be
-unlocked with your private key(s). If they're not on your device or in your head,
-someone will have to do a lot more work to get them out of you.
+unlocked with your private keys. If they're not on your device or in your head,
+someone will have to do a lot more work to get them.
 
 Instead of keeping all of your funds available on instant access by swiping
 your finger on your phone, store the bulk of your funds in a more secure
-location (see other tips): an offline wallet, a hardware wallet, backed up with
-keys not connected to the Internet or available by any easy network access.
+location: an offline wallet, a hardware wallet,  or backed up with keys not
+connected to the Internet or available by any easy network access.
 
 A few hundred Doge here and there in various addresses spreads out your
-exposure. Losing access to (or having access taken from you for) one address is
-still unpleasant, but it's not the catastrophe of losing all your funds.
+exposure. Losing access to (deliberately or by accident) one address is still
+unpleasant, but it's not the catastrophe of losing all your funds.
 
 =head2 *Encourage Vendor Address Hygiene
 
 When you're out and about spending your favorite friendly dog-themed money, pay
-attention to vendor practices as well. If you see someone re-usiYng addresses
+attention to vendor practices as well. If you see someone re-using addresses
 for purchases, consider taking the time to inform them (gently and kindly)
 about the risks of re-using addresses (especially for their customers) and
-benefits of address isolation (especially for their customers). You can always
-hand them this book, of course.
+benefits of address isolation (especially for their customers). Buy them a copy
+of this book, if necessary.
 
-With the prevalence of HD wallets (L<use_a_hd_wallet>) and other mechanisms to
-generate multiple addresses managed by a single key, there's no reason not to
-take advantage of the nearly-limitless address space of the blockchain.
+With the prevalence of HD wallets (see L<use_a_hd_wallet>) and other mechanisms
+to generate multiple addresses managed by a single key, there's no reason not
+to take advantage of the nearly-limitless address space of the blockchain.
 
 Maybe it takes brainstorming, like "Hey, what if you could print a QR code on
 the initial receipt?" Other times you might have to get together some
@@ -101,7 +100,7 @@ other tips).
 
 Security is often a balance between convenience and inconvenience. The question
 is how far you want to go to protect yourself, your vendors, and your customers
-and how much extra effort you need to put into place to keep that protection.
-The core developers and advocates can only go so far giving you the tools and
-the information you can use to do what you want to do easily and safely. The
-rest is up to you.
+and how much extra effort to expend to extend that protection. The core
+developers and advocates can only go so far giving you the tools and the
+information you can use to do what you want to do easily and safely. The rest
+is up to you.

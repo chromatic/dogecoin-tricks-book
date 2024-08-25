@@ -2,45 +2,45 @@
 
 Z<manage_tokens>
 
-Take a step back from the details of running a Dogecoin-powered arcade and
-think about what you want to accomplish. Sure, it's a clever hack to have an
-address for every machine and to be able to kick off a play session for every
-I<n> Dogecoin received for the address associated with a machine.
+Step back from the details of running a Dogecoin-powered arcade to consider
+what you want to accomplish. Sure, it's a clever hack to have an address for
+every machine and to be able to kick off a play session for every I<n> Dogecoin
+received for the address associated with a machine.
 
 It's worth I<trying> to accomplish that. However, that technical approach has
-some drawbacks, as alluded to in other tips.
+drawbacks.
 
 X<references; Battle of Yavin>
 
-First, transaction speed is an issue. Waiting, on average, 55 or 60 seconds for
-a transaction to go through is a long time for someone to stand in front of
+First, transaction speed is an issue. Waiting an average of 55 or 60 seconds
+for a transaction confirmation a long time for someone to stand in front of
 your Atari Star Wars machine waiting to fly an X-Wing into the Battle of Yavin.
 If blocks are full, it could take longer or cost your customer more to send
 that transaction. You I<could> work around this by checking the mempool for a
 pending transaction, but that's additional work and the transaction might not
-go through, especially if it turns out to be invalid after all.
+clear soon or ever.
 
-Second, you have to deal with the fact that there's an association between a
-person sending a transaction to a machine address and the machine address being
-visible to other people in the same location. If core developer Patrick Lodder
-really wants to play Donkey Kong Jr but worries that the person getting ice
-cream behind him will corner him in the parking lot and demand 1000 Dogecoin
-from Patrick's Big Whale Wallet, you've lost a good customer.
+Second, you have to deal with the association between a person sending a
+transaction to a machine address and the machine address being visible to other
+people in the same location. If core developer Patrick Lodder really wants to
+play Donkey Kong Jr but worries that the person getting ice cream behind him
+will corner him in the parking lot and demand 1000 Dogecoin from Patrick's Big
+Whale Wallet, you've lost a good customer.
 
 Third, you have to mange the overhead of associating machines with addresses
 and keep that infrastructure running. It's not a lot of overhead I<if> you're
-comfortable managing infrastructure like this, but it's still overhead. You can only
-bribe the nice neighborhood kids with fudge ripple so many times before they
-realize they can build their own arcades.
+comfortable managing infrastructure like this, but it's still overhead. You can
+bribe the nice neighborhood kids with fudge ripple only so many times before
+they realize they can build their own arcades.
 
 None of these are dealbreakers. You can work around them all, and they might be
-the right choice. However, you should still consider an alternative.
+the right choice. However, you have alternatives.
 
 =head2 *A Token Economy for Your Dogecade
 
 If you hear the word "token" related to cryptography, you might think of a
 scammy influencer shilling a Ponzi scheme and hoping to make a few thousand
-dollars of Ethereum before pulling the rug out from underneath a bunch of
+dollars of Ethereum before pulling the rug out from underneath their
 unsuspecting victims. That's definitely one definition of token.
 
 Here it means something else: a digital asset redeemable in your arcade.
@@ -53,19 +53,18 @@ How does this work?
 =head3 *Buy Tokens with Dogecoin, Redeem Tokens for Game Credits
 
 The high-level software design is straightforward. A customers comes to your
-arcade. You hand them a Dogecoin address (maybe it's a printed QR code, maybe
-it's a website, maybe it's a QR code that takes them to your website). They
-transfer 100 Dogecoin for 100 token.
+arcade. You hand them a Dogecoin address (a printed QR code, a website, maybe
+it's a QR code that takes them to your website). They transfer 100 Dogecoin for
+100 tokens.
 
 Every machine has a QR code on it (or your website lists your games). Your
 customer selects "play this game" and your software subtracts a token from the
 customer's account and adds a credit to the game.
 
-Skip over the "add a credit to the game" piece for now (link to this tip when
-it exists).
+Skip over the "add a credit to the game" piece for now (link to tip).
 
 To make this work, you need a steady and unique supply of Dogecoin addresses
-(L<extract_wallet_addresses>). You need a way to give a unique address to a
+(see L<extract_wallet_addresses>). You need a way to give a unique address to a
 customer and watch for transactions to that address. You need to account for
 tokens purchased from that transaction. You need a way to associate a
 customer's identity with the tokens they've purchased. You need a way to track
@@ -76,24 +75,24 @@ management system.
 
 =head3 *Advantages of this Model
 
-This approach adds some predictability to your arcade model:
+This approach adds predictability to your arcade model:
 
 =over 4
 
-=item * On-network transaction speed only applies when someone wants to
-purchase tokens, not when someone wants to redeem tokens.
+=item * On-network transaction speed applies only to token purchase, not token
+redemption.
 
 =item * The price per token can float with your local Dogecoin to fiat currency
-exchange rate (good for you and your customers)
+exchange rate (good for you and your customers).
 
 =item * Advance token purchases let you realize income sooner than on-demand
-redemption
+redemption.
 
-=item * Advance token purchases let you offer a bulk purchase discount to your
-customers
+=item * Advance token purchases let you offer bulk purchase discounts to your
+customers.
 
 =item * The association of Dogecoin address to purchased token pool offers more
-identity privacy for both you and your customers
+identity privacy for both you and your customers.
 
 =item * Token purchases don't have to take place in your physical location.
 (Neither do redemptions, but that's up to you.)
@@ -107,12 +106,12 @@ This approach has some drawbacks:
 =over 4
 
 =item * The cool factor (I sent Dogecoin to an address and the arcade machine
-in front of me just lit up) isn't there
+in front of me just lit up) isn't there.
 
-=item * You have to manage customer identity in your transaction system somehow
+=item * You have to manage customer identity in your transaction system.
 
 =item * Customers may not want to keep a big balance of tokens, so your
-incentives for purchase management may need careful alignment
+incentives for purchase management may need careful alignment.
 
 =back
 
@@ -120,9 +119,10 @@ incentives for purchase management may need careful alignment
 
 That's a lot of theory! What does the system look like? Several other tips
 describe various pieces of this system, including Dogecoin address receipt
-actions (L<act_on_wallet_transactions>), a general webhook architecture (link
-to tip), a list of machines (L<associate_addresses_to_machines>), and the
-magical "insert credit" automation bridge (link to tip).
+actions (see L<act_on_wallet_transactions>), a general webhook architecture
+(see L<post_to_discord>), a list of machines (see
+L<associate_addresses_to_machines>), and the magical "insert credit" automation
+bridge (link to tip).
 
 This approach needs two new systems and an architecture design that ties
 everything together.
@@ -130,18 +130,17 @@ everything together.
 The first new system lets customers create persistent accounts in your arcade
 so that they can buy arcade tokens. If you assume everyone in your arcade has a
 phone with a QR code reader or web browser, you can simplify the design. Users
-can sign up with some authentication mechanism, such as an email address and
-password or even just a durable session cookieN<The drawback of the cookie is
-that it's tied to a specific browser and device and, if lost, will require some
-amount of customer support to re-associate a person with an account or give
-them a refund.>.
+sign up with an authentication mechanism, such as an email address and password
+or even just a durable session cookieN<The drawback of the cookie is that it's
+tied to a specific browser and device and, if lost, will require customer
+support to re-associate a person with an account or give them a refund.>.
 
 That identity management system needs to connect to the token management
 system. Buying and redeeming tokens means you need to hand someone a unique
 Dogecoin address to receive payments. The receipt action and webhook system
 will deposit tokens in to the customer's account upon receipt. The customer
-must have access to their tokens and--this is where you can go one of multiple
-directions--the ability to select one or more token to play on a machine.
+must have access to their tokens and the ability to select one or more token to
+play on a machine.
 
 Maybe this is a QR code on the front of every machine with a link to your
 webapp. If the customer has authenticated I<and> has tokens in their account,
@@ -149,35 +148,34 @@ the app can prompt to redeem one or more tokens for game credits. Alternately,
 an unauthenticated customer can be prompted to log in or create and fund an
 account.
 
-Another direction to take this is to have your webapp list all machines
-(perhaps with a map of your facility, if you've expanded to take over a small
-converted airplane hangar) and let the customer select which machines get
-credits. Again, you have to ensure that the customer has authenticated and has
-enough tokens for redemption.
+Another direction is to have your webapp list all machines (perhaps with a map
+of your facility, if you've expanded to take over a small converted airplane
+hangar) and let the customer select which machines get credits. Again, you have
+to ensure that the customer has authenticated and has enough tokens for
+redemption.
 
-As your system grows in complexity, you'll also want administrative functions,
-such as checking token balances, resetting passwords, updating machines, et
-cetera. If you're not a software person, this may sound like a lot of effort.
-If you're a software person, this could be enjoyable to build.
+As your system expands, you'll also want administrative functions, such as
+checking token balances, resetting passwords, updating machines, et cetera. If
+you're not a software person, this may sound like a lot of effort.  If you're a
+software person, this could be enjoyable to build.
 
 =head2 *Understand the Risks
 
-If you use this design, you're going to have to write or at least manage more
-software. It's not a I<lot> more software, but it's additional infrastructure
-for you to adopt, use, and maintain. You may have to deal with user identity
-management ("I lost my tokens! I switched phones and can't log in!") as well as
-any connectivity issues between your token accounting system and your other
-systems.
+If you use this design, you'll have to write or manage more software. It's not
+a I<lot> more software, but it's additional infrastructure for you to adopt,
+use, and maintain. You may have to deal with user identity management ("I lost
+my tokens! I switched phones and can't log in!") as well as connectivity issues
+between your token accounting system and your other systems.
 
-Introducing an identity management system reduces some of the anonymity if your
-system. For example, the straightforward way to allow customers to log in with
-their email addresses is to store those addresses in plain text. This implies
-there's an association between an email address and a Dogecoin address, which
-you (or anyone who gets access to your database) can use to de-anonymize
-transactions to that email address.
+Introducing an identity management system reduces anonymity in your system. For
+example, the straightforward way to allow customers to log in with their email
+addresses is to store those addresses in plain text. This implies an
+association between an email address and a Dogecoin address, which anyone with
+access to your database can use to de-anonymize transactions to that email
+address.
 
-A I<safer>, more private approach is to use a cryptographic hash
-(L<make_a_hash_of_fingerprints>) of a customer's email address. Every time a
+A I<safer>, more private approach is to use a cryptographic hash (see
+L<make_a_hash_of_fingerprints>) of a customer's email address. Every time a
 customer tries to log in, hash their email address and compare it to the stored
 hashes in your system. If you've found a match, you can proceed to validate the
 provided password. Be sure to use a secure hash, however, lest you leave
