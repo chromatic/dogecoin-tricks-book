@@ -70,7 +70,7 @@ options to play with, but for now, you only need to toggle the relays.
 This is where things get more interesting. Think back to your cabinet's coin
 mechanism. The coin insertion switch closes for a fixed period of time then
 opens again. You need to emulate that sequence of events--circuit on, wait,
-then off.  Your relay board must receive an event from the network, close the
+then off. Your relay board must receive an event from the network, close the
 switch, wait for a fixed period of time, then open the switch again.
 
 How do you know how long to wait? You can experiment with different times, but
@@ -92,12 +92,39 @@ give you the answer. Or you can experiment with the given values.
 
 =head3 *Testing the Program
 
+X<< external programs; C<curl> >>
+
+With the Tasmota firmware on the ESP8266, you can control the relay with MQTT
+(your best option for a complex configuration) but also simple HTTP (for
+testing or a simple network). You'll need to write a program or use C<curl> to
+send these requests. Here's a simple example that tells the relay to close for
+200 milliseconds, then turns on the relay, then lets it close:
+
+=begin programlisting
+
+  $ B<curl http://192.168.1.10/cm?cmnd=PulseTime1%202>
+  $ B<curl http://192.168.1.10/cm?cmnd=Power1%20ON>
+
+=end programlisting
+
+In this example, the board has an IP address of 192.168.1.10 and the relay to
+toggle is relay 1. Change the example appropriately for your board. The
+C<PulseTime> command sets the time the relay will stay on in milliseconds. As
+you might expect, relay 2 uses the command C<PulseTime2> and so forth.
+Similarly, the C<Power> command turns the relay on or off, with the appropriate
+relay number and the subcommand C<ON> or C<OFF>.
+
+Remember that the characters C<%20> represent a space encoded in a URL.
+
 Before you open the inside of your cabinet and start poking around with a
 multimeter, test your relay board by connecting an LED to the switch and
 running your program. Make sure your test LED supports the voltage you're
 sending!
 
 When your LED flashes on and off for the right timing, you're ready to move on!
+You should be able to send both commands, see the LED light, and then turn off
+in the right amount of time. From there, your program is working and you can
+integrate it with your payment receiving webhooks!
 
 =head2 *What Can You Do With This?
 
@@ -124,6 +151,16 @@ have the same type of switches (all five volt relays, for example), then you
 have a simpler time connecting them all together. If they differ--as they
 likely do--then you have to be careful about how you wire things together.
 
+Third, any oddities of the board or its relays will affect your network. For
+example, this Tasmota firmware will turn on relay 1 when the board first
+bootsN<See U<https://templates.blakadder.com/ESP12F_Relay_X4.html>.>. This may
+or may not be a problem; you may or may not want to work around it.
+Furthermore, any time the board reboots, you may lose configuration you'd
+set--so while it's appropriate to set the pulse time once on boot, you may want
+to set it before every pulse. That way, you I<know> the relay will perform as
+expected for every command you send it (and sending two HTTP requests is almost
+as cheap as sending one).
+
 Finally, the board itself needs power. The board in this example has a lot of
 power options including wall warts, USB power, and direct-circuit connections,
 but that's for you to figure out, lest you fry the board or have to spend a lot
@@ -131,4 +168,4 @@ of time thinking about how to get electricity from the wall to it (link to
 tip).
 
 On the other hand, the thought of tapping a friendly Doge icon on your phone
-and seeing an arcade machine light up, inviting you to play, is pretty cool.
+and seeing an arcade machine light up, inviting you to play, is cool.
