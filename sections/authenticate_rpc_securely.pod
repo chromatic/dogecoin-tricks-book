@@ -83,7 +83,7 @@ on your hand; that's what Milhouse did and that's how Jimbo impersonated him.
 You could, of course, modify the code to provide your own password, but the
 random value you get here is going to be difficult to guess. Bitcoin has an
 updated version of this code (at least newer than the version in Dogecoin Core
-1.14.6; version 1.14.7 may update this code), so look in their repository for a
+1.14.7; version 1.14.8 updated this code), so look in their repository for a
 file named F<rpcauth.py> for more options when generating passwords. In
 particular, the Bitcoin utility uses more entropy (see L<embrace_entropy>) when
 generating random passwords--giving you more security.

@@ -79,7 +79,7 @@ transaction complete in the blockchain, then wait for the block at that height
 to be confirmed.
 
 What if the Core could also include the block height in the arguments to the
-notify script? As of Dogecoin Core 1.14.7, use the C<%i> option in your
+notify script? As of Dogecoin Core 1.14.8, use the C<%i> option in your
 C<walletnotify> configuration to include this height.
 
 =head2 *Understand the Risks

@@ -86,7 +86,7 @@ instructive.
 
 =begin tip Sharing Configurations
 
-Unfortunately, as of Dogecoin 1.14.7, the Core has no feature corresponding to
+Unfortunately, as of Dogecoin 1.14.8, the Core has no feature corresponding to
 Bitcoin's C<includeconf> configuration option. This option allows you to
 include I<another> configuration file from your F<dogecoin.conf>, so if you
 want to have most things the same but only a few different, you have other

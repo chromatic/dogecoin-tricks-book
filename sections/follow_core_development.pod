@@ -3,12 +3,12 @@
 Z<follow_core_development>
 
 How do you manage a global network where the success or failure of your
-personal financial transactions relies on your ability to trust the work of
-countless strangers, where anyone can participate in the network even if you
-don't know who they are or if they have intentions far different from your own?
+personal financial transactions relies on the work of countless strangers,
+where anyone can participate in the network even if you don't know who they are
+or if their intentions differ from your own?
 
-That's tricky! You have to trust that everyone's playing by the same rules. To
-do that, you have to verify that I<you> understand the rules and that someone's
+That's tricky! You have to trust that everyone plays by the same rules. To do
+that, you have to verify that I<you> understand the rules and that someone's
 not trying to sneak something past you.
 
 In the world of Dogecoin and cryptocurrency, this means that all participants
@@ -39,10 +39,10 @@ will change any time soon, if you're reading this in 2099 or even 2029, check
 to see if this is still true before downloading anything.>.
 
 This website and the C<dogecoin/dogecoin> project in particular allow people to
-collaborate in developing the Dogecoin Core by submitting bugs, asking for new
+cooperate top develop the Dogecoin Core by submitting bugs, asking for new
 features, improving documentation, translating text into multiple languages,
-adding new features, and having design discussions. This is a good place to
-report a potential bug or ask for a new feature.
+implementing new features, and having design discussions. This is a good place
+to report a potential bug or discuss a new idea.
 
 =begin tip Productive Discussions and Contributions
 
@@ -58,17 +58,17 @@ activity that could influence Dogecoin's price.
 X<external programs; Git>
 X<GitHub>
 
-The main project page can be intimidating at first. It has so many features! It
-can also be underwhelming. Where's all the activity? To navigate all of this,
-you need to know a little bit about Git and GitHub.
+The main project page can be intimidating. It has so many features! It can also
+be underwhelming. Where's all the activity? To navigate all of this, you need
+to know a little bit about Git and GitHub.
 
 Git is a software tool that lets developers manage the source code: the
 instructions on what the Dogecoin Core does and how it does it. All of this
 source code is stored in a Git I<repository>--a reliable archive of the history
 of changes to that code over time.
 
-GitHub is a website that lets multiple developers share their Git repositories
-with each other. While Git itself is a distributed system that allows people to
+The GitHub website helps multiple developers share their Git repositories with
+each other. While Git itself is a distributed system that allows people to
 collaborate, it doesn't inherently enforce any "official" prime repository.
 GitHub does; only those people allowed to make changes in the
 C<dogecoin/dogecoin> repository can change the code that makes up the software
@@ -90,9 +90,8 @@ repository itself, C<dogecoin/dogecoin>).
 That forking metaphor is really important.
 
 If you think of everyone's individual repository as a fork off of the main
-repository, you get the idea of a tree or a river or some sort of organic
-entity. This holds true in the main repository itself, but rather than forks it
-holds I<branches>.
+repository, you may imagine a tree or a river. This holds true in the main
+repository itself, but rather than forks it holds I<branches>.
 
 In the same way that a fork represents something that's different from the main
 repository, so branches can be different.
@@ -105,16 +104,21 @@ into the main repository), so can branches.
 X<Dogecoin Core; development process>
 
 If you only ever looked at the main branch (called C<master>), you'd think not
-much ever happened. That's because all development occurs on I<other> branches.
+much ever happened. That's because, until release 1.14.8, all development
+happened on branches. After the release of 1.14.8 in August 2024, all
+development happens on C<master>, with branches created to prepare for a
+release with a specific version number.
 
 Look at L<figure-dogecoin-core-development-branch>. A widget reading
-C<1.14.7-dev> switches the web view to show a branch other than the C<main>
+C<1.14.7-dev> switches the web view to show a branch other than the main
 development branch. This particular version number names a branch that
-represents "the code that will be released as version 1.14.7".
+represents "the code that would be released as version 1.14.7".
 
 You can switch that view yourself to see what I<was> released in previous
 versions and what I<will be> released in future versions. As of this writing,
-there are two future versions in active development, 1.14.7 and 1.21.
+there are two future versions in active development, 1.15.0 and 1.21, with a
+potential for a 1.14.9. However, all development now happens on C<master>, so
+you can focus your attention there.
 
 =begin figure Dogecoin Core Development Branch 1.14.7
 
@@ -128,7 +132,7 @@ This image also shows links for Issues and Pull Requests. The former is bugs or
 feature requests and the latter is code that's in progress. Pull requests
 always point to a specific branch, so that the developers can keep track of
 what they intend to merge where and when (ready for development, proposed for
-1.21 but not 1.14.7, et cetera).
+1.21 but not 1.15.0, et cetera).
 
 At any point, you can use the Code link, or the list of files and directories,
 to search through the code as it existed at any point in time (or, in the case
@@ -140,7 +144,7 @@ branch). This is powerful stuff!
 You can learn and do a lot with GitHub and the code, even if you don't consider
 yourself a developer. Feel free to click around, read issues, think about
 discussions, and look at pull requests. Contribution is open to anyone willing
-to put in the time and effort to help fellow shibes.
+to invest time and effort to help their fellow shibes.
 
 As always, be respectful, understand the rules, and treat other people with
 respect. Remember that this tool is essential to the Core developers, so please

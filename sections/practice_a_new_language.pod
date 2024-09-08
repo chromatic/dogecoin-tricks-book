@@ -112,5 +112,5 @@ setting the default language on a fleet of French laser printers to Bulgarian
 from the United States on accident on the first of April once.>. If this
 happens to you, examine your configuration file for the C<lang> setting and
 change it to your preferred locale setting. Be aware that, at least as of
-1.14.7, using the C<--help> command does not process your configuration file
+1.14.8, using the C<--help> command does not process your configuration file
 but instead will use your system's default locale setting.

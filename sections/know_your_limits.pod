@@ -71,12 +71,12 @@ mirrored the entire JavaScript npm repository twice in two days.>
 X<< configuration options; C<maxuploadtarget> >>
 
 The C<maxuploadtarget> configuration optionN<Currently only available from
-F<dogecoin.conf> or the command line, but watch the release notes for 1.14.7!>
-allows you to set a maximum threshold of MiB your node can send to the network
-in every 24 hour period. The default value of C<0> enforces no limit. If you
-can send 100 GB of traffic every month, then you want to send no more than
-about 3000 MiB per day (100 GB * 1000 = 100,000 MiB give or take, divided by 31
-days in the longest months equals 3225.8, give or take).
+F<dogecoin.conf> or the command line, but watch the release notes for newer
+versions!> allows you to set a maximum threshold of MiB your node can send to
+the network in every 24 hour period. The default value of C<0> enforces no
+limit. If you can send 100 GB of traffic every month, then you want to send no
+more than about 3000 MiB per day (100 GB * 1000 = 100,000 MiB give or take,
+divided by 31 days in the longest months equals 3225.8, give or take).
 
 When you hit your daily limit, your node won't send any more data. It will
 still receive data.
