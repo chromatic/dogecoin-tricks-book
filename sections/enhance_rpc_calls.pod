@@ -47,9 +47,9 @@ arguments, the C<address> to associate and the C<label> to use.
 This already suggests a lot of the implementation.
 
 The C<Finance::Dogecoin::Utils> library uses this information to populate a
-JSON file stored in the appropriate configuration directory
-(F<~/.local/share/dogeutils/> on a Linux system). This JSON file contains an
-object that maps a label to an address. For example:
+JSON file inside a configuration directory (F<~/.local/share/dogeutils/> on a
+Linux system). This JSON file contains an object which maps a label to an
+address. For example:
 
 =begin programlisting
 
@@ -74,7 +74,8 @@ could achieve this by using the command line:
 
 =begin screen
 
-  $ B<dogeutils setlabel DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL 'Dogecoin Book Tips'>
+  $ B<dogeutils setlabel DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL \>
+        B<'Dogecoin Book Tips'>
 
 =end screen
 
@@ -83,46 +84,31 @@ could achieve this by using the command line:
 X<< external programs; C<curl> >>
 X<< Python libraries; C<requests> >>
 
-The next thing you need is a way to make calls to a running Core node. For
-this, be sure to set up authentication (see L<authenticate_rpc_securely>). With
-a username and password, you can use any HTTP client or library such as C<curl>
-or Python's C<requests> or whatever you prefer in your preferred language to
-make requests of the node and relay back the responses.
+Next you need a way to make calls to a running Core node. First, set up
+authentication (see L<authenticate_rpc_securely>). With a username and
+password, you can use any HTTP client or library such as C<curl> or Python's
+C<requests> to make requests of the node and relay back the responses.
 
 Handling passwords securely can be tricky. You I<could> use an authcookie
-solution. The Perl library uses a username and password approachN<At least
-until someone suggests something better!> with another JSON file in the same
-configuration directory to associate names with passwords.
+solution. The Perl library uses a username and password approachN<Until someone
+suggests something better!> with credentials stored in a JSON file in the
+configuration directory.
 
 When the C<dogeutils> program starts, it looks for a username provided on the
 command line (or in an environment variable) and then looks up the password for
 that username in the authentication file. If found, any call it makes to the
 actual Core node will send that username and password.
 
-With authentication set up, all you need to do is know how to call a method via
-HTTP.
-
 X<< RPC commands; C<setlabel> >>
 
-In the example of Bitcoin's C<setlabel> call, you need to:
+With authentication set up, now you need to call a method via HTTP. In the
+example of Bitcoin's C<setlabel> call, you must make a C<POST> requests to your
+node's IP address on the right port to a URL containing your username and
+password, providing a JSON body containing the appropriate data.
 
-=over 4
-
-=item * Connect to the node's IP address on the right port
-
-=item * Pass your username and password with HTTP basic authentication
-
-=item * Make a C<POST> request
-
-=item * Provide a JSON body with the appropriate format
-
-=back
-
-If you have a Core running on your local machine, connect to
-C<localhost:22555>. Make sure the URL also includes your URL and password, so
-that it looks like C<http://username:password@localhost:22555/>. Set a
-C<Content-Type> header of C<application/json> and pass a message body of the
-encoded JSON:
+With the Core running on your machine, connect to C<localhost:22555> with a URL
+like C<http://user:pass@localhost:22555/>. Set a C<Content-Type> header of
+C<application/json> and C<POST> encoded JSON:
 
 =begin programlisting
 

@@ -145,8 +145,8 @@ To test this service, you need a little more code to run it:
 
 X<< Perl libraries; C<Modern::Perl> >>
 
-If you save the entire file as F<dogedns.pl> (and install C<Modern::Perl> and
-C<Net::DNS::Nameserver>), you can run it from the command line:
+Save this file as F<dogedns.pl>. Install C<Modern::Perl> and
+C<Net::DNS::Nameserver>, and then you can run it from the command line:
 
 =begin screen
 
@@ -199,7 +199,8 @@ C<txid.transaction.doge>? Adding that to the handler could be:
   sub handle_tx_query( $param, $qclass, @rest ) {
       my $tx = get_transaction( $param );
 
-      return 'NOERROR', [ make_txt_record( tx => encode_json( $json ) ) ];
+      return 'NOERROR',
+        [ make_txt_record( tx => encode_json( $json ) ) ];
   }
 
 =end screen

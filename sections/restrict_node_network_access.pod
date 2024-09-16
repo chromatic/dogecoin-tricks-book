@@ -36,10 +36,10 @@ listening for network connections:
     $ B<netstat -tpl | grep dogecoin>
     (Not all processes could be identified, non-owned process info
      will not be shown, you would have to be root to see it all.)
-    tcp     0   0 localhost:22555      0.0.0.0:*  LISTEN   1095784/dogecoin-qt
-    tcp     0   0 0.0.0.0:22556        0.0.0.0:*  LISTEN   1095784/dogecoin-qt
-    tcp6    0   0 ip6-localhost:22555  [::]:*     LISTEN   1095784/dogecoin-qt
-    tcp6    0   0 [::]:22556           [::]:*     LISTEN   1095784/dogecoin-qt
+    tcp     0   0 localhost:22555      0.0.0.0:*  ...   dogecoin-qt
+    tcp     0   0 0.0.0.0:22556        0.0.0.0:*  ...   dogecoin-qt
+    tcp6    0   0 ip6-localhost:22555  [::]:*     ...   dogecoin-qt
+    tcp6    0   0 [::]:22556           [::]:*     ...   dogecoin-qt
 
 =end screen
 
@@ -52,8 +52,8 @@ interfaces (C<0.0.0.0> for IPv4 and C<[::]> for IPv6).
 Port 22555 is the default RPC port, so this is exactly what we want to see.
 Remember, however, that a malicious binary I<could> fork off of the Qt process,
 bind to a different port, and change its process name so it won't appear in the
-list, so look at the I<full> C<netstat> output before you consider yourself
-completely safe.
+list, so look at the I<full> C<netstat> output (it's truncated here) before you
+consider yourself completely safe.
 
 X<< configuration options; C<debug> >>
 

@@ -83,9 +83,9 @@ F<images/dogecoin-core-github.png>
 =end figure
 
 However, anyone can I<access> GitHub and create (or I<fork>) their own
-repository to make their own changes. If they choose, they can request other
-people I<pull> those changes into their own repositories (or even the main
-repository itself, C<dogecoin/dogecoin>).
+repository to make their own changes. Then they can request other people
+I<pull> those changes into any repository, whether their own or the
+C<dogecoin/dogecoin> repository itself.
 
 That forking metaphor is really important.
 
