@@ -11,7 +11,9 @@ This is even more important when you want to remove some degree of human
 intervention from the process. Suppose you have a pinball arcade and you want
 to allow people to pay with quarters I<or> with Dogecoin (see
 L<chapter_dogecade>). How can you accept payments with as little friction as
-possible? A Bitcoin Improvement Proposal has the answer.
+possible?
+
+A Bitcoin Improvement Proposal has the answer.
 
 =head2 *Dogecoin-Aware Wallet Links
 
@@ -25,13 +27,18 @@ application and prepare to send a transaction to the given address.
 
 Dogecoin adopted this obviously good idea.
 
-If you are, for example, selling electronic copies of a book about Dogecoin
-online, you might create a BIP-21 address such as
-C<dogecoin:DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL> to receive funds. If someone
-clicks on that link on a device that understands that format, their wallet will
-prompt them to decide whether to complete the transaction.
+To sell electronic copies of a book about Dogecoin online, you might create a
+BIP-21 address such as C<dogecoin:DAY5wNkebzEyqUXCkN9koKNBuzXRKRTjcL> to
+receive funds. If someone clicks on that link on a device that understands that
+format, their wallet will prompt them to decide whether to complete the
+transaction.
 
-That works well on a web page, but if you're in this amazing Doge-aware pinball
+There's not much to BIP-21 you have to know besides "start with the prefix
+C<dogecoin:>" and "follow it with the address you want to use to receive
+funds". If you're using another network, make sure your Litecoin or Pepecoin or
+Dingocoin or Bitcoin address is correct and that you're using the right prefix.
+
+That works well on a web page, but if you're in an amazing Doge-aware pinball
 arcade, do you really want to pull up a webpage and search for the right link
 when you turn the corner and see the incredibly rare Baby Pac-Man! machine you
 weren't sure if you imagined in a dream?
@@ -44,18 +51,28 @@ X<QR code>
 
 You're probably already familiar with QR codes, the three-dimensional barcode
 looking images that contain arbitrary data and take you to real estate listings
-or menus in restaurants that don't want to hand out grubby menus. You may
-already have seen that the Dogecoin Core creates both a BIP-21 address and a QR
-code when you ask it to produce a receiving address. That's not always 100%
-convenient (What if you're using an offline wallet? What if you don't have the
-Core available? What if you don't have the Core GUI running?)
+or menus in restaurants that don't want to hand out grubby menus.
 
-You can make your own QR code with your own address.
+You may already have seen that the Dogecoin Core creates both a BIP-21 address
+and a QR code when you ask it to produce a receiving address. That's not always
+100% convenient. What if you're using an offline wallet? What if you don't have
+the Core available? What if you don't have the Core GUI running?
+
+Fear not; you can make your own QR code with your own address!
 
 While multiple websites purport to generate QR codes for you, you shouldn't
 have to trust a third-party to do it right. While you can and should
 double-check with your own phone or device that the code contains the link you
 want, it's important to be able to use these tools on your own too.
+
+=begin tip Install Python and qrcode Simply
+
+If you already have Python 3 installed, use C<python3 -m pip install qrcode>.
+Otherwise, download an installer from
+U<https://platform.activestate.com/chromatic/Python-QR-Codes> for Linux, Mac,
+and Windows systems.
+
+=end tip
 
 X<< Python libraries; C<qrcode> >>
 X<< external programs; C<qr> >>
@@ -85,31 +102,22 @@ F<images/dogecoin-qr-code-generation>
 
 =end figure
 
-=begin tip Install Python and qrcode Simply
-
-IF you already have Python 3 installed, use C<python3 -m pip install qrcode>.
-If you don't have Python 3 installed, download an installer from
-U<https://platform.activestate.com/chromatic/Python-QR-Codes> for Linux, Mac,
-and Windows systems.
-
-=end tip
-
 =head2 *Understand the Risks
 
-With a QR code, you can take payments from a variety of devices with reduced
-human interaction. That's great, but the link in the QR code is now the entry
-point to your payments. Always check and double-check that the embedded link is
-a BIP-21 link that contains I<your> address.
+A QR code lets you take payments from multiple devices with reduced human
+interaction. That makes the link in the QR code controls the payments users
+make. Double-check that the embedded link is a BIP-21 link points to I<your>
+address.
 
 If you print these QR codes to attach to your pinball machines, be sure to do
 so in a way that doesn't hurt the paint. Attach them to glass or metal surfaces
 with the appropriate adhesive. You'll thank yourself later.
 
-Printing QR codes runs the risk of re-using addresses. While it's much, much
-safer to generate new addresses for each transaction, you may find this risk is
-worthwhile to reduce the need for human interaction for every pinball play. If
-you do go this route, rotate your addresses (see L<rotate_machine_addresses>)
-and generate new QR codes frequently (weekly? monthly?).
+Printing QR codes runs the risk of address reuse. While it's safer to generate
+new addresses for each transaction, balance the risk against increased human
+interaction every pinball play. Consider frequent address rotation (see
+L<rotate_machine_addresses>) and generate new QR codes to match (weekly or
+monthly).
 
 Finally, be aware that a payment system that relies on people scanning codes
 with their phones is susceptible to the risk that someone may print out their

@@ -51,8 +51,8 @@ First, fetch and decode the transaction (see L<write_a_json_block_explorer> for
 one example). You'll want input addresses, output addresses, transaction date
 and time, block height, and transaction amount at least--perhaps other fields.
 
-Assuming you have database storing things like wallet addresses (see
-L<rotate_machine_addresses>), you can create a database table to store basic
+Assuming you have a database storing things like wallet addresses (see
+L<rotate_machine_addresses>), you can create a new table to store basic
 transaction information too:
 
 =begin screen
@@ -75,7 +75,8 @@ transaction information too:
         value          FLOAT NOT NULL
     );
 
-    CREATE INDEX transaction_output_to_wallet_idx ON transaction_output (to_wallet);
+    CREATE INDEX transaction_output_to_wallet_idx
+              ON transaction_output (to_wallet);
 
 =end screen
 
@@ -152,9 +153,12 @@ address:
 
     CREATE TABLE action (
         action_id         SERIAL PRIMARY KEY,
-        created_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        expires_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        action_type_id    INTEGER REFERENCES action_type(action_type_id),
+        created_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL
+                          DEFAULT CURRENT_TIMESTAMP,
+        expires_timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL
+                          DEFAULT CURRENT_TIMESTAMP,
+        action_type_id    INTEGER
+                          REFERENCES action_type(action_type_id),
         status            action_status NOT NULL,
         to_wallet         TEXT  NOT NULL,
         contact_email     TEXT  NOT NULL DEFAULT '',

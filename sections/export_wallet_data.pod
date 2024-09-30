@@ -70,14 +70,15 @@ recent block the Core had seen at the time of the backup.
 
 Then you'll see the private masterkey for HD addresses (see
 L<use_a_hd_wallet>), and finally one line for each of your wallet addresses,
-something like:
+something like (lines truncated for brevity):
 
 =begin screen
 
-  QVcp9S... 1970-01-01T00:00:01Z label=2022%20Consulting # addr=D7ovS7...
-  QAdcVL... 1970-01-01T00:00:01Z label=2023%20Consulting # addr=DBxFnu...
-  QUt9eE... 2023-04-18T01:02:13Z label=                  # addr=D8PNSr...
-  QQgGGm... 2021-04-19T22:42:29Z reserve=1 # addr=DP77YA... hdkeypath=m/0'/0'/7'
+  QVcp9S... 1970-01-01T00:00:01Z label=2022%20Consult # addr=D7o...
+  QAdcVL... 1970-01-01T00:00:01Z label=2023%20Consult # addr=DBx...
+  QUt9eE... 2023-04-18T01:02:13Z label=               # addr=D8P...
+  QQgGGm... 2021-04-19T22:42:29Z reserve=1            # addr=DP7...
+                                 hdkeypath=m/0'/0'/7'
 
 =end screen
 
@@ -89,9 +90,9 @@ value may be blank, as it is in the third line of this example). You might also
 alternately see C<reserve=1>, which indicates that the Core has generated this
 address for future use, but nothing has used it yet.
 
-Finally, the comment may include the public address associated with the key. In
-the case where the Core has derived the key from an HD seed, you will also see
-that key's derivation path in C<hdkeypath>.
+Finally, the comment may include the public address associated with the key.
+When the Core has derived the key from an HD seed, you will also see that key's
+derivation path in C<hdkeypath>.
 
 =head2 *What Can You Do With This?
 

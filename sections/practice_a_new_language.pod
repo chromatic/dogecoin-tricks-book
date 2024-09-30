@@ -95,8 +95,8 @@ this with the C<--help> command to C<dogecoin-qt>:
        Set language, for example "de_DE" (default: system locale)
 
   -resetguisettings
-       Alle instellings wat in die grafiese gebruikerkoppelvlak gewysig is,
-       terugstel
+       Alle instellings wat in die grafiese gebruikerkoppelvlak
+       gewysig is, terugstel
 
 =end screen
 

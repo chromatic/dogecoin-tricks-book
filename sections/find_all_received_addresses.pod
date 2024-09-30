@@ -82,7 +82,7 @@ the scenes (JSON over HTTP), complex output is often a JSON object: in this
 case, a JSON array of objects, as shown in
 L<figure-dogecoin-listreceivedbyaddress-cli-output>.
 
-=begin figure Output of the C<listreceivedbyaddress> Command
+=begin figure A List of Received Transactions by Address
 
 Z<figure-dogecoin-listreceivedbyaddress-cli-output>
 
@@ -105,14 +105,14 @@ multiple addresses, the necessary C<jq> command is more complex:
 
 =begin screen
 
-  $ B<dogecoin-cli listreceivedbyaddress | jq '.[] | .address + " " + .label'>
+  $ B<dogecoin-cli listreceivedbyaddress | \>
+    B<jq '.[] | .address + " " + .label'>
   "DAY5wN... Consulting fees for Client A"
   "DAyayA... Twitter tipbot"
   "DDDKFs... Mining Pool"
   "DFhv7M... GitHub address"
   "DFpN6Q... GitLab address`"
   "DJRU7M... imported"
-  "DJwcvV... Sweep destination"
 
 =end screen
 
@@ -131,29 +131,28 @@ write these things.
 
 Searching and filtering transaction data can be useful, especially if you need
 to perform accounting operations (see L<generate_transaction_receipts>). When
-did Client A pay you? Did they pay on time? What tax year comes into play?
-Answering an ad hoc question like this is easy enough in the Core transaction
-list.
+did Client A pay you? Did they pay on time? What tax year? Ad hoc queries are
+easy here.
 
-If you need to import this data into an accounting system and/or you don't
-really want to be doing your books on the same machine as your Core is running,
-export this data. CSV output works really well with structured data systems
-which think of transactions as line items.
+If you need to import this data into an accounting system and/or you don't want
+to balance your books on the same machine where your Core runs, export this
+data. CSV output works well with structured data systems which think of
+transactions as line items.
 
-If you're performing data analysis or automating other tools or systems, the
-JSON output can give you a lot of flexibility. In this specific case, the
-aggregating behavior of the RPC command may or may not work in your favor.
-Sometimes it's great, though, and there are always other wallet-manipulation
-and query commands available. Fortunately, you have multiple ways to get this
-information, depending on the tools you have, what you're comfortable doing,
-and what you're trying to accomplish.
+If you're performing data analysis or automating other tools or systems, JSON
+output gives you flexibility. In this specific case, the aggregating behavior
+of the RPC command may or may not work in your favor. Sometimes it's great,
+though, and there are always other wallet-manipulation and query commands
+available. Fortunately, you have multiple ways to get this information,
+depending on the tools you have, what you're comfortable doing, and what you're
+trying to accomplish.
 
 =head2 *Understand the Risks
 
 Besides the normal risks of using RPC commands against any node, especially one
-with a wallet, you should be careful not to expose your addresses to anyone you
-don't want to have your addresses. That's why the addresses in the example
-figures here are obscured--not because your author doesn't trust I<you>, but
-your author doesn't want you to trust I<other people> blindly.
+with a wallet, be careful not to expose your addresses to anyone you don't want
+to have your addresses. That's why the addresses in the example figures here
+are obscured--not because your author doesn't trust I<you>, but your author
+doesn't want you to trust I<other people> blindly.
 
 Keep your data safe and secure--all of it.
