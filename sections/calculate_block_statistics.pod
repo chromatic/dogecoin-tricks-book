@@ -21,12 +21,12 @@ ways, this tip shows one good and flexible approach.
 =head2 *Designing Block Statistics Output
 
 What's the essential behavior here? Given a starting point and a total number
-of blocks to examine, we want to aggregate specific details about those blocks.
-Some of those details are sums (total number of blocks, total number of
-transactions, total size). Some are minimums and maximums (highest and lowest
-sizes, highest and lowest numbers of transactions per block). Others are
-averages (highest and lowest block fill rates, total average block fill rate).
-These categories cover most data types.
+of blocks to examine, aggregate specific details about those blocks. Some of
+those details are sums (total number of blocks, total number of transactions,
+total size). Some are minimums and maximums (highest and lowest sizes, highest
+and lowest numbers of transactions per block). Others are averages (highest and
+lowest block fill rates, total average block fill rate). This covers most data
+types.
 
 What does the program need from the user? Mostly optional data: the height of a
 block from which to start (if not the current block), the number of blocks to
@@ -52,7 +52,8 @@ time):
     from dogecoinrpc.connection import DogecoinConnection
     from pathlib import Path
     from sys import maxsize
-    from xdg_base_dirs import xdg_config_home, xdg_config_dirs, xdg_data_home
+    from xdg_base_dirs import \
+        xdg_config_home, xdg_config_dirs, xdg_data_home
 
     import simplejson
     import click
@@ -92,18 +93,22 @@ prefer; it's easy to swap for something else.
 =begin screen
 
     @click.command()
-    @click.option("--startat",       default=None,
-                                     help="Height of the block to start",
-                                     type=int)
-    @click.option("--numblocks",     default=100,
-                                     help="Number of blocks to analyze",
-                                     type=int)
-    @click.option("--blockmaxbytes", default=768000,
-                                     help="Maximum size of a block in bytes",
-                                     type=int)
-    @click.option("--user",          default=None,
-                                     help="Name of the RPC user",
-                                     type=str)
+    @click.option("--startat",
+                  default=None,
+                  help="Height of the block to start",
+                  type=int)
+    @click.option("--numblocks",
+                  default=100,
+                  help="Number of blocks to analyze",
+                  type=int)
+    @click.option("--blockmaxbytes",
+                  default=768000,
+                  help="Maximum size of a block in bytes",
+                  type=int)
+    @click.option("--user",
+                  default=None,
+                  help="Name of the RPC user",
+                  type=str)
     def main(startat, numblocks, blockmaxbytes, user) -> None:
 
 =end screen
@@ -122,8 +127,8 @@ variables to C<main()>, or else you'll get confusing error messages.
     if user is None:
         print("No user provided; exiting")
         exit(1)
-    else:
-        client = DogecoinConnection(user, config[user], 'localhost', 22555)
+
+    dc = DogecoinConnection(user, config[user], 'localhost', 22555)
 
 =end screen
 
@@ -140,7 +145,7 @@ arguments, or....).
 =begin screen
 
     if startat is None:
-        startat = client.getblockcount()
+        startat = dc.getblockcount()
 
     # make the percentages obvious
     blockmaxbytes /= 100
@@ -171,10 +176,10 @@ code as explicit as you prefer.>.
 
 =begin screen
 
-    hash = client.getblockhash(startat)
+    hash = dc.getblockhash(startat)
 
     for i in range(1, numblocks):
-        block = client.getblock(hash)
+        block = dc.getblock(hash)
         block_size = block["size"]
 
         ...
@@ -214,8 +219,10 @@ What's in the loop?
 
     block_fill_percent = block_size / blockmaxbytes
 
-    res["minFillPercent"] = min(block_fill_percent, res["minFillPercent"])
-    res["maxFillPercent"] = max(block_fill_percent, res["maxFillPercent"])
+    res["minFillPercent"] = \
+         min(block_fill_percent, res["minFillPercent"])
+    res["maxFillPercent"] = \
+        max(block_fill_percent, res["maxFillPercent"])
 
 =end screen
 
@@ -238,7 +245,8 @@ but C<maxsize> is big enough that everything encountered here will be lesser.>.
 
     res["averageSize"] = res["totalBlockSize"] / numblocks
     res["averageTxCount"] = res["totalTxCount"] / numblocks
-    res["averageFillPercent"] = res["totalBlockSize"] / (numblocks * blockmaxbytes)
+    res["averageFillPercent"] =
+        res["totalBlockSize"] / (numblocks * blockmaxbytes)
 
     print(simplejson.dumps(res, indent=2))
 

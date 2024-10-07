@@ -9,11 +9,10 @@ on the data. The more SQL you understand, the more options you have.
 
 =head2 *Alias Common Columns
 
-Queries in the previous tip reused the awkward manipulation of turning the
-C<epochtime> column into a date column. Why not let SQLite do that for you?
-While you I<could> reimport all of the data or create a new table or add a
-column to calculate the date, you can easily change the way you I<view> the
-data.
+The previous tip reused the awkward manipulation of turning the C<epochtime>
+column into a date column. Why not let SQLite do that for you? While you
+I<could> reimport all of the data or create a new table or add a column to
+calculate the date, you can easily change the way you I<view> the data.
 
 A view in SQL, at least as practiced by SQLite, resembles a query you can reuse
 in other queries. Alternately you might think of it as a way to make something

@@ -244,7 +244,8 @@ The final section of code starts everything:
 =begin screen
 
   def main():
-      worker = Thread(target=playSongs, args=(work_queue,), daemon=True)
+      queue = (work_queue,)
+      worker = Thread(target=playSongs, args=queue, daemon=True)
       worker.start()
       app.run(host='0.0.0.0', port='9999')
 

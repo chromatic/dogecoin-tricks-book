@@ -90,7 +90,7 @@ rows in the table.
 C<DATE(DATETIME(epochtime, 'unixepoch'))> is kind of a messN<The kind that
 makes your author wonder if he made your life more difficult by not converting
 the exported data.> You may recognize the C<epochtime> column from when you
-inserted data into the database. This expression has two conversions. First,
+inserted data into the database. This expression has two conversions.
 C<DATETIME(epochtime, 'unixepoch')> asks SQLite to take the value of
 C<epochtime> and convert it from Unix epoch seconds into a date and time value,
 like "high noon on April 22", but more mathy. That's a lot more helpful for
@@ -130,7 +130,8 @@ Try this query.
 
 =begin screen
 
-    sqlite> B<SELECT SUM(txcount), DATE(DATETIME(epochtime, 'unixepoch'))>
+    sqlite> B<SELECT SUM(txcount),>
+            B<DATE(DATETIME(epochtime, 'unixepoch'))>
     B<FROM blockstats>
     B<< WHERE date(datetime(epochtime, 'unixepoch')) >= '2023-05-07' >>
     B<GROUP BY 2>

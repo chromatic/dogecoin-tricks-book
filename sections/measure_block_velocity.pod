@@ -136,59 +136,59 @@ situations like this!>:
 
     #!/usr/bin/env perl
 
-    use Modern::Perl '2023';
+    use Modern::Perl '2024';
     use Test2::V0;
 
     test_rewards();
     done_testing;
 
-    sub total_rewards($height) {
-        return $height * 1_000_000 if $height < 100_000;
+    sub mined($h) {
+        return $h * 1_000_000 if $h < 100_000;
 
-        return ($height - 99_999) * 500_000 + total_rewards( 99_999 )
-            if $height < 145_000;
+        return ($h - 99_999) * 500_000 + mined( 99_999 )
+            if $h < 145_000;
 
-        return ($height - 144_999) * 250_000 + total_rewards( 144_999 )
-            if $height < 200_000;
+        return ($h - 144_999) * 250_000 + mined( 144_999 )
+            if $h < 200_000;
 
-        return ($height - 199_999) * 125_000 + total_rewards( 199_999 )
-            if $height < 300_000;
+        return ($h - 199_999) * 125_000 + mined( 199_999 )
+            if $h < 300_000;
 
-        return ($height - 299_999) * 67_500 + total_rewards( 299_999 )
-            if $height < 400_000;
+        return ($h - 299_999) * 67_500 + mined( 299_999 )
+            if $h < 400_000;
 
-        return ($height - 399_999) * 31_250 + total_rewards( 399_999 )
-            if $height < 500_000;
+        return ($h - 399_999) * 31_250 + mined( 399_999 )
+            if $h < 500_000;
 
-        return ($height - 499_999) * 15_625 + total_rewards( 499_999 )
-            if $height < 600_000;
+        return ($h - 499_999) * 15_625 + mined( 499_999 )
+            if $h < 600_000;
 
-        return ($height - 599_999) * 10_000 + total_rewards( 599_999 );
+        return ($h - 599_999) * 10_000 + mined( 599_999 );
     }
 
-
     sub test_rewards {
-        is total_rewards( 1 ), 1_000_000;
-        is total_rewards( 2 ), 2_000_000;
-        is total_rewards( 99_999 ), (1_000_000 * 99_999);
+        is mined( 1 ), 1_000_000;
+        is mined( 2 ), 2_000_000;
+        is mined( 99_999 ), (1_000_000 * 99_999);
 
-        is total_rewards(100_000), total_rewards(99_999) + 500_000;
-        is total_rewards(145_000), total_rewards(99_999) + (500_000 * 45_000) + 250_000;
+        is mined(100_000), mined(99_999) + 500_000;
+        is mined(145_000),
+            mined(99_999) + (500_000 * 45_000) + 250_000;
 
-        is total_rewards(200_000), total_rewards(199_999) + 125_000;
-        is total_rewards(299_999), total_rewards(199_999) + 125_000 * 100_000;
+        is mined(200_000), mined(199_999) + 125_000;
+        is mined(299_999), mined(199_999) + 125_000 * 100_000;
 
-        is total_rewards(300_000), total_rewards(299_999) + 67_500;
-        is total_rewards(399_999), total_rewards(299_999) + 67_500 * 100_000;
+        is mined(300_000), mined(299_999) + 67_500;
+        is mined(399_999), mined(299_999) + 67_500 * 100_000;
 
-        is total_rewards(400_000), total_rewards(399_999) + 31_250;
-        is total_rewards(499_999), total_rewards(399_999) + 31_250 * 100_000;
+        is mined(400_000), mined(399_999) + 31_250;
+        is mined(499_999), mined(399_999) + 31_250 * 100_000;
 
-        is total_rewards(500_000), total_rewards(499_999) + 15_625;
-        is total_rewards(599_999), total_rewards(499_999) + 15_625 * 100_000;
+        is mined(500_000), mined(499_999) + 15_625;
+        is mined(599_999), mined(499_999) + 15_625 * 100_000;
 
-        is total_rewards(600_000), total_rewards(599_999) + 10_000;
-        is total_rewards(699_999), total_rewards(599_999) + 10_000 * 100_000;
+        is mined(600_000), mined(599_999) + 10_000;
+        is mined(699_999), mined(599_999) + 10_000 * 100_000;
     }
 
 =end screen

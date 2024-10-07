@@ -116,8 +116,8 @@ has a decimal point and the precision of that number is important. All of these
 values must be present in every row; none of them can have a null ("not
 present") value.
 
-This C<CREATE TABLE> statement tells SQLite that a table named C<blockstats>
-should exist and prepares that table to hold zero or more rows of data with
+This C<CREATE TABLE> statement tells SQLite to create a table named
+C<blockstats> and prepares that table to hold zero or more rows of data with
 information that matches the types of data expected.
 
 The two C<CREATE INDEX> statements are optional, but you'll find them useful.
@@ -184,19 +184,29 @@ used to aggregate data from multiple blocks.
 
     from dogecoinrpc.connection import DogecoinConnection
     from pathlib import Path
-    from xdg_base_dirs import xdg_config_home, xdg_config_dirs, xdg_data_home
+    from xdg_base_dirs \
+        import xdg_config_home, xdg_config_dirs, xdg_data_home
 
     import csv
     import click
 
     @click.command()
-    @click.option("--startat", default=1, help="Height of the block to start" ,type=int)
-    @click.option("--numblocks", default=100, help="Number of blocks to export", type=int)
-    @click.option("--user", default=None, help="Name of the RPC user", type=str)
+    @click.option("--startat",
+                  default=1,
+                  help="Height of the block to start",
+                  type=int)
+    @click.option("--numblocks",
+                  default=100,
+                  help="Number of blocks to export",
+                  type=int)
+    @click.option("--user",
+                  default=None,
+                  help="Name of the RPC user",
+                  type=str)
     @click.option("--outfile",
-         default="blockexport.csv",
-        help="Name of the output file to write",
-        type=str)
+                  default="blockexport.csv",
+                  help="Name of the output file to write",
+                  type=str)
     def main(startat, numblocks, user, outfile) -> None:
 
 =end screen
@@ -222,8 +232,8 @@ before attempting to write to it.>.
     if user is None:
         print("No user provided; exiting")
         exit(1)
-    else:
-        client = DogecoinConnection(user, config[user], 'localhost', 22555)
+
+    dc = DogecoinConnection(user, config[user], 'localhost', 22555)
 
 =end screen
 
@@ -233,7 +243,7 @@ This code is the same as in the previous tip.
 
     lastblock = startat + numblocks - 1
 
-    hash = client.getblockhash(startat)
+    hash = dc.getblockhash(startat)
 
 =end screen
 
@@ -245,7 +255,8 @@ block to process--the loop in the next code snippet is easy to reason about.
 
     with open(outfile, "w") as f:
         writer = csv.writer(f)
-        want_values = ["hash", "height", "time", "size", "tx", "difficulty"]
+        want_values = \
+            ["hash", "height", "time", "size", "tx", "difficulty"]
 
 =end screen
 
@@ -260,7 +271,7 @@ this library would handle them without making a confusing or broken CSV file.
 =begin screen
 
         for i in range(startat, lastblock):
-            block = client.getblock(hash)
+            block = dc.getblock(hash)
             block_values = [
                 block["height"],
                 block["time"],
@@ -320,8 +331,8 @@ analyzed and stored in a CSV file, it's time to put everything together.
 
 =end screen
 
-Your computer will process everything, and finally you'll end up with a
-C<blockstats> table full of block statistics data!
+Your computer will process everything, and you'll end up with a C<blockstats>
+table full of block statistics data!
 
 =head2 *What Can You Do With This?
 

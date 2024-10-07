@@ -51,9 +51,9 @@ address from a timelocked transaction and published the address and the script
 for other people to verifyN<See
 U<https://www.reddit.com/user/patricklodder/comments/v9lvlb/accounting_for_dogecoin_core_development_tips/>.>.
 
-The raw script is
-C<03d07541b17576a91480744340ca2290b666ac6d4fc98dc1bbc64e48c888ac> and the P2SH
-address is C<9rbpxxkjB9uZbcZzZCPibnoiotGkPoGFEJ>.
+The P2SH address is C<9rbpxxkjB9uZbcZzZCPibnoiotGkPoGFEJ>, and the raw script
+(with spaces added for formatting--remove them to decode) is C<03 d0 75 41 b1
+75 76 a9 14 80 74 43 40 ca 22 90 b6 66 ac 6d 4f c9 8d c1 bb c6 4e 48 c8 88 ac>.
 
 =head3 *Verifying by Decoding
 
@@ -65,16 +65,17 @@ other people could trust him.
 
 X<< RPC commands; C<decodescript> >>
 
-Open the Dogecoin Core debug console or use C<dogecoin-cli> and use the
-C<decodescript> RPC command with the raw script (C<03d075...>) as a single
-argument to see the result:
+Use the C<decodescript> RPC command from either the Dogecoin Core debug console
+or C<dogecoin-cli> with the raw script (C<03d075...>) as a single argument to
+see the result:
 
 =begin screen
 
   {
     "asm": "4290000 OP_CHECKLOCKTIMEVERIFY \
            OP_DROP \
-           OP_DUP OP_HASH160 80744340ca2290b666ac6d4fc98dc1bbc64e48c8 \
+           OP_DUP OP_HASH160 \
+           80744340ca2290b666ac6d4fc98dc1bbc64e48c8 \
            OP_EQUALVERIFY OP_CHECKSIG",
     "type": "nonstandard",
     "p2sh": "9rbpxxkjB9uZbcZzZCPibnoiotGkPoGFEJ"
@@ -101,9 +102,10 @@ intends to use matches the provided value.
 
 X<< RPC commands; C<getrawtransaction> >>
 
-You can decode any transaction for which you have output from
-C<getrawtransaction>. Just be aware that, at the time of this writing, most
-transactions are very simple payments to the hashes of public keys.
+You can decode any transaction script this way. All you need is a raw
+transaction, such as the output of the C<getrawtransaction> RPC command.
+However, at the time of this writing, most transactions are very simple
+payments to the hashes of public keys.
 
 =head2 *Understand the Risks
 
