@@ -42,11 +42,11 @@ log file when it starts if the file is larger than 10 MB (10 million bytes).
 Any time you restart your node, the Core will perform this action.
 
 There are three downsides. First, you'll lose all truncated data unless you've
-saved it. Second, you have to restart your node. That may take a few minutes.
-Third, this only works when you have the configuration option enabled. If you
-forget to enable it on the command line or remove it from your configuration
-file, the Core will contentedly append to your existing log file. These may all
-be worth it for the benefit.
+saved it. Second, you must restart your node, which may take a few minutes.
+Third, this works only with the configuration option enabled. If you forget to
+enable it on the command line or remove it from your configuration file, the
+Core will contentedly append to your existing log file. These may all be worth
+the effort.
 
 =head2 *Rotate Your Logs
 
@@ -67,7 +67,7 @@ might write a configuration file like:
 
 =begin screen
 
-  /home/username/.dogecoin/debug.log {
+  /home/user/.dogecoin/debug.log {
       rotate 7
       daily
       postrotate
@@ -78,7 +78,7 @@ might write a configuration file like:
 =end screen
 
 This configuration applies to the log file F<debug.log> in the F<.dogecoin>
-directory belonging to user C<username>. It rotates the log file daily, keeping
+directory belonging to user C<user>. It rotates the log file daily, keeping
 the most recent seven entries. After rotating a file each day, it sends a
 message to the Core to restart, so the Core can start writing to a new log
 file. This is a common pattern, but if it doesn't meet your needs, C<logrotate>
@@ -92,7 +92,7 @@ cron system (perhaps by running C<crontab -e>):
 
 =begin screen
 
-  18 * * * * /usr/sbin/logrotate /home/username/.dogecoin/logrotate.conf
+  18 * * * * /usr/sbin/logrotate /home/user/.dogecoin/logrotate.conf
 
 =end screen
 

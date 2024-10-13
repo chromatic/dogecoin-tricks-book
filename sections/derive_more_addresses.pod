@@ -91,8 +91,8 @@ from hardened master private keys, at least in versions 0.1.3 and later.
 X<< Perl libraries; C<Finance::Libdogecoin> >>
 
 While you can write C or C++ code to link against the library directly, you
-might have a better time using a language binding, such as Perl's
-C<Finance::Libdogecoin> (again, at least version 0.1.3), with code as:
+might prefer using a language binding, such as Perl's C<Finance::Libdogecoin>
+(again, at least version 0.1.3), with code as:
 
 =begin screen
 
@@ -102,7 +102,7 @@ C<Finance::Libdogecoin> (again, at least version 0.1.3), with code as:
 
   sub derive_address ($key, $index) {
       my $path = "m/44'/3'/0'/0/$index";
-      my $address = get_derived_hd_address_by_path( $key, $path, 0 );
+      my $address = get_derived_hd_address_by_path($key, $path, 0);
 
       return { address => $address, path => $path };
   }
@@ -111,8 +111,8 @@ C<Finance::Libdogecoin> (again, at least version 0.1.3), with code as:
 
 Given the master key and the new index to use, this code calls C<libdogecoin>
 to derive a new address and returns the address and the derivation path used to
-generate it. B<Be aware> that it's up to you to manage the security and secrecy
-of the private key appropriately.
+generate it. B<Be aware> that it's your responsibility to manage the security
+and secrecy of your private keys.
 
 In a web context, you might want to build a model object more like this:
 
@@ -135,7 +135,7 @@ In a web context, you might want to build a model object more like this:
 
       method derive_address ($index) {
           my $path = "m/44'/3'/0'/0/$index";
-          my $address = get_derived_hd_address_by_path( $key, $path, 0 );
+          my $address = get_derived_hd_address_by_path($key, $path, 0);
 
           return { address => $address, path => $path };
       }

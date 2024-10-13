@@ -44,12 +44,10 @@ To use this tip, you need your own Discord account and access to a server or
 channel. You can follow along with this tip with a different type of service
 for which you have similar access, though the details will be different.
 
-After you've worked through the creation process and have a Discord webhook,
-you'll have a URL which looks something like C<<
-https://discord.com/api/webhooks/<number>/<string> >>. Keep that safe and
-secret; it's your key to sending messages to the webhook you configured. Anyone
-who has that URL can send messages to your Discord server/channel. You probably
-don't want that to happen.
+After you create your webhook, you'll end up with a URL which looks something
+like C<< https://discord.com/api/webhooks/<number>/<string> >>. Keep that safe
+and secret; anyone who has that URL can send messages to your Discord
+server/channel. You probably don't want that to happen.
 
 =head2 *Activating Your Webhook
 

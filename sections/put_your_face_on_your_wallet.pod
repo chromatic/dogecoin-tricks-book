@@ -89,8 +89,8 @@ how things fit together.
 
 =end tip
 
-With the alias name, you can search for the form using that image: it's
-F<src/qt/forms/overviewpage.ui>.
+The file F<src/qt/forms/overviewpage.ui> contains the code to modify. Find it
+by searching the Core for the alias name.
 
 You can go one of two directions here. Either you've used Qt this way before
 and you know exactly what this means, or you take two more steps and figure out
@@ -118,7 +118,7 @@ new C<QPixmap> and set it as the pixmap of C<< ui->label_wallet_bgcoin >>:
 
 =begin screen
 
-  QPixmap pic("src/qt/res/icons/jr_developer_puppet_from_real_shibes.png");
+  QPixmap pic("src/qt/res/icons/jr_dev_puppet_by_real_shibes.png");
   ui->label_wallet_bgcoin->setPixmap(pic);
 
 =end screen
@@ -166,27 +166,25 @@ U<https://dogebroadcast.com/>.>, your author would use a command like:
 
 =head2 *Understand the Risks
 
-This tip deliberately includes I<no> walkthrough of how to apply this change or
-build it, because of the risks it introduces.
+This tip deliberately includes I<no> walkthrough of how to apply or build this
+change because of the risks it introduces. You're using I<unsupported>,
+I<modified> software that has even fewer guarantees than the Dogecoin Core,
+which is released with zero guarantees. If something goes wrong, you're own
+your own.
 
-One big risk is that you're using I<unsupported>, I<modified> software that has
-even fewer guarantees than the Dogecoin Core, which is released with zero
-guarantees. If something goes wrong, you're own your own.
+Beyond that standard disclaimer, the risk is higher than running a modified
+build. If you use an arbitrary image outside of your own control, you put
+yourself at risk of malicious code or exploits from an image. Yes, from an
+image--bugs exist in image processing libraries, and multiple security
+vulnerabilities have happened because people assumed image files are safe.
 
-That's a standard disclaimer, though. The real truth is that the risk is
-slightly higher than running a modified build. If you use an arbitrary image
-outside of your own control, you've put yourself at risk of malicious code or
-exploits from an image. Yes, from an image--bugs exist in image processing
-libraries, and multiple security vulnerabilities have happened because people
-assumed image files are safe.
-
-Using an image you created, modified, edited, validated with your own software
-on a machine you trust is one thing. You're still using code that hasn't been
-vetted by the Core developers, but the provenance of that image is less
-worrisome. If, instead, someone tells you "Download this file, then run your
-core wallet with this command-line option to use this image!" never do it.  Fun
-customizations entirely under your control are one thing. Letting someone else
-put arbitrary code or data on your computer is something else. Avoid those
+Using an image you created, modified, edited, and validated with your own
+software on a machine you trust is one thing. You're still using code
+completely unvetted by the Core developers, but the provenance of that image is
+less worrisome. If, instead, someone tells you "Download this file, then run
+your core wallet with this command-line option to use this image!" never do it.
+Fun customizations entirely under your control are one thing. Letting someone
+else put arbitrary code or data on your computer is something else. Avoid those
 people.
 
 Furthermore, if anyone points you at a branch, a patch, or any other
@@ -194,12 +192,12 @@ modification to the Dogecoin Core and tells you to download, compile, and run
 it, be I<very> careful. There's no end to the malice someone could perform if
 they convince you to do something you wouldn't normally do.
 
-If you're a developer who followed the explanation here, you have enough
-information to evaluate that the changes do what they should do, but that's not
-a substitute for the entire Dogecoin Core development community evaluating a
-proposed change and finding and fixing bugs and misfeatures. Even something
-simple like the base of the branch could have serious implications for the
-performance, security, and stability of your system.
+If you're an experienced developer who followed the explanation here, you have
+enough information to evaluate that the changes do what they should do, but
+that's no substitute for the entire Dogecoin Core development community
+evaluating a proposed change and finding and fixing bugs and misfeatures. Even
+something simple like the base of the branch could have serious implications
+for the performance, security, and stability of your system.
 
 If, after all of these disclaimers, you want to continue experimenting, follow
 the standard rules:
@@ -208,9 +206,8 @@ the standard rules:
 
 =item * Know the risks
 
-=item * Back up your wallet, and test new code and changes with an empty wallet
-
-=item * Back up your seed phrase(s)
+=item * Back up your wallet and seed phrase(s), and test new code and changes
+with an empty wallet
 
 =item * Read and think about the code carefully
 

@@ -120,13 +120,13 @@ Of course, if you share a server with your little brother and he has C<sudo>
 access, he could also borrow your F<wallet.dat>, so pick your family
 connections well.
 
-Another risk of juggling multiple files is that you forget the context in which
-you intend to do something and use the I<wrong> configuration file. In this
-case, it's worth pairing this tip with one of the other techniques such as
-making different program launchers or shell aliases to run different Cores. For
-example, you could make separate aliases/launchers named C<Testnet Dogecoin
-GUI> or C<testnet-dogecoin-qt> to remind you of what you intend to happen when
-you launch the Core with that specific configuration.
+Another risk of juggling multiple files is forgetting the context in which you
+intend to do something and use the I<wrong> configuration file. Consider
+pairing this tip with one of the other techniques such as making different
+program launchers or shell aliases to run different Cores. For example, you
+could make separate aliases/launchers named C<Testnet Dogecoin GUI> or
+C<testnet-dogecoin-qt> to remind you of what you intend to happen when you
+launch the Core with that specific configuration.
 
 X<< configuration options; C<datadir> >>
 X<< configuration options; C<backupdir> >>

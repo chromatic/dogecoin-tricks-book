@@ -8,9 +8,28 @@
 \usepackage[OnyxNeon]{onfancy}
 \usepackage{onyxneon}
 \usepackage[english]{babel}
+\usepackage{graphicx}
 
 \DefineVerbatimEnvironment{CodeListing}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
-\DefineVerbatimEnvironment{programlisting}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
+\DefineVerbatimEnvironment{programlisting}{Verbatim}{gobble=2,fontfamily=courier,commandchars=\\\{\},fontsize=\scriptsize}
 \DefineVerbatimEnvironment{Screen}{Verbatim}{gobble=0,fontfamily=courier,commandchars=\\\{\},fontsize=\footnotesize}
+
+\newcommand*{\dogebreak}{
+    \nottoggle{isFirstSectionInChapter} { \includegraphics[height=2em]{Dogebreak.png} } {} %
+}
+
+\newcommand*{\dogesectionbreak}{
+    \par %
+%    \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center} %
+}
+
+\titleformat{\section}
+{}
+{\filright \includegraphics[height=2em]{Dogebreak.png} \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace }
+{8pt}
+{\Large\bfseries}
+[\vspace{2ex}\titlerule\vspace{2ex}]
+
+% \newcommand{\sectionbreak}{\nopagebreak[4] \begin{center} $\dogebreak\ \ \ \dogebreak\ \ \ \dogebreak\ \ \ $ \end{center}}
 
 \input{dogecoin-tricks_book}

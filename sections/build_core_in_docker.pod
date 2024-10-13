@@ -68,9 +68,9 @@ To build the Dogecoin Core, you need a F<Dockerfile> that can:
 
 =back
 
-Anything written in a three-bullet list seems straightforward. Fortunately, the
-F<Dockerfile> makes it repeatable and, better yet, easy enough to modify once
-you know what you're doing. Create a file with these contents:
+A three-bullet list make this seems straightforward. The F<Dockerfile> makes it
+repeatable and, better yet, easy enough to modify once you know what you're
+doing. Create a file containing:
 
 =begin screen
 
@@ -80,26 +80,29 @@ you know what you're doing. Create a file with these contents:
     # depends systems prereqs
     RUN apt update \
      && DEBIAN_FRONTEND=non-interactive \
-        apt install --no-install-recommends -y autoconf automake binutils-gold \
-                       ca-certificates curl build-essential faketime git libtool \
-                       pkg-config python3 bison python3 python3-pip python3-wheel \
-                       python3-setuptools autotools-dev libssl-dev libevent-dev \
-                       bsdmainutils libboost-system-dev libboost-filesystem-dev \
-                       libboost-chrono-dev libboost-program-options-dev \
-                       libboost-test-dev libboost-thread-dev libqt5gui5 \
-                       libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
-                       libprotobuf-dev protobuf-compiler libqrencode-dev \
-                       libdb5.3++-dev libdb5.3++ libdb5.3-dev less
+        apt install --no-install-recommends -y \
+            autoconf automake binutils-gold  ca-certificates \
+            curl build-essential faketime git libtool pkg-config \
+            python3 bison python3 python3-pip python3-wheel \
+            python3-setuptools autotools-dev less libssl-dev \
+            libevent-dev bsdmainutils libboost-system-dev \
+            libboost-filesystem-dev libboost-chrono-dev \
+            libboost-program-options-dev libboost-test-dev \
+            libboost-thread-dev libqt5gui5 libqt5core5a \
+            libqt5dbus5 qttools5-dev qttools5-dev-tools \
+            libprotobuf-dev protobuf-compiler libqrencode-dev \
+            libdb5.3++-dev libdb5.3++ libdb5.3-dev
 
     RUN python3 -m pip install setuptools --upgrade
 
-    RUN git clone https://github.com/dogecoin/dogecoin.git && cd dogecoin
+    RUN git clone https://github.com/dogecoin/dogecoin.git \
+        && cd dogecoin
 
 =end screen
 
-This seems like a lot, but it's really only four things. First, build a Docker
-image using the Ubuntu Linux distribution, version released in the year 20B<22>
-and the B<10>th month (October).
+This seems like a lot, but it's four commands. First, build a Docker image
+using the Ubuntu Linux distribution, version released in the year 20B<22> and
+the B<10>th month (October).
 
 X<< external programs; C<apt> >>
 
@@ -136,17 +139,16 @@ rebuild the image hopefully without making your life more difficult.
 
 =head2 *Building Dogecoin Core in Docker
 
-Now run the command C<docker run -it dogecoin-build-image:latest>. You should
-recognize C<dogecoin-build-image> as a name you provided when you built this
-image. This is a tag. C<:latest> is a discriminator used to distinguish between
+Run the command C<docker run -it dogecoin-build-image:latest>. Here
+C<dogecoin-build-image> is the name you provided when you built this image.
+This is a tag. C<:latest> is a discriminator used to distinguish between
 different I<versions> of the images you've builtN<You don't have to remember
 this. It may help you in the future.>.
 
-This command says "Run the image I just built, the image named
-C<dogecoin-build-image>, and let me interact with it from the command line.".
-If all goes well, you'll now be running the container of an Ubuntu Linux
-system, in a directory named F</build/dogecoin>. Finally you can configure and
-build the core itself:
+This command says "Run the fresh image, named C<dogecoin-build-image>, and let
+me interact with it from the command line.". If all goes well, you'll see a
+shell inside the container of an Ubuntu Linux system, within a directory named
+F</build/dogecoin>. Finally you can configure and build the core itself:
 
 =begin screen
 
@@ -179,11 +181,11 @@ The more you learn about Docker and container management, the more
 options you have. This technique is helps Core developers test builds on
 multiple operating systems and versions of operating systems.
 
-With a reusable development environment like this, you can follow along with
-core development (see L<follow_core_development>) and test proposed changes,
-make changes and see how they affect the code, even try your hand at fixing
-bugs. There's no requirement you do any of this; you could merely spend some
-time, learn a few things, and enjoy yourself playing around.
+With a reusable development environment like this, you can track Core work (see
+L<follow_core_development>) and test proposed changes, make changes and see how
+they affect the code, even try fixing bugs. There's no requirement you do any
+of this; you could merely spend some time, learn a few things, and enjoy
+yourself playing around.
 
 On the other hand, you may find it satisfying to have the ability to build the
 code you're running yourself, rather than relying on (and trusting, see

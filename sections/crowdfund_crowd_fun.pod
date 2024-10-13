@@ -102,8 +102,8 @@ This is skeleton code of an object-oriented design. The example doesn't deal
 with data persistence, but a decent programmer should be able to manage that
 without too much trouble.
 
-The C<Crowdfund> action gets invoked by the transaction action dispatcher. Its
-method C<action> uses data from the C<$transaction> object to look up project
+The transaction action dispatcher invokes the C<Crowdfund> object's C<action>
+method, which uses data from the C<$transaction> object to look up project
 information, delegating that approach to some C<$projects> object reachable
 from a C<Crowdfund> instance. Assuming a project exists, the C<Project> class
 handles other, more interesting behavior.
@@ -121,9 +121,9 @@ funder?
 
 =end tip
 
-Within the C<add_tx> method, this code checks the transaction age against the
-project's specific threshold, adds the transaction amount, increments the
-number of funders, and then decides what to do next.
+The C<add_tx> method code checks the transaction age against the project's
+specific threshold, adds the transaction amount, increments the number of
+funders, and then decides what to do next.
 
 What happens when the project exceeds its first funding threshold? The C<fund>
 method, left as an exercise for readers, should idempotentlyN<This is a fancy

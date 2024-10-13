@@ -44,7 +44,8 @@ decimal point is enough. This JavaScript/Node code does that:
 
   const [ currentRate, desiredPrice ] = process.argv.slice(2);
 
-  const suggestedPrice = calculateDogecoinThreshold(currentRate, desiredPrice);
+  const suggestedPrice =
+        calculateDogecoinThreshold(currentRate, desiredPrice);
 
   console.log(
       suggestedPrice +

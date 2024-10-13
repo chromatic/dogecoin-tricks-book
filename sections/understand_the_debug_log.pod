@@ -54,11 +54,13 @@ might see something like this snippet:
 =begin screen
 
   2023-04-15 21:26:05 Dogecoin version v1.14.7.0-cb9a47611
-  2023-04-15 21:26:05 Default data directory /home/username/.dogecoin
-  2023-04-15 21:26:05 Using data directory /home/username/.dogecoin
-  2023-04-15 21:26:05 Set backupdir "/home/username/.dogecoin/backups"
-  2023-04-15 21:26:05 Using backup directory /home/username/.dogecoin/backups
-  2023-04-15 21:26:05 Using config file /home/username/.dogecoin/dogecoin.conf
+  2023-04-15 21:26:05 Default data directory /home/user/.dogecoin
+  2023-04-15 21:26:05 Using data directory /home/user/.dogecoin
+  2023-04-15 21:26:05 Set backupdir "/home/user/.dogecoin/backups"
+  2023-04-15 21:26:05 Using backup directory
+                      /home/user/.dogecoin/backups
+  2023-04-15 21:26:05 Using config file
+                      /home/user/.dogecoin/dogecoin.conf
   2023-04-15 21:26:10 Bound to [::]:22556
   2023-04-15 21:26:10 Bound to 0.0.0.0:22556
 
@@ -92,11 +94,12 @@ After your node has run for a while, you'll see other types of messages:
 
   2023-04-15 21:27:49 receive version message: /Shibetoshi:1.14.6/:
       version 70015, blocks=4678120, us=67.189.98.209:42198, peer=3
-  2023-04-15 21:32:19 connect() to [2602:fc05::32]:22556 failed after select():
-      No route to host (113)
+  2023-04-15 21:32:19 connect() to [2602:fc05::32]:22556 failed
+       after select(): No route to host (113)
   2023-04-15 21:36:09 UpdateTip: new best=af8461i... height=4678121
       version=0x00620104 log2_work=75.419327 tx=95260772
-      date='2023-04-15 21:34:26' progress=1.000000 cache=78.0MiB(10374tx)
+      date='2023-04-15 21:34:26' progress=1.000000
+      cache=78.0MiB(10374tx)
 
 =end screen
 

@@ -67,8 +67,6 @@ options to play with, but for now, you only need to toggle the relays.
 
 =head3 *Programming the Relay
 
-X<< external programs; C<curl> >>
-
 This is where things get more interesting. Think back to your cabinet's coin
 mechanism. The coin insertion switch closes for a fixed period of time then
 opens again. You need to emulate that sequence of events--circuit on, wait,
@@ -79,19 +77,6 @@ How do you know how long to wait? You can experiment with different times, but
 the best approach is to get the service manual for your cabinet and understand
 the scan times of the circuits. In general, start with a quarter of a second
 and adjust from there--perhaps up to half a second.
-
-With the Tasmota firmware on the ESP8266, you can control the relay with MQTT
-(your best option for a complex configuration) but also simple HTTP (for
-testing or a simple network). Either write a program or use C<curl> to send
-these requests. Here's a simple example that tells the relay to close for 200
-milliseconds, then turns on the relay, then lets it close:
-
-=begin programlisting
-
-  $ B<curl http://192.168.1.10/cm?cmnd=PulseTime1%202>
-  $ B<curl http://192.168.1.10/cm?cmnd=Power1%20ON>
-
-=end programlisting
 
 =begin tip Arcade Controller Scan Matrix
 
@@ -105,32 +90,41 @@ give you the answer. Or you can experiment with the given values.
 
 =end tip
 
+=head3 *Testing the Program
+
+X<< external programs; C<curl> >>
+
+With the Tasmota firmware on the ESP8266, you can control the relay with MQTT
+(your best option for a complex configuration) but also simple HTTP (for
+testing or a simple network). You'll need to write a program or use C<curl> to
+send these requests. Here's a simple example that tells the relay to close for
+200 milliseconds, then turns on the relay, then lets it close:
+
+=begin programlisting
+
+  $ B<curl http://192.168.1.10/cm?cmnd=PulseTime1%202>
+  $ B<curl http://192.168.1.10/cm?cmnd=Power1%20ON>
+
+=end programlisting
+
 In this example, the board has an IP address of 192.168.1.10 and the relay to
 toggle is relay 1. Change the example appropriately for your board. The
-C<PulseTime> command sets the time the relay will stay on in 100 millisecond
-increments. As you might expect, relay 2 uses the command C<PulseTime2> and so
-forth.  Similarly, the C<Power> command turns the relay on or off, with the
-appropriate relay number and the subcommand C<ON> or C<OFF>.
+C<PulseTime> command sets the time the relay will stay on in milliseconds. As
+you might expect, relay 2 uses the command C<PulseTime2> and so forth.
+Similarly, the C<Power> command turns the relay on or off, with the appropriate
+relay number and the subcommand C<ON> or C<OFF>.
 
 Remember that the characters C<%20> represent a space encoded in a URL.
-
-Once you've sent a C<PulseTime> command for a specific relay, the board will
-remember that setting until you send another command (or manually reset the
-board). Even if you toggle the board's power, relay 1 will still close for 200
-milliseconds.
-
-=head3 *Testing the Program
 
 Before you open the inside of your cabinet and start poking around with a
 multimeter, test your relay board by connecting an LED to the switch and
 running your program. Make sure your test LED supports the voltage you're
 sending!
 
-Use C<curl> again to send the C<Power1 ON> command. When your LED flashes on
-and off for the right timing, you're ready to move on!  You should be able to
-send both commands, see the LED light, and then turn off in the right amount of
-time. From there, your program is working and you can integrate it with your
-payment receiving webhooks!
+When your LED flashes on and off for the right timing, you're ready to move on!
+You should be able to send both commands, see the LED light, and then turn off
+in the right amount of time. From there, your program is working and you can
+integrate it with your payment receiving webhooks!
 
 =head2 *What Can You Do With This?
 

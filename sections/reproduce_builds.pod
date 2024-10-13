@@ -24,14 +24,13 @@ Core releases I<can> be verified. You can help!
 =head2 *Gitian and Build Reproduction
 
 The Dogecoin Core maintainers use a tool called GitianN<See
-U<https://gitian.org/>.> to produce builds. Gitian manages the process of
-downloading, verifying, and building dependencies, then building the Core
-itself, for every released platform. The resulting binaries can be compared
-between Gitian builds (especially by different people on different systems at
-different times!) to ensure that they are identical (see
-L<make_a_hash_of_fingerprints>).
+U<https://gitian.org/>.> to manage the process of downloading, verifying, and
+building dependencies, then building the Core itself, for every released
+platform. The resulting binaries can be compared between Gitian builds
+(especially by different people on different systems at different times!) to
+ensure that they are identical (see L<make_a_hash_of_fingerprints>).
 
-Three things can go wrong with a Gitian build:
+Gitian can make three errors obvious:
 
 =over 4
 
@@ -39,15 +38,13 @@ Three things can go wrong with a Gitian build:
 issue.
 
 =item * The build process succeeds, but the resulting binaries are not
-identical, which means developers need to discover what kind of inputs are
-non-deterministic and patch or eliminate them.
+identical, which means developers need to fix or eliminate any non-determinism
+in the process
 
 =item * Gitian is configured or launched incorrectly, which usually means
 someone like your author is testing the wrong code. It happens. Keep reading!
 
 =back
-
-In each of these cases, the results should be obvious.
 
 =head3 *Setting Up Gitian
 
@@ -58,8 +55,8 @@ enough system administration skills to install and configure the necessary
 Gitian dependencies.
 
 The Gitian documentation is good and worth reading. The Dogecoin Core also
-includes a Gitian setup guide (see
-U<https://github.com/dogecoin/dogecoin/blob/master/doc/gitian-building.md>.>).
+includes a Gitian setup guideN<See
+U<https://github.com/dogecoin/dogecoin/blob/master/doc/gitian-building.md>.>.
 One benefit of the latter is that Dogecoin developers do their best to keep it
 up to date to reflect the state of the world and any bugs, quirks, workarounds,
 or improvements that people have discovered.
@@ -98,11 +95,12 @@ F<images/dogecoin-core-pull-request-location.png>
 You need two pieces of information to start your Gitian build for this pull
 request: the location of the upstream repository and the name of the branch
 with the proposed changes within that repository. Click on the link highlighted
-in the image. In this case, you will visit a link called
+in the image:
 C<https://github.com/edtubbs/dogecoin/tree/1.14.7-dev-fontconfig>. Split this
-in two parts. The first part is the repository location, here
-C<https://github.com/edtubbs/dogecoin/>. The second part is Ed's branch name,
-here C<1.14.7-dev-fontconfig>. Ignore the C<tree/> in the middle.
+in two parts. The first part is the repository location, Ed Tubbs's fork of the
+Core repository, C<https://github.com/edtubbs/dogecoin/>.  The second part is
+Ed's branch name, here C<1.14.7-dev-fontconfig>. Ignore the C<tree/> in the
+middle.
 
 =head3 *Start the Build
 
@@ -126,7 +124,8 @@ Dogecoin core checkout directory:
 
 =begin screen
 
-  $ B<buildgitian https://github.com/edtubbs/dogecoin/ 1.14.7-dev-fontconfig>
+  $ B<buildgitian https://github.com/edtubbs/dogecoin/ \>
+    B<1.14.7-dev-fontconfig>
   ...
   e0480f...  dogecoin-1.14.7-aarch64-linux-gnu-debug.tar.gz
   56950d...  dogecoin-1.14.7-aarch64-linux-gnu.tar.gz

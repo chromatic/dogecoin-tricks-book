@@ -126,16 +126,16 @@ the signature of the file with:
 
   $ B<gpg --verify ~/Downloads/SHA256SUMS.asc>
     gpg: Signature made Wed 20 Jul 2022 12:29:49 PM PDT
-    gpg:                using RSA key DC6EF4A8BF9F1B1E4DE1EE522D3A345B98D0DC1F
+    gpg:                using RSA key DC6EF4A8BF9F1B1E4DE1EE522D...
     gpg: Good signature from "Patrick Lodder <...>" [unknown]
-    gpg: WARNING: This key is not certified with a trusted signature!
-    gpg:          There is no indication that the signature belongs to the owner.
-    Primary key fingerprint: DC6E F4A8 BF9F 1B1E 4DE1  EE52 2D3A 345B 98D0 DC1F
 
 =end screen
 
-The signature is good; the file is pristine its generation and signingN<That
-warning looks a little concerning and should be fixed, but it's not an error.>.
+The signature is good; the file is pristine its generation and signing. If you
+haven't verified Patrick's key yourself, you may get a warning that GPG cannot
+prove that the signature belongs to him. You can ignore this warning for
+nowN<The solution is to verify Patrick's identity in person and import his
+signature directly from him.>.
 
 =head3 *What Did Patrick Intend?
 
@@ -149,7 +149,7 @@ What do you know now?
 
 =item * Patrick signed the signature file with his private GPG key
 
-=item * The signature file has not been modified since Patrick generated and signed it
+=item * The signature file hasn't changed since Patrick generated and signed it
 
 =back
 

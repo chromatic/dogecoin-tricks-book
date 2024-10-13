@@ -167,14 +167,13 @@ to get at I<any> arbitrary address, but there's still useful information here.
 
 =end programlisting
 
-While there's more code here, it down only two things. One, find the
-information for the currently requested address in the data returned from
-C<listreceivedbyaddress>. Two, loop through all of the transaction IDs for that
-address and get the full transaction information, just as the previous
-transaction-handling route did.
+This batch of code does two things. First, it finds the information for the
+currently requested address in the data returned from C<listreceivedbyaddress>.
+Second, it loops through each transaction ID for that address and get the full
+transaction information, just as the previous transaction-handling route did.
 
-Again, this isn't a full general-purpose block explorer because of the address
-limitation, but that can be solved with some clever thinking (hint: see
+While this isn't a full general-purpose block explorer because of the address
+limitation, you can solve this with some clever thinking (hint: see
 L<watch_wallet_addresses>).
 
 =head3 *The Rest of the Code

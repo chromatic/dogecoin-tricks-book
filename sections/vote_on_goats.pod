@@ -90,8 +90,10 @@ the results.
 X<< RPC commands; C<listreceivedbyaddress> >>
 
 Bitcoin's C<listreceivedbyaddress> call has an additional fourth argument used
-to filter transactions to specific addresses, but as of this writing, Dogecoin
-1.14.8 does not have that feature.
+to filter transactions to specific addresses.
+
+As of this writing, Dogecoin 1.14.8 does not have that feature. Watch for it in
+future releases!
 
 =end tip
 
@@ -157,20 +159,23 @@ more say than the majority-rules approach.
 
 Some readers may have noticed that some sets of proposed names don't have the
 same number of gender-specific names as others. If that bothers some people,
-they can choose different names for their hypothetical goats, becauseN<Allow
-this author to I<assure> you.> goats B<do not> care about their names and are
+they can choose different names for their hypothetical goats, because goats
+B<do not> care about their namesN<Allow this author to I<assure> you.> and are
 unlikely to respond when called by any name, let alone those you've carefully
 selected.
 
 In that case, adherence to a theme is more meaningful to the goat herder than
 to the animals, so let people enjoy themselves where they can!
 
-If you perform this kind of transaction on the public Dogecoin blockchain, be
-aware that the coins have to come from I<somewhere>. Anyone who can look at the
-blockchain and tie votes to your goats has an increased possibility to
+If you perform this kind of transaction on the public Dogecoin blockchain,
+remember that the coins have to come from I<somewhere>. Anyone who can look at
+the blockchain and tie votes to your goats has an increased possibility to
 de-anonymize anyone who participated in the voting, because there's a real
-world activity (voting, potentially in public, at a distinct time) associated
-with multiple public transactions.
+world activity associated with multiple public transactions. A voting system
+conducted in public, with public transactions, with published destination
+addresses and run for a specific time can give away a lot of details a clever
+sleuth can use to figure out a lot of information you or your voters might not
+want to share.
 
 Performing these actions on the testnet or a private network can reduce this
 risk.
@@ -188,11 +193,14 @@ giving voters Dogecoin to identify them as voters and the ability to split
 those coins between alternatives, voters can apply stronger weight to some
 candidates while expressing lesser but still positive preference for others.
 
-The ability to set up a private Dogecoin network/blockchain is interesting and
-avoids a lot of privacy and financial concerns, though admittedly the entire
-Dogecoin software stack is a lot of extra code and complexity that you wouldn't
-necessarily need in this scenario; it's probably smarter to run a
-voting-specific blockchain for this.
+If you're willing to put in the effort, you can always consider setting up a
+I<private> Dogecoin (or other) blockchain for voting purposes. This would allow
+you to control the entire network and all the transactions, providing more
+privacy and increasing your control over the voting process. Running (or
+modifying) the Dogecoin software stack is a lot of extra code and complexity
+that you wouldn't necessarily need in this scenario; it's probably smarter to
+run a voting-specific blockchain for this if you find yourself polling more
+than once.
 
 With that said, if you want to get something up and going quickly, you could do
 a lot worse. Software that exists that you know how to use well is better than

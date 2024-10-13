@@ -51,6 +51,13 @@ Remember also that this process must be I<repeatable> such that anyone who's
 solved the puzzle should be able to generate the same private key and have a
 chance to redeem the reward.
 
+One reliable way of generating a private key is to turn the wordlist into a
+hashed value, then use that as the source of data for a new key. This is, more
+or less, what BIP-39 does, though that standard has some advantages that this
+approach doesn't use. In particular, BIP-39 word lists reduce ambiguity and the
+rest of the standard provides some convenient security features which multiple
+clients and multiple cryptocurrencies have adopted.
+
 =begin tip Puzzle Transactions: For Advanced Users Only
 
 While the puzzle transaction approach is good and may seem more in line with
@@ -62,13 +69,6 @@ L<test_first_safely>), this approach may work. For general users, the risk of
 leading them to tricky and potentially coin-losing mistakes is high.
 
 =end tip
-
-One reliable way of generating a private key is to turn the wordlist into a
-hashed value, then use that as the source of data for a new key. This is, more
-or less, what BIP-39 does, though that standard has some advantages that this
-approach doesn't use. In particular, BIP-39 word lists reduce ambiguity and the
-rest of the standard provides some convenient security features which multiple
-clients and multiple cryptocurrencies have adopted.
 
 Suppose you were to write a little PerlN<Use any language you trust and your
 users are likely to use. In this case, your author has used and contributed

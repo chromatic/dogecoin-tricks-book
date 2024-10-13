@@ -1,11 +1,11 @@
-=head1 Calculate Dogecoin's Maximum Market Stats
+=head1 Calculate Dogecoin's Market Stats
 
 Z<calculate_dogecoin_maximum_market_stats>
 
 In 2013, your author received his first Dogecoin tip, probably for saying
 something insightful or clever on a social media forum. It was worth a fraction
-of a penny then but it meant something--it your author a warm glow that he'd
-brought something meaningful into the world.
+of a penny then but it meant something--it gave your author a warm glow that
+he'd brought something meaningful into the world.
 
 In 2021, that tip was worth hundreds of dollars. At the time of this writing,
 it's worth tens of dollars. Who knows where it will be in a week, a year, or

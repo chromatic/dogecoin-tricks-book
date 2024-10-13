@@ -114,13 +114,13 @@ returns that data as a JSON data structure, but the C<RPCAgent> code turns that
 into a Perl data structure (a nested hash, or a dictionary as you might call it
 in Python, or a hashmap in Java, or an object in JavaScript, or...).
 
-From there, C<analyze_block()> extracts useful data from that data structure.
-Difficulty and size are obvious fields. The block's time is in a field named
-C<time>, but that records seconds since the epoch, so the code uses Perl's
-C<localtime> to turn that into a textual representation. Finally, the I<number>
-of transactions is interesting, so the code uses the standard Perl idiom to
-access the items in the C<tx> field (representing transactions) as a scalar
-value, representing the count of items in the array.
+From there, C<analyze_block()> extracts useful data. Difficulty and size are
+obvious fields. The block's time is in a field named C<time>, but that records
+seconds since the epoch, so the code uses Perl's C<localtime> to turn that into
+a textual representation. Finally, the I<number> of transactions is
+interesting, so the code uses the standard Perl idiom to access the items in
+the C<tx> field (representing transactions) as a scalar value, representing the
+count of items in the array.
 
 =begin tip But I Don't Read Perl!
 

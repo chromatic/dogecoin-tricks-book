@@ -22,8 +22,8 @@ every block, so the more transactions, the more storage every full node needs.
 
 X<< RPC commands; C<getwalletinfo> >>
 
-How many transactions have affected a wallet? The C<txcount> value of the
-C<getwalletinfo> RPC command shows this:
+How many transactions has a wallet transacted? The C<getwalletinfo> RPC command
+returns a field, C<txcount>, showing this value:
 
 =begin screen
 

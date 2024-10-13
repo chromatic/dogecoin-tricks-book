@@ -72,7 +72,8 @@ is correct), the "get coin price" query is:
 
 =begin screen
 
-  $ B<curl -s https://api.coinranking.com/v2/coin/a91GCGd_u96cF/price | jq .data.price>
+  $ B<curl -s https://api.coinranking.com/v2/coin/a91GCGd_u96cF/price | \>
+    B<jq .data.price>
   "0.06701734282680077"
 
 =end screen
@@ -87,8 +88,8 @@ the currency UUID from the reference currencies list:
 
 =begin screen
 
-  $ B<< curl https://api.coinranking.com/v2/reference-currencies > currencies >>
-  $ B<< jq '.data.currencies[] | select(.name == "Turkish Lira").uuid' < currencies >>
+  $ B<< curl https://api.coinranking.com/v2/reference-currencies | >>
+    B<< jq '.data.currencies[] | select(.name == "Turkish Lira").uuid' >>
   "Dk5T6J0UtCUA"
 
 =end screen
@@ -99,8 +100,8 @@ example is for display purposes; you can run this command as a single line.>:
 =begin screen
 
   $ B<export API=https://api.coinranking.com/v2/coin>
-  $ B<curl -s "$API/a91GCGd_u96cF/price?referenceCurrencyUuid=Dk5T6J0UtCUA \>
-    B<| jq .data.price>
+  $ B<export CURCODE="referenceCurrencyUuid=Dk5T6J0UtCUA">
+  $ B<curl -s "$API/a91GCGd_u96cF/price?$CURCODE" | jq .data.price>
   "1.70040047930945557576"
 
 =end screen

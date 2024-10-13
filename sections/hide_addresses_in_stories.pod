@@ -77,8 +77,8 @@ With this list of words, now you can do something interesting with it.
 Services claiming to be artificial intelligence have been around for a long
 time, but in practice they're systems which use statistics to turn a set of
 inputs into a set of outputsN<Your author prefers the term "machine
-learning".>. As of early 2024, you can use any of several services such as
-Claude, ChatGPT, Geminie, and more to generate text from a prompt.
+learning".>. As of 2024, you can use any of several services such as Claude,
+ChatGPT, Gemini, and more to generate text from a prompt.
 
 These services are interesting because you can give them a short prompt and
 they'll produce output you can refine, edit, improve, or otherwise use as the
@@ -151,28 +151,24 @@ may be acceptable for your purposes.
 
 =head2 *Understand the Risks
 
-As with any form of steganography, if you release something to the public and
-rely solely on people not knowing you've hidden a message to keep the message
-secure, you're only as secure as the curiosity of the people who see it.
-
-As with any time you use any online resources, be very careful about what
+As with any form of steganography, any data you release publicly is out of your
+hands. Relying solely on people not knowing to look for hidden messages is very
+little safety against curious codebreakers.  Also be careful about what
 information you share. Unless you're running your own instance of an
-LLM-powered text generator, you run the risk of the server operators seeing the
-data you present. If that's a passphrase--even if it's only a public
-passphrase--you've exposed information that you might not want to expose.
+LLM-powered text generator, you run the risk of the server operators seeing and
+logging your prompt. Even if that's only a public passphrase, you've exposed
+information.
 
 Hiding your I<private> key--especially the mnemonic--in this form is a very
 risky idea. Hiding a key for a scavenger hunt or puzzle
-(L<host_a_treasure_hunt>) is much better; you expect people to decode your
-message eventually, and you don't want to make things too difficult or too
-easy.
+(L<host_a_treasure_hunt>) is better; you expect people to decode your message
+eventually, with the appropriate amount of work.
 
-If you encode a I<receiving> address, you're not risking your funds but you do
-risk some amount of your identity and privacy. Anyone who recognizes the words
-from the BIP-39 wordlist on sightN<Admittedly, that's a small number of people
-who have them memorized, but that group of people is also I<motivated>, so the
-less you raise their attention, the better.> will be able to reverse-engineer
-I<something>.
+If you encode a I<receiving> address, you risk some of your identity and
+privacy but not your funds.  Anyone who recognizes the words from the BIP-39
+wordlist on sightN<Admittedly, that's a small number of people who have them
+memorized, but that group of people is also I<motivated>, so the less you raise
+their attention, the better.> will be able to reverse-engineer I<something>.
 
 X<people; Flannery O'Connor>
 

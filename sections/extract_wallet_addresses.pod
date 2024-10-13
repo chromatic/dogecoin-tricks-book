@@ -53,9 +53,9 @@ intimidating. That's okay. You don't have to understand them to use this tip!
 
 Regex-wielding programmersN<With no apologies for U<https://xkcd.com/208/>.>
 can do this in a couple of lines. Look for a chunk of data starting with
-C<addr=>, then capture everything after that until the next space. In Perl-ish
-regular expression terms, you could write something like C</addr=(\S+)/> and,
-if the match succeeds, take the address from the first (only) capturing group.
+C<addr=>, then capture everything after that until the next space. With
+Perl-style regular expressions, write something like C</addr=(\S+)/> and, if
+the match succeeds, take the address from the first (only) capturing group.
 
 Once you have this address, you can write it to a file which you can use for
 other purposes.

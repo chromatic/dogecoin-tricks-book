@@ -53,7 +53,8 @@ coins when it rummages around in your wallet.
 
 =begin screen
 
-  $ B<dogecoin-cli lockunspent false "[{\"txid\": \"5c7561...\", \"vout\": 0}]">
+  $ B<dogecoin-cli lockunspent false \>
+    B<"[{\"txid\": \"5c7561...\", \"vout\": 0}]">
   true
 
 =end screen

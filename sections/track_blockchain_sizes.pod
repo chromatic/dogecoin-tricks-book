@@ -102,7 +102,7 @@ you're running the GUI, you'll need more than that, but this is a start of an
 estimate.
 
 How much disk space are you using? Again, an exact example is difficult to get.
-With Dogecoin Core 1.14.x, the C<bytes_serialized> value from
+With Dogecoin Core 1.14.x, the C<bytes_serialized> value returned from
 C<gettxoutsetinfo> shows the size in bytes of the UTXO set as stored on disk,
 more or less. In newer versions of Dogecoin Core (1.21.x and newer), this
 single value will become C<bogosize> and C<disk_size> with more accuracy.  In

@@ -1,10 +1,12 @@
 % start sections on new pages
-\newcommand{\sectionbreak}{\clearpage}
+% \newcommand{\sectionbreak}{\clearpage}
 
 \makeindex
 
 \usepackage{titletoc}
 \usepackage[firstpageonly=true]{draftwatermark}
+
+\usepackage{ifthen}
 
 \begin{document}
 \belowdisplayskip=0pt
@@ -51,14 +53,23 @@
 \AddToHook{cmd/section/before}{\stepcounter{tipsCounter}}
 \renewcommand\thesection{\#\arabic{tipsCounter}}
 
-\titleformat{\section}
-{}
-{\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace}
-{8pt}
-{\Large\bfseries}
-[\vspace{2ex}\titlerule\vspace{2ex}]
+\providetoggle{isFirstSectionInChapter}
+\AddToHook{cmd/chapter/before}{\toggletrue{isFirstSectionInChapter}}
+% \AddToHook{cmd/section/before}{\toggletrue{isFirstSectionInChapter}}
+
+% \titleformat{\section}
+% {}
+% {\filright \Large\bfseries \enspace Tip \#\arabic{tipsCounter}\enspace %
+%     \iftoggle{isFirstSectionInChapter} { %
+%         \global\togglefalse{isFirstSectionInChapter} %
+%     } {} %
+% }
+% {8pt}
+% {\Large\bfseries}
+% [\vspace{2ex}\titlerule\vspace{2ex}]
 
 % the content begins here
+\newcommand{\sectionbreak}{\dogesectionbreak}
 \pagenumbering{arabic}
 \pagestyle{plain}
 \include{chapter_intro_cryptography}

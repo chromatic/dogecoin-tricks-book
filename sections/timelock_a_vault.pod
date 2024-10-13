@@ -108,7 +108,7 @@ C<decodescript>.
   decodescript 026a7ab17...
 
   {
-    "asm": "31338 OP_CHECKLOCKTIMEVERIFY OP_DROP 02de20... OP_CHECKSIG",
+    "asm": "31338 OP_CHECKLOCKTIMEVERIFY OP_DROP ... OP_CHECKSIG",
     "type": "nonstandard",
     "p2sh": "A1r3F312ScMR4Caknb8X1PGdtUSJB96Cxo"
   }
@@ -117,8 +117,8 @@ C<decodescript>.
 
 For now, ignore the second large number in the C<asm> value. Check that the
 first value in the script (the contents of C<asm>) matches the block height or
-epoch seconds value you chose and that the second item in the script is truly
-C<OP_CHECKLOCKTIMEVERIFY>.
+epoch seconds value, whichever you chose, and that the second item in the
+script is truly C<OP_CHECKLOCKTIMEVERIFY>.
 
 If and when you're comfortable with this, you can publish your transaction to
 the network (see L<put_funds_in_escrow>). Then any funds you send to the P2SH

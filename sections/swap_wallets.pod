@@ -18,8 +18,8 @@ consider running the core with different wallet files.
 =head2 *Launch with Wallet File Locations
 
 Suppose you have two F<wallet.dat> files, one containing private keys and
-addresses and the other containing watch-only addresses. Suppose the hot wallet
-has a filename F<hotwallet.dat> and the other wallet has a filename
+addresses and the other containing watch-only addresses. The hot wallet has a
+filename of F<hotwallet.dat> and the other wallet has a filename of
 F<watchonlywallet.dat>.
 
 =begin tip Make Multiple Wallet Files

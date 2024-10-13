@@ -71,7 +71,9 @@ living room. Only the good parts, of course.> file:
 
     def main(block_height, block_hash)
         block_height = block_height.to_i
-        transactions = File.exists?(FILENAME) ? YAML.load_file(FILENAME) : {}
+        transactions = File.exists?(FILENAME)
+                     ? YAML.load_file(FILENAME)
+                     : {}
 
         # find transactions in this block
         inputs = find_input_transactions_for_block block_hash
@@ -110,11 +112,12 @@ living room. Only the good parts, of course.> file:
 
 =end programlisting
 
-The interesting parts of this code are the logic around storing state. Change
-the constants at the start of the file to require more or fewer confirmations.
-8 confirmations will take somewhere around 8 minutes; too long to sell a
-cannolo and not long enough to sell a herd of rambunctious goats. The YAML file
-could be in the current directory or elsewhere, named whatever you like.
+The most interesting code here is the logic used to store and retrieve state.
+Change the constants at the start of the file to require more or fewer
+confirmations. 8 confirmations will take somewhere around 8 minutes; too long
+to sell a cannolo and not long enough to sell a herd of rambunctious goats. The
+YAML file can be in the current directory or elsewhere, named whatever you
+like.
 
 This code kicks off some code elsewhere (written elsewhere in this book, though
 not necessarily in Ruby) to find interesting transactions in the block. The
@@ -151,9 +154,9 @@ otherwise modify your data. Assuming a computer will always get things right
 and never surprise you is a good way to experience unpleasant surprises when
 the computer gets things wrong.
 
-Finally, make sure that your notification mechanism is robust. The desktop
-notification example will display a message on your screen, but if you look
-away or accidentally click it or aren't sitting in front of the screen all day,
-you might not notice something happened. There's no substitute for human
-oversight, especially when it comes to dealing with delicious pastry, guerilla
-art, or fuzzy animals. Guard your valuables appropriately.
+Finally, make sure that your notification mechanism is reliable. Messages will
+pop up on your screen, but if you look away or accidentally click it or aren't
+sitting in front of the computer all day, you might not notice something
+happened. There's no substitute for human oversight, especially when it comes
+to dealing with delicious pastry, guerilla art, or fuzzy animals. Guard your
+valuables appropriately.

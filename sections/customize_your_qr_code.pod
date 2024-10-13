@@ -30,14 +30,16 @@ With everything installed, write this little program:
 
     import qrcode
     from qrcode.image.styledpil import StyledPilImage
-    from qrcode.image.styles.moduledrawers.pil import RoundedModuleDrawer
+    from qrcode.image.styles.moduledrawers.pil \
+        import RoundedModuleDrawer
     from qrcode.image.styles.colormasks import RadialGradiantColorMask
+    from qrcode.constants import ERROR_CORRECT_L
     from sys import argv
 
     address = argv[1]
     logo = argv[2]
 
-    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_L)
+    qr = qrcode.QRCode(error_correction=ERROR_CORRECT_L)
     qr.add_data(address)
 
     img = qr.make_image(

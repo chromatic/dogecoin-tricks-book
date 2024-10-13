@@ -152,19 +152,25 @@ sound and the magic smoke escapes, you'll have to replace it. If your DNS
 system resets and IP addresses switch around, you'll hear Spy Hunter rev up
 when someone wants to play Turtles in Time.
 
-Regular diagnostics and checks are important. Fortunately, you can automate
-things like health checks and, given the C<is_active> column in the example SQL
-tables, take a machine/board/relay combination out of the system. To make the
-entire system more robust, you can use this as a status to disable the ability
-of users to add credits to a machine (though you can't prevent someone from
+Regular diagnostics and checks are important. You can automate things like
+health checks and, given the C<is_active> column in the example SQL tables,
+take a machine/board/relay combination out of the system. To make the entire
+system more robust, you can use this as a status to disable the ability of
+users to add credits to a machine (though you can't prevent someone from
 sending a Dogecoin transaction to an address).
 
-Also remember that every bit of configuration you add to the system adds
-flexibility at the cost of some management overhead. Avoiding webhook
-double-dispatch simplifies the system but makes it more difficult to unregister
-a webhook when you need to maintain a machine or connection.
+Also remember that every new configuration option added to the system adds
+flexibility as well as management overhead. Avoiding webhook double-dispatch
+simplifies the system but makes it more difficult to unregister a webhook when
+you need to maintain a machine or connection.
 
 Depending on how seriously you take this business, having extra, easily
 swappable, hardware on hand can save you a lot of time and trouble. You don't
 want to be reprogramming your relay board while customers are lining up and
 tapping their feet.
+
+You want people to play games and have fun. The fun you had building the system
+may not be the fun your customers want--but if you do things well, you can
+maximize the enjoyment everyone gets by removing friction, promoting safety,
+and building new and interesting things with your favorite dog-themed
+programmable money.
