@@ -1,0 +1,170 @@
+=head1 Install Programmable Buttons
+
+Z<install_programmable_buttons>
+
+This is it: the moment of truth. Think back to everything that's built up to
+this so far. You've learned the basics of cryptography and the ins and outs of
+running a Dogecoin node. You've explored sending commands to and receiving data
+from the network.
+
+You've sent and received transactions. You've generated and used and secured
+addresses. You've thought about payment systems and wallet security. You've
+played games and explored puzzles.
+
+Along the way you've read about making actual machines do actual work (see
+L<program_real_buttons> and L<flip_a_switch>) and you've done things when your
+node saw things happen on the network (see L<take_actions_on_new_blocks>).
+
+Now it's time to put what you've learned together and wire up a real actual
+pinball machine to the Dogecoin network.
+
+=head2 *What You Need
+
+It's okay if you don't have a big, heavy, expensive pinball machine lying
+around. Anything that can be controlled with a simple electric switch will do:
+coffee machine, music player, lava lamp, flashing sign, or anything else.
+
+This tip assumes you have:
+
+=over 4
+
+=item * programmed a relay board to control a switch from a network command
+
+=item * basic electronic parts (wires, Molex connectors, a multimeter,
+alligator pins)
+
+=item * access to basic knowledge about electricity and circuits (a friend if
+needed)
+
+=item * a Core node or other Dogecoin wallet connected to the network
+
+=back
+
+=head2 *Connecting the Board to the Machine
+
+For this example, your author used a Lord of the Rings Stern Pinball
+machineN<See U<https://sternpinball.com/game/the-lord-of-the-rings/> and
+U<https://pinside.com/pinball/machine/lord-of-the-rings>.>. This machine has
+two coin slots and, importantly, an expansion connector to add a tournament
+printer.
+
+On your machine, you may have a different configuration, such as a button to
+simulate adding a coin, a bill acceptor for paper money, or a card reader.
+Similarly, you may have a power connector intended to supply another accessory
+or no power at all.
+
+B<This is important>: you need to connect to the machine in at least one,
+perhaps two ways. First, to toggle the switch which signals to the machine that
+someone has inserted a credit (simulating a coin, card swipe, or bill
+insertion). Second, to power the programmable relay board.
+
+You don't I<need> to do the second, though it may be more convenient, but you
+do need to power the board somehow. The nice part about powering the board from
+inside the machine is that the board is neither visible nor externally
+accessible; you can lock the coin door to keep people out.
+
+=head3 *Getting Power
+
+On the inside right of the LoTR machine, you can find a three-pin Molex
+connector. This provides a ground wire, a +5V wire, and another wire you can
+ignore. If your board runs from 5 volts, you can attach two wires to a Molex
+connector to power the board.
+
+=begin tip If You Know You Know
+
+Be careful doing this. If you connect the wrong wires, you can damage either or
+both the board and the pinball machine. Check and double-check the voltage and
+your connections.
+
+This tip will explain the concepts and show diagrams, but it won't tell you
+I<exactly> how to do things, because you're much safer working with someone who
+has practical experience doing things like this.
+
+=end tip
+
+If all goes well, you can power down the machine, unplug the machine, connect
+the board connector to the machine connector, plugin in the machine, turn on
+the machine, and see your board light up (then see it on the network).
+
+With power to the board, try sending a signal to the board to toggle the relay.
+With your multimeter connected to the correct relay terminals, you should see a
+voltage toggle to the tune of 5 volts. If you don't, check your connections and
+debug your settingsN<Your author managed to reprogram his board trying to get
+the power connection right, so be prepared to reprogram anything you need
+there.>.
+
+=head3 *Connecting to the Switch
+
+In the LoTR machine, the right coin slot is easy to access. It has one blade
+connector and one soldered connector. When someone inserts a coin, a mechanical
+lever closes the circuit between the two connectors briefly, and the machine
+registers a credit.
+
+To simulate this, connect one wire from the relay board to the blade connector
+and another to the soldered connector. For the specific ESP board, use the wire
+from the Normally Open (NO) relay terminal to the blade connector and the wire
+from the Normally Closed (NC) terminal to the soldered connector. If you're
+testing this now, you can use an alligator clip for the soldered connector
+instead, if you're I<very> careful not to short anything else. Otherwise, a
+Scotchlok connector might be better.
+
+Similarly, for the blade connector, consider using a pigtail where you can
+insert the wire from the relay board I<between> the existing connections.
+
+Testing this way allows you to get the figurative bugs out of the system before
+making permanent modifications to your machine.
+
+=head3 *Customizing Your System
+
+You can take this a lot further, perhaps sharing one relay between multiple
+machines (in that case, you have to run wires from a central board to all
+machines, but you only need to power the board once). You can also disable the
+coin slot or payment mechanism if you like--or even remove it, if you prefer.
+
+See L<figure-lotr_programmable_relay_schematic> for a schematic of the relay
+connection specific to this Stern machine. You can adapt this to your machine
+by examining its service manual very carefully. In particular, in this
+schematic, note the 1N4004 diode connected to the relay which matches a similar
+diode on the machine's coin mechanism.
+
+You may need to add something similar for safety (and to match scan timings of
+the machine).
+
+=begin figure LoTR Programmable Relay Schematic
+
+Z<figure-lotr_programmable_relay_schematic>
+
+F<images/doge-arcade-schematic.png>
+
+=end figure
+
+With the board connected to the machine for power and the relay connected to
+the coin slot, now you can send a command to toggle the switch. If all goes
+well, you'll see the machine register a credit.
+
+If not, check that the relay toggling is the one you intend to toggle, that the
+connections are secure and not shorted, and that the delay on the toggle is
+long enough.
+
+=head2 *Understand the Risks
+
+Whew. All it took to get a quarter's worth of pinball is an entire book full of
+programmable dog money, but you made it.
+
+The main risk of doing something cool like this is that you'll spend a lot of
+time and money collecting obscure hardware and then say "Wouldn't it be amazing
+if I installed a webcam and put a QR code online so people could pay one
+Dogecoin to see their pinball credits register?" All of the pieces here and in
+this chapter and in this book can be rearranged and recombined in many ways,
+some of them not invented yet. Maybe you'll be the one to invent them.
+
+In more seriousness, the risks of doing any electrical work inside a large
+device like a pinball machine are electrocution, fire, and damage to either
+device. Again, review the service manual, consult a knowledgeable friend, and
+test and re-test with your multimeter. This goes whether you're connecting
+arcade hardware, multimedia equipment, or anything else.
+
+On the other hand, the rewards are pretty cool, and there's no satisfaction
+quite like taking what you've learned and making something tactile with
+it--especially when you start with what was supposed to be a joke and now has
+become something useful.
