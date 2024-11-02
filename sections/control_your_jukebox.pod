@@ -112,9 +112,9 @@ If you're not an experienced programmer, you need to understand that a program
 naturally wants to do only one thing at a time, so it's important to recognize
 the types of problems where this is not appropriate and design them carefully
 so you don't introduce subtle and difficult to debug errors. If you've ever
-wondered why rescanning the blockchain (L<watch_an_address>) stops you from
-doing other things, that's because changing the chain while you analyze it
-could introduce odd inconsistencies.
+wondered why rescanning the blockchain (see L<watch_wallet_addresses>) stops
+you from doing other things, that's because changing the chain while you
+analyze it could introduce odd inconsistencies.
 
 This jukebox has to have two independent streams of work: playing the songs in
 the queue in order and waiting for input from a Dogecoin webhook. These streams

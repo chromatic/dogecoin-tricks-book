@@ -96,11 +96,11 @@ Okay, that's a fair reaction.
 
 X<< configuration options; C<txindex> >>
 
-Did you ever wonder why you have a wallet? With watch-only addresses
-(L<watch_an_address> or L<watch_wallet_addresses>), you can keep track of
-transactions even if they don't belong to you--but why do you have to go
-through extra work just to register them with a Dogecoin Core? What's the use
-of C<txindex> (L<index_all_transactions>) anyway?
+Did you ever wonder why you have a wallet? With watch-only addresses (see
+L<watch_wallet_addresses>), you can keep track of transactions even if they
+don't belong to you--but why do you have to go through extra work just to
+register them with a Dogecoin Core? What's the use of C<txindex>
+(L<index_all_transactions>) anyway?
 
 With the full blockchain approaching 100 GB in size when stored on disk, it'd
 be incredibly inefficient to look up anything without an index. As written
