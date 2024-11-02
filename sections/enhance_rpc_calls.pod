@@ -4,7 +4,7 @@ Z<enhance_rpc_calls>
 
 X<RPC commands>
 
-Because Dogecoin has Bitcoin, Litecoin, and LuckyCoin in its pedigree--and in
+Because Dogecoin has Bitcoin, Litecoin, and Luckycoin in its pedigree--and in
 its code--you can often find guides and documentation written for those coins
 that work for Dogecoin.
 

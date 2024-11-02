@@ -30,11 +30,11 @@ This tip assumes you have:
 
 =item * programmed a relay board to control a switch from a network command
 
-=item * basic electronic parts (wires, Molex connectors, a multimeter,
-alligator pins)
+=item * basic electronic parts, such as wires, Molex connectors, a multimeter,
+and alligator clips
 
-=item * access to basic knowledge about electricity and circuits (a friend if
-needed)
+=item * access to basic knowledge about electricity and circuits, yourself or a
+friend
 
 =item * a Core node or other Dogecoin wallet connected to the network
 
@@ -116,6 +116,14 @@ making permanent modifications to your machine.
 
 =head3 *Customizing Your System
 
+=begin figure LoTR Programmable Relay Schematic
+
+Z<figure-lotr_programmable_relay_schematic>
+
+F<images/doge-arcade-schematic.png>
+
+=end figure
+
 You can take this a lot further, perhaps sharing one relay between multiple
 machines (in that case, you have to run wires from a central board to all
 machines, but you only need to power the board once). You can also disable the
@@ -129,14 +137,6 @@ diode on the machine's coin mechanism.
 
 You may need to add something similar for safety (and to match scan timings of
 the machine).
-
-=begin figure LoTR Programmable Relay Schematic
-
-Z<figure-lotr_programmable_relay_schematic>
-
-F<images/doge-arcade-schematic.png>
-
-=end figure
 
 With the board connected to the machine for power and the relay connected to
 the coin slot, now you can send a command to toggle the switch. If all goes

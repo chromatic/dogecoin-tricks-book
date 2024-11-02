@@ -84,13 +84,12 @@ set it down and come back to it later; all of the information will be waiting
 for you. Ideally each tip has enough breadcrumbs to point to other places that
 you can remind yourself where you were in your journey at the time.
 
-Put this book on your bedside table. Face it out on from the bookshelf behind
-you when you're on video calls. Carry it when you're walking, riding the train,
-or enjoying a cannolo from a park bench downtown. Lend a copy to your friends
-and donate a copy to your local library. Above all, embrace the fun. Your
-author believes that learning things can be enjoyable and being in control of
-your own coins is liberating and powerful. There's a lot to learn, but it
-doesn't have to be intimidating. It can be fun and playful.
+Put this book on your bedside table. Face it out from your bookshelf during
+video calls. Carry it when you're walking, riding the train, or enjoying a
+cannolo on a park bench downtown. Lend a copy to your friends and donate a copy
+to your local library. Above all, embrace the fun. Your author believes that
+being in control of your own coins is liberating and powerful. Learning can be
+fun and playful.
 
 With that said, take note of a couple of things.
 
@@ -101,20 +100,22 @@ ideas apply to multiple cryptocurrencies, especially coins with a similar
 lineage. A lot of this book applies to BitcoinN<See U<https://bitcoin.org/>.>.
 Much of it applies to LitecoinN<See U<https://litecoin.org/>.>, as well as
 other forks of Bitcoin and Dogecoin--currencies like PepecoinN<See
-U<https://pepecoin.org/>.> and DingocoinN<See U<https://dingocoin.com/>.>.
+U<https://pepecoin.org/>.> and DingocoinN<See U<https://dingocoin.com/>.>--even
+the immediate predecessor of Dogecoin, LuckycoinN<See
+U<https://luckycoinfoundation.org/>.>.
 
 Many of the examples will work with small or minor modifications. If you prefer
-one of those other coins over Dogecoin, that's totally okay! You can still
-learn a lot and have the appropriate amount of fun. We all share some common
-ground, including code, so we can all learn from each other.
+another coin over Dogecoin, that's totally okay! You can still learn a lot and
+have the appropriate amount of fun. We all share some common ground, including
+code, so we can all learn from each other.
 
 What will you need to change? The names of executable files, for example, are
 different between coins. Where you launch the Dogecoin Core wallet GUI via a
 program named C<dogecoin-qt>, you launch the Pepecoin equivalent via
 C<pepecoin-qt>. Similarly, wallet addresses are all different, as are the ports
 used to connect to each coin's network and RPC mechanisms. It's okay if this
-seems like a lot of overwhelming detail now; it will make more sense when
-you really need to know it.
+detail seems overwhelming now; it will make more sense when you really need to
+know it.
 
 Consult the documentation for a different coin for details on what needs to
 change.
@@ -168,6 +169,7 @@ X<people; RNB>
 X<people; meta_rach>
 X<people; mishaboar>
 X<people; Patrick Lodder>
+X<people; Brett Warden>
 
 Thank you to RNBN<U<https://twitter.com/RNB333>> and
 RachelN<U<https://twitter.com/meta_rach>> for editorial questions and
@@ -178,5 +180,8 @@ perspective, and helping promote a deep empathy for other people--as well as the
 
 Thank you to Patrick LodderN<U<https://github.com/patricklodder/>> for technical
 advice and always-trenchant corrections.
+
+Thank you to Brett WardenN<U<https://twitter.com/bwarden>> for electronics and
+wiring advice, and the Dogecoin Pinball switch schematic.
 
 Any remaining errors are the fault of the sometimes-too-clever author.

@@ -5,8 +5,8 @@ Z<check_your_parameters>
 Back in the olden, more innocent times of 2013, there was Bitcoin and then a
 lot of things happened. A coin named Litecoin began by forking BitcoinN<Someone
 made a copy of the original source code, made some changes, released the
-changes, and development continued on the modified version.>. Then LuckyCoin
-forked Litecoin. Then Dogecoin forked LuckyCoin.
+changes, and development continued on the modified version.>. Then Luckycoin
+forked Litecoin. Then Dogecoin forked Luckycoin.
 
 All of these coins can trace their lineage back to the original Bitcoin source
 code.
