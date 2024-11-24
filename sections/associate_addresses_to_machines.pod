@@ -49,8 +49,8 @@ few steps to get up and running.
 =head3 *Generate a Bunch of Addresses
 
 First, you need a bunch of addresses, maybe exported from a trusted node (see
-L<extract_wallet_addresses>) or generated from a secure HD key. Prepare these
-in a text file to import into a database.
+L<export_wallet_data>) or generated from a secure HD key. Prepare these in a
+text file to import into a database.
 
 =head3 *Configure Your Network
 

@@ -1,24 +1,35 @@
-=head1 Export Wallet Data
+=head1 Export and Extract Wallet Data
 
 Z<export_wallet_data>
 
 X<wallet>
 X<Dogecoin Core; wallet>
 
+A wallet is good for keeping your keys and addresses and labels together. In
+fact, you can't do much to send or receive Dogecoin without a wallet somewhere.
+A node without a wallet can do a lot for the network, but it doesn't do much
+for you personally.
+
 A previous tip explained how to back up your wallet
 (L<securely_back_up_your_wallet>). This approach works great if you want
 toN<... and you do want to!> keep multiple secure copies in multiple places
-just in case something happens to your main system.
-
-Your secure backup is great for that, but it treats your wallet as opaque,
+just in case something happens to your main system.  A wallet backup, if stored
+securely, can give you the ability to recover from a disaster like a goat
+chewing through your laptop's power cable and bricking your hard drive, but it
+gives you little more than redundancy. It treats your wallet as opaque,
 obscuring its I<contents>: your private keys, HD key derivation paths, labels,
-and addresses. If you need to operate on this set of data as a whole, exporting
+and addresses.
+
+A plain-text version of your wallet gives you more options--if you handle it
+with caution. If you need to operate on this set of data as a whole, exporting
 your wallet makes this possible--at the risk of exposing your wallet data in
 plain text.
 
 =head2 *Understand the Risks
 
 This tip will produce an unencrypted, plain-text representation of your wallet.
+The contents of this file (and the data in your wallet in your nod) shouldn't
+be intimidating, but your secrets are most secure when they're kept secret.
 This file will contain your private keys I<and> the Dogecoin addresses derived
 from those keys. Your private keys will be in a file on your computer in plain
 text, and anyone who can get their hands on that file will also get their hands
@@ -94,9 +105,85 @@ Finally, the comment may include the public address associated with the key.
 When the Core has derived the key from an HD seed, you will also see that key's
 derivation path in C<hdkeypath>.
 
+=head2 *Extracting Data From Wallet Dumps
+
+After several lines of header information, each private key and address has one
+line in the file. If you can read this file, you can get every address out of
+it. This sounds like a job for automation, so warm up your favorite programming
+language!
+
+The I<easy> way to work with this data is to assume you already have a dump
+file somewhere on your system, then read it line by line and extract the data
+you want. In pseudocode:
+
+=over 4
+
+=item * loop over every line in the file
+
+=item * skip blank, header, and comment lines (headers and comments look
+identical)
+
+=item * split all other lines on space characters into into data chunks
+
+=item * extract address data from the appropriate data chunk
+
+=back
+
+X<concepts; regular expressions>
+
+In the programming world, a I<regular expression> (or I<regex> for short) is a
+concise description of the shape of data, like "A capital letter followed by
+multiple numerals or letters, up until but not including a space character".
+They're very useful, but if you're not familiar with them, they can be
+intimidating. That's okay. You don't have to understand them to use this tip!
+
+Regex-wielding programmersN<With no apologies for U<https://xkcd.com/208/>.>
+can do this in a couple of lines. Look for a chunk of data starting with
+C<addr=>, then capture everything after that until the next space. With
+Perl-style regular expressions, write something like C</addr=(\S+)/> and, if
+the match succeeds, take the address from the first (only) capturing group.
+
+Once you have this address, you can write it to a file which you can use for
+other purposes.
+
+=head2 *Automated Extraction From Wallet Dumps
+
+This approach has two drawbacks. First, you have to write the code yourself.
+Second, you have to manage dumping the wallet, processing the file, then
+remembering to remove the wallet dump securely.
+
+One alternate approach is to automate the process: make the RPC call, loop
+through the plain-text wallet dump, extract the addresses, write them to a
+separate file, then delete the original file. This is a variant of the
+technique used to wrap RPC calls with other behavior (see L<enhance_rpc_calls>).
+
+X<< Perl libraries; C<Finance::Dogecoin::Utils> >>
+X<< external programs; C<dogeutils> >>
+
+Fortunately, your author has already written code to do all of this with
+version C<1.20230424.0253> of C<Finance-Dogecoin-Utils>. The C<dogeutils>
+command has an option C<exportaddresses>:
+
+=begin screen
+
+  $ DOGEUTILS_USER=lisa dogeutils exportaddresses > my_address_list
+
+=end screen
+
+As with the previous C<dogeutils> uses, you need your authentication for RPC
+configured correctly. Also be sure to redirect the output of this command to a
+file, as you may get thousands or more lines of output. Behind the scenes, the
+code handles making the wallet export for you as well as deleting the exported
+file.
+
+I<Also> review the code before you run it. Even if you trust the author, you
+should verify that the code came from a trusted source, has no obvious or
+non-obvious bugs, and seems to do what it claims. Any code you download and run
+on your private information is a risk.
+
 =head2 *What Can You Do With This?
 
-You can do at least three things with this data:
+You can do at least three other things with this data:
 
 =over 4
 
@@ -108,7 +195,16 @@ study computer science, and wake up in the middle of the night realizing that
 everyone in University may have been able to grab this file off of an
 unprotected network share.
 
-=item * Process this file for another purpose (see
-L<extract_wallet_addresses>), then delete it securely.
+=item * Process this file for another purpose, then delete it securely.
 
 =back
+
+To the last point, you can do a I<lot> more with a wallet dump than export
+addresses.  You could back up your private keys (especially if you write them
+to a file and encrypt it). You can find addresses without labels and figure out
+labels for them (and add labels to them). You can look for addresses waiting in
+reserve or addresses already used.
+
+This file doesn't contain a large amount of unique data, but it contains data
+you can't easily access in other ways, so if you have any needs listed here,
+this is your best approach.

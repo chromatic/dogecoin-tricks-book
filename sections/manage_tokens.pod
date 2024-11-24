@@ -64,7 +64,7 @@ customer's account and adds a credit to the game.
 Skip over the "add a credit to the game" piece for now (link to tip).
 
 To make this work, you need a steady and unique supply of Dogecoin addresses
-(see L<extract_wallet_addresses>). You need a way to give a unique address to a
+(see L<export_wallet_data>). You need a way to give a unique address to a
 customer and watch for transactions to that address. You need to account for
 tokens purchased from that transaction. You need a way to associate a
 customer's identity with the tokens they've purchased. You need a way to track
