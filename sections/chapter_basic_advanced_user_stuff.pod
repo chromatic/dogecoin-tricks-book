@@ -4,13 +4,25 @@
 
 Z<chapter_basic_advanced_user_stuff>
 
+A Dogecoin wallet isn't a pouch full of paper wads and metal lumps. Neither is
+it a ledger of incoming and outgoing transactions. It I<is> a list of numbers
+and descriptions. Those are public and private keys and any labels you've
+attached to them.
+
+Even though that sounds deceptively simple (and doesn't translate directly to
+the contents of your pocket or your bank account), the contents of your wallet
+are important. They give (or you) access to the Dogecoin you can spend. What
+you do or don't do with them can make the difference between having Dogecoin
+and watching someone else spend it.
+
 Not everything you do with Dogecoin is always deeply technical. This should be
 fun, too! Sometimes it's satisfying to do something difficult or complicated or
 unpopular just to say you've done it, but it's also satisfying to I<avoid>
 problems or complications or little annoyances that get in your way.
 
 This chapter covers several ideas to make your use of the Core more pleasant,
-enjoyable, and fun.
+enjoyable, and fun--while working with your wallet safely and securely and
+protected from potential catastrophe.
 
 L<launch_core_silently>
 
@@ -21,3 +33,21 @@ L<practice_a_new_language>
 L<swap_wallets>
 
 L<limit_logs>
+
+L<securely_back_up_your_wallet>
+
+L<use_a_text_wallet>
+
+L<find_all_received_addresses>
+
+L<generate_a_qr_code>
+
+L<customize_your_qr_code>
+
+L<work_without_a_wallet>
+
+L<export_wallet_data>
+
+L<watch_wallet_addresses>
+
+L<replenish_your_address_pool>

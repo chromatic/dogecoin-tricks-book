@@ -18,20 +18,3 @@ and watching someone else spend it.
 Here's how to work with your wallet well, from keeping it secure to receiving
 payments safely to recovering from potential catastrophe.
 
-L<securely_back_up_your_wallet>
-
-L<use_a_text_wallet>
-
-L<find_all_received_addresses>
-
-L<generate_a_qr_code>
-
-L<customize_your_qr_code>
-
-L<work_without_a_wallet>
-
-L<export_wallet_data>
-
-L<watch_wallet_addresses>
-
-L<replenish_your_address_pool>
