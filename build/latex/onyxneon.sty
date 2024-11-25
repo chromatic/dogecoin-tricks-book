@@ -37,12 +37,12 @@
 
 \newenvironment{epigraph}{\begin{itshape}\par\noindent}{\end{itshape}}
 \newenvironment{blockquote}{%
-\hangindent=0.7cm%
-\setlength{\parindent}{0.7cm}%
-}{}
+    \hangindent=0.7cm%
+    \setlength{\parindent}{0.7cm}%
+}
 
 % creates a mypart command
-\def\mypart#1#2{%
+\def\mypart#1#2{ %
     \par\newpage\cleardoublepage % Page break
     \thispagestyle{plain}
     \vspace*{5cm} % Vertical shift
@@ -63,12 +63,13 @@
 \tikzstyle{title} = [fill=black, text=white]
 
 \newenvironment{tip}[2][]{%
-\begin{center} %
-\begin{tikzpicture} %
-\node[mybox](box){\begin{minipage}{0.90\textwidth}#2\end{minipage}}; %
-\node[title,right=10pt,rounded corners] at (box.north west) {#1}; %
-\end{tikzpicture} %
-\end{center}}{}
+    \begin{center} %
+    \begin{tikzpicture} %
+    \node[mybox](box){\begin{minipage}{0.90\textwidth}#2\end{minipage}}; %
+    \node[title,right=10pt,rounded corners] at (box.north west) {#1}; %
+    \end{tikzpicture} %
+    \end{center}
+}{}
 
 % elide extra space after sentence endings
 \frenchspacing
@@ -130,7 +131,8 @@
 
 % enable the use of unicode
 \usepackage[mathletters]{ucs}
-\usepackage[utf8x]{inputenc}
+% the latter package has been deprecated and causes compilation errors
+% \usepackage[utf8x]{inputenc}
 \renewcommand*\ttdefault{cmtt} % Computer Modern for monospaced
 
 % Allow crossreferences to display full section title
@@ -171,9 +173,9 @@
 
 % set up title
 \title{\booktitle}
-\posttitle{%
-\par\large{\booksubtitle}
-\end{center}\vskip 0.5em
+\posttitle{
+    \par\large{\booksubtitle}
+    \end{center}\vskip 0.5em
 }
 \date{}
 \author{\bookauthor}
