@@ -152,10 +152,10 @@ This approach has two drawbacks. First, you have to write the code yourself.
 Second, you have to manage dumping the wallet, processing the file, then
 remembering to remove the wallet dump securely.
 
-One alternate approach is to automate the process: make the RPC call, loop
-through the plain-text wallet dump, extract the addresses, write them to a
-separate file, then delete the original file. This is a variant of the
-technique used to wrap RPC calls with other behavior (see L<enhance_rpc_calls>).
+Another approach is to automate the process: make the RPC call, loop through
+the plain-text wallet dump, extract the addresses, write them to a separate
+file, then delete the original file. This is a variant of the technique used to
+wrap RPC calls with other behavior (see L<enhance_rpc_calls>).
 
 X<< Perl libraries; C<Finance::Dogecoin::Utils> >>
 X<< external programs; C<dogeutils> >>

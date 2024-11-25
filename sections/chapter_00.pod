@@ -42,7 +42,7 @@ silly memes. The point is to have fun.
 
 I<Fun> is what this book is about.
 
-=begin sidebar What do I need?
+=head1 *What Do You Need?
 
 This book assumes you have access to a computer somewhere (though some of the
 tricks will work on mobile devices such as phones and tablets), have access to
@@ -50,7 +50,7 @@ the Internet, and can download and install and run software.
 
 X<Dogecoin Core; trustworthy links>
 
-At the time of this writing, you can visit U<dogecoin.com> for links and
+As of the time of writing, you can visit U<dogecoin.com> for links and
 information about how to download and run the Dogecoin Core. Don't take our
 word for it though; check online if that's still the home of the Core. Test
 that against other sites such as U<https://github.com/dogecoin/dogecoin>, the
@@ -58,67 +58,59 @@ Dogecoin Reddit at U<https://reddit.com/r/dogecoin/> and other locations.  If
 something seems off to you, then ask questions. Honest, helpful people will
 give you good answers and help you verify them for yourself.
 
-=end sidebar
-
 =head1 *How to Read This Book
 
 X<< obscure references; I<Letters to Malcolm> >>
 
-Fun is the serious business of Dogecoin, so please read this book in a way that
+Fun is the serious business of Dogecoin, so read this book in any way that
 I<you> enjoy. Maybe that's front to back or back to front or skipping around.
 Maybe you read a couple of pages before going to sleep to relax you or teach
 your brain a lesson. The only I<wrong> way to read this book is a way that you
 don't enjoy.
 
 The book starts by assuming you're new to cryptography, cryptocurrency, and
-Dogecoin. Earlier pages introduce concepts that later pages expand, but it's
-fine to skip around. Skim the table of contents. Look at the names of every
-chapter and every tip. If something grabs your attention, read that first.
-Repeat.
+Dogecoin. Earlier pages introduce concepts that later pages expand. Skim the
+table of contents. Look at the names of every chapter and every tip. If
+something grabs your attention, read that first. Repeat.
 
-This book also makes explicit links between ideas. Concepts introduced early
-reappear later. You'll see themes repeated throughout the book--on purpose.
-It's just as valid to breeze through this book on a lazy summer afternoon as it
-is to skim through it over the period of weeks, months, or years. Feel free to
-set it down and come back to it later; all of the information will be waiting
-for you. Ideally each tip has enough breadcrumbs to point to other places that
-you can remind yourself where you were in your journey at the time.
+This book also makes explicit links between ideas. Concepts and themes repeat
+throughout the book--on purpose. It's just as valid to breeze through this book
+on a lazy summer afternoon as it is to skim through it over the period of
+weeks, months, or years. Feel free to set it down and come back to it later;
+all of the information will be waiting for you. Ideally each tip has enough
+breadcrumbs to point to other places that you can remind yourself where you
+were in your journey at the time.
 
 Put this book on your bedside table. Face it out from your bookshelf during
-video calls. Carry it when you're walking, riding the train, or enjoying a
-cannolo on a park bench downtown. Lend a copy to your friends and donate a copy
-to your local library. Above all, embrace the fun. Your author believes that
-being in control of your own coins is liberating and powerful. Learning can be
-fun and playful.
+video calls. Carry it while walking, riding the train, or enjoying a cannolo on
+a park bench downtown. Lend a copy to your friends and donate a copy to your
+local library. Above all, embrace the fun. Being in control of your own coins
+is liberating and powerful. Learning can be fun and playful.
 
 With that said, take note of a couple of things.
 
 =head2 *Cryptocurrency Isn't Only Dogecoin
 
-Although this book I<focuses> on Dogecoin, the basic concepts and a lot of the
-ideas apply to multiple cryptocurrencies, especially coins with a similar
-lineage. A lot of this book applies to BitcoinN<See U<https://bitcoin.org/>.>.
-Much of it applies to LitecoinN<See U<https://litecoin.org/>.>, as well as
-other forks of Bitcoin and Dogecoin--currencies like PepecoinN<See
-U<https://pepecoin.org/>.> and DingocoinN<See U<https://dingocoin.com/>.>--even
-the immediate predecessor of Dogecoin, LuckycoinN<See
-U<https://luckycoinfoundation.org/>.>.
-
-Many of the examples will work with small or minor modifications. If you prefer
-another coin over Dogecoin, that's totally okay! You can still learn a lot and
-have the appropriate amount of fun. We all share some common ground, including
-code, so we can all learn from each other.
+Although this book I<focuses> on Dogecoin, many concepts and ideas apply to
+multiple cryptocurrencies, especially coins with a similar lineage. Many
+examples will work with small or minor modifications. If you prefer another
+coin over Dogecoin, that's totally okay! You can still learn a lot and have the
+appropriate amount of fun. We all share some common ground, including code, so
+we can all learn from each other.
 
 What will you need to change? The names of executable files, for example, are
-different between coins. Where you launch the Dogecoin Core wallet GUI via a
-program named C<dogecoin-qt>, you launch the Pepecoin equivalent via
-C<pepecoin-qt>. Similarly, wallet addresses are all different, as are the ports
-used to connect to each coin's network and RPC mechanisms. It's okay if this
-detail seems overwhelming now; it will make more sense when you really need to
-know it.
+different between coins. You launch the Dogecoin Core wallet GUI via a program
+named C<dogecoin-qt> and the Pepecoin equivalent via C<pepecoin-qt>.
+Similarly, wallet addresses are all different, as are the ports used to connect
+to each coin's network and RPC mechanisms. It's okay if this detail seems
+overwhelming now; it will make more sense when you really need to know it.
 
-Consult the documentation for a different coin for details on what needs to
-change.
+Consult your coin's documentation for details on what needs to change. This
+includes BitcoinN<See U<https://bitcoin.org/>.>, LitecoinN<See
+U<https://litecoin.org/>.>, and related forks and spinoffs, including
+PepecoinN<See U<https://pepecoin.org/>.> and DingocoinN<See
+U<https://dingocoin.com/>.>--even the immediate predecessor of Dogecoin,
+LuckycoinN<See U<https://luckycoinfoundation.org/>.>.
 
 =head2 *Programmable Money Brings Risks
 
@@ -134,13 +126,19 @@ carefully and think about other things that could go wrong.
 If you're not sure, ask. After you ask, verify. This is also a book about ways
 to prove things, and knowledge and proof are power.
 
-=head2 *A Little Programming Can Be Fun
+=head2 *You Can Grow with This Book
 
-This book contains code. If you're familiar with programming in a language such
-as Python, Ruby, JavaScript, or Perl, you're in a position to get the most out
-of it. If you've never done this before, that's okay too! The code is there to
-explain and illustrate concepts, but you don't have to be a programmer to use
-programmable money effectively.
+Perhaps you picked up this book because it has cute dogs on the cover and
+you're not yet ready to build a pinball museum where people pay for credits
+with cryptocurrency. That's okay! If you read one tip every week, you'll get
+through this book in two years. That's not a bad investment of lazy Sunday
+afternoons. At that point, you may be full of other ideas no one has thought of
+before as well as new skills to bring them to life.
+
+This book contains code in languages including Python, Ruby, JavaScript, Bash,
+and Perl. If you're not a programmer, that's okay! The code will explain and
+illustrate concepts, but you don't have to be a programmer to use programmable
+money effectively.
 
 With that said, you I<will> get the most out of this book if you're comfortable
 installing and configuring software, especially working with configuration
@@ -151,19 +149,9 @@ understand.
 In short, if you're comfortable working with a spreadsheet, you know enough to
 get technical with Dogecoin!
 
-=head2 *You Can Grow with This Book
-
-Perhaps you picked up this book because it has cute dogs on the cover and
-you're not yet ready to build a pinball museum where people pay for credits
-with cryptocurrency. That's okay! If you read one tip every week, you'll get
-through this book in two years. That's not a bad investment of lazy Sunday
-afternoons. At that point, you may be full of other ideas no one has thought of
-before as well as new skills to bring them to life.
-
 =head1 *Credits
 
-This work, as expected, has turned out to have required the assistance of many
-people.
+This work, as expected, has benefited from much wonderful assistance.
 
 X<people; RNB>
 X<people; meta_rach>
@@ -172,8 +160,8 @@ X<people; Patrick Lodder>
 X<people; Brett Warden>
 
 Thank you to RNBN<U<https://twitter.com/RNB333>> and
-RachelN<U<https://twitter.com/meta_rach>> for editorial questions and
-suggestions which led to several of these tips!
+RachelN<U<https://twitter.com/meta_rach>> for feedback which led to several
+tips!
 
 Thank you to MishaboarN<U<https://twitter.com/Mishaboar>> for advice,
 perspective, and helping promote a deep empathy for other people--as well as the lovely foreword!

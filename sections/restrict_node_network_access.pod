@@ -57,10 +57,10 @@ consider yourself completely safe.
 
 X<< configuration options; C<debug> >>
 
-In Dogecoin Core 1.14.6 and earlier, you can start the program with the
-configuration option C<debug=http> to ask the Core to log information about the
-addresses it binds to for RPC commands. This will add information to your file
-F<debug.log> in your default Dogecoin directory. It can create a I<lot> of
+In Dogecoin Core 1.14.6 and earlier releases, you can start the program with
+the configuration option C<debug=http> to ask the Core to log information about
+the addresses it binds to for RPC commands. This will add information to your
+file F<debug.log> in your default Dogecoin directory. It can create a I<lot> of
 output, depending how busy your node is, so it may be worth using only while
 you're testing things. Alternately, your author filed Dogecoin Core issue
 3216N<See U<https://github.com/dogecoin/dogecoin/issues/3216>, fixed in

@@ -17,12 +17,9 @@ X<< Python libraries; C<qrcode> >>
 X<< Python libraries; C<pillow> >>
 
 You need two Python libraries for this, C<qrcode> and Pillow. If you installed
-C<qrcode> yourself, run a command like C<python3 -m pip install "qrcode[pil]">
-to install the libraries. Otherwise you might find them from your package
-manager or whatever packaged Python for youN<The Python installer from the
-previous tip works great for this too!>.
-
-With everything installed, write this little program:
+C<qrcode> yourself, run C<python3 -m pip install "qrcode[pil]"> to install
+Pillow. Otherwise, check your package manager manages Python for you. With
+everything installed, write this little program:
 
 =begin programlisting
 
@@ -36,20 +33,19 @@ With everything installed, write this little program:
     from qrcode.constants import ERROR_CORRECT_L
     from sys import argv
 
-    address = argv[1]
-    logo = argv[2]
+    def main(address, logo):
+        qr = qrcode.QRCode(error_correction=ERROR_CORRECT_L)
+        qr.add_data(address)
 
-    qr = qrcode.QRCode(error_correction=ERROR_CORRECT_L)
-    qr.add_data(address)
+        qr.make_image(
+            image_factory=StyledPilImage,
+            module_drawer=RoundedModuleDrawer(),
+            color_mask=RadialGradiantColorMask(),
+            embeded_image_path=logo,
+        ).save("qr" + address + ".png")
 
-    img = qr.make_image(
-        image_factory=StyledPilImage,
-        module_drawer=RoundedModuleDrawer(),
-        color_mask=RadialGradiantColorMask(),
-        embeded_image_path=logo,
-    )
-
-    img.save("qr" + address + ".png")
+    if __name__ == "__main__":
+        main(argv[1], argv[2])
 
 =end programlisting
 
@@ -61,10 +57,6 @@ Run this with arguments something like:
 
 =end screen
 
-This will generate the QR code shown in L<figure-dogecoin-custom-qr-code>, with
-the QR code for this book's homepage and the fantastic junior developer shibe
-puppet from L<put_your_face_on_your_wallet>.
-
 =begin figure An Eye-Popping, Bedazzling QR Code
 
 Z<figure-dogecoin-custom-qr-code>
@@ -73,14 +65,18 @@ F<images/dogecoin-custom-qr-code.png>
 
 =end figure
 
-This code does the same thing the C<qrcode> binary does and uses the Pillow
-library to round the image's edges, add a color gradient to the QR code, and
-embed your logo in middle of the image. The result gets written out with a
-predictable name, suitable for printing, including in a website, et cetera.
+This will generate the QR code shown in L<figure-dogecoin-custom-qr-code>, with
+the QR code for this book's homepage and the fantastic junior developer shibe
+puppet from L<put_your_face_on_your_wallet>. Print, share, send to an e-ink
+display, paint on a wall, do whatever you want with this--but remember, if you
+use I<this> logo, any funds go to the author's wallet!
 
 =head2 *Understand the Risks
 
-The more complex you make your QR code--especially if you use a large or
-complex additional image--the greater the chance that a QR reader will fail to
-read it appropriately. Test your image as always on multiple devices for looks
-I<and> behavior.
+This code enhances the C<qrcode> image to round the image's edges, add a color
+gradient to the QR code, and embed your logo in middle of the image. The result
+gets written out with a predictable name, suitable for printing, including in a
+website, et cetera. The more complex you make your QR code--especially if you
+use a large or complex additional image--the greater the chance that a QR
+reader will fail to read it appropriately. Test your image on multiple devices
+for looks I<and> behavior.

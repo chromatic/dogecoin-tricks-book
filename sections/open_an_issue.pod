@@ -32,14 +32,6 @@ how to ...", then you're in luck. Visit the Dogecoin Core GitHub Issues
 pageN<At U<https://github.com/dogecoin/dogecoin/issues/>.>. You'll see
 something like L<figure-dogecoin-core-github-issues>.
 
-=begin figure Dogecoin Core GitHub Issues
-
-Z<figure-dogecoin-core-github-issues>
-
-F<images/dogecoin-core-github-issues.png>
-
-=end figure
-
 Check to see that the URL includes C<dogecoin/dogecoin>. Note that the GitHub
 interface has C<Issues> underlined, indicating that you're looking at the right
 issues tab.
@@ -50,6 +42,14 @@ included. Both options have different templates that will prompt you to include
 lots of information. Fill out as much detail as you can. While the more detail
 you can include, the better--but if you don't have everything, it's okay. Think
 through all that you do know. Developers can always ask for more information.
+
+=begin figure Dogecoin Core GitHub Issues
+
+Z<figure-dogecoin-core-github-issues>
+
+F<images/dogecoin-core-github-issues.png>
+
+=end figure
 
 =head2 *What Makes a Good Request?
 

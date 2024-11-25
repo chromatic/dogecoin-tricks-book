@@ -65,22 +65,17 @@ have to trust a third-party to do it right. While you can and should
 double-check with your own phone or device that the code contains the link you
 want, it's important to be able to use these tools on your own too.
 
-=begin tip Install Python and qrcode Simply
+X<< Python libraries; C<qrcode> >>
+X<< external programs; C<qr> >>
 
+Many programming languages can generate QR codes, including Python with the
+module C<qrcode>N<See U<https://pypi.org/project/qrcode/> for more details.>.
 If you already have Python 3 installed, use C<python3 -m pip install qrcode>.
 Otherwise, download an installer from
 U<https://platform.activestate.com/chromatic/Python-QR-Codes> for Linux, Mac,
 and Windows systems.
 
-=end tip
-
-X<< Python libraries; C<qrcode> >>
-X<< external programs; C<qr> >>
-
-Many programming languages can generate QR codes, such as good tool is the
-Python module C<qrcode>N<See U<https://pypi.org/project/qrcode/> for more
-details.>. This module includes an easy to use command-line utility called
-C<qr>:
+This module includes an easy to use command-line utility called C<qr>:
 
 =begin screen
 
@@ -93,6 +88,7 @@ This will write a PNG file as output containing the QR code encoding the
 address. If your terminal supports image output, you can test the command by
 skipping the file redirection and pointing your phone at the screen, as shown
 in L<figure-dogecoin-qr-code-generation>.
+
 
 =begin figure Generate a QR Code from the Command Line
 

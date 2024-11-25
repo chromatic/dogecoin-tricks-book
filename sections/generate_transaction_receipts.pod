@@ -134,7 +134,7 @@ You don't have to use C<jq> to process the output of C<listtransactions>. You
 can use anything you want. Remember though that the power of command line
 tools, including C<dogecoin-cli> and C<jq>, is that you can combine them to do
 things that might otherwise take a lot of work. All of the other RPC commands
-in this book--and supported by the Dogecoin Core now and in the future--are
+in this book--supported by the Dogecoin Core now and in the future--are
 amenable to similar types of manipulation and processing. If you exercise your
 skills working with these tools in these ways, you can find yourself solving
 problems almost as fast as you can think of them.

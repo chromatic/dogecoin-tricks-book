@@ -106,9 +106,9 @@ example of Bitcoin's C<setlabel> call, you must make a C<POST> requests to your
 node's IP address on the right port to a URL containing your username and
 password, providing a JSON body containing the appropriate data.
 
-With the Core running on your machine, connect to C<localhost:22555> with a URL
-like C<http://user:pass@localhost:22555/>. Set a C<Content-Type> header of
-C<application/json> and C<POST> encoded JSON:
+With a Core running on your machine, connect to C<localhost:22555> with a URL
+like C<http://user:pass@localhost:22555/> to C<POST> encoded JSON with a
+C<Content-Type> header of C<application/json>:
 
 =begin programlisting
 
@@ -137,13 +137,12 @@ which returns the amount of coins received by the address(es) associated with a
 label. This does the same thing as C<getreceivedbyaddress> except its argument
 is a label, not an address.
 
-This is fixable. C<dogeutils> has a little bit of glue code to understand it
-should provide both C<setlabel> (which doesn't talk to a Core node) and
-C<getreceivedbylabel> (which does). The I<implementation> of the thing that
-looks like a C<getreceivedbylabel> call is entirely within the C<dogeutils>
-program. Given a label, it looks up the associated address in the JSON file,
-then calls C<getreceivedbyaddress> with the address and returns the resulting
-JSON verbatim.
+This is fixable. C<dogeutils> uses a little bit of glue code to provide both
+C<setlabel> (which doesn't talk to a Core node) and C<getreceivedbylabel>
+(which does). The I<implementation> of the C<getreceivedbylabel> behavior is
+entirely within the C<dogeutils> program.  Given a label, it looks up the
+associated address in the JSON file, then calls C<getreceivedbyaddress> with
+the address and returns the resulting JSON verbatim.
 
 That's it.
 

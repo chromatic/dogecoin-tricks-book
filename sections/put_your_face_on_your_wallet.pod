@@ -72,6 +72,19 @@ C<QResource> file to associate short aliases with these filenames. If you look
 at the file F<src/qt/bitcoin.qrc>, you'll find that the wallet background image
 has an alias of C<wallet_bgcoin>. In retrospect, that was predictable.
 
+The file F<src/qt/forms/overviewpage.ui> contains the code to modify. Find it
+by searching the Core for the alias name.
+
+You can go one of two directions here. Either you've used Qt this way before
+and you know exactly what this means, or you take two more steps and figure out
+what's going on. Behind the scenes, when you compile Dogecoin Core, the Qt
+software uses the XML in this UI file to generate complex but predictable C++
+code from it. This C++ code has a specific class with public members you can
+manipulate like you would any other C++ code. Build the Core to see a header
+file named F<src/qt/forms/ui_overviewpage.h>, which you can read to see that
+the corresponding class is C<Ui_OverviewPage>. The class member corresponding
+to this image's widget is C<label_wallet_bgcoin>.
+
 =begin tip You're Not Born Knowing This
 
 X<< external programs; C<ack> >>
@@ -88,19 +101,6 @@ C<grep>, C<git-grep>, C<ack>, or C<hg>. You'll unlock a superpower figuring out
 how things fit together.
 
 =end tip
-
-The file F<src/qt/forms/overviewpage.ui> contains the code to modify. Find it
-by searching the Core for the alias name.
-
-You can go one of two directions here. Either you've used Qt this way before
-and you know exactly what this means, or you take two more steps and figure out
-what's going on. Behind the scenes, when you compile Dogecoin Core, the Qt
-software uses the XML in this UI file to generate complex but predictable C++
-code from it. This C++ code has a specific class with public members you can
-manipulate like you would any other C++ code. Build the Core to see a header
-file named F<src/qt/forms/ui_overviewpage.h>, which you can read to see that
-the corresponding class is C<Ui_OverviewPage>. The class member corresponding
-to this image's widget is C<label_wallet_bgcoin>.
 
 If you're comfortable modifying C++ code, you're off to the races now. The last
 thing you need to know is that the Core initializes this form in a class called
