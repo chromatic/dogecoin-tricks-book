@@ -101,7 +101,7 @@ might prefer using a language binding, such as Perl's C<Finance::Libdogecoin>
   use Finance::Libdogecoin 'get_derived_hd_address_by_path';
 
   sub derive_address ($key, $index) {
-      my $path = "m/44'/3'/0'/0/$index";
+      my $path    = "m/44'/3'/0'/0/$index";
       my $address = get_derived_hd_address_by_path($key, $path, 0);
 
       return { address => $address, path => $path };
@@ -134,8 +134,9 @@ In a web context, you might want to build a model object more like this:
       }
 
       method derive_address ($index) {
-          my $path = "m/44'/3'/0'/0/$index";
-          my $address = get_derived_hd_address_by_path($key, $path, 0);
+          my $path    = "m/44'/3'/0'/0/$index";
+          my $address =
+             get_derived_hd_address_by_path($key, $path, 0);
 
           return { address => $address, path => $path };
       }

@@ -271,7 +271,7 @@ to read (not all jumbled together into a single line).
 =end screen
 
 Finally, this program ends defensively such that you could make it into a
-Python library if you wantd
+Python library if you want.
 
 =head2 *What Can You Do With This?
 

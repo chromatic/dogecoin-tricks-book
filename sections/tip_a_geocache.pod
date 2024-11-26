@@ -104,13 +104,13 @@ or curious critters could get ruin the paper wallet. Hopefully someone finds
 the cache first, but there's always the risk that the coins could be lost
 forever.
 
-Depending on how often and where you leave these tips, you could inadvertently
-reveal your personal information (name, approximate location, regular travel
-routes, et cetera) and that of anyone who redeems one of your wallets. If
-someone recognizes what the paper wallet represents, leaves it in place, and
-signs their moniker to the log, they can return later and see other log entries
-and narrow down who might have taken the wallet. If they scanned the paper,
-they have the keys to the wallet and can do anything with the transactions.
+Depending on how often and where you leave tips, you could inadvertently reveal
+your personal information (name, approximate location, regular travel routes,
+et cetera) and that of anyone who redeems one of your wallets. If someone
+recognizes what the paper wallet represents, leaves it in place, and signs
+their moniker to the log, they can return later and see other log entries and
+narrow down who might have taken the wallet. If they scanned the paper, they
+have the keys to the wallet and can do anything with the transactions.
 
 Even if they didn't scan the paper, they can now tie a list of names to a
 wallet address and monitor all transactions to and from that address.
@@ -124,6 +124,6 @@ potentially hostile.
 Finally, some people might see the chance to add a few more Dogecoin to their
 holdings as a personal challenge and try to find all the wallets you leave.
 That might go against your purpose in randomly tipping strangers who might have
-never encountered Dogecoin before. Think about what you want to
-achieve--hopefully brightening someone's day and inviting them to try something
-new, enjoyable, and liberating--and if your actions are likely to achieve that.
+never encountered Dogecoin before. Consider what you want to achieve--hopefully
+brightening someone's day and inviting them to try something new, enjoyable,
+and liberating--and if your actions are likely to achieve that.

@@ -1,4 +1,4 @@
-=head1 Calculate Dogecoin's Market Stats
+=head1 Calculate Dogecoin Market Stats
 
 Z<calculate_dogecoin_maximum_market_stats>
 

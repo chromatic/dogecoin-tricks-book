@@ -65,11 +65,12 @@ X<< RPC commands; C<createmultisig> >>
 
 Now the agent can create the script using the C<createmultisig> RPC command:
 
-=begin script
+=begin programlisting
 
-  createmultisig 2 [ 'your public key', 'artist public key', 'escrow public key' ]
+  createmultisig 2 \
+    [ 'your public key', 'artist public key', 'escrow public key' ]
 
-=end script
+=end programlisting
 
 The result will be a JSON object with two keys: C<address> and C<redeemScript>.
 The escrow agent should send this to both so that you can verify the script

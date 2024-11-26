@@ -90,9 +90,9 @@ transactions associated with this wallet:
 =end screen
 
 In this example, the current wallet has a handful of unspent transactions.
-Remember, you can use any C<jq> command on this data structure you want. If you
-want to extract the I<amount> from every transaction, use the command C<jq
-'.[].amount> to get a list of the amount of every transaction.
+Remember, you can use any C<jq> command on this data structure you want. For
+example, use the command C<jq '.[].amount'> to extract the I<amount> from every
+transaction.
 
 =head2 *Estimate Your Footprint
 

@@ -84,8 +84,8 @@ C<walletnotify> configuration to include this height.
 
 =head2 *Understand the Risks
 
-Besides all of the risks listed in the other tips, be aware that reindexing the
-blockchain, whether directly with C<rescan> or implicitly with an address
+In addition to every risk listed in the other tips, be aware that reindexing
+the blockchain, whether directly with C<rescan> or implicitly with an address
 import, will cause re-notification for all of the transactions associated with
 all of the addresses in your wallet, watch-only or fully-keyed. This can be
 desirable, if you're importing addresses and want to take action on them.

@@ -146,7 +146,7 @@ Try this query.
 
 =end screen
 
-You've seen a lot of this query before, but C<SUM(txcount)> is different. The
+Although you've seen similar queries, C<SUM(txcount)> is different. The
 C<txcount> column contains the number of transactions in each block. Like
 C<epochtime>, it's a scalar (non-aggregate) column. For C<GROUP BY> to do the
 right thing here, the number of transactions column has to become an aggregate

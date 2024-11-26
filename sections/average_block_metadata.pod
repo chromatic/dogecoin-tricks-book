@@ -38,8 +38,8 @@ Save this file as F<create_dates_view.sql>:
 
 =end screen
 
-... and run it with C<< sqlite3 < create_dates_view.sql blockstats.sqlite >>,
-or type that code directly into a SQLite prompt.
+Run it with C<< sqlite3 < create_dates_view.sql blockstats.sqlite >>, or type
+that code directly into a SQLite prompt.
 
 That code does exactly what it implies. If there's no existing view in the
 database with the name C<blockstats_dates>, it creates that view. That view has

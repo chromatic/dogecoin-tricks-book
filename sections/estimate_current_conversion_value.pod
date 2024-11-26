@@ -72,7 +72,8 @@ is correct), the "get coin price" query is:
 
 =begin screen
 
-  $ B<curl -s https://api.coinranking.com/v2/coin/a91GCGd_u96cF/price | \>
+  $ B<curl -s \>
+    B<https://api.coinranking.com/v2/coin/a91GCGd_u96cF/price | \>
     B<jq .data.price>
   "0.06701734282680077"
 
