@@ -128,12 +128,11 @@ to prove things, and knowledge and proof are power.
 
 =head2 *You Can Grow with This Book
 
-Perhaps you picked up this book because it has cute dogs on the cover and
-you're not yet ready to build a pinball museum where people pay for credits
-with cryptocurrency. That's okay! If you read one tip every week, you'll get
-through this book in two years. That's not a bad investment of lazy Sunday
-afternoons. At that point, you may be full of other ideas no one has thought of
-before as well as new skills to bring them to life.
+Perhaps you picked up this book because the cover has cute dogs. Though you're
+not yet ready to build a pinball museum where people pay with cryptocurrency,
+that's okay! If you read one tip every week, you'll get through this book in
+two years of lazy Sunday afternoons. At that point, you may be full of other
+ideas no one has thought of before as well as new skills to bring them to life.
 
 This book contains code in languages including Python, Ruby, JavaScript, Bash,
 and Perl. If you're not a programmer, that's okay! The code will explain and
@@ -159,17 +158,18 @@ X<people; mishaboar>
 X<people; Patrick Lodder>
 X<people; Brett Warden>
 
-Thank you to RNBN<U<https://twitter.com/RNB333>> and
-RachelN<U<https://twitter.com/meta_rach>> for feedback which led to several
-tips!
+Thank you to RNBN<U<https://x.com/RNB333>> and
+RachelN<U<https://x.com/meta_rach>> for feedback which led to several tips!
 
-Thank you to MishaboarN<U<https://twitter.com/Mishaboar>> for advice,
-perspective, and helping promote a deep empathy for other people--as well as the lovely foreword!
+Thank you to MishaboarN<U<https://x.com/Mishaboar>> for advice, perspective,
+and helping promote a deep empathy for other people--as well as the lovely
+foreword!
 
 Thank you to Patrick LodderN<U<https://github.com/patricklodder/>> for technical
 advice and always-trenchant corrections.
 
-Thank you to Brett WardenN<U<https://twitter.com/bwarden>> for electronics and
-wiring advice, and the Dogecoin Pinball switch schematic.
+Thank you to Brett WardenN<U<https://x.com/bwarden>> for electronics and wiring
+advice, and the Dogecoin Pinball switch schematic.
 
-Any remaining errors are the fault of the sometimes-too-clever author.
+Any remaining errors are the fault of the sometimes-too-clever
+authorN<U<https://x.com/chromatic_x>>.

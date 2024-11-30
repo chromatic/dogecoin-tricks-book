@@ -151,9 +151,10 @@ location (either an absolute path or relative to the directory where you
 launched the Core GUI) to use as a background image.
 
 For example, to use that Junior Developer Puppet image created by
-JimmieN<U<https://twitter.com/jimjimmiejames>> of the Real
-ShibesN<U<https://twitter.com/Real_Shibes>> podcastN<Listen and subscribe at
-U<https://dogebroadcast.com/>.>, your author would use a command like:
+JimmieN<U<https://x.com/jimjimmiejames>> of the Real
+ShibesN<U<https://x.com/Real_Shibes>> podcastN<Listen and subscribe at
+U<https://www.youtube.com/channel/UCua0kZDo5fa8srcWfxlmA5A>.>, your author
+would use a command like:
 
 =begin screen
 
