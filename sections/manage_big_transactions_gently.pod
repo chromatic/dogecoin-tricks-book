@@ -40,7 +40,7 @@ capacity your transaction won't bump others.
 
 =head3 *Transaction Costs
 
-In the current stable Dogecoin Core release (1.14.8), the recommended
+In the current stable Dogecoin Core release (1.14.9), the recommended
 transaction fee is 0.01 Dogecoin per kilobyte of transaction size. Unless you
 create a transaction by hand or change this value yourself via the Core, this
 is what you'll offer to pay miners to include your transaction in a block. The

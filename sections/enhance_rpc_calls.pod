@@ -12,7 +12,7 @@ Sometimes you can't, however.
 
 For example, the current major version of Bitcoin (version 24.x) supports
 several RPC calls that use and manipulate and query address labels. The current
-major version of Dogecoin (version 1.14.x) doesn't support these features.
+major version of Dogecoin (version 1.14.9) doesn't support these features.
 
 You're not out of luck if you want these features. You just have to be a little
 creative.

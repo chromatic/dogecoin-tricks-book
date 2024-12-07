@@ -57,7 +57,7 @@ How do you get an HD wallet?
 First, check to see if you have one already. Launch Dogecoin QT and look in the
 bottom right corner. You should see a little image that reads "HD", as seen in
 F<dogecoin-core-hd-wallet>. If you don't see this, make sure you're running a
-recent enough version of the Core (at this writing, at least 1.14.6).
+recent enough version of the Core (at this writing, at least 1.14.9).
 
 =begin figure Dogecoin Core with an HD Wallet
 

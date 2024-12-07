@@ -85,7 +85,7 @@ This can take a while.
 X<< RPC commands; C<importaddress> >>
 
 If you don't have a public key but you do have an address--such as the Dogecoin
-Developer tipjarN<C<9xEP9voiNLw7Y7DS87M8QRqKM43r6r5KM5>, as shown at
+Developer tipjarN<C<9xEP9voiNLw7Y7DS87M8QRqKM43r6r5KM5>>, as shown at
 U<https://foundation.dogecoin.com/announcements/2022-12-31-corefund/>, you can
 watch that with the C<importaddress> command, which behaves similarly to the
 public key import command.

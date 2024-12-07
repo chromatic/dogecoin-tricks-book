@@ -6,9 +6,9 @@ X<< Dogecoin Core; C<dogecoind> >>
 X<< Dogecoin Core; C<dogecoin-qt> >>
 
 Look at the network peers tab in your core wallet (Help -> Debug -> Peers, in
-the Qt GUI as of 1.14.6). You'll see a list of other nodes you've connected to,
-along with like their IP addresses (IPv4 or IPv6), the amount of data sent and
-received, and more.
+the Qt GUI as of the current 1.14.9 release). You'll see a list of other nodes
+you've connected to, along with like their IP addresses (IPv4 or IPv6), the
+amount of data sent and received, and more.
 
 That additional data includes a node version string. By defaultN<In the
 Dogecoin Core source code, look for a value called C<CLIENT_NODE>.>, every

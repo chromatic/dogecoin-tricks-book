@@ -31,7 +31,7 @@ time (January 1, 1970) or the blockheight.
 How do you distinguish between the two values? Dogecoin Core uses a threshold
 value called C<LOCKTIME_THRESHOLD> (you can see it in action in BIP-65, but at
 the time of current writing, the BIP does not explain this value clearly). As
-of Dogecoin Core 1.14.8, the value is 500000000, or 500 million. Any value less
+of Dogecoin Core 1.14.9, the value is 500000000, or 500 million. Any value less
 than 500 million is interpreted as a block height. Any value greater than 500
 million is interpreted as epoch seconds. Right now there have been fewer than 5
 million blocks mined, so there's room to grow.

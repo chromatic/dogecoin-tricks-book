@@ -92,7 +92,7 @@ X<< RPC commands; C<listreceivedbyaddress> >>
 Bitcoin's C<listreceivedbyaddress> call has an additional fourth argument used
 to filter transactions to specific addresses.
 
-As of this writing, Dogecoin 1.14.8 does not have that feature. Watch for it in
+As of this writing, Dogecoin 1.14.9 does not have that feature. Watch for it in
 future releases!
 
 =end tip

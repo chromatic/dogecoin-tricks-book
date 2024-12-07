@@ -60,7 +60,7 @@ What can you do?
 =head3 *Dogecoin GUI Backups
 
 If you're running the Dogecoin Core GUI with a recent enough release (as of
-this writing, version 1.14.6), use the File -> Backup Wallet menu item to
+this writing, version 1.14.9), use the File -> Backup Wallet menu item to
 launch a window that allows you to select the location and name of a wallet
 backup file.
 

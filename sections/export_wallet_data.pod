@@ -60,7 +60,7 @@ console (L<command_the_core>) or C<dogecoin-cli> or another RPC mechanism, send
 the command C<dumpwallet insecure-wallet-shred-now.txt>, then navigate to the
 file. You can read it from there.
 
-=begin tip Secure Backups with Dogecoin Core 1.14.6
+=begin tip Secure Backups with Dogecoin Core
 
 As of version 1.14.6, Dogecoin Core stores all backups and exports to a
 specific backups directory. Unless you've overridden the default location, you
