@@ -70,9 +70,7 @@ X<< external programs; C<notify-send> >>
 On Linux, the C<notify-send> command program (from C<libnotify>) handles all of
 the details. You can provide it a title for the notification, text for the
 notification, and even an icon. The result looks like
-L<figure-dogecoin-difficulty-desktop-notification>.
-
-What does the code look like?
+L<figure-dogecoin-difficulty-desktop-notification>. The code can be:
 
 =begin programlisting
 

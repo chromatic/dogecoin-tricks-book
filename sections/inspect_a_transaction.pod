@@ -31,9 +31,9 @@ things:
 
 That repeated phrase "at a specific point in time" is essential. At every part
 of the process, after every change to the ledger, the numbers should all add up
-correctly. If I take a transaction worth 1000 Doge and send you 900 and pay
-0.01 in transaction fees, the other 99.99 must go somewhere else, otherwise the
-transaction is invalid and the ledger is incomplete.
+correctly. If your author takes a transaction worth 1000 Doge and sends you 900
+and pay 0.01 in transaction fees, the other 99.99 must go somewhere else,
+otherwise the transaction is invalid and the ledger is incomplete.
 
 Thus, transactions have inputs and outputs--and other data.
 

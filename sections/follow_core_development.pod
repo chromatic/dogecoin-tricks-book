@@ -146,6 +146,6 @@ yourself a developer. Feel free to click around, read issues, think about
 discussions, and look at pull requests. Contribution is open to anyone willing
 to invest time and effort to help their fellow shibes.
 
-As always, be respectful, understand the rules, and treat other people with
-respect. Remember that this tool is essential to the Core developers, so please
-be mindful of their time and resources.
+As always, be respectful, understand the rules, and be kind to others. This
+tool is essential to the Core developers, so please consider their time and
+resources.

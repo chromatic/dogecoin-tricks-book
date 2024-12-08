@@ -87,10 +87,10 @@ X<< external programs; C<jq> >>
   txid="$1"
   tx_json=$(dogecoin-cli gettransaction "$txid")
   tx_amount=$(jq -r .amount <<< "$tx_json")
-  content="Much wow, just received a transaction of $tx_amount Doge!"
+  content="Much wow, received a transaction of $tx_amount Doge!"
 
   curl -X POST -H "Content-Type: application/json" \
-    -d '{"content": "$content", "username": "Doge TX Notifier Bot"}' \
+    -d '{"content": "$content", "username": "Doge TX NotifyBot"}' \
     https://discord.com/api/webhooks/<number>/<string>
 
 =end screen

@@ -156,8 +156,8 @@ What do you know now?
 This can give you a lot of confidence that the signatures of the files listed
 in the signature file are trustworthy, I<if you trust Patrick and the other
 Core developers>N<You don't have to trust the Core developers. Your author
-thinks they're trustworthy, but your author also will not tell you what level
-of risk and trust you're comfortable with.>.
+thinks they're trustworthy, but your author also will not tell you how to set
+your own trust and risk levels.>.
 
 X<< external programs; C<sha256sum> >>
 
@@ -180,8 +180,8 @@ download.
 
 You don't have to take only Patrick's word for it though. For every Core
 release, the developers create a GitHub issue to track the release tasks. For
-the 1.14.6 release, you can see this at
-U<https://github.com/dogecoin/dogecoin/issues/2975>. On this ticket, multiple
+the 1.14.6 release, you can see this at GH issue 2975N<See
+U<https://github.com/dogecoin/dogecoin/issues/2975>.>. On this ticket, multiple
 developers (maintainers and contributors alike) independently build the release
 files on all platforms and provide the signatures and all of the signatures
 must match before the release can go public (see L<reproduce_builds>).

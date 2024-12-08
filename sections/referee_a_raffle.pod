@@ -66,9 +66,9 @@ transactions), you've achieved your goal of transparency.
 =head3 *Pick Multiple Winners
 
 What if you have multiple prizes? For each item you're awarding, remove the
-winning transaction from the list and reduce the modulus by one. Reproduce the
-results and continue until you've awarded everything. The same rules apply: the
-algorithm and all of its input data must be available to anyone who wants to
+winning transaction from the list and reduce the modulus by one. Repeat this
+process and continue until you've awarded everything. The same rules apply:
+make the algorithm and all of its input data available to anyone who wants to
 check your work.
 
 =head3 *Can This Be Gamed?

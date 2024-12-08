@@ -49,7 +49,7 @@ This already suggests a lot of the implementation.
 The C<Finance::Dogecoin::Utils> library uses this information to populate a
 JSON file inside a configuration directory (F<~/.local/share/dogeutils/> on a
 Linux system). This JSON file contains an object which maps a label to an
-address. For example:
+address like:
 
 =begin programlisting
 

@@ -74,10 +74,10 @@ When you're choosing what to say, keep at least two important points in mind:
 =back
 
 If you're thinking of setting a comment that might hurt someone's feelings or
-cause drama like "Patrick is a curmudgeon!N<He'll probably agree, so this is the
-worst thing I wanted to put in print.>", think twice. There are human beings on
-the other side of the Internet, and our funny dog money only works if we all
-work together and cooperate.
+cause drama like "Patrick is a curmudgeon!N<He'll probably agree, so this is
+the worst thing your author wanted to put in print.>", think twice. There are
+human beings on the other side of the Internet, and our funny dog money only
+works if we all work together and cooperate.
 
 If you're thinking of setting a comment that might reveal personal or private
 information about you or someone else, like "Proudly hosted at 1 Chome-2
@@ -94,7 +94,7 @@ X<obscure references; Swedish Chef>
 You could use a dopey joke, like "Why does the Swedish Chef love Dogecoin?
 Because it goes bork bork bork!"
 
-You could advertise your Doge-related project, like "Check out IfDogeThenWow!"
+You could advertise your Doge-related project: "Check out IfDogeThenWow!"
 
 You could brag a little about your uptime, like "Proudly serving the network
 since 2013."

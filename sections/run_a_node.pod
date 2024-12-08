@@ -52,12 +52,12 @@ contribution.
 
 =head2 *Find the Right Software
 
-As of this writing, C<dogecoin.com>N<See U<https://dogecoin.com/>.> and
-C<github.com/dogecoin/dogecoin>N<See U<https://github.com/dogecoin/dogecoin>.>
-are two reputable sources which both announce new Dogecoin Core releases and
-provide download links to Dogecoin Core releases. Depending on when you read
-this, one or both of those URLs may have changed--probably not, but it's
-possible--so do some research to figure out what's reputable.
+As of this writing, both C<dogecoin.com>N<See U<https://dogecoin.com/>.> and
+the Core GitHub repositoryN<See U<https://github.com/dogecoin/dogecoin>.>
+are reputable sources which announce new Dogecoin Core releases and provide
+download links to Dogecoin Core releases. Depending on when you read this, one
+or both of those URLs may have changed--probably not, but it's possible--so do
+some research to figure out what's reputable.
 
 From a verifiable source, download the distribution that best matches your
 operating system. For example, if you're running Windows on Intel or AMD

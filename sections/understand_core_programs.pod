@@ -86,12 +86,12 @@ to make RPC calls into the core directly.
 
 X<< Dogecoin Core; C<dogecoin-tx> >>
 
-While you can create and sign transactions with C<dogecoin-cli> and
-C<dogecoin-qt>, they both require a running node. To manipulate transactions
-I<without> having to connect to a node, use the C<dogecoin-tx> binary. While
-you I<do> have to connect to the network somehow to broadcast and receive
-transactions and blocks, you can work with a wallet and transactions offline
-and only connect to the network when you've made all of the changes necessary.
+You can create and sign transactions with C<dogecoin-cli> and C<dogecoin-qt>,
+but they both require a running node. To manipulate transactions I<without>
+having to connect to a node, use the C<dogecoin-tx> binary. While you I<do>
+have to connect to the network somehow to broadcast and receive transactions
+and blocks, you can work with a wallet and transactions offline and only
+connect to the network when you've made all of the changes necessary.
 
 In other words, if you decide that you need the security of keeping your wallet
 information on an offline device, you have the option of running C<dogecoin-tx>

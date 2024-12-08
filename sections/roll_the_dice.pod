@@ -80,9 +80,9 @@ X<< Ruby libraries; C<bundler> >>
 
 =end screen
 
-Install the C<games_dice> and C<tty-prompt> libraries with C<gem install> or
-C<bundler> and run the program. You'll see a text-based menu asking how many
-six-sided dice to roll:
+Use either C<gem install> or C<bundler> to install the C<games_dice> and
+C<tty-prompt> libraries, then run the program. You'll see a text-based menu
+asking how many six-sided dice to roll:
 
 =begin screen
 

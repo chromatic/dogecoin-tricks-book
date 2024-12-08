@@ -60,11 +60,12 @@ cryptocurrency is measuring how much of it gets used regularly. We can do that.
 =head2 *Velocity and Velocity
 
 The economic measurement of how much money circulates how often is called
-"velocity". If I earn $1 CAD selling maple-flavored dried apple chips and buy
-$1 CAD worth of gasoline for a chainsaw and the chainsaw seller buys $1 CAD
-worth of poutine all in the same week, that's $3 CAD worth of velocity from the
-same Canadian dollar coin trading hands. How cool to watch a loonie spread
-through the economy: $3 CAD worth of value created from a single $1 CAD coin!
+"velocity". If your author earns $1 CAD selling maple-flavored dried apple
+chips and buys $1 CAD worth of gasoline for a chainsaw and the chainsaw seller
+buys $1 CAD worth of poutine all in the same week, that's $3 CAD worth of
+velocity from the same Canadian dollar coin trading hands. How cool to watch a
+loonie spread through the economy: $3 CAD worth of value created from a single
+$1 CAD coin!
 
 Similarly, if there were only 1000 Dogecoin in circulation, but all of them
 circulated between different people in every block, that's 1000 worth of

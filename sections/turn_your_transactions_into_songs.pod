@@ -20,9 +20,9 @@ They can!
 
 At the intersection of computer programming, music theory, and art sits
 something called "generated music", where a computer program assembles a bunch
-of numbers that match and flow sonically together in unique waysN<Oh, did I
-mention music is math too?>. Given patterns to assemble and a starting point,
-the system can produce an infinite stream of audio, if you put it together
+of numbers that match and flow sonically together in unique waysN<Oh, yes:
+music is math too!>. Given patterns to assemble and a starting point, the
+system can produce an infinite stream of audio, if you put it together
 correctly.
 
 For example, Dogecoin developer langerhansN<U<https://github.com/langerhans>.>

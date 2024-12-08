@@ -61,9 +61,9 @@ good request tells a story. That story needs at least four parts.
 =item * What you hope to accomplish. What's your big goal? It's important to
 describe this broadly.
 
-=item * What prevented you from accomplishing that goal. It's important to be
-specific. Did you get an error message? What was the exact text? What did you
-try? What are the steps you tried; can you reproduce them?
+=item * What prevented you from accomplishing that goal. Please be specific.
+Did you get an error message? What was its exact text? What did you try? What
+are the steps you tried; can you reproduce them?
 
 =item * What context you have. What operating system are you using? Processor?
 Version? The more detail here, the easier it is discover useful information.

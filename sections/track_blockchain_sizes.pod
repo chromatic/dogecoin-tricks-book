@@ -109,6 +109,8 @@ single value will become C<bogosize> and C<disk_size> with more accuracy.  In
 the previous example, the Core returned a value of 769,053,979 bytes: around
 7.7 MB on disk.
 
+X<GIF; how to pronounce correctly>
+
 If you're running a node, you can use your operating system's file utilities to
 get a better sense of how much space on disk your node uses to store the
 blockchain. As of this writing in early April 2023, a full node consumes about

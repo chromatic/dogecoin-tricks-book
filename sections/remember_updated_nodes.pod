@@ -58,13 +58,13 @@ X<< external programs; C<jq> >>
 Start with the easy question. Which peers you're currently connected to are
 running the latest Core version? At the time of this writing, 1.14.6 has been
 out for a while, so most peers should have updated by now. The C<getpeerinfo>
-command's output is a big blob of JSON with a list of objects, so a little bit
-of C<jq> work to extract data from JSON data will do. Assuming you've stored
-the output of C<getpeerinfo> into a file named F<peers>, you might write:
+command's output is a big blob of JSON with a list of objects, so use C<jq> to
+extract data from the JSON. Assuming you've stored the output of C<getpeerinfo>
+into a file named F<peers>, you might write:
 
 =begin screen
 
-  $ B<< jq '.[] | select(.subver | contains("1.14.6")) | .addr ' < peers >>
+  $ B<< jq '.[] | select(.subver | contains("1.14.6")) | .addr' < peers >>
 
 =end screen
 

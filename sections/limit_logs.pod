@@ -84,11 +84,11 @@ message to the Core to restart, so the Core can start writing to a new log
 file. This is a common pattern, but if it doesn't meet your needs, C<logrotate>
 has many, many other options to explore.
 
-If you have C<root> access on your system, add this file to your logrotate
-configuration directory. You may find this in a location such as
-F</etc/logrotate.d/dogecoin>. If you lack this access, save this file in one of
-your own directories (F<.dogecoin/> is fine), then enable C<logrotate> in your
-cron system (perhaps by running C<crontab -e>):
+If you have C<root> or administrative access, move this file into your
+logrotate configuration directory, something like F</etc/logrotate.d/dogecoin>.
+If you lack this access, save this file in one of your own directories
+(F<.dogecoin/> is fine), then enable C<logrotate> in your cron system (perhaps
+by running C<crontab -e>):
 
 =begin screen
 

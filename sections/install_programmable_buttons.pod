@@ -30,8 +30,8 @@ This tip assumes you have:
 
 =item * programmed a relay board to control a switch from a network command
 
-=item * basic electronic parts, such as wires, Molex connectors, a multimeter,
-and alligator clips
+=item * basic electronic parts, such as wires, Molex connectors, alligator
+clips, and a multimeter
 
 =item * access to basic knowledge about electricity and circuits, yourself or a
 friend

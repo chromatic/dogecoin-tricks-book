@@ -39,16 +39,15 @@ questions (When has my transaction settled? It's a pre-event purchase! Buy your
 ticket at least a couple of minutes in advance!) and raises others (What if the
 cost of admission fluctuated dramatically between purchase and event?).
 
-To make a million Dogecoin by:
+To make a million Dogecoin by selling:
 
 =over 4
 
-=item * selling games of pinball at 10 Dogecoin each, sell one hundred thousand
-plays
+=item * pinball credits at 10 Dogecoin each, sell one hundred thousand plays
 
-=item * selling jars of honey at 100 Dogecoin each, sell ten thousand jars
+=item * jars of honey at 100 Dogecoin each, sell ten thousand jars
 
-=item * selling concert admission at 250 Dogecoin each, sell four thousand tickets
+=item * concert admission at 250 Dogecoin each, sell four thousand tickets
 
 =back
 

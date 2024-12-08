@@ -117,7 +117,7 @@ that every number is going to be larger than 12,345,678. We know that a small
 data set will be close to that number, while a large data set will hash to a
 value much larger than that number.
 
-What if we said that, at every calculation, the result ought to be larger than
+Now image that, at every calculation, the result ought to be larger than
 10,000,000 but less than 49,876,543 (see L<roll_over_your_odometer>)? In other
 words, while adding the value of a letter's position times its alphabet value,
 you must always add 10,000,000 and always subtract 49,876,543 repeatedly until

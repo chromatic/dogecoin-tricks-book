@@ -153,9 +153,9 @@ have to run a lot of cable and deal with more physical security, lest someone
 plug their own hardware into an open network port.
 
 Hard-coding an association between address and machine makes certain things
-easier (see L<customize_your_qr_code>), but it reduces your anonymity. Anyone
-who visits your retro gaming museum and pays for individual plays against
-individual machines knows the Dogecoin addresses under your control and can
+easier (see L<customize_your_qr_code>), but it reduces your anonymity. Any
+visitor to your retro gaming museum who pays for individual plays against
+specific machines knows the Dogecoin addresses under your control and can
 monitor transactions against them and tie your physical location to your arcade
 income.
 
