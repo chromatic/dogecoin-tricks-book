@@ -68,7 +68,7 @@ defeated back in the 18th century"N<"You'll Be Back" not withstanding.>.
 
 This is the ideal behavior, anyhow. If there's no specific UK variant of
 English or Canadian variant of English, it's okay for the translation system to
-fall back to generic English. Similarly, if there's a Portugese in Portugal
+fall back to generic English. Similarly, if there's a Portuguese in Portugal
 language code C<pt_PT> but no Brazilian Portuguese C<pt_BR>, it's okay to fall
 back to Portuguese, even though you'll probably embarrass yourself with
 country-specific slang.

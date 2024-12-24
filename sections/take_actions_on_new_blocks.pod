@@ -132,7 +132,7 @@ interesting tool in your toolkit!
 
 =end tip
 
-When C<main()> gets the results, it prints the transction's description. It
+When C<main()> gets the results, it prints the transaction's description. It
 will look something like:
 
 =begin screen

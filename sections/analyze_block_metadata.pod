@@ -9,7 +9,7 @@ the data to allow you to analyze the blockchain however you can imagine.
 X<< external programs; C<sqlite> >>
 
 With SQLite available, open a command-line window (a terminal app on Mac OS,
-something like Powershell on Windows, and a terminal app on Linux or another
+something like PowerShell on Windows, and a terminal app on Linux or another
 Unix-like system).
 
 With your F<blockstats.sqlite> database, type C<sqlite3 blockstats.sqlite>. At

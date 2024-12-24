@@ -113,7 +113,7 @@ built upon) C<libdogecoin>. Remember that you can import data from a computer
 file or type it in by hand, but you should check for typos or file corruption
 before doing anything you can't reverse.
 
-X<people; Fluvio55>
+X<people; Fulvio55>
 
 An alternate approachN<Your author has not tested it, but takes the
 recommendation of Reddit Dogecoin Shibe C</u/Fulvio55> seriously.> is to use a

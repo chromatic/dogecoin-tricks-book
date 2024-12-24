@@ -103,7 +103,7 @@ transactions to the watched address as if they were transactions to your own
 wallet addresses. Any RPC command or other query you make of the Core can see
 these addresses and transactions. Look for parameters to these queries to
 include or exclude "watchonly transactions" or "watchonly addresses" to
-disambiguate funds under your control from funds assocaited with addresses you
+disambiguate funds under your control from funds associated with addresses you
 imported.
 
 =begin tip What's the Right Height?

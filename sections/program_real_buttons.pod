@@ -6,7 +6,7 @@ Before business starts booming in your little arcade, you have to fill in some
 gaps. You've figured out whether you want to use dedicated addresses per
 machine, a token payment system, or an à la carte system. You don't want people
 to put dollar bills, quarters, or other minted coins into your machines--too
-much to manage, too unhygenic, too easy to get ice cream everywhere.
+much to manage, too unhygienic, too easy to get ice cream everywhere.
 
 Now you need a way to turn a Dogecoin payment into a game credit--some way to
 turn a blockchain transaction into a button push, a switch flip, or a relay

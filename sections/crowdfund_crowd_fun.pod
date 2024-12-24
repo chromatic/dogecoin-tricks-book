@@ -78,7 +78,7 @@ You might write code like this with Perl or any other language:
       field $current_amount;
       field $funder_count;
 
-      method add_tx( $transaction, $curent_height ) {
+      method add_tx( $transaction, $current_height ) {
           my $tx_height = $transaction->height;
 
           # tx is too young to be confirmed

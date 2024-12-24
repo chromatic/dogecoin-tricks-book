@@ -117,7 +117,7 @@ libraries. This will save a little bit of time and trouble.
 Finally, check out the Dogecoin Core source code.
 
 Save this F<Dockerfile> in a directory by itself, then build the image. On a Linux or
-Mac OS X system or from a Powershell terminal on WindowsN<Your author hasn't
+Mac OS X system or from a PowerShell terminal on WindowsN<Your author hasn't
 actually tried this; feedback welcome.>, the command will be something like:
 
 =begin screen

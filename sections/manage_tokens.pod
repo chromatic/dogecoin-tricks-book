@@ -181,7 +181,7 @@ hashes in your system. If you've found a match, you can proceed to validate the
 provided password. Be sure to use a secure hash, however, lest you leave
 yourself vulnerable to dictionary or precalculation attacks.
 
-=begin tip becrypt everywhere?
+=begin tip Bcrypt everywhere?
 
 The bcryptN<See U<https://en.wikipedia.org/wiki/Bcrypt>.> function is a
 tempting approach because it resists some of the more effective attacks that

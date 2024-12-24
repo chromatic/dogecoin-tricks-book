@@ -72,7 +72,7 @@ when you're ready to use it.
 In other words, you will break yourself of the habit of assuming your wallet
 is always active and ready to go.
 
-Of course, every node with your wallet attached (or even on disk somwhere) is a
+Of course, every node with your wallet attached (or even on disk somewhere) is a
 node that has access to your wallet and probably a computer where your wallet
 could be compromised.  Even if you've encrypted it, it's still more secure if
 I<no one> has access to it than if someone does.
