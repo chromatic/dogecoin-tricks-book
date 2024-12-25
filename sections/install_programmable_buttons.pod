@@ -43,7 +43,8 @@ friend
 =head2 *Connecting the Board to the Machine
 
 For this example, your author used a Lord of the Rings Stern Pinball
-machineN<See U<https://sternpinball.com/game/the-lord-of-the-rings/> and
+machineN<To learn more, visit
+U<https://sternpinball.com/game/the-lord-of-the-rings/> and
 U<https://pinside.com/pinball/machine/lord-of-the-rings>.>. This machine has
 two coin slots and, importantly, an expansion connector to add a tournament
 printer.
@@ -89,7 +90,7 @@ the machine, and see your board light up (then see it on the network).
 With power to the board, try sending a signal to the board to toggle the relay.
 With your multimeter connected to the correct relay terminals, you should see a
 voltage toggle to the tune of 5 volts. If you don't, check your connections and
-debug your settingsN<Your author managed to reprogram his board trying to get
+debug your settingsN<Your author managed to deprogram his board trying to get
 the power connection right, so be prepared to reprogram anything you need
 there.>.
 

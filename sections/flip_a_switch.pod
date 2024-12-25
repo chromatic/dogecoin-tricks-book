@@ -3,9 +3,10 @@
 Z<flip_a_switch>
 
 You've installed your arcade hardware, you've set up machines with addresses,
-you've set up your tokens, and you've programmed some relay boards (link to
-tip) that can close temporarily and then open again. In theory, you have a
-payment system that can turn a Dogecoin purchase into a game of Asteroids.
+you've set up your tokens, and you've programmed some relay boards (see
+L<program_real_buttons>) that can close temporarily and then open again. In
+theory, you have a payment system that can turn a Dogecoin purchase into a game
+of Asteroids.
 
 What's left? Obviously getting people in the doors to play games, but also the
 final I<technical> connection: turning a payment into the Dogecoin Arcade
@@ -19,8 +20,8 @@ Dogecoin transaction adds credits, and the customer spends them on each
 machine), the last step is to turn some event into a switch flip. That means
 sending a signal to each relay board.
 
-Assume you have the boards installed appropriately for your system (link to
-tip).
+Assume you have the boards installed appropriately for your system (see
+L<program_real_buttons>).
 
 =head3 *Connect Your Relays to the Network
 

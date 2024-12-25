@@ -23,9 +23,9 @@ clear soon or ever.
 Second, you have to deal with the association between a person sending a
 transaction to a machine address and the machine address being visible to other
 people in the same location. If core developer Patrick Lodder really wants to
-play Donkey Kong Jr but worries that the person getting ice cream behind him
-will corner him in the parking lot and demand 1000 Dogecoin from Patrick's Big
-Whale Wallet, you've lost a good customer.
+play I<Donkey Kong Jr.> but worries that the person getting ice cream behind
+him will corner him in the parking lot and demand 1000 Dogecoin from Patrick's
+Big Whale Wallet, you've lost a good customer.
 
 Third, you have to mange the overhead of associating machines with addresses
 and keep that infrastructure running. It's not a lot of overhead I<if> you're
@@ -61,7 +61,7 @@ Every machine has a QR code on it (or your website lists your games). Your
 customer selects "play this game" and your software subtracts a token from the
 customer's account and adds a credit to the game.
 
-Skip over the "add a credit to the game" piece for now (link to tip).
+Skip over the "add a credit to the game" piece for now (see L<flip_a_switch>).
 
 To make this work, you need a steady and unique supply of Dogecoin addresses
 (see L<export_wallet_data>). You need a way to give a unique address to a
@@ -122,7 +122,7 @@ describe various pieces of this system, including Dogecoin address receipt
 actions (see L<act_on_wallet_transactions>), a general webhook architecture
 (see L<post_to_discord>), a list of machines (see
 L<associate_addresses_to_machines>), and the magical "insert credit" automation
-bridge (link to tip).
+bridge (see L<flip_a_switch>).
 
 This approach needs two new systems and an architecture design that ties
 everything together.

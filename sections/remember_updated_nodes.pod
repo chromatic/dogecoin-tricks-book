@@ -85,12 +85,12 @@ L<run_a_node>).
 =head2 *What Can You Do With This?
 
 There aren't many risks from using this code. Depending on how many nodes you
-connect to (link to tip), you probably only see a subset of the network. If you
-use this tip to populate a series of nodes you want to try to connect to (link
-to tip), remember that I<you> are as much a part of the network as anyone else
-who runs a node. While it may be safer to connect to updated nodes, it's better
-for the network for you to connect to nodes without all of the blocks,
-especially if you're running a full node yourself.
+connect to (see L<know_your_limits>), you probably only see a subset of the
+network. If you use this tip to populate a series of nodes you want to try to
+connect to (see L<ban_bad_actors>), remember that I<you> are as much a part of
+the network as anyone else who runs a node. While it may be safer to connect to
+updated nodes, it's better for the network for you to connect to nodes without
+all of the blocks, especially if you're running a full node yourself.
 
 There's no reason you have to use Core version, blocks available, or any other
 stats as the basis for what you consider "good" or memorable. Any other data

@@ -5,11 +5,11 @@ Z<vote_on_goats>
 X<recipes; blackberry lemonade>
 
 You've done it--fulfilled your life-long dream of buying land in the country
-and using your laptop only while sitting on your back deck, sipping lemonade
-and admiring the view. Then wild blackberry vines grow and block your view, and
-you can either put down your laptop and get out the gardening tools or adopt
-some goats and get back to sipping your drinkN<Recipe for blackberry lemonade:
-pick and wash blackberries. Add to lemonade. Muddle if you like.>.
+where you can use your laptop while sitting on your back deck, sipping lemonade
+and admiring the view. Then wild blackberry vines grow and block your view. You
+can either put down your laptop and get out the gardening tools or adopt some
+goats and get back to sipping your drinkN<Recipe for blackberry lemonade: pick
+and wash blackberries. Add to lemonade. Muddle if you like.>.
 
 The obvious answer is to adopt the goats. Four of them will do it. Now comes
 the difficult part: naming them.

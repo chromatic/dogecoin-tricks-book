@@ -164,8 +164,7 @@ as cheap as sending one).
 Finally, the board itself needs power. The board in this example has a lot of
 power options including wall warts, USB power, and direct-circuit connections,
 but that's for you to figure out, lest you fry the board or have to spend a lot
-of time thinking about how to get electricity from the wall to it (link to
-tip).
+of time thinking about how to get electricity from the wall to it.
 
 On the other hand, the thought of tapping a friendly Doge icon on your phone
 and seeing an arcade machine light up, inviting you to play, is cool.

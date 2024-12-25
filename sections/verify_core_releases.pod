@@ -76,7 +76,7 @@ file, then import it into your local C<gpg> keyring:
 =begin screen
 
   $ B<gpg --import ~/Downloads/patricklodder-key.pgp>
-  gpg: key 2D3A345B98D0DC1F: public key "Patrick Lodder <...>" imported
+  gpg: key 2D3A345B98D0DC1F: public key "Patrick Lodder..." imported
   gpg: Total number processed: 1
   gpg:               imported: 1
 

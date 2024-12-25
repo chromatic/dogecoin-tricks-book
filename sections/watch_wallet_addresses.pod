@@ -54,8 +54,8 @@ can derive an address. You cannot go backwards.
 
 =head2 *Watch-a-Bunch
 
-If you've dumped your wallet and extracted a bunch of addresses
-(L<export_wallet_data>), the rest of the tip might seem easy. Before you go
+If you've dumped your wallet and extracted a bunch of addresses (see
+L<export_wallet_data>), the rest of the tip might seem easy. Before you go
 further, you must understand that the Core must process a transaction for your
 wallet to know that a transaction has affected it. How do you know which
 transactions to process? You have to examine every block containing a relevant

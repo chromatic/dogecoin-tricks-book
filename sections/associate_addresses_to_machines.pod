@@ -40,11 +40,11 @@ software in this case, but you get more flexibility.
 
 =head2 *Tracking Addresses
 
-If you've configured each machine with some sort of network connection (link to
-tip), you might have machine names mapped to IP addresses from your DHCP
-serverN<If this seems more technical than you want to manage right now, trade a
-couple of pints of ice cream with an IT-savvy friend to set this up!>. Follow a
-few steps to get up and running.
+If you've configured each machine with some sort of network connection (see
+L<program_real_buttons>), you might have machine names mapped to IP addresses
+from your DHCP serverN<If this seems more technical than you want to manage
+right now, trade a couple of pints of ice cream with an IT-savvy friend to set
+this up!>. Follow a few steps to get up and running.
 
 =head3 *Generate a Bunch of Addresses
 

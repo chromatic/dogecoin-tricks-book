@@ -5,11 +5,11 @@ Z<restrict_node_network_access>
 X<< Dogecoin Core; C<dogecoind> >>
 X<< Dogecoin Core; C<dogecoin-qt> >>
 
-Whether you're running the Core daemon C<dogecoind> or the Qt GUI
-C<dogecoin-qt> (see L<understand_core_programs>), if you allow RPC access, you
-give up some degree of security and isolation in return for getting data from
-and potentially changing data in your Core node. This is a tradeoff. It's often
-worth it, I<if> you manage the security implications carefully.
+Whether you run the Core daemon C<dogecoind> or the Qt GUI C<dogecoin-qt> (see
+L<understand_core_programs>), if you allow RPC access, you give up some degree
+of security and isolation in return for getting data from and potentially
+changing data in your Core node. This is a tradeoff. It's often worth it, I<if>
+you manage the security implications carefully.
 
 Requiring authentication to access your node's RPC server is essential (see
 L<authenticate_rpc_securely>), but it's not the only step. You can restrict

@@ -22,7 +22,7 @@ You can find out and then keep finding out.
 Several exchanges and crypto-related services provide APIs to report the
 current exchange rate of any coin in one or more fiat currencies. For example,
 you could ask "What would I pay for one Bitcoin in UK Pounds" or "How much
-Litecoin can I get for 1 Rupeee".
+Litecoin can I get for 1 Rupee".
 
 The intent behind many of these APIs is to charge developers and businesses
 building crypto-related products and services for access, so many of these
@@ -155,7 +155,7 @@ If you need to cash out every day to mitigate your risk, that's fine. If you're
 holding coins because you don't need them to pay your bills right now, spend
 your time making sure your other finances support your choices.
 
-X<obscure references; Charlie Papazian>
+X<people; Charlie Papazian>
 
 In the end, we're all just swapping friendly dog-themed ideas based around
 large numbers a bunch of computers are swapping. To paraphrase Charlie

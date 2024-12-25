@@ -105,8 +105,8 @@ passwords, short and/or easily-guessable phrases are bad (C<password>, C<1234>,
 C<s3kr1t>). Experts often suggest using memorable quotes then modifying them
 with typos, substitutions, and enhancements.
 
-X<obscure references; John Rox>
-X<obscure references; Gayla Peevey>
+X<people; John Rox>
+X<people; Gayla Peevey>
 X<obscure references; Skeptopotamus>
 X<obscure references; Pokey the Penguin>
 
@@ -128,12 +128,13 @@ benefit of additional security.
 X<< RPC commands; C<backupwallet> >>
 X<< RPC commands; C<encryptwallet> >>
 
-You can achieve the same outcomes with the CLI/RPC tools. For example, the
-C<dogecoin-cli> utility supports the C<backupwallet> RPC command. Give it the
-name of a file, and it will back up your wallet to a file of that name within
-the configured backups directory (by default, F<.dogecoin/backups/>)N<This is
-the behavior as of 1.14.6.>). See L<figure-dogecoin-cli-backup-wallet>.
-Similarly, the C<encryptwallet> RPC command can add a passphrase to a wallet.
+You can achieve the same outcomes with the CLI/RPC tools. For example, use the
+C<dogecoin-cli> utility to run C<backupwallet> RPC command, providing a
+filename argument. The Core will back up your wallet to a file of that name
+within the configured backups directory (by default,
+F<.dogecoin/backups/>)N<This is the behavior as of 1.14.6.>). See
+L<figure-dogecoin-cli-backup-wallet>.  Similarly, the C<encryptwallet> RPC
+command can add a passphrase to a wallet.
 
 =begin figure Dogecoin Core CLI Backups
 
