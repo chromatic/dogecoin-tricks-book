@@ -57,11 +57,11 @@ Already at that point--one hundred--the hexadecimal notation is one digit
 shorter than standard base 10 notation. A SHA-256 value which would normally
 take 78 digits to represent in base 10 needs only 64 digits in hex.
 
-What does eleven look like? In base 16, that's C<A>. Twelve is C<B>. Thirteen,
-fourteen, and fifteen are C<C>, C<D>, and C<E>, and you already know what
+What does ten look like? In base 16, that's C<A>. Eleven is C<B>. Twelve,
+through and fifteen are C<C>, C<D>, C<E>, and C<F>. You already know what
 sixteen is. Seventeen is C<11>. Twenty-six is C<1A> (read it as one times
-sixteen plus ten). Beyond that, use a hexadecimal calculator; don't worry about doing
-this in your head.
+sixteen plus ten). Beyond that, use a hexadecimal calculator; don't worry about
+doing this in your head.
 
 With 26 letters in the boring, non-accented Roman alphabet, you can represent
 values up to base 36 with the digits 0 through 9 and the letters A through Z.

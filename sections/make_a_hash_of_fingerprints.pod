@@ -53,7 +53,7 @@ coincidence that the name Brute also adds up to 66. That collision isn't good.
 =head3 *Reducing Collisions
 
 If this book PDF only contained the word "Devlin", someone could substitute the
-word "Bruce" and the resulting check would be the same. To avoid forgeries, we
+word "Brute" and the resulting check would be the same. To avoid forgeries, we
 want the resulting code to be much much more difficult to guess or perturb.
 That means we need bigger numbers, and we want them to vary much more when
 things change.

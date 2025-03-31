@@ -23,13 +23,13 @@ that represents your private key is risky unless you double- and triple-check
 things. Alternately, you can use a different representation of your private
 key, designed to resist errors.
 
-=head2 *The Wallet Interchange Format
+=head2 *The Wallet Import Format
 
-The I<Wallet Interchange Format> or WIF encodes private keys in a shorter
-fashion and includes a checksum to help detect errors. You'll often see wallet
-backups and private key generators use this format. The Bitcoin wiki explains
-this wellN<See U<https://en.bitcoin.it/wiki/Wallet_import_format>.>, but
-doesn't always explain why it works.
+The I<Wallet Import Format> or WIF encodes private keys in a shorter fashion
+and includes a checksum to help detect errors. You'll often see wallet backups
+and private key generators use this format. The Bitcoin wiki explains this
+wellN<See U<https://en.bitcoin.it/wiki/Wallet_import_format>.>, but doesn't
+always explain why it works.
 
 Here's how.
 
@@ -46,10 +46,10 @@ Now calculate the double-SHA256 hash (see L<make_a_hash_of_fingerprints>) of
 that value. Leave off C<0x>, because that's a prefix that indicates this is a
 hexadecimal number. Convert the hex into a number, then run it through SHA-256
 twice. You'll get a large number back, but you only need the first eight digits
-(four bytes): C<18d796>.
+(four bytes): C<18d79603>.
 
 Append those eight digits to the end of the number with the prefix. You should
-get the result C<0x1e123abc456def18d796>.
+get the result C<0x1e123abc456def18d79603>.
 
 =begin tip Hash Numbers, Not Text
 
